@@ -28,10 +28,8 @@
 <use name="MagneticField/Records"/>
 <use name="MagneticField/Engine"/>
 <use name="SimDataFormats/GeneratorProducts"/>
-<use name="SimDataFormats/Track"/>
 <use name="SimDataFormats/Vertex"/>
 <use name="SimGeneral/HepPDTRecord"/>
-<use name="SimDataFormats/TrackingAnalysis"/>
 <use name="RecoMuon/DetLayers"/>
 <use name="RecoMuon/Records"/>
 <use name="rootcore"/>
