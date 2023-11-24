@@ -1,4 +1,5 @@
 import FWCore.ParameterSet.Config as cms
+import os
 
 process = cms.Process('B4MuSkim')
 
@@ -13,7 +14,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
-process.load("B4MuSkim_miniAOD_cff")
+process.load("B4MuSkim_miniAOD_cff", os.path.join(os.getcwd(), "B4MuSkim_miniAOD_cff.py"))
 
 process.GlobalTag.globaltag = '130X_mcRun3_2022_realistic_postEE_v6' #MC2022
 
