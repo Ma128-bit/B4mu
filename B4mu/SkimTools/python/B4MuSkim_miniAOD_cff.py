@@ -86,7 +86,7 @@ PlotsAfterLooseMuon = cms.EDAnalyzer('RecoMuonAnalyzer',
                                    muonsInputTag = cms.InputTag("looseMuons"),
                                    )
 
-PlotsAfter3Muons = cms.EDAnalyzer('RecoMuonAnalyzer',
+PlotsAfter4Muons = cms.EDAnalyzer('RecoMuonAnalyzer',
                                    muonsInputTag = cms.InputTag("looseMuons"),
                                    )
 
@@ -107,7 +107,7 @@ FourMuonSelSeq = cms.Sequence(InitialPlots *
                                looseMuons *
                                PlotsAfterLooseMuon *
                                FourMuonsFilter *
-                               PlotsAfter3Muons *
+                               PlotsAfter4Muons *
                                FourMuonsCand *
                                FourMuonsCandFilter *
                                PlotsAfterBCand *
