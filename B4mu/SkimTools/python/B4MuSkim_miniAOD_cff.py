@@ -47,7 +47,7 @@ FourMuonsCand = cms.EDProducer("CandViewShallowCloneCombiner",
                          #cut = cms.string('(mass < 10) && (mass >0.5)  && (abs(charge)=1) && (abs(daughter(0).vz - daughter(1).vz) < 1) && (abs(daughter(1).vz - daughter(2).vz) < 1) && (abs(daughter(0).vz - daughter(2).vz) < 1)'),
                          #cut = cms.string('(mass < 10) && (mass >0.5)  && (abs(charge)=1)'),
                          cut = cms.string('(charge=0)'),
-                         decay = cms.string("looseMuons looseMuons looseMuons looseMuons")
+                         decay = cms.string("looseMuons looseMuons")
 )
 
 FourMuonsCandFilter = cms.EDFilter("CandViewCountFilter",
