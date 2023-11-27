@@ -68,8 +68,8 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB4Mu",
 
 
 process.B4MuSkim = cms.Path(process.FourMuonSelSeq*
-                              process.unpackedPatTrigger
-                              #process.TreeMakerBkg
+                              process.unpackedPatTrigger*
+                              process.TreeMakerBkg
                      )
 
 process.out = cms.OutputModule("PoolOutputModule",
