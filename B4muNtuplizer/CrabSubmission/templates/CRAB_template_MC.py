@@ -14,7 +14,6 @@ config.Data.inputDataset = 'MC_DATASET'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 50
-config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/GOLDEN_JSON_PATH'
 #config.Data.publication = True
 config.Data.outputDatasetTag = 'SkimB4Mu_YEAR_ERANAME_Mini'
 config.JobType.allowUndistributedCMSSW = True 
