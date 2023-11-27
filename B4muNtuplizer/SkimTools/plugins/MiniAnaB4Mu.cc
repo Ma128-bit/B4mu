@@ -1437,7 +1437,7 @@ if(isAna){
                     Mu1_NTracks03iso.push_back(nTracks03_mu1);
                     Mu2_NTracks03iso.push_back(nTracks03_mu2);
                     Mu3_NTracks03iso.push_back(nTracks03_mu3);
-		    Mu4_NTracks03iso.push_back(nTracks04_mu3);
+		    Mu4_NTracks03iso.push_back(nTracks03_mu4);
 
                     double sumPtTrackRel1=0, sumPtTrackRel2=0, sumPtTrackRel3=0, sumPtTrackRel4=0, maxSumPtRelTracks =0;
                     sumPtTrackRel1=sumPtTrack1/LV1.Pt();
