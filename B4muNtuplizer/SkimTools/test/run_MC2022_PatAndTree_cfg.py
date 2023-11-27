@@ -42,7 +42,7 @@ process.unpackedPatTrigger = cms.EDProducer("PATTriggerObjectStandAloneUnpacker"
     triggerResults              = cms.InputTag( 'TriggerResults::HLT' ),
     unpackFilterLabels = cms.bool(True)
 )
-"""
+
 process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB4Mu",
                                       isMcLabel = cms.untracked.bool(True),
                                       isAnaLabel = cms.untracked.bool(True),
@@ -63,7 +63,7 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB4Mu",
                                       extInputTag = cms.InputTag( "gtStage2Digis" )
                                       
 )
-"""
+
 
 
 
