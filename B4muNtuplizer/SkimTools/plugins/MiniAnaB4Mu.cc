@@ -282,7 +282,7 @@ private:
 
     std::vector<double>  Muon_innerTrack_highPurity,  Muon_innerTrack_ValidFraction, Muon_Numberofvalidtrackerhits, Muon_validMuonHitComb, Muon_IP2D_BS,  Muon_IP3D_BS,  Muon_IP2D_PV,  Muon_IP3D_PV, Muon_SoftMVA_Val;
     std::vector<double>  DistXY_PVSV,  DistXY_significance_PVSV;
-    std::vector<double>  Quadruplet_IsoMu1, Quadruplet_IsoMu2, Quadruplet_IsoMu3;
+    std::vector<double>  Quadruplet_IsoMu1, Quadruplet_IsoMu2, Quadruplet_IsoMu3, Quadruplet_IsoMu4;
     std::vector<double>  FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
 
     std::vector<double>  Mu1_IsGlobal, Mu2_IsGlobal, Mu3_IsGlobal, Mu4_IsGlobal, Mu1_IsPF, Mu2_IsPF, Mu3_IsPF, Mu4_IsPF;
@@ -1379,21 +1379,23 @@ if(isAna){
                     cout<<QuadrupletIndex<<" B_CandMass "<<B_It->mass()<<" B_Pt="<<B_It->pt()<<endl;
                     cout<<QuadrupletIndex<<" B_VectMass "<<LV_B.M()<<" B_Pt="<<LV_B.Pt()<<endl;
                       
-                    int nTracks03_mu1=0, nTracks03_mu2=0, nTracks03_mu3=0;
+                    int nTracks03_mu1=0, nTracks03_mu2=0, nTracks03_mu3=0, nTracks03_mu4=0;
                     double mindist=9999;
-                    double sumPtTrack1=0, sumPtTrack2=0, sumPtTrack3=0, maxSumPtTracks=0;
+                    double sumPtTrack1=0, sumPtTrack2=0, sumPtTrack3=0, sumPtTrack4=0, maxSumPtTracks=0;
 
                     math::XYZPoint SVertexPoint = math::XYZPoint(QuadrupletVtx.x(), QuadrupletVtx.y(), QuadrupletVtx.z());
                     uint kk=0;
 
+		    //////////////Loop on PF Candidates////////////////////
                     for (std::vector<pat::PackedCandidate>::const_iterator cand = PFCands->begin(); cand != PFCands->end(), kk!= PFCands->size(); ++cand, ++kk) {
                         if(  (cand->pt()>1) && (fabs(cand->eta())<2.4) && (cand->trackerLayersWithMeasurement()>5) && (cand->pixelLayersWithMeasurement()>1) && (cand->trackHighPurity())  ){
                             
                             double dR1 = sqrt( reco::deltaR2(Track1.eta(), Track1.phi(), cand->eta(), cand->phi()) );
                             double dR2 = sqrt( reco::deltaR2(Track2.eta(), Track2.phi(), cand->eta(), cand->phi()) );
                             double dR3 = sqrt( reco::deltaR2(Track3.eta(), Track3.phi(), cand->eta(), cand->phi()) );
+			    double dR4 = sqrt( reco::deltaR2(Track4.eta(), Track4.phi(), cand->eta(), cand->phi()) );
                             //cout<<"Skip muon track"<<endl;
-                            if (dR1 < 0.01 || dR2 < 0.01 || dR3 < 0.01) continue;
+                            if (dR1 < 0.01 || dR2 < 0.01 || dR3 < 0.01 || dR4 < 0.01) continue;
                             
                             double dz = abs(cand->dz(SVertexPoint));
                             double dxy = abs(cand->dxy(SVertexPoint));
@@ -1417,12 +1419,16 @@ if(isAna){
                                     sumPtTrack3+=cand->pt();
                                     nTracks03_mu3++;
                                 }
+				if (dR4<0.3) {
+                                    sumPtTrack4+=cand->pt();
+                                    nTracks04_mu3++;
+                                }
                             }
                         }
                     }//loop on tracks
                       
                     Quadruplet_mindca_iso.push_back(mindist);
-                    maxSumPtTracks = std::max(sumPtTrack1, std::max(sumPtTrack2,sumPtTrack3));
+                    maxSumPtTracks = std::max(sumPtTrack1, std::max(sumPtTrack2, std::max(sumPtTrack3,sumPtTrack4)));
                     //cout<<QuadrupletIndex<<" BMass "<<B_It->mass()<<" SumPt Tracks in cone="<<maxSumPtTracks<<" TauPt="<<B_It->pt()<<endl;
                     double relativeiso = maxSumPtTracks/LV_B.Pt();
                     Quadruplet_relativeiso.push_back(relativeiso);
@@ -1430,16 +1436,19 @@ if(isAna){
                     Mu1_NTracks03iso.push_back(nTracks03_mu1);
                     Mu2_NTracks03iso.push_back(nTracks03_mu2);
                     Mu3_NTracks03iso.push_back(nTracks03_mu3);
+		    Mu4_NTracks03iso.push_back(nTracks04_mu3);
 
-                    double sumPtTrackRel1=0, sumPtTrackRel2=0, sumPtTrackRel3=0, maxSumPtRelTracks =0;
+                    double sumPtTrackRel1=0, sumPtTrackRel2=0, sumPtTrackRel3=0, sumPtTrackRel4=0, maxSumPtRelTracks =0;
                     sumPtTrackRel1=sumPtTrack1/LV1.Pt();
                     sumPtTrackRel2=sumPtTrack2/LV2.Pt();
                     sumPtTrackRel3=sumPtTrack3/LV3.Pt();
-                    maxSumPtRelTracks = std::max(sumPtTrackRel1, std::max(sumPtTrackRel2,sumPtTrackRel3));
+		    sumPtTrackRel4=sumPtTrack4/LV3.Pt();
+                    maxSumPtRelTracks = std::max(sumPtTrackRel1, std::max(sumPtTrackRel2,std::max(sumPtTrackRel3,sumPtTrackRel4)));
                     Quadruplet_relativeiso2.push_back(maxSumPtRelTracks);
                     Quadruplet_IsoMu1.push_back(sumPtTrack1);
                     Quadruplet_IsoMu2.push_back(sumPtTrack2);
                     Quadruplet_IsoMu3.push_back(sumPtTrack3);
+		    Quadruplet_IsoMu4.push_back(sumPtTrack4);
 
                     /////////////////Defining variables related to PV and SV positions and errors//////////////////////
                     GlobalPoint PVertexPos  (PVertex.position());
