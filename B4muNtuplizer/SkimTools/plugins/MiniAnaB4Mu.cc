@@ -1130,16 +1130,20 @@ if(isAna){
                         dR1_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
                         dR2_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
                         dR3_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
+                        dR4_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu8);
                         Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
                         Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
                         Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
+			Mu4_dRtriggerMatch_Mu8.push_back(dR4_Mu8);
 
                         dR1_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
                         dR2_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
                         dR3_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
+			dR4_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu7);
                         Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);
                         Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
                         Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
+			Mu4_dRtriggerMatch_Mu7.push_back(dR4_Mu7);
 
                         dR1_Mu8_IP5 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
                         Mu1_dRtriggerMatch_Mu8_IP5.push_back(dR1_Mu8_IP5);
@@ -1168,43 +1172,52 @@ if(isAna){
 
                     ///////////////Check GEN matching and Fill SimInfo///////////////
                     if(isMc){
-                        bool isMatch1=false; bool isMatch2=false; bool isMatch3=false;
-                        if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 15) ){
+                        bool isMatch1=false; bool isMatch2=false; bool isMatch3=false; bool isMatch4=false;
+                        if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 511 || fabs(mu1->simMotherPdgId()) == 531) ){
                             isMatch1=true;
                         }
-                        if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 15) ){
+                        if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 511 || fabs(mu2->simMotherPdgId()) == 531) ){
                             isMatch2=true;
                         }
-                        if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 15) ){
+                        if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 511 || fabs(mu3->simMotherPdgId()) == 531) ){
                             isMatch3=true;
+                        }
+			if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 511 || fabs(mu4->simMotherPdgId()) == 531) ){
+                            isMatch4=true;
                         }
                         // cout<<QuadrupletIndex<<"Quadruplet Mass:"<<B_It->mass()<<" pt="<<B_It->pt()<<" vtx.x="<<B_It->vx()<<" vtx x="<<QuadrupletVtx.x()<<" chi2="<<B_It->vertexChi2()<<" ndof="<<B_It->vertexNdof()<<endl;
                         // cout<<QuadrupletIndex<<"--Muon 1 pt="<<mu1->pt()<<" Muon2 pt="<<mu2->pt()<<" Mu3 pt="<<mu3->pt()<<" "<<endl;
-                        if( isMatch1 && isMatch2 && isMatch3) {
+                        if( isMatch1 && isMatch2 && isMatch3 && isMatch4) {
                             //cout<<" Matched Quadruplets mass="<<B_It->mass()<<endl;
                             GenMatchMu1_SimPt.push_back(mu1->simPt());
                             GenMatchMu2_SimPt.push_back(mu2->simPt());
                             GenMatchMu3_SimPt.push_back(mu3->simPt());
+                            GenMatchMu4_SimPt.push_back(mu4->simPt());
                             
                             GenMatchMu1_SimEta.push_back(mu1->simEta());
                             GenMatchMu2_SimEta.push_back(mu2->simEta());
                             GenMatchMu3_SimEta.push_back(mu3->simEta());
-                            
+                            GenMatchMu4_SimEta.push_back(mu4->simEta());
+
                             GenMatchMu1_SimPhi.push_back(mu1->simPhi());
                             GenMatchMu2_SimPhi.push_back(mu2->simPhi());
                             GenMatchMu3_SimPhi.push_back(mu3->simPhi());
-                            
-                            GenMatchMu1_Pt.push_back(mu1->pt());
+                            GenMatchMu4_SimPhi.push_back(mu4->simPhi());
+
+			    GenMatchMu1_Pt.push_back(mu1->pt());
                             GenMatchMu2_Pt.push_back(mu2->pt());
                             GenMatchMu3_Pt.push_back(mu3->pt());
-                            
-                            GenMatchMu1_Eta.push_back(mu1->eta());
+                            GenMatchMu4_Pt.push_back(mu4->pt());
+
+			    GenMatchMu1_Eta.push_back(mu1->eta());
                             GenMatchMu2_Eta.push_back(mu2->eta());
                             GenMatchMu3_Eta.push_back(mu3->eta());
+                            GenMatchMu4_Eta.push_back(mu4->eta());
                             
                             GenMatchMu1_Phi.push_back(mu1->phi());
                             GenMatchMu2_Phi.push_back(mu2->phi());
                             GenMatchMu3_Phi.push_back(mu3->phi());
+                            GenMatchMu4_Phi.push_back(mu4->phi());
                         }
                         //GenVtx vars to be added
                     } //if(isMC)
