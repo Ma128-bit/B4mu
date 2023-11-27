@@ -184,6 +184,7 @@ private:
     TH1F *  hEventsAfterMu1ID;
     TH1F *  hEventsAfterMu2ID;
     TH1F *  hEventsAfterMu3ID;
+    TH1F *  hEventsAfterMu4ID;
     TH1F *  hEventsAfterBMass;
 
     edm::InputTag algInputTag_;
@@ -1610,9 +1611,14 @@ if(isAna){
                     //cout<<"  collimation dR="<<sqrt( reco::deltaR2(Track2.eta(), Track2.phi(), IsoTrack2_Eta, IsoTrack2_Phi) )<<endl;
                     //cout<<"min mu3+track vtx chi2="<<mu3_minvtxchi2<<" iso track pt="<<IsoTrack3_Pt<<" eta="<<IsoTrack3_Eta<<" phi="<<IsoTrack3_Phi<<endl;
                     //cout<<"  collimation dR="<<sqrt( reco::deltaR2(Track3.eta(), Track3.phi(), IsoTrack3_Eta, IsoTrack3_Phi) )<<endl;
-                    IsoTrackMu1_Pt.push_back(IsoTrack1_Pt); IsoTrackMu1_Eta.push_back(IsoTrack1_Eta); IsoTrackMu1_Phi.push_back(IsoTrack1_Phi); 
-                    IsoTrackMu2_Pt.push_back(IsoTrack2_Pt); IsoTrackMu2_Eta.push_back(IsoTrack2_Eta); IsoTrackMu2_Phi.push_back(IsoTrack2_Phi); 
-                    IsoTrackMu3_Pt.push_back(IsoTrack3_Pt); IsoTrackMu3_Eta.push_back(IsoTrack3_Eta); IsoTrackMu3_Phi.push_back(IsoTrack3_Phi); 
+                    //IsoTrackMu1_Pt.push_back(IsoTrack1_Pt); IsoTrackMu1_Eta.push_back(IsoTrack1_Eta); IsoTrackMu1_Phi.push_back(IsoTrack1_Phi); 
+                    //IsoTrackMu2_Pt.push_back(IsoTrack2_Pt); IsoTrackMu2_Eta.push_back(IsoTrack2_Eta); IsoTrackMu2_Phi.push_back(IsoTrack2_Phi); 
+                    //IsoTrackMu3_Pt.push_back(IsoTrack3_Pt); IsoTrackMu3_Eta.push_back(IsoTrack3_Eta); IsoTrackMu3_Phi.push_back(IsoTrack3_Phi); 
+                    IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99); 
+                    IsoTrackMu2_Pt.push_back(-99); IsoTrackMu2_Eta.push_back(-99); IsoTrackMu2_Phi.push_back(-99); 
+                    IsoTrackMu3_Pt.push_back(-99); IsoTrackMu3_Eta.push_back(-99); IsoTrackMu3_Phi.push_back(-99); 
+                    IsoTrackMu4_Pt.push_back(-99); IsoTrackMu4_Eta.push_back(-99); IsoTrackMu4_Phi.push_back(-99); 
+
 
                 }else{ //!(PVertex.isValid() && B_It->vertexChi2() >0)
                     Mu1_Pt.push_back(-99);
@@ -1629,6 +1635,11 @@ if(isAna){
                     Mu3_Eta.push_back(-99);
                     Mu3_Phi.push_back(-99);
                     Mu3_QuadrupletIndex.push_back(-99);
+
+                    Mu4_Pt.push_back(-99);
+                    Mu4_Eta.push_back(-99);
+                    Mu4_Phi.push_back(-99);
+                    Mu4_QuadrupletIndex.push_back(-99);
 
                     QuadrupletVtx_x.push_back(-99);
                     QuadrupletVtx_y.push_back(-99);
@@ -1649,6 +1660,8 @@ if(isAna){
                     Mu1_NTracks03iso.push_back(-99);
                     Mu2_NTracks03iso.push_back(-99);
                     Mu3_NTracks03iso.push_back(-99);
+                    Mu4_NTracks03iso.push_back(-99);
+
                     PV_x.push_back(-99);
                     PV_y.push_back(-99);
                     PV_z.push_back(-99);
@@ -1678,10 +1691,28 @@ if(isAna){
                     Vtx13_x.push_back(-99);
                     Vtx13_y.push_back(-99);
                     Vtx13_z.push_back(-99);
-                    
+                    Vtx14_Chi2.push_back(-99);
+		    Vtx14_nDOF.push_back(-99);
+		    Vtx14_x.push_back(-99);
+		    Vtx14_y.push_back(-99);
+		    Vtx14_z.push_back(-99);
+
+		    Vtx24_Chi2.push_back(-99);
+		    Vtx24_nDOF.push_back(-99);
+		    Vtx24_x.push_back(-99);
+		    Vtx24_y.push_back(-99);
+		    Vtx24_z.push_back(-99);
+
+		    Vtx34_Chi2.push_back(-99);
+		    Vtx34_nDOF.push_back(-99);
+		    Vtx34_x.push_back(-99);
+		    Vtx34_y.push_back(-99);
+		    Vtx34_z.push_back(-99);
+
                     RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(-99);
                     RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(-99);
                     RefTrack3_Pt.push_back(-99); RefTrack3_Eta.push_back(-99); RefTrack3_Phi.push_back(-99); RefTrack3_QuadrupletIndex.push_back(-99);
+                    RefTrack4_Pt.push_back(-99); RefTrack4_Eta.push_back(-99); RefTrack4_Phi.push_back(-99); RefTrack4_QuadrupletIndex.push_back(-99);
                     RefittedSV_Chi2.push_back(-99);
                     RefittedSV_nDOF.push_back(-99);
                     RefittedSV_Mass.push_back(-99);
@@ -1689,18 +1720,22 @@ if(isAna){
                     IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99); 
                     IsoTrackMu2_Pt.push_back(-99); IsoTrackMu2_Eta.push_back(-99); IsoTrackMu2_Phi.push_back(-99); 
                     IsoTrackMu3_Pt.push_back(-99); IsoTrackMu3_Eta.push_back(-99); IsoTrackMu3_Phi.push_back(-99); 
+                    IsoTrackMu4_Pt.push_back(-99); IsoTrackMu4_Eta.push_back(-99); IsoTrackMu4_Phi.push_back(-99); 
 
                     Mu1_dRtriggerMatch.push_back(-99);
                     Mu2_dRtriggerMatch.push_back(-99);
                     Mu3_dRtriggerMatch.push_back(-99);
+                    Mu4_dRtriggerMatch.push_back(-99);
 
                     Mu1_dRtriggerMatch_Mu7.push_back(-99);
                     Mu2_dRtriggerMatch_Mu7.push_back(-99);
                     Mu3_dRtriggerMatch_Mu7.push_back(-99);
+                    Mu4_dRtriggerMatch_Mu7.push_back(-99);
 
                     Mu1_dRtriggerMatch_Mu8.push_back(-99);
                     Mu2_dRtriggerMatch_Mu8.push_back(-99);
                     Mu3_dRtriggerMatch_Mu8.push_back(-99);
+                    Mu4_dRtriggerMatch_Mu8.push_back(-99);
 
                     Mu1_dRtriggerMatch_Mu8_IP5.push_back(-99);
                     Mu1_dRtriggerMatch_Mu8_IP6.push_back(-99);
@@ -1714,6 +1749,7 @@ if(isAna){
                     Mu1_dRtriggerMatch_2017.push_back(-99);
                     Mu2_dRtriggerMatch_2017.push_back(-99);
                     Mu3_dRtriggerMatch_2017.push_back(-99);
+                    Mu4_dRtriggerMatch_2017.push_back(-99);
 
                     FlightDistPVSV.push_back(-99);
                     FlightDistPVSV_Err.push_back(-99);
@@ -1722,34 +1758,43 @@ if(isAna){
                     dxy_mu1.push_back(-99);
                     dxy_mu2.push_back(-99);
                     dxy_mu3.push_back(-99);
+                    dxy_mu4.push_back(-99);
 
                     dxyErr_mu1.push_back(-99);
                     dxyErr_mu2.push_back(-99);
                     dxyErr_mu3.push_back(-99);
-                    
+                    dxyErr_mu4.push_back(-99);
+
                     GenMatchMu1_SimPt.push_back(-99);
                     GenMatchMu2_SimPt.push_back(-99);
                     GenMatchMu3_SimPt.push_back(-99);
+                    GenMatchMu4_SimPt.push_back(-99);
 
                     GenMatchMu1_SimEta.push_back(-99);
                     GenMatchMu2_SimEta.push_back(-99);
                     GenMatchMu3_SimEta.push_back(-99);
+                    GenMatchMu4_SimEta.push_back(-99);
 
                     GenMatchMu1_SimPhi.push_back(-99);
                     GenMatchMu2_SimPhi.push_back(-99);
                     GenMatchMu3_SimPhi.push_back(-99);
+                    GenMatchMu4_SimPhi.push_back(-99);
 
                     GenMatchMu1_Pt.push_back(-99);
                     GenMatchMu2_Pt.push_back(-99);
                     GenMatchMu3_Pt.push_back(-99);
+                    GenMatchMu4_Pt.push_back(-99);
 
                     GenMatchMu1_Eta.push_back(-99);
                     GenMatchMu2_Eta.push_back(-99);
                     GenMatchMu3_Eta.push_back(-99);
+                    GenMatchMu4_Eta.push_back(-99);
 
                     GenMatchMu1_Phi.push_back(-99);
                     GenMatchMu2_Phi.push_back(-99);
                     GenMatchMu3_Phi.push_back(-99);
+                    GenMatchMu4_Phi.push_back(-99);
+
                     Quadruplet_relativeiso2.push_back(-99);
 
                     DistXY_PVSV.push_back(-99);
@@ -1757,6 +1802,7 @@ if(isAna){
                     Quadruplet_IsoMu1.push_back(-99);
                     Quadruplet_IsoMu2.push_back(-99);
                     Quadruplet_IsoMu3.push_back(-99);
+                    Quadruplet_IsoMu4.push_back(-99);
 
                     FlightDistBS_SV.push_back(-99);
                     FlightDistBS_SV_Err.push_back(-99);
@@ -1765,10 +1811,12 @@ if(isAna){
                     Mu1_IsGlobal.push_back(-99);
                     Mu2_IsGlobal.push_back(-99);
                     Mu3_IsGlobal.push_back(-99);
-                    
+                    Mu4_IsGlobal.push_back(-99);
+
                     Mu1_IsPF.push_back(-99);
                     Mu2_IsPF.push_back(-99);
                     Mu3_IsPF.push_back(-99);
+                    Mu4_IsPF.push_back(-99);
 
                 }//!(PVertex.isValid() && B_It->vertexChi2() >0)
             }//transTracksAssoToVtx_copy.size()>1
@@ -1781,6 +1829,7 @@ if(NQuad.size()>0) hEventsAfterGoodCand->Fill(1);
 if(Mu1C.size()>0) hEventsAfterMu1ID->Fill(1);
 if(Mu2C.size()>0)  hEventsAfterMu2ID->Fill(1);
 if(Mu3C.size()>0)  hEventsAfterMu3ID->Fill(1);
+if(Mu4C.size()>0)  hEventsAfterMu4ID->Fill(1);
 if(BMass.size()>0)  hEventsAfterBMass->Fill(1);
 
 //////Fill info photons//////   
@@ -2252,7 +2301,22 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
     Vtx12_nDOF.clear();
     Vtx23_nDOF.clear();
     Vtx13_nDOF.clear();
-    
+    Vtx14_x.clear();
+    Vtx24_x.clear();
+    Vtx34_x.clear();
+    Vtx14_y.clear();
+    Vtx24_y.clear();
+    Vtx34_y.clear();
+    Vtx14_z.clear();
+    Vtx24_z.clear();
+    Vtx34_z.clear();
+    Vtx14_Chi2.clear();
+    Vtx24_Chi2.clear();
+    Vtx34_Chi2.clear();
+    Vtx14_nDOF.clear();
+    Vtx24_nDOF.clear();
+    Vtx34_nDOF.clear();
+
     Mu1_Pt.clear();
     Mu1_Eta.clear();
     Mu1_Phi.clear();
@@ -2285,6 +2349,14 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
     Mu3_dRtriggerMatch_Mu7.clear();
     Mu3_dRtriggerMatch_Mu8.clear();
 
+    Mu4_Pt.clear();
+    Mu4_Eta.clear();
+    Mu4_Phi.clear();
+    Mu4_NTracks03iso.clear();
+    Mu4_dRtriggerMatch.clear();
+    Mu4_dRtriggerMatch_Mu7.clear();
+    Mu4_dRtriggerMatch_Mu8.clear();
+
     RefTrack1_Pt.clear();
     RefTrack1_Eta.clear();
     RefTrack1_Phi.clear();
@@ -2299,6 +2371,11 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
     RefTrack3_Eta.clear();
     RefTrack3_Phi.clear();
     RefTrack3_QuadrupletIndex.clear();
+
+    RefTrack4_Pt.clear();
+    RefTrack4_Eta.clear();
+    RefTrack4_Phi.clear();
+    RefTrack4_QuadrupletIndex.clear();
 
     RefittedSV_Chi2.clear();
     RefittedSV_nDOF.clear();
@@ -2316,38 +2393,50 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
     IsoTrackMu3_Eta.clear();
     IsoTrackMu3_Phi.clear();
 
+    IsoTrackMu4_Pt.clear();
+    IsoTrackMu4_Eta.clear();
+    IsoTrackMu4_Phi.clear();
+
     Mu1_dRtriggerMatch_2017.clear();
     Mu2_dRtriggerMatch_2017.clear();
     Mu3_dRtriggerMatch_2017.clear();
+    Mu4_dRtriggerMatch_2017.clear();
 
     Mu1_QuadrupletIndex.clear();
     Mu2_QuadrupletIndex.clear();
     Mu3_QuadrupletIndex.clear();
+    Mu4_QuadrupletIndex.clear();
 
     GenMatchMu1_SimPhi.clear();
     GenMatchMu2_SimPhi.clear();
     GenMatchMu3_SimPhi.clear();
-    
+    GenMatchMu4_SimPhi.clear();
+
     GenMatchMu1_SimPt.clear();
     GenMatchMu2_SimPt.clear();
     GenMatchMu3_SimPt.clear();
-    
+    GenMatchMu4_SimPt.clear();
+
     GenMatchMu1_SimEta.clear();
     GenMatchMu2_SimEta.clear();
     GenMatchMu3_SimEta.clear();
-    
+    GenMatchMu4_SimEta.clear();
+
     GenMatchMu1_Pt.clear();
     GenMatchMu2_Pt.clear();
     GenMatchMu3_Pt.clear();
-    
+    GenMatchMu4_Pt.clear();
+
     GenMatchMu1_Eta.clear();
     GenMatchMu2_Eta.clear();
     GenMatchMu3_Eta.clear();
-    
+    GenMatchMu4_Eta.clear();   
+
     GenMatchMu1_Phi.clear();
     GenMatchMu2_Phi.clear();
     GenMatchMu3_Phi.clear();
-    
+    GenMatchMu4_Phi.clear();
+
     QuadrupletCollectionSize = -99;
     
     QuadrupletVtx_x.clear();
@@ -2367,9 +2456,11 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
     dxy_mu1.clear();
     dxy_mu2.clear();
     dxy_mu3.clear();
+    dxy_mu4.clear();
     dxyErr_mu1.clear();
     dxyErr_mu2.clear();
     dxyErr_mu3.clear();
+    dxyErr_mu4.clear();
 
     RefittedPV_x.clear();
     RefittedPV_y.clear();
@@ -2456,11 +2547,13 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
     Mu1_IsGlobal.clear();
     Mu2_IsGlobal.clear();
     Mu3_IsGlobal.clear();
+    Mu4_IsGlobal.clear();
 
     Mu1_IsPF.clear();
     Mu2_IsPF.clear();
     Mu3_IsPF.clear();
-    
+    Mu4_IsPF.clear();  
+
     L1Muon_Pt.clear();
     L1Muon_Eta.clear();
     L1Muon_Phi.clear();
@@ -2485,6 +2578,7 @@ void MiniAnaTau3Mu::beginJob() {
     hEventsAfterMu1ID = fs->make<TH1F>("hEventsAfterMu1ID","hEventsAfterMu1ID",10,0,10);
     hEventsAfterMu2ID = fs->make<TH1F>("hEventsAfterMu2ID","hEventsAfterMu2ID",10,0,10);
     hEventsAfterMu3ID = fs->make<TH1F>("hEventsAfterMu3ID","hEventsAfterMu3ID",10,0,10);
+    hEventsAfterMu4ID = fs->make<TH1F>("hEventsAfterMu4ID","hEventsAfterMu4ID",10,0,10);
     hEventsAfterBMass = fs->make<TH1F>("hEventsAfterBMass","hEventsAfterBMass",10,0,10);
         
     tree_ = fs->make<TTree>("ntuple","LFVTau ntuple");
@@ -2659,6 +2753,22 @@ void MiniAnaTau3Mu::beginJob() {
     tree_->Branch("Vtx12_nDOF", &Vtx12_nDOF);
     tree_->Branch("Vtx23_nDOF", &Vtx23_nDOF);
     tree_->Branch("Vtx13_nDOF", &Vtx13_nDOF);
+    tree_->Branch("Vtx14_x", &Vtx14_x);
+    tree_->Branch("Vtx24_x", &Vtx24_x);
+    tree_->Branch("Vtx34_x", &Vtx34_x);
+    tree_->Branch("Vtx14_y", &Vtx14_y);
+    tree_->Branch("Vtx24_y", &Vtx24_y);
+    tree_->Branch("Vtx34_y", &Vtx34_y);
+    tree_->Branch("Vtx14_z", &Vtx14_z);
+    tree_->Branch("Vtx24_z", &Vtx24_z);
+    tree_->Branch("Vtx34_z", &Vtx34_z);
+    tree_->Branch("Vtx14_Chi2", &Vtx14_Chi2);
+    tree_->Branch("Vtx24_Chi2", &Vtx24_Chi2);
+    tree_->Branch("Vtx34_Chi2", &Vtx34_Chi2);
+    tree_->Branch("Vtx14_nDOF", &Vtx14_nDOF);
+    tree_->Branch("Vtx24_nDOF", &Vtx24_nDOF);
+    tree_->Branch("Vtx34_nDOF", &Vtx34_nDOF);
+
     
     tree_->Branch("QuadrupletCollectionSize", &QuadrupletCollectionSize);
     tree_->Branch("Mu1_Pt",&Mu1_Pt);
@@ -2681,7 +2791,8 @@ void MiniAnaTau3Mu::beginJob() {
     tree_->Branch("Mu1_dRtriggerMatch_2017", &Mu1_dRtriggerMatch_2017);
     tree_->Branch("Mu2_dRtriggerMatch_2017", &Mu2_dRtriggerMatch_2017);
     tree_->Branch("Mu3_dRtriggerMatch_2017", &Mu3_dRtriggerMatch_2017);
- 
+    tree_->Branch("Mu4_dRtriggerMatch_2017", &Mu4_dRtriggerMatch_2017);
+
     tree_->Branch("Mu2_Pt", &Mu2_Pt);
     tree_->Branch("Mu2_Eta", &Mu2_Eta);
     tree_->Branch("Mu2_Phi", &Mu2_Phi);
@@ -2700,20 +2811,34 @@ void MiniAnaTau3Mu::beginJob() {
     tree_->Branch("Mu3_dRtriggerMatch_Mu8", &Mu3_dRtriggerMatch_Mu8);
     tree_->Branch("Mu3_QuadrupletIndex", &Mu3_QuadrupletIndex);
 
+    tree_->Branch("Mu4_Pt", &Mu4_Pt);
+    tree_->Branch("Mu4_Eta",&Mu4_Eta);
+    tree_->Branch("Mu4_Phi", &Mu4_Phi);
+    tree_->Branch("Mu4_NTracks03iso", &Mu4_NTracks03iso);
+    tree_->Branch("Mu4_dRtriggerMatch", &Mu4_dRtriggerMatch);
+    tree_->Branch("Mu4_dRtriggerMatch_Mu7", &Mu4_dRtriggerMatch_Mu7);
+    tree_->Branch("Mu4_dRtriggerMatch_Mu8", &Mu4_dRtriggerMatch_Mu8);
+    tree_->Branch("Mu4_QuadrupletIndex", &Mu4_QuadrupletIndex);
+
     tree_->Branch("Mu1_IsGlobal", &Mu1_IsGlobal);
     tree_->Branch("Mu2_IsGlobal", &Mu2_IsGlobal);
     tree_->Branch("Mu3_IsGlobal", &Mu3_IsGlobal);
-    
+    tree_->Branch("Mu4_IsGlobal", &Mu4_IsGlobal);
+
     tree_->Branch("Mu1_IsPF", &Mu1_IsPF);
     tree_->Branch("Mu2_IsPF", &Mu2_IsPF);
     tree_->Branch("Mu3_IsPF", &Mu3_IsPF);
-    
+    tree_->Branch("Mu4_IsPF", &Mu4_IsPF);
+
     tree_->Branch("dxy_mu1", &dxy_mu1);
     tree_->Branch("dxy_mu2", &dxy_mu2);
     tree_->Branch("dxy_mu3", &dxy_mu3);
+    tree_->Branch("dxy_mu4", &dxy_mu4);
+
     tree_->Branch("dxyErr_mu1", &dxyErr_mu1);
     tree_->Branch("dxyErr_mu2", &dxyErr_mu2);
     tree_->Branch("dxyErr_mu3", &dxyErr_mu3);
+    tree_->Branch("dxyErr_mu4", &dxyErr_mu4);
 
     tree_->Branch("RefTrack1_Pt",           &RefTrack1_Pt);
     tree_->Branch("RefTrack1_Eta",          &RefTrack1_Eta);
@@ -2727,6 +2852,10 @@ void MiniAnaTau3Mu::beginJob() {
     tree_->Branch("RefTrack3_Eta",          &RefTrack3_Eta);
     tree_->Branch("RefTrack3_Phi",          &RefTrack3_Phi);
     tree_->Branch("RefTrack3_QuadrupletIndex", &RefTrack3_QuadrupletIndex);
+    tree_->Branch("RefTrack4_Pt",           &RefTrack4_Pt);
+    tree_->Branch("RefTrack4_Eta",          &RefTrack4_Eta);
+    tree_->Branch("RefTrack4_Phi",          &RefTrack4_Phi);
+    tree_->Branch("RefTrack4_QuadrupletIndex", &RefTrack4_QuadrupletIndex);
 
     tree_->Branch("RefittedSV_Chi2", &RefittedSV_Chi2);
     tree_->Branch("RefittedSV_nDOF", &RefittedSV_nDOF);
@@ -2741,31 +2870,41 @@ void MiniAnaTau3Mu::beginJob() {
     tree_->Branch("IsoTrackMu3_Pt",         &IsoTrackMu3_Pt);
     tree_->Branch("IsoTrackMu3_Eta",        &IsoTrackMu3_Eta);
     tree_->Branch("IsoTrackMu3_Phi",        &IsoTrackMu3_Phi);
+    tree_->Branch("IsoTrackMu4_Pt",         &IsoTrackMu4_Pt);
+    tree_->Branch("IsoTrackMu4_Eta",        &IsoTrackMu4_Eta);
+    tree_->Branch("IsoTrackMu4_Phi",        &IsoTrackMu4_Phi);
+
 
     tree_->Branch("GenMatchMu1_SimPt", &GenMatchMu1_SimPt);
     tree_->Branch("GenMatchMu2_SimPt", &GenMatchMu2_SimPt);
     tree_->Branch("GenMatchMu3_SimPt", &GenMatchMu3_SimPt);
+    tree_->Branch("GenMatchMu4_SimPt", &GenMatchMu4_SimPt);
     
     tree_->Branch("GenMatchMu1_SimEta", &GenMatchMu1_SimEta);
     tree_->Branch("GenMatchMu2_SimEta", &GenMatchMu2_SimEta);
     tree_->Branch("GenMatchMu3_SimEta", &GenMatchMu3_SimEta);
-    
+    tree_->Branch("GenMatchMu4_SimEta", &GenMatchMu4_SimEta);
+
     tree_->Branch("GenMatchMu1_SimPhi", &GenMatchMu1_SimPhi);
     tree_->Branch("GenMatchMu2_SimPhi", &GenMatchMu2_SimPhi);
     tree_->Branch("GenMatchMu3_SimPhi", &GenMatchMu3_SimPhi);
-    
+    tree_->Branch("GenMatchMu4_SimPhi", &GenMatchMu4_SimPhi);
+
     tree_->Branch("GenMatchMu1_Pt", &GenMatchMu1_Pt);
     tree_->Branch("GenMatchMu2_Pt", &GenMatchMu2_Pt);
     tree_->Branch("GenMatchMu3_Pt", &GenMatchMu3_Pt);
-    
+    tree_->Branch("GenMatchMu4_Pt", &GenMatchMu4_Pt);
+
     tree_->Branch("GenMatchMu1_Eta", &GenMatchMu1_Eta);
     tree_->Branch("GenMatchMu2_Eta", &GenMatchMu2_Eta);
     tree_->Branch("GenMatchMu3_Eta", &GenMatchMu3_Eta);
-    
+    tree_->Branch("GenMatchMu4_Eta", &GenMatchMu4_Eta);
+
     tree_->Branch("GenMatchMu1_Phi", &GenMatchMu1_Phi);
     tree_->Branch("GenMatchMu2_Phi", &GenMatchMu2_Phi);
     tree_->Branch("GenMatchMu3_Phi", &GenMatchMu3_Phi);
-    
+    tree_->Branch("GenMatchMu4_Phi", &GenMatchMu4_Phi);
+
     tree_->Branch("QuadrupletVtx_x", &QuadrupletVtx_x);
     tree_->Branch("QuadrupletVtx_y", &QuadrupletVtx_y);
     tree_->Branch("QuadrupletVtx_z", &QuadrupletVtx_z);
