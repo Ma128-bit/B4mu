@@ -13,7 +13,7 @@ directory="$PWD"
 home_dir=$(dirname "$(dirname "$directory")/CrabSubmission")
 echo "Home dir: $home_dir"
 
-2022_C=("Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1")
+declare -a 2022_C=("Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1")
 
 if [ "${year}" == "2022" ]; then
     case "$era" in
