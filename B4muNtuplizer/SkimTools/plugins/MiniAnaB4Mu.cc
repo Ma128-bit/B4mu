@@ -892,7 +892,7 @@ if(isAna){
 	const Candidate * c4 = B_It->daughter(3)->masterClone().get();
         const pat::Muon *mu4 = dynamic_cast<const pat::Muon *>(c4);
 
-        //cout<<"mu1 pt="<<mu1->pt()<<" m2="<<mu2->pt()<<" m3="<<mu3->pt()<<" m4="<<mu4->pt()<<endl;
+        cout<<"mu1 pt="<<mu1->pt()<<" m2="<<mu2->pt()<<" m3="<<mu3->pt()<<" m4="<<mu4->pt()<<endl;
         TrackRef trk1, trk2, trk3, trk4;
         trk1 = mu1->innerTrack();
         trk2 = mu2->innerTrack();
