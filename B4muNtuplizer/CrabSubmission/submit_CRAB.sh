@@ -78,7 +78,7 @@ if [ "${year}" == "2022" ]; then
     esac
 fi
 
-if [[ "$era" != *"MC_"* ]]; then
+if [[ "$era" != *"MC"* ]]; then
     mkdir -p "${year}_era${era}"
     path="${directory}/${year}_era${era}/PatAndTree_cfg.py"
     cp "${path_to_skim_file}/run_Data2022_PatAndTree_cfg.py" "$path"
@@ -93,6 +93,7 @@ if [[ "$era" != *"MC_"* ]]; then
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         echo "crab submit -c ${year}_era${era}/CRAB_stream_${i}.py"
+        sleep 2
     done
 else
     mkdir -p "${year}_${era}"
@@ -110,6 +111,7 @@ else
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
         echo "crab submit -c ${year}_${era}/CRAB_MC_${j}.py"
         ((j++))
+        sleep 2
     done
 
 fi
