@@ -1,8 +1,8 @@
 // -*- C++ -*-
-// Package:    MiniAna2017/MiniAnaTau3Mu
-// Class:      MiniAnaTau3Mu
+// Package:    MiniAna2017/MiniAnaB4Mu
+// Class:      MiniAnaB4Mu
 //
-/**\class MiniAnaTau3Mu MiniAnaTau3Mu.cc MiniAna2017/MiniAnaTau3Mu/plugins/MiniAnaTau3Mu.cc
+/**\class MiniAnaB4Mu MiniAnaB4Mu.cc MiniAna2017/MiniAnaB4Mu/plugins/MiniAnaB4Mu.cc
  
  Description: [one line class summary]
  
@@ -131,10 +131,10 @@
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
 ////
-class MiniAnaTau3Mu : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+class MiniAnaB4Mu : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 public:
-    explicit MiniAnaTau3Mu(const edm::ParameterSet&);
-    ~MiniAnaTau3Mu();
+    explicit MiniAnaB4Mu(const edm::ParameterSet&);
+    ~MiniAnaB4Mu();
     static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
     float dR(float eta1, float eta2, float phi1, float phi2);
     //float dRtriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects);
@@ -301,7 +301,7 @@ private:
     
     
     
-MiniAnaTau3Mu::MiniAnaTau3Mu(const edm::ParameterSet& iConfig){
+MiniAnaB4Mu::MiniAnaB4Mu(const edm::ParameterSet& iConfig){
     edm::InputTag algInputTag_;
     isMc = iConfig.getUntrackedParameter<bool>("isMcLabel");
     isAna = iConfig.getUntrackedParameter<bool>("isAnaLabel");
@@ -337,21 +337,21 @@ MiniAnaTau3Mu::MiniAnaTau3Mu(const edm::ParameterSet& iConfig){
     //MuonPt(0);
 }
 
-MiniAnaTau3Mu::~MiniAnaTau3Mu(){
+MiniAnaB4Mu::~MiniAnaB4Mu(){
     // do anything here that needs to be done at desctruction time
     // (e.g. close files, deallocate resources etc.)
 }
     
     
-float MiniAnaTau3Mu::dR(float eta1, float eta2, float phi1, float phi2){
+float MiniAnaB4Mu::dR(float eta1, float eta2, float phi1, float phi2){
     float dphi=(phi1-phi2);
     float deta=(eta1-eta2);
     float deltaR= TMath::Sqrt(dphi*dphi + deta*deta);
     return deltaR;
 }
 
-float MiniAnaTau3Mu::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlone> triggerObjects) {
-//float MiniAnaTau3Mu::dRtriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects) {
+float MiniAnaB4Mu::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlone> triggerObjects) {
+//float MiniAnaB4Mu::dRtriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects) {
     float dRmin = 1.;
     for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
         float deltaR = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), m.eta(), m.phi()));
@@ -436,7 +436,7 @@ void removeTracks3(vector<reco::TransientTrack> &pvTracks, const std::vector<rec
 }
     
     
-void MiniAnaTau3Mu::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup, const edm::Event& iEvent) {
+void MiniAnaB4Mu::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup, const edm::Event& iEvent) {
   /*
   edm::Handle<edm::TriggerResults> trigResults; //our trigger result object
     edm::InputTag trigResultsTag("TriggerResults"," ","HLT"); //make sure have correct process on MC
@@ -457,7 +457,7 @@ void MiniAnaTau3Mu::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup
 }
 
     
-void MiniAnaTau3Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
     using namespace edm;
     using namespace std;
@@ -1109,19 +1109,19 @@ if(isAna){
                     float dR1_Mu8_IP6=999., dR1_Mu12_IP6=999, dR1_Mu8_IP5=999.;
                     float dR1_Mu9_IP0=999., dR1_Mu9_IP3=999.,  dR1_Mu9_IP4=999., dR1_Mu9_IP5=999., dR1_Mu9_IP6=999.;
 
-                    dR1_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu2017);
-                    dR2_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu2017);
-                    dR3_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, TriggerObj_DsTau3Mu2017);
-                    dR4_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, TriggerObj_DsTau3Mu2017);
+                    dR1_2017 = MiniAnaB4Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu2017);
+                    dR2_2017 = MiniAnaB4Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu2017);
+                    dR3_2017 = MiniAnaB4Mu::dRtriggerMatch(*mu3, TriggerObj_DsTau3Mu2017);
+                    dR4_2017 = MiniAnaB4Mu::dRtriggerMatch(*mu4, TriggerObj_DsTau3Mu2017);
                     Mu1_dRtriggerMatch_2017.push_back(dR1_2017);
                     Mu2_dRtriggerMatch_2017.push_back(dR2_2017);
                     Mu3_dRtriggerMatch_2017.push_back(dR3_2017);
 		    Mu4_dRtriggerMatch_2017.push_back(dR4_2017);
 
-                    dR1 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu);
-                    dR2 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu);
-                    dR3 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, TriggerObj_DsTau3Mu);
-		    dR4 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, TriggerObj_DsTau3Mu);
+                    dR1 = MiniAnaB4Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu);
+                    dR2 = MiniAnaB4Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu);
+                    dR3 = MiniAnaB4Mu::dRtriggerMatch(*mu3, TriggerObj_DsTau3Mu);
+		    dR4 = MiniAnaB4Mu::dRtriggerMatch(*mu4, TriggerObj_DsTau3Mu);
                     //cout<<"Trigger Matching: dR1="<<dR1<<" dR2="<<dR2<<" dR3="<<dR3<<" dR4="<<dR4<<endl;
                     Mu1_dRtriggerMatch.push_back(dR1);
                     Mu2_dRtriggerMatch.push_back(dR2);
@@ -1129,46 +1129,46 @@ if(isAna){
 		    Mu4_dRtriggerMatch.push_back(dR4);
 
                     if( isBParking){
-                        dR1_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
-                        dR2_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
-                        dR3_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
-                        dR4_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu8);
+                        dR1_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
+                        dR2_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
+                        dR3_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
+                        dR4_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu8);
                         Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
                         Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
                         Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
 			Mu4_dRtriggerMatch_Mu8.push_back(dR4_Mu8);
 
-                        dR1_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
-                        dR2_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
-                        dR3_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
-			dR4_Mu7 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu7);
+                        dR1_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
+                        dR2_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
+                        dR3_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
+			dR4_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu7);
                         Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);
                         Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
                         Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
 			Mu4_dRtriggerMatch_Mu7.push_back(dR4_Mu7);
 
-                        dR1_Mu8_IP5 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
+                        dR1_Mu8_IP5 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
                         Mu1_dRtriggerMatch_Mu8_IP5.push_back(dR1_Mu8_IP5);
 
-                        dR1_Mu8_IP6 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP6);
+                        dR1_Mu8_IP6 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP6);
                         Mu1_dRtriggerMatch_Mu8_IP6.push_back(dR1_Mu8_IP6);
 
-                        dR1_Mu9_IP0 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP0);
+                        dR1_Mu9_IP0 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP0);
                         Mu1_dRtriggerMatch_Mu9_IP0.push_back(dR1_Mu9_IP0);
 
-                        dR1_Mu9_IP3 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP3);
+                        dR1_Mu9_IP3 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP3);
                         Mu1_dRtriggerMatch_Mu9_IP3.push_back(dR1_Mu9_IP3);
 
-                        dR1_Mu9_IP4 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP4);
+                        dR1_Mu9_IP4 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP4);
                         Mu1_dRtriggerMatch_Mu9_IP4.push_back(dR1_Mu9_IP4);
 
-                        dR1_Mu9_IP5 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP5);
+                        dR1_Mu9_IP5 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP5);
                         Mu1_dRtriggerMatch_Mu9_IP5.push_back(dR1_Mu9_IP5);
 
-                        dR1_Mu9_IP6 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP6);
+                        dR1_Mu9_IP6 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP6);
                         Mu1_dRtriggerMatch_Mu9_IP6.push_back(dR1_Mu9_IP6);
 
-                        dR1_Mu12_IP6 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu12_IP6);
+                        dR1_Mu12_IP6 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu12_IP6);
                         Mu1_dRtriggerMatch_Mu12_IP6.push_back(dR1_Mu12_IP6);
                     }//isBParking
 
@@ -2572,7 +2572,7 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
 }
     
 // ------------ method called once each job just before starting event loop  ------------
-void MiniAnaTau3Mu::beginJob() {
+void MiniAnaB4Mu::beginJob() {
 
     hEvents = fs->make<TH1F>("hEvents","hEvents",10,0,10);
     hEventsAfterGoodCand = fs->make<TH1F>("hEventsAfterGoodCand","hEventsAfterGoodCand",10,0,10);
@@ -3028,10 +3028,10 @@ void MiniAnaTau3Mu::beginJob() {
     SyncTree_->Branch("run", &run);
     SyncTree_->Branch("lumi", &lumi);
     */
-}//MiniAnaTau3Mu::beginJob
+}//MiniAnaB4Mu::beginJob
     
 // ------------ method called once each job just after ending the event loop  ------------
-void MiniAnaTau3Mu::endJob() {
+void MiniAnaB4Mu::endJob() {
 
     tree_->GetDirectory()->cd();
     tree_->Write();
@@ -3040,7 +3040,7 @@ void MiniAnaTau3Mu::endJob() {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
-void MiniAnaTau3Mu::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+void MiniAnaB4Mu::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
     //The following says we do not know what parameters are allowed so do no validation
     // Please change this to state exactly what you do use, even if it is no parameters
     edm::ParameterSetDescription desc;
@@ -3049,4 +3049,4 @@ void MiniAnaTau3Mu::fillDescriptions(edm::ConfigurationDescriptions& description
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(MiniAnaTau3Mu);
+DEFINE_FWK_MODULE(MiniAnaB4Mu);
