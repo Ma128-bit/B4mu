@@ -16,7 +16,7 @@ process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cf
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load("B4muNtuplizer.SkimTools.B4MuSkim_miniAOD_cff")
 
-process.GlobalTag.globaltag = '130X_mcRun3_2022_realistic_postEE_v6' #MC2022
+process.GlobalTag.globaltag = '124X_dataRun3_v14' #Data2022
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
@@ -44,10 +44,10 @@ process.unpackedPatTrigger = cms.EDProducer("PATTriggerObjectStandAloneUnpacker"
 )
 
 process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB4Mu",
-                                      isMcLabel = cms.untracked.bool(True),
+                                      isMcLabel = cms.untracked.bool(False),
                                       isAnaLabel = cms.untracked.bool(True),
-                                      is2016Label = cms.untracked.bool(True),
-                                      is2017Label = cms.untracked.bool(True),
+                                      is2016Label = cms.untracked.bool(False),
+                                      is2017Label = cms.untracked.bool(False),
                                       is2018Label = cms.untracked.bool(True),
                                       isBParkingLabel = cms.untracked.bool(False),
                                       muonLabel=cms.InputTag("looseMuons"),
