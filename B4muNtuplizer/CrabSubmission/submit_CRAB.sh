@@ -9,9 +9,9 @@ era=$1
 year=$2
 
 directory="$PWD"
-echo "pwd: $directory"
+#echo "pwd: $directory"
 home_dir=$(dirname "$(dirname "$directory")/CrabSubmission")
-echo "Home dir: $home_dir"
+#echo "Home dir: $home_dir"
 path_to_skim_file="${home_dir}/SkimTools/test"
 
 declare -a C_2022=("Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1")
