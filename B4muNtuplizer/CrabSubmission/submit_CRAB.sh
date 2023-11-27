@@ -13,13 +13,13 @@ directory="$PWD"
 home_dir=$(dirname "$(dirname "$directory")/CrabSubmission")
 echo "Home dir: $home_dir"
 
-declare -a 2022_C=("Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1")
+declare -a C_2022=("Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1")
 
 if [ "${year}" == "2022" ]; then
     case "$era" in
       C)
         echo "Era C."
-        Data_ID=("${2022_C[@]}")
+        Data_ID=("${C_2022[@]}")
         path=""
         golden_json=
         ;;
