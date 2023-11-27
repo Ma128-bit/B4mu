@@ -9,9 +9,12 @@ fi
 # Assegna i nomi dei file ai singoli argomenti
 era=$1
 year=$2
+
 directory="$PWD"
+echo "pwd: $directory"
 home_dir=$(dirname "$(dirname "$directory")/CrabSubmission")
 echo "Home dir: $home_dir"
+path_to_skim_file="${home_dir}/SkimTools/test"
 
 declare -a C_2022=("Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1")
 declare -a D-v1_2022=("Run2022D-PromptReco-v1" "Run2022D-PromptReco-v1" "Run2022D-PromptReco-v1" "Run2022D-PromptReco-v1" "Run2022D-PromptReco-v1" "Run2022D-PromptReco-v1" "Run2022D-PromptReco-v1" "Run2022D-PromptReco-v1")
@@ -27,48 +30,48 @@ if [ "${year}" == "2022" ]; then
       C)
         echo "Era C."
         Data_ID=("${C_2022[@]}")
-        path=""
+        globaltag=""
         golden_json=
         ;;
       D-v1)
         echo "Era D-v1."
         Data_ID=("${D-v1_2022[@]}")
-        path=""
+        globaltag=""
         golden_json=
         ;;
       D-v2)
         echo "Era D-v2."
         Data_ID=("${D-v2_2022[@]}")
-        path=""
+        globaltag=""
         golden_json=
         ;;
       E)
         echo "Era E."
         Data_ID=("${E_2022[@]}")
-        path=""
+        globaltag=""
         golden_json=
         ;;
       F)
         echo "Era F."
         Data_ID=("${F_2022[@]}")
-        path=""
+        globaltag=""
         golden_json=
         ;;
       G)
         echo "Era G."
         Data_ID=("${G_2022[@]}")
-        path=""
+        globaltag=""
         golden_json=
         ;;
       MC_pre)
         echo "MC ${era}."
-        path=""
-        datasets=("${G_2022[@]}")
+        globaltag=""
+        datasets=("${Pre_E_MC[@]}")
         ;;
       MC_post)
         echo "MC ${era}."
-        path=""
-        datasets=("${G_2022[@]}")
+        globaltag=""
+        datasets=("${Post_E_MC[@]}")
         ;;
       *)
         echo "Errore: era non corretta."
@@ -81,6 +84,8 @@ if [[ "$era" != *"MC_"* ]]; then
     mkdir -p "${year}_era${era}"
     for i in {0..7}; do
         echo "Stream $i"
+        path="${directory}/${year}_era${era}/PatAndTree_cfg.py"
+        cp "${path_to_skim_file}/run_MC2022_PatAndTree_cfg.py" "$path"
         cp templates/CRAB_template.py "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#YEAR#${year}#g" ${year}_era${era}/CRAD_stream_${i}.py
         sed -i "s#ERANAME#${era}#g" ${year}_era${era}/CRAD_stream_${i}.py
