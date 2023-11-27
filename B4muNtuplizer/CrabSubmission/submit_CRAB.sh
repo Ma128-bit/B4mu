@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Verifica che siano forniti 5 argomenti
 if [ $# -ne 2 ]; then
   echo "Usage: $0 <era> <year>"
   exit 1
 fi
 
-# Assegna i nomi dei file ai singoli argomenti
 era=$1
 year=$2
 
@@ -22,7 +20,7 @@ declare -a D-v2_2022=("Run2022D-PromptReco-v2" "Run2022D-PromptReco-v2" "Run2022
 declare -a E_2022=("Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1")
 declare -a F_2022=("Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1")
 declare -a G_2022=("Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v2" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1")
-declare -a Pre_E_MC=()
+declare -a Pre_E_MC=("Dataset_prova1" "Dataset_prova2")
 declare -a Post_E_MC=()
 
 if [ "${year}" == "2022" ]; then
@@ -74,7 +72,7 @@ if [ "${year}" == "2022" ]; then
         datasets=("${Post_E_MC[@]}")
         ;;
       *)
-        echo "Errore: era non corretta."
+        echo "Error: The era is incorrect."
         exit 1
         ;;
     esac
@@ -88,14 +86,13 @@ if [[ "$era" != *"MC_"* ]]; then
     for i in {0..7}; do
         echo "Stream $i"
         cp templates/CRAB_template.py "${year}_era${era}/CRAB_stream_${i}.py"
-        sed -i "s#YEAR#${year}#g" "${year}_era${era}/CRAD_stream_${i}.py"
-        sed -i "s#ERANAME#${era}#g" "${year}_era${era}/CRAD_stream_${i}.py"
-        sed -i "s#NUMBER#${i}#g" "${year}_era${era}/CRAD_stream_${i}.py"
-        sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" "${year}_era${era}/CRAD_stream_${i}.py"
-        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAD_stream_${i}.py"
-        sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAD_stream_${i}.py"
-        
-        
+        sed -i "s#YEAR#${year}#g" "${year}_era${era}/CRAB_stream_${i}.py"
+        sed -i "s#ERANAME#${era}#g" "${year}_era${era}/CRAB_stream_${i}.py"
+        sed -i "s#NUMBER#${i}#g" "${year}_era${era}/CRAB_stream_${i}.py"
+        sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" "${year}_era${era}/CRAB_stream_${i}.py"
+        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAB_stream_${i}.py"
+        sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAB_stream_${i}.py"
+        echo "crab submit -c ${year}_era${era}/CRAB_stream_${i}.py"
     done
 else
     mkdir -p "${year}_${era}"
@@ -103,6 +100,17 @@ else
     path="${directory}/${year}_${era}/PatAndTree_cfg.py"
     cp "${path_to_skim_file}/run_MC2022_PatAndTree_cfg.py" "$path"
     sed -i "s#130X_mcRun3_2022_realistic_postEE_v6#${globaltag}#g" "${year}_${era}/PatAndTree_cfg.py"
+    j=0
+    for i in "${datasets[@]}"; do
+        echo "MC $j"
+        cp templates/CRAB_template_MC.py "${year}_${era}/CRAB_MC_${j}.py"
+        sed -i "s#YEAR#${year}#g" "${year}_${era}/CRAB_MC_${j}.py"
+        sed -i "s#ERANAME#${era}#g" "${year}_${era}/CRAB_MC_${j}.py"
+        sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${j}.py"
+        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
+        echo "crab submit -c ${year}_${era}/CRAB_MC_${j}.py"
+        ((j++))
+    done
 
 fi
 
