@@ -11,8 +11,7 @@ era=$1
 year=$2
 directory="$PWD"
 home_dir=$(dirname "$(dirname "$directory")/CrabSubmission")
-
-echo "La parte del percorso prima di 'pippo' è: $parte_prima_di_pippo"
+echo "Home dir: $home_dir"
 
 2022_C=("Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1" "Run2022C-PromptReco-v1")
 
@@ -22,6 +21,7 @@ if [ "${year}" == "2022" ]; then
         echo "Era C."
         Data_ID=("${2022_C[@]}")
         path=""
+        golden_json=
         ;;
       D-v1)
         echo "Hai scelto C."
@@ -68,8 +68,7 @@ if [[ "$era" != *"MC_"* ]]; then
         sed -i "s#NUMBER#${i}#g" ${year}_era${era}/CRAD_stream_${i}.py
         sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" ${year}_era${era}/CRAD_stream_${i}.py
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" ${year}_era${era}/CRAD_stream_${i}.py
-        
-
+        sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" ${year}_era${era}/CRAD_stream_${i}.py
         
         
     done
