@@ -214,35 +214,37 @@ private:
     std::vector<double>   Muon_combinedQuality_updatedSta,  Muon_combinedQuality_trkKink,  Muon_combinedQuality_glbKink,  Muon_combinedQuality_trkRelChi2,  Muon_combinedQuality_staRelChi2,  Muon_combinedQuality_chi2LocalPosition,  Muon_combinedQuality_chi2LocalMomentum,  Muon_combinedQuality_localDistance,  Muon_combinedQuality_globalDeltaEtaPhi,  Muon_combinedQuality_tightMatch,  Muon_combinedQuality_glbTrackProbability,  Muon_calEnergy_em,  Muon_calEnergy_emS9,  Muon_calEnergy_emS25,  Muon_calEnergy_had,  Muon_calEnergy_hadS9,  Muon_segmentCompatibility,  Muon_caloCompatibility,  Muon_ptErrOverPt, Muon_BestTrackPt,  Muon_BestTrackPtErr, Muon_BestTrackEta,  Muon_BestTrackEtaErr,  Muon_BestTrackPhi,  Muon_BestTrackPhiErr;
 
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simTpEvent, Muon_simMatchQuality;
-    std::vector<double>  Mu1_Pt,  Mu1_Eta,  Mu1_Phi,  Mu2_Pt,  Mu2_Eta,  Mu2_Phi,  Mu3_Pt,  Mu3_Eta,  Mu3_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt,GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi,  GenMatchMu1_Pt,  GenMatchMu2_Pt,  GenMatchMu3_Pt,  GenMatchMu1_Eta,  GenMatchMu2_Eta,  GenMatchMu3_Eta,  GenMatchMu1_Phi,  GenMatchMu2_Phi,  GenMatchMu3_Phi;
+    std::vector<double> Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu4_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi, GenMatchMu4_SimPhi, GenMatchMu1_Pt, GenMatchMu2_Pt, GenMatchMu3_Pt, GenMatchMu4_Pt, GenMatchMu1_Eta, GenMatchMu2_Eta, GenMatchMu3_Eta, GenMatchMu4_Eta, GenMatchMu1_Phi, GenMatchMu2_Phi, GenMatchMu3_Phi, GenMatchMu4_Phi;
     std::vector<double> RefTrack1_Pt, RefTrack1_Eta, RefTrack1_Phi, RefTrack1_QuadrupletIndex;
     std::vector<double> RefTrack2_Pt, RefTrack2_Eta, RefTrack2_Phi, RefTrack2_QuadrupletIndex;
     std::vector<double> RefTrack3_Pt, RefTrack3_Eta, RefTrack3_Phi, RefTrack3_QuadrupletIndex;
+    std::vector<double> RefTrack4_Pt, RefTrack4_Eta, RefTrack4_Phi, RefTrack4_QuadrupletIndex;
 
     std::vector<double> RefittedSV_Chi2, RefittedSV_nDOF, RefittedSV_Mass;
 
     std::vector<double> IsoTrackMu1_Pt, IsoTrackMu1_Eta, IsoTrackMu1_Phi;
     std::vector<double> IsoTrackMu2_Pt, IsoTrackMu2_Eta, IsoTrackMu2_Phi;
     std::vector<double> IsoTrackMu3_Pt, IsoTrackMu3_Eta, IsoTrackMu3_Phi;
+    std::vector<double> IsoTrackMu4_Pt, IsoTrackMu4_Eta, IsoTrackMu4_Phi;
 
-    std::vector<float> Mu1_dRtriggerMatch, Mu2_dRtriggerMatch, Mu3_dRtriggerMatch;
-    std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7;
-    std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8;
-    std::vector<float> Mu1_dRtriggerMatch_Mu8_IP5, Mu1_dRtriggerMatch_Mu8_IP6, Mu1_dRtriggerMatch_Mu9_IP0, Mu1_dRtriggerMatch_Mu9_IP3, Mu1_dRtriggerMatch_Mu9_IP4, Mu1_dRtriggerMatch_Mu9_IP5, Mu1_dRtriggerMatch_Mu9_IP6,Mu1_dRtriggerMatch_Mu12_IP6,Mu1_dRtriggerMatch_2017, Mu2_dRtriggerMatch_2017, Mu3_dRtriggerMatch_2017;
+    std::vector<float> Mu1_dRtriggerMatch, Mu2_dRtriggerMatch, Mu3_dRtriggerMatch, Mu4_dRtriggerMatch;
+    std::vector<float> Mu1_dRtriggerMatch_Mu7, Mu2_dRtriggerMatch_Mu7, Mu3_dRtriggerMatch_Mu7, Mu4_dRtriggerMatch_Mu7;
+    std::vector<float> Mu1_dRtriggerMatch_Mu8, Mu2_dRtriggerMatch_Mu8, Mu3_dRtriggerMatch_Mu8, Mu4_dRtriggerMatch_Mu8;
+    std::vector<float> Mu1_dRtriggerMatch_Mu8_IP5, Mu1_dRtriggerMatch_Mu8_IP6, Mu1_dRtriggerMatch_Mu9_IP0, Mu1_dRtriggerMatch_Mu9_IP3, Mu1_dRtriggerMatch_Mu9_IP4, Mu1_dRtriggerMatch_Mu9_IP5, Mu1_dRtriggerMatch_Mu9_IP6,Mu1_dRtriggerMatch_Mu12_IP6,Mu1_dRtriggerMatch_2017, Mu2_dRtriggerMatch_2017, Mu3_dRtriggerMatch_2017, Mu4_dRtriggerMatch_2017;
 
     std::vector<double> Muon_emEt03, Muon_hadEt03, Muon_nJets03, Muon_nTracks03, Muon_sumPt03, Muon_emEt05,    Muon_hadEt05, Muon_nJets05, Muon_nTracks05, Muon_sumPt05,Muon_hadVetoEt03,Muon_emVetoEt03,    Muon_trackerVetoPt03,    Muon_hadVetoEt05,    Muon_emVetoEt05,    Muon_trackerVetoPt05;
     
     std::vector<double>     Quadruplet_mindca_iso, Quadruplet_relativeiso, Quadruplet_relativeiso2;
  
-    std::vector<int>  Mu1_QuadrupletIndex,  Mu2_QuadrupletIndex,  Mu3_QuadrupletIndex;
-    std::vector<int>  Mu1_NTracks03iso,  Mu2_NTracks03iso,  Mu3_NTracks03iso;
+    std::vector<int>  Mu1_QuadrupletIndex,  Mu2_QuadrupletIndex,  Mu3_QuadrupletIndex, Mu4_QuadrupletIndex;
+    std::vector<int>  Mu1_NTracks03iso,  Mu2_NTracks03iso,  Mu3_NTracks03iso, Mu4_NTracks03iso;
     
     int QuadrupletCollectionSize, PVCollection_Size, MuonCollectionSize;
     int PhotonCollectionSize;
     std::vector<double>  QuadrupletVtx_x,  QuadrupletVtx_y,  QuadrupletVtx_z,  QuadrupletVtx_Chi2,  QuadrupletVtx_NDOF,  Quadruplet_Mass,  Quadruplet_Pt,  Quadruplet_Eta,  Quadruplet_Phi, Quadruplet_Charge;
     std::vector<std::vector<double>>  QuadrupletVtx_cov;
     
-    std::vector<double> dxy_mu1, dxy_mu2, dxy_mu3, dxyErr_mu1, dxyErr_mu2, dxyErr_mu3; 
+    std::vector<double> dxy_mu1, dxy_mu2, dxy_mu3, dxy_mu4, dxyErr_mu1, dxyErr_mu2, dxyErr_mu3, dxyErr_mu4; 
     
     std::vector<double>  RefittedPV_x;
     std::vector<double>  RefittedPV_y;
@@ -282,7 +284,7 @@ private:
     std::vector<double>  Quadruplet_IsoMu1, Quadruplet_IsoMu2, Quadruplet_IsoMu3;
     std::vector<double>  FlightDistBS_SV,  FlightDistBS_SV_Err,  FlightDistBS_SV_Significance;
 
-    std::vector<double>  Mu1_IsGlobal, Mu2_IsGlobal, Mu3_IsGlobal, Mu1_IsPF, Mu2_IsPF, Mu3_IsPF;
+    std::vector<double>  Mu1_IsGlobal, Mu2_IsGlobal, Mu3_IsGlobal, Mu4_IsGlobal, Mu1_IsPF, Mu2_IsPF, Mu3_IsPF, Mu4_IsPF;
     
     std::vector<double> L1Muon_Pt, L1Muon_Eta, L1Muon_Phi, L1Muon_EtaAtVtx, L1Muon_PhiAtVtx, L1Muon_BX, L1Muon_Quality, L1Muon_Charge, L1Muon_ChargeValid, L1Muon_TfMuonIndex, L1Muon_dPhi, L1Muon_dEta, L1Muon_rank, L1Muon_isoSum;
 
@@ -870,7 +872,7 @@ for(uint i=0; i<AssoCandToVtx.size(); i++){
 vector<int> Mu1C, Mu2C, Mu3C, Mu4C, BMass;
 
 //cout<<"Number Of Quadruplets="<<Cand4Mu->size()<<endl;
-std::vector<int> NTripl;
+std::vector<int> NQuad;
 if(isAna){
     QuadrupletCollectionSize = Cand4Mu->size() ;
     int QuadrupletIndex =-99; uint trIn=0;
@@ -898,6 +900,7 @@ if(isAna){
         //const reco::TransientTrack transientTrack1=theTransientTrackBuilder_->build( trk1 );
         //const reco::TransientTrack transientTrack2=theTransientTrackBuilder_->build( trk2 );
         //const reco::TransientTrack transientTrack3=theTransientTrackBuilder_->build( trk3 );
+	//const reco::TransientTrack transientTrack4=theTransientTrackBuilder_->build( trk4 );
         const reco::TransientTrack transientTrack1=theTransientTrackBuilder->build( trk1 );
         const reco::TransientTrack transientTrack2=theTransientTrackBuilder->build( trk2 );
         const reco::TransientTrack transientTrack3=theTransientTrackBuilder->build( trk3 );
@@ -920,11 +923,11 @@ if(isAna){
         reco::Vertex QuadrupletVtx = reco::Vertex(B_It->vertex(), B_It->vertexCovariance(), B_It->vertexChi2(), B_It->vertexNdof(), B_It->numberOfDaughters() );
         double dphi_pv = -1.0;
         uint primaryvertex_index=0;
-        TLorentzVector ThreeCandidate;
+        TLorentzVector FourCandidate;
         uint selVtxId = 0;
         
-        ThreeCandidate.SetPtEtaPhiM(B_It->pt(), B_It->eta(), B_It->phi(), B_It->mass());
-        //cout<<"Tau pt="<<B_It->pt()<<" eta="<<B_It->eta()<<" phi="<<B_It->phi()<<" mass="<<B_It->mass()<<endl;
+        FourCandidate.SetPtEtaPhiM(B_It->pt(), B_It->eta(), B_It->phi(), B_It->mass());
+        //cout<<"B pt="<<B_It->pt()<<" eta="<<B_It->eta()<<" phi="<<B_It->phi()<<" mass="<<B_It->mass()<<endl;
 
         //loop on privary vertices
         //cout<<"Among "<<VtxIdV.size()<<" vertices we select the closest, i.e. maximum Cosdphi_3D"<<endl;
@@ -936,7 +939,7 @@ if(isAna){
                     if(VtxIdV[k]==VtxIt){
                         //cout<<"     Vtx id="<<VtxIt<<" x="<<(*vertices)[VtxIt].x()<<" y="<<(*vertices)[VtxIt].y()<<" z="<<(*vertices)[VtxIt].z()<<endl;
                         TVector3 Dv3D_reco(QuadrupletVtx.x() - (*vertices)[VtxIt].x(), QuadrupletVtx.y() - (*vertices)[VtxIt].y(), QuadrupletVtx.z() - (*vertices)[VtxIt].z());
-                        double Cosdphi_3D = Dv3D_reco.Dot(ThreeCandidate.Vect())/(Dv3D_reco.Mag()*ThreeCandidate.Vect().Mag());
+                        double Cosdphi_3D = Dv3D_reco.Dot(FourCandidate.Vect())/(Dv3D_reco.Mag()*FourCandidate.Vect().Mag());
                         //cout<<"     cosDPhi3D="<<Cosdphi_3D<<endl;
                         if(Cosdphi_3D>dphi_pv){
                             dphi_pv = Cosdphi_3D;
@@ -991,7 +994,7 @@ if(isAna){
                   
                 //cout<<"Valid Vtx1="<<PVertex.isValid()<<endl;
                 if(PVertex.isValid() && B_It->vertexChi2() >0 ){
-                    NTripl.push_back(1);
+                    NQuad.push_back(1);
                     QuadrupletIndex=trIn;
                     if((mu1->isGlobalMuon()) && (mu1->isPFMuon())) {
                         Mu1C.push_back(1);
@@ -999,9 +1002,12 @@ if(isAna){
                             Mu2C.push_back(1);
                             if((mu3->isGlobalMuon()) && (mu3->isPFMuon())){
                                 Mu3C.push_back(1);
-                                if( (B_It->mass()>1.62) &&  (B_It->mass()<2.0) ){
-                                    BMass.push_back(1);
-                                }
+				if((mu4->isGlobalMuon()) && (mu4->isPFMuon())){
+                                	Mu4C.push_back(1);
+                                	if( (B_It->mass()>4.9) &&  (B_It->mass()<5.7) ){
+                                    		BMass.push_back(1);
+                                	}
+				}
                             }
                         }
                     }
@@ -1020,39 +1026,49 @@ if(isAna){
                     Mu3_Phi.push_back(mu3->phi());
                     Mu3_QuadrupletIndex.push_back(QuadrupletIndex);
 
+		    Mu4_Pt.push_back(mu4->pt());
+                    Mu4_Eta.push_back(mu4->eta());
+                    Mu4_Phi.push_back(mu4->phi());
+                    Mu4_QuadrupletIndex.push_back(QuadrupletIndex);
+
                     Mu1_IsGlobal.push_back(mu1->isGlobalMuon());
                     Mu2_IsGlobal.push_back(mu2->isGlobalMuon());
                     Mu3_IsGlobal.push_back(mu3->isGlobalMuon());
+		    Mu4_IsGlobal.push_back(mu4->isGlobalMuon());
                     
                     Mu1_IsPF.push_back(mu1->isPFMuon());
                     Mu2_IsPF.push_back(mu2->isPFMuon());
                     Mu3_IsPF.push_back(mu3->isPFMuon());
-                    //cout<<"Reco mu1 pt="<<mu1->pt()<<" mu2 pt="<<mu2->pt()<<" mu3 pt="<<mu3->pt()<<endl;
+                    Mu4_IsPF.push_back(mu4->isPFMuon());
+                    //cout<<"Reco mu1 pt="<<mu1->pt()<<" mu2 pt="<<mu2->pt()<<" mu3 pt="<<mu3->pt()<<" mu4 pt="<<mu4->pt()<<endl;
                     
                     //Refitted vars related to SV
                     std::vector<reco::TransientTrack> Ttracks;
                     Ttracks.push_back(transientTrack1);
                     Ttracks.push_back(transientTrack2);
                     Ttracks.push_back(transientTrack3);
+                    Ttracks.push_back(transientTrack4);
                     KalmanVertexFitter SVfitter (true);
                     TransientVertex SVertex_ref = SVfitter.vertex(Ttracks);
                     vector < TransientTrack > ttrks = SVertex_ref.refittedTracks(); 
                     //cout<<"ttrks.size() :"<<ttrks.size()<<endl;
                         
-                    TLorentzVector LVtau;
-                    LVtau.SetPxPyPzE(0, 0, 0, 0);
+                    TLorentzVector LV_B;
+                    LV_B.SetPxPyPzE(0, 0, 0, 0);
 
                     if(SVertex_ref.isValid() && SVertex_ref.hasRefittedTracks() && ttrks.size()>2){
                         //cout<<"VALID ref SV chi2="<<SVertex_ref.totalChiSquared()<<" NDF="<<SVertex_ref.degreesOfFreedom()<<endl;
                         reco::Track SVTrack1 =ttrks.at(0).track();
                         reco::Track SVTrack2 =ttrks.at(1).track();
                         reco::Track SVTrack3 =ttrks.at(2).track();
+			reco::Track SVTrack4 =ttrks.at(3).track();
 
-                        TLorentzVector LV1, LV2, LV3;
+                        TLorentzVector LV1, LV2, LV3, LV4;
                         LV1.SetPxPyPzE(SVTrack1.px(), SVTrack1.py(), SVTrack1.pz(), sqrt(pow(SVTrack1.p(), 2.0) + pow(0.10565, 2.0)));
                         LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
                         LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.10565, 2.0)));
-                        LVtau = LV1 + LV2 + LV3;
+			LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.10565, 2.0)));
+                        LV_B = LV1 + LV2 + LV3 + LV4;
                         
                         //cout<<"SVTrack1.pt() "<<SVTrack1.pt()<<" SVTrack1.eta() "<<SVTrack1.eta()<<" SVTrack1.phi() "<<SVTrack1.phi()<<endl;
                         //cout<<"Track1.pt() "<<Track1.pt()<<" Track1.eta() "<<Track1.eta()<<" Track1.phi() "<<Track1.phi()<<endl;
@@ -1060,47 +1076,55 @@ if(isAna){
                         //cout<<"Track2.pt() "<<Track2.pt()<<" Track2.eta() "<<Track2.eta()<<" Track2.phi() "<<Track2.phi()<<endl;
                         //cout<<"SVTrack3.pt() "<<SVTrack3.pt()<<" SVTrack3.eta() "<<SVTrack3.eta()<<" SVTrack3.phi() "<<SVTrack3.phi()<<endl;
                         //cout<<"Track3.pt() "<<Track3.pt()<<" Track3.eta() "<<Track3.eta()<<" Track3.phi() "<<Track3.phi()<<endl;
+                        //cout<<"SVTrack4.pt() "<<SVTrack4.pt()<<" SVTrack4.eta() "<<SVTrack4.eta()<<" SVTrack4.phi() "<<SVTrack4.phi()<<endl;
+                        //cout<<"Track4.pt() "<<Track4.pt()<<" Track4.eta() "<<Track4.eta()<<" Track4.phi() "<<Track4.phi()<<endl;
                         //cout<<"mu1->pt() "<<mu1->pt()<<" mu2->pt() "<<mu2->pt()<<" mu3->pt() "<<mu3->pt()<<endl;
 
                         RefTrack1_Pt.push_back(SVTrack1.pt()); RefTrack1_Eta.push_back(SVTrack1.eta()); RefTrack1_Phi.push_back(SVTrack1.phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
                         RefTrack2_Pt.push_back(SVTrack2.pt()); RefTrack2_Eta.push_back(SVTrack2.eta()); RefTrack2_Phi.push_back(SVTrack2.phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
                         RefTrack3_Pt.push_back(SVTrack3.pt()); RefTrack3_Eta.push_back(SVTrack3.eta()); RefTrack3_Phi.push_back(SVTrack3.phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
+                        RefTrack4_Pt.push_back(SVTrack4.pt()); RefTrack4_Eta.push_back(SVTrack4.eta()); RefTrack4_Phi.push_back(SVTrack4.phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
 
-                        RefittedSV_Chi2.push_back(SVertex_ref.totalChiSquared());
+			RefittedSV_Chi2.push_back(SVertex_ref.totalChiSquared());
                         RefittedSV_nDOF.push_back(SVertex_ref.degreesOfFreedom());
-                        RefittedSV_Mass.push_back(LVtau.M());
-                        cout<<"Bebug mass LVtau.M()="<<LVtau.M()<<endl;
+                        RefittedSV_Mass.push_back(LV_B.M());
+                        cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
                     } else {
                         RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
                         RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
                         RefTrack3_Pt.push_back(-99); RefTrack3_Eta.push_back(-99); RefTrack3_Phi.push_back(-99); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
+                        RefTrack4_Pt.push_back(-99); RefTrack4_Eta.push_back(-99); RefTrack4_Phi.push_back(-99); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
 
-                        RefittedSV_Chi2.push_back(-99);
+			RefittedSV_Chi2.push_back(-99);
                         RefittedSV_nDOF.push_back(-99);
                         RefittedSV_Mass.push_back(-99);
                     }
                     ///////////////Check Trigger Matching///////////////
-                    float dR1 = 999., dR2 = 999., dR3 = 999.;
-                    float dR1_2017 = 999., dR2_2017 = 999., dR3_2017 = 999.;
-                    float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999.;
-                    float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999.;
+                    float dR1 = 999., dR2 = 999., dR3 = 999., dR4 = 999.;
+                    float dR1_2017 = 999., dR2_2017 = 999., dR3_2017 = 999., dR4_2017 = 999.;
+                    float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999., dR4_Mu7 = 999.;
+                    float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999., dR4_Mu8 = 999.;
                     float dR1_Mu8_IP6=999., dR1_Mu12_IP6=999, dR1_Mu8_IP5=999.;
                     float dR1_Mu9_IP0=999., dR1_Mu9_IP3=999.,  dR1_Mu9_IP4=999., dR1_Mu9_IP5=999., dR1_Mu9_IP6=999.;
 
                     dR1_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu2017);
                     dR2_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu2017);
                     dR3_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, TriggerObj_DsTau3Mu2017);
+                    dR4_2017 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, TriggerObj_DsTau3Mu2017);
                     Mu1_dRtriggerMatch_2017.push_back(dR1_2017);
                     Mu2_dRtriggerMatch_2017.push_back(dR2_2017);
                     Mu3_dRtriggerMatch_2017.push_back(dR3_2017);
+		    Mu4_dRtriggerMatch_2017.push_back(dR4_2017);
 
                     dR1 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu);
                     dR2 = MiniAnaTau3Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu);
                     dR3 = MiniAnaTau3Mu::dRtriggerMatch(*mu3, TriggerObj_DsTau3Mu);
-                    //cout<<"Trigger Matching: dR1="<<dR1<<" dR2="<<dR2<<" dR3="<<dR3<<endl;
+		    dR4 = MiniAnaTau3Mu::dRtriggerMatch(*mu4, TriggerObj_DsTau3Mu);
+                    //cout<<"Trigger Matching: dR1="<<dR1<<" dR2="<<dR2<<" dR3="<<dR3<<" dR4="<<dR4<<endl;
                     Mu1_dRtriggerMatch.push_back(dR1);
                     Mu2_dRtriggerMatch.push_back(dR2);
                     Mu3_dRtriggerMatch.push_back(dR3);
+		    Mu4_dRtriggerMatch.push_back(dR4);
 
                     if( isBParking){
                         dR1_Mu8 = MiniAnaTau3Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
@@ -1271,9 +1295,9 @@ if(isAna){
                     TLorentzVector LV1=TLorentzVector( mu1->px(), mu1->py(), mu1->pz(), mu1->energy() );
                     TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
                     TLorentzVector LV3=TLorentzVector( mu3->px(), mu3->py(), mu3->pz(), mu3->energy() );
-                    TLorentzVector LVTau = LV1 + LV2 + LV3;
+                    TLorentzVector LV_B = LV1 + LV2 + LV3;
                     cout<<QuadrupletIndex<<" TauCandMass "<<B_It->mass()<<" TauPt="<<B_It->pt()<<endl;
-                    cout<<QuadrupletIndex<<" TauVectMass "<<LVTau.M()<<" TauPt="<<LVTau.Pt()<<endl;
+                    cout<<QuadrupletIndex<<" TauVectMass "<<LV_B.M()<<" TauPt="<<LV_B.Pt()<<endl;
                       
                     int nTracks03_mu1=0, nTracks03_mu2=0, nTracks03_mu3=0;
                     double mindist=9999;
@@ -1299,7 +1323,7 @@ if(isAna){
                             }
                             //for eack track having pt>1, excluded the muon tracks,
                             //for each muon in the Quadruplet, if deltaR<0.3 and the DCA is smaller than 1 mm
-                            //the pt of the track is added -> I will take the largest total pt from the three muons
+                            //the pt of the track is added -> I will take the largest total pt from the Four muons
                             if (dca_fv < 0.1) {
                                 if (dR1<0.3) {
                                     sumPtTrack1+=cand->pt();
@@ -1320,7 +1344,7 @@ if(isAna){
                     Quadruplet_mindca_iso.push_back(mindist);
                     maxSumPtTracks = std::max(sumPtTrack1, std::max(sumPtTrack2,sumPtTrack3));
                     //cout<<QuadrupletIndex<<" BMass "<<B_It->mass()<<" SumPt Tracks in cone="<<maxSumPtTracks<<" TauPt="<<B_It->pt()<<endl;
-                    double relativeiso = maxSumPtTracks/LVTau.Pt();
+                    double relativeiso = maxSumPtTracks/LV_B.Pt();
                     Quadruplet_relativeiso.push_back(relativeiso);
                     
                     Mu1_NTracks03iso.push_back(nTracks03_mu1);
@@ -1659,8 +1683,8 @@ if(isAna){
     }//loop Cand4Mu
 }//isAna
 
-NGoodQuadruplets.push_back(NTripl.size());
-if(NTripl.size()>0) hEventsAfterGoodCand->Fill(1);
+NGoodQuadruplets.push_back(NQuad.size());
+if(NQuad.size()>0) hEventsAfterGoodCand->Fill(1);
 if(Mu1C.size()>0) hEventsAfterMu1ID->Fill(1);
 if(Mu2C.size()>0)  hEventsAfterMu2ID->Fill(1);
 if(Mu3C.size()>0)  hEventsAfterMu3ID->Fill(1);
@@ -2364,7 +2388,7 @@ void MiniAnaTau3Mu::beginJob() {
     hEvents = fs->make<TH1F>("hEvents","hEvents",10,0,10);
     hEventsAfterGoodCand = fs->make<TH1F>("hEventsAfterGoodCand","hEventsAfterGoodCand",10,0,10);
 
-    //      if(NTripl.size()>0) hEventsAfterGoodCand->Fill(1);
+    //      if(NQuad.size()>0) hEventsAfterGoodCand->Fill(1);
     hEventsAfterMu1ID = fs->make<TH1F>("hEventsAfterMu1ID","hEventsAfterMu1ID",10,0,10);
     hEventsAfterMu2ID = fs->make<TH1F>("hEventsAfterMu2ID","hEventsAfterMu2ID",10,0,10);
     hEventsAfterMu3ID = fs->make<TH1F>("hEventsAfterMu3ID","hEventsAfterMu3ID",10,0,10);
