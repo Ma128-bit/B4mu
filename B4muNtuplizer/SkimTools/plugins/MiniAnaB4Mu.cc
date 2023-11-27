@@ -264,7 +264,8 @@ private:
     
     std::vector<double> PV_x,  PV_y,  PV_z,  PV_NTracks;
     std::vector<double> BS_x,  BS_y,  BS_z;
-    std::vector<double> Vtx12_x, Vtx23_x, Vtx13_x, Vtx12_y, Vtx23_y, Vtx13_y, Vtx12_z, Vtx23_z, Vtx13_z, Vtx12_Chi2, Vtx23_Chi2, Vtx13_Chi2, Vtx12_nDOF, Vtx23_nDOF, Vtx13_nDOF;
+    std::vector<double> Vtx12_x, Vtx23_x, Vtx13_x, Vtx14_x, Vtx24_x, Vtx34_x, Vtx12_y, Vtx23_y, Vtx13_y, Vtx14_y, Vtx24_y, Vtx34_y, Vtx12_z, Vtx23_z, Vtx13_z, Vtx14_z, Vtx24_z, Vtx34_z, Vtx12_Chi2, Vtx23_Chi2, Vtx13_Chi2, Vtx14_Chi2, Vtx24_Chi2, Vtx34_Chi2, Vtx12_nDOF, Vtx23_nDOF, Vtx13_nDOF, Vtx14_nDOF, Vtx24_nDOF, Vtx34_nDOF;
+
     std::vector<int> NGoodQuadruplets;
     uint  evt, run, lumi, puN;
     std::vector<string>  Trigger_l1name;
@@ -1237,7 +1238,7 @@ if(isAna){
                     Quadruplet_Charge.push_back(B_It->charge());
                       
                     //////////////Dimu vertices////////////////////
-                    std::vector<reco::TransientTrack> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx;
+                    std::vector<reco::TransientTrack> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx, SVTracks14_Vtx, SVTracks24_Vtx, SVTracks34_Vtx;
                         
                     SVTracks12_Vtx.push_back(transientTrack1);
                     SVTracks12_Vtx.push_back(transientTrack2);
@@ -1245,6 +1246,13 @@ if(isAna){
                     SVTracks23_Vtx.push_back(transientTrack3);
                     SVTracks13_Vtx.push_back(transientTrack1);
                     SVTracks13_Vtx.push_back(transientTrack3);
+
+                    SVTracks14_Vtx.push_back(transientTrack1);
+                    SVTracks14_Vtx.push_back(transientTrack4);
+                    SVTracks24_Vtx.push_back(transientTrack2);
+                    SVTracks24_Vtx.push_back(transientTrack4);
+                    SVTracks34_Vtx.push_back(transientTrack3);
+                    SVTracks34_Vtx.push_back(transientTrack4);
                     ////DiMu12////
                     KalmanVertexFitter DiMu12_fitter (true);
                     TransientVertex DiMu12Vtx = DiMu12_fitter.vertex(SVTracks12_Vtx);
@@ -1302,15 +1310,74 @@ if(isAna){
                         Vtx13_y.push_back(-99);
                         Vtx13_z.push_back(-99);
                     }
-                    
+                    ////DiMu14///
+		    KalmanVertexFitter DiMu14_fitter(true);
+		    TransientVertex DiMu14Vtx = DiMu14_fitter.vertex(SVTracks14_Vtx);
+		    if (DiMu14Vtx.isValid()) {
+		        Vtx14_Chi2.push_back(DiMu14Vtx.totalChiSquared());
+		        //cout << "Vtx14_Chi2: " << DiMu14Vtx.totalChiSquared() << endl;
+		        Vtx14_nDOF.push_back(DiMu14Vtx.degreesOfFreedom());
+		        GlobalPoint DiMu14Pos(DiMu14Vtx.position());
+		        Vtx14_x.push_back(DiMu14Pos.x());
+		        //cout << "Vtx14_x: " << DiMu14Pos.x() << endl;
+		        Vtx14_y.push_back(DiMu14Pos.y());
+		        Vtx14_z.push_back(DiMu14Pos.z());
+		    } else {
+		        Vtx14_Chi2.push_back(-99);
+		        Vtx14_nDOF.push_back(-99);
+		        Vtx14_x.push_back(-99);
+		        Vtx14_y.push_back(-99);
+		        Vtx14_z.push_back(-99);
+		    }
+
+		    ////DiMu24///
+		    KalmanVertexFitter DiMu24_fitter(true);
+		    TransientVertex DiMu24Vtx = DiMu24_fitter.vertex(SVTracks24_Vtx);
+		    if (DiMu24Vtx.isValid()) {
+		        Vtx24_Chi2.push_back(DiMu24Vtx.totalChiSquared());
+ 		       //cout << "Vtx24_Chi2: " << DiMu24Vtx.totalChiSquared() << endl;
+		        Vtx24_nDOF.push_back(DiMu24Vtx.degreesOfFreedom());
+		        GlobalPoint DiMu24Pos(DiMu24Vtx.position());
+		        Vtx24_x.push_back(DiMu24Pos.x());
+		        //cout << "Vtx24_x: " << DiMu24Pos.x() << endl;
+		        Vtx24_y.push_back(DiMu24Pos.y());
+    		    Vtx24_z.push_back(DiMu24Pos.z());
+		    } else {
+    		    Vtx24_Chi2.push_back(-99);
+    		    Vtx24_nDOF.push_back(-99);
+    		    Vtx24_x.push_back(-99);
+    		    Vtx24_y.push_back(-99);
+    		    Vtx24_z.push_back(-99);
+		    }
+
+		    ////DiMu34///
+		    KalmanVertexFitter DiMu34_fitter(true);
+		    TransientVertex DiMu34Vtx = DiMu34_fitter.vertex(SVTracks34_Vtx);
+		    if (DiMu34Vtx.isValid()) {
+		        Vtx34_Chi2.push_back(DiMu34Vtx.totalChiSquared());
+    		    //cout << "Vtx34_Chi2: " << DiMu34Vtx.totalChiSquared() << endl;
+    		    Vtx34_nDOF.push_back(DiMu34Vtx.degreesOfFreedom());
+    		    GlobalPoint DiMu34Pos(DiMu34Vtx.position());
+    		    Vtx34_x.push_back(DiMu34Pos.x());
+    		    //cout << "Vtx34_x: " << DiMu34Pos.x() << endl;
+    		    Vtx34_y.push_back(DiMu34Pos.y());
+    		    Vtx34_z.push_back(DiMu34Pos.z());
+		    } else {
+    		    Vtx34_Chi2.push_back(-99);
+    		    Vtx34_nDOF.push_back(-99);
+    		    Vtx34_x.push_back(-99);
+    		    Vtx34_y.push_back(-99);
+    		    Vtx34_z.push_back(-99);
+		    }
         
                     /////////////////Defining ISO VAR related to the Quadruplet//////////////////////
                     TLorentzVector LV1=TLorentzVector( mu1->px(), mu1->py(), mu1->pz(), mu1->energy() );
                     TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
                     TLorentzVector LV3=TLorentzVector( mu3->px(), mu3->py(), mu3->pz(), mu3->energy() );
-                    TLorentzVector LV_B = LV1 + LV2 + LV3;
-                    cout<<QuadrupletIndex<<" TauCandMass "<<B_It->mass()<<" TauPt="<<B_It->pt()<<endl;
-                    cout<<QuadrupletIndex<<" TauVectMass "<<LV_B.M()<<" TauPt="<<LV_B.Pt()<<endl;
+                    TLorentzVector LV4=TLorentzVector( mu4->px(), mu4->py(), mu4->pz(), mu4->energy() );
+                    TLorentzVector LV_B = LV1 + LV2 + LV3 + LV4;
+                    cout<<QuadrupletIndex<<" B_CandMass "<<B_It->mass()<<" B_Pt="<<B_It->pt()<<endl;
+                    cout<<QuadrupletIndex<<" B_VectMass "<<LV_B.M()<<" B_Pt="<<LV_B.Pt()<<endl;
                       
                     int nTracks03_mu1=0, nTracks03_mu2=0, nTracks03_mu3=0;
                     double mindist=9999;
