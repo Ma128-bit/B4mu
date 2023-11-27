@@ -1454,7 +1454,7 @@ if(isAna){
                     /////////////////Defining variables related to PV and SV positions and errors//////////////////////
                     GlobalPoint PVertexPos  (PVertex.position());
                     GlobalPoint SVertexPos  (QuadrupletVtx.x(), QuadrupletVtx.y(), QuadrupletVtx.z());
-                    math::XYZPoint PVertexPoint = math::XYZPoint(PVertexPos.x(), PVertexPos.y(), PVertexPos.z());
+                    
 
                     VertexState PVstate(PVertex.position(),PVertex.positionError());
                     //cout<<"PV position="<<PVertex.position()<<endl;
@@ -1540,6 +1540,7 @@ if(isAna){
 
 		    /*
                     /////////////////Study on phi->KK and K*->Kpi decays//////////////////////
+		    math::XYZPoint PVertexPoint = math::XYZPoint(PVertexPos.x(), PVertexPos.y(), PVertexPos.z());
                     /////min mu+track vtx chi2
                     double mu1_minvtxchi2 = 9999., mu2_minvtxchi2 = 9999., mu3_minvtxchi2 = 9999.;
                     double IsoTrack1_Pt  = -99, IsoTrack1_Eta = -99, IsoTrack1_Phi = -99; 
