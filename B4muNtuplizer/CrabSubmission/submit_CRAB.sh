@@ -82,23 +82,28 @@ fi
 
 if [[ "$era" != *"MC_"* ]]; then
     mkdir -p "${year}_era${era}"
+    path="${directory}/${year}_era${era}/PatAndTree_cfg.py"
+    cp "${path_to_skim_file}/run_Data2022_PatAndTree_cfg.py" "$path"
+    sed -i "s#124X_dataRun3_v14#${globaltag}#g" "${year}_era${era}/PatAndTree_cfg.py"
     for i in {0..7}; do
         echo "Stream $i"
-        path="${directory}/${year}_era${era}/PatAndTree_cfg.py"
-        cp "${path_to_skim_file}/run_MC2022_PatAndTree_cfg.py" "$path"
         cp templates/CRAB_template.py "${year}_era${era}/CRAB_stream_${i}.py"
-        sed -i "s#YEAR#${year}#g" ${year}_era${era}/CRAD_stream_${i}.py
-        sed -i "s#ERANAME#${era}#g" ${year}_era${era}/CRAD_stream_${i}.py
-        sed -i "s#NUMBER#${i}#g" ${year}_era${era}/CRAD_stream_${i}.py
-        sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" ${year}_era${era}/CRAD_stream_${i}.py
-        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" ${year}_era${era}/CRAD_stream_${i}.py
-        sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" ${year}_era${era}/CRAD_stream_${i}.py
+        sed -i "s#YEAR#${year}#g" "${year}_era${era}/CRAD_stream_${i}.py"
+        sed -i "s#ERANAME#${era}#g" "${year}_era${era}/CRAD_stream_${i}.py"
+        sed -i "s#NUMBER#${i}#g" "${year}_era${era}/CRAD_stream_${i}.py"
+        sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" "${year}_era${era}/CRAD_stream_${i}.py"
+        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAD_stream_${i}.py"
+        sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAD_stream_${i}.py"
         
         
     done
 else
-    mkdir "${year}_MC"
-    echo "\$era contiene 'MC_'."
+    mkdir -p "${year}_${era}"
+    echo "\${era} contiene 'MC_'."
+    path="${directory}/${year}_${era}/PatAndTree_cfg.py"
+    cp "${path_to_skim_file}/run_MC2022_PatAndTree_cfg.py" "$path"
+    sed -i "s#130X_mcRun3_2022_realistic_postEE_v6#${globaltag}#g" "${year}_${era}/PatAndTree_cfg.py"
+
 fi
 
 
