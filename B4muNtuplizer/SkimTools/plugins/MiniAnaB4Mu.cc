@@ -1376,7 +1376,7 @@ if(isAna){
                     TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
                     TLorentzVector LV3=TLorentzVector( mu3->px(), mu3->py(), mu3->pz(), mu3->energy() );
                     TLorentzVector LV4=TLorentzVector( mu4->px(), mu4->py(), mu4->pz(), mu4->energy() );
-                    TLorentzVector LV_B = LV1 + LV2 + LV3 + LV4;
+                    LV_B = LV1 + LV2 + LV3 + LV4;
                     cout<<QuadrupletIndex<<" B_CandMass "<<B_It->mass()<<" B_Pt="<<B_It->pt()<<endl;
                     cout<<QuadrupletIndex<<" B_VectMass "<<LV_B.M()<<" B_Pt="<<LV_B.Pt()<<endl;
                       
@@ -1422,7 +1422,7 @@ if(isAna){
                                 }
 				if (dR4<0.3) {
                                     sumPtTrack4+=cand->pt();
-                                    nTracks04_mu3++;
+                                    nTracks03_mu4++;
                                 }
                             }
                         }
