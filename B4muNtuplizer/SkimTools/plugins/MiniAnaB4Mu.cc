@@ -1522,16 +1522,20 @@ if(isAna){
                     GlobalVector dir1(mu1->px(), mu1->py(),  mu1->pz()); //To compute sign of IP
                     GlobalVector dir2(mu2->px(), mu2->py(),  mu2->pz()); //To compute sign of IP
                     GlobalVector dir3(mu3->px(), mu3->py(),  mu3->pz()); //To compute sign of IP
+                    GlobalVector dir4(mu4->px(), mu4->py(),  mu4->pz()); //To compute sign of IP
                     std::pair<bool,Measurement1D> signed_IP2D_mu1 = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, PVertex);
                     std::pair<bool,Measurement1D> signed_IP2D_mu2 = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, PVertex);
                     std::pair<bool,Measurement1D> signed_IP2D_mu3 = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, PVertex);
+		    std::pair<bool,Measurement1D> signed_IP2D_mu4 = IPTools::signedTransverseImpactParameter(transientTrack4, dir4, PVertex);
                     //cout<<" IP mu1="<<signed_IP2D_mu1.second.value()<<" IP mu2="<<signed_IP2D_mu2.second.value()<<" IP mu3="<<signed_IP2D_mu3.second.value()<<endl;
                     dxy_mu1.push_back(signed_IP2D_mu1.second.value());
                     dxy_mu2.push_back(signed_IP2D_mu2.second.value());
                     dxy_mu3.push_back(signed_IP2D_mu3.second.value());
+                    dxy_mu4.push_back(signed_IP2D_mu4.second.value());
                     dxyErr_mu1.push_back(signed_IP2D_mu1.second.error());
                     dxyErr_mu2.push_back(signed_IP2D_mu2.second.error());
                     dxyErr_mu3.push_back(signed_IP2D_mu3.second.error());
+                    dxyErr_mu4.push_back(signed_IP2D_mu4.second.error());
 
                     /////////////////Study on phi->KK and K*->Kpi decays//////////////////////
                     /////min mu+track vtx chi2
