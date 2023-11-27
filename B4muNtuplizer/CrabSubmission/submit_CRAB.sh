@@ -30,47 +30,47 @@ if [ "${year}" == "2022" ]; then
       C)
         echo "Era C."
         Data_ID=("${C_2022[@]}")
-        globaltag=""
-        golden_json=
+        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraC_355862_357482_Golden.json"
         ;;
       D-v1)
         echo "Era D-v1."
         Data_ID=("${D-v1_2022[@]}")
-        globaltag=""
-        golden_json=
+        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
         ;;
       D-v2)
         echo "Era D-v2."
         Data_ID=("${D-v2_2022[@]}")
-        globaltag=""
-        golden_json=
+        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
         ;;
       E)
         echo "Era E."
         Data_ID=("${E_2022[@]}")
-        globaltag=""
-        golden_json=
+        globaltag="124X_dataRun3_Prompt_v10"
+        golden_json="Collisions22/Cert_Collisions2022_eraE_359022_360331_Golden.json"
         ;;
       F)
         echo "Era F."
         Data_ID=("${F_2022[@]}")
-        globaltag=""
-        golden_json=
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraF_360390_362167_Golden.json"
         ;;
       G)
         echo "Era G."
         Data_ID=("${G_2022[@]}")
-        globaltag=""
-        golden_json=
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
         ;;
       MC_pre)
-        echo "MC ${era}."
-        globaltag=""
+        echo "${era}."
+        globaltag="130X_mcRun3_2022_realistic_v5"
         datasets=("${Pre_E_MC[@]}")
         ;;
       MC_post)
-        echo "MC ${era}."
-        globaltag=""
+        echo "${era}."
+        globaltag="130X_mcRun3_2022_realistic_postEE_v6"
         datasets=("${Post_E_MC[@]}")
         ;;
       *)
