@@ -167,9 +167,6 @@ private:
     //edm::EDGetTokenT<GlobalAlgBlkBxCollection> m_l1t_results;
     bool isMc;
     bool isAna;
-    bool is2016;
-    bool is2017;
-    bool is2018;
     //edm::EDGetTokenT<edm::TriggerResults> trigResultsToken;
     //edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> trigObjCollToken;
     //const TransientTrackBuilder* theTransientTrackBuilder_;
@@ -276,7 +273,7 @@ private:
     std::vector<int> Trigger_hltdecision;
 
     std::vector<double> MuonPt_HLT,  MuonEta_HLT,  MuonPhi_HLT;
-    std::vector<double> MuonPt_HLT2017, MuonEta_HLT2017, MuonPhi_HLT2017, MuonPt_HLT_BPMu7, MuonEta_HLT_BPMu7, MuonPhi_HLT_BPMu7, MuonPt_HLT_BPMu8, MuonEta_HLT_BPMu8, MuonPhi_HLT_BPMu8, MuonPt_HLT_BPMu8_IP6,  MuonEta_HLT_BPMu8_IP6, MuonPhi_HLT_BPMu8_IP6, MuonPt_HLT_BPMu8_IP5, MuonEta_HLT_BPMu8_IP5, MuonPhi_HLT_BPMu8_IP5,   MuonPt_HLT_BPMu9_IP0, MuonEta_HLT_BPMu9_IP0, MuonPhi_HLT_BPMu9_IP0, MuonPt_HLT_BPMu9_IP3, MuonEta_HLT_BPMu9_IP3, MuonPhi_HLT_BPMu9_IP3, MuonPt_HLT_BPMu9_IP4,MuonEta_HLT_BPMu9_IP4,MuonPhi_HLT_BPMu9_IP4,MuonPt_HLT_BPMu9_IP5, MuonEta_HLT_BPMu9_IP5,MuonPhi_HLT_BPMu9_IP5,MuonPt_HLT_BPMu9_IP6,MuonEta_HLT_BPMu9_IP6,MuonPhi_HLT_BPMu9_IP6,MuonPt_HLT_BPMu12_IP6,MuonEta_HLT_BPMu12_IP6,MuonPhi_HLT_BPMu12_IP6;
+    std::vector<double> MuonPt_HLT2017, MuonEta_HLT2017, MuonPhi_HLT2017;
     std::vector<double> MuonPt_HLT_DiMu_Incl, MuonEta_HLT_DiMu_Incl, MuonPhi_HLT_DiMu_Incl;
     std::vector<double> MuonPt_HLT_DiMu_Incl_displ, MuonEta_HLT_DiMu_Incl_displ, MuonPhi_HLT_DiMu_Incl_displ;
 
@@ -304,9 +301,6 @@ MiniAnaB4Mu::MiniAnaB4Mu(const edm::ParameterSet& iConfig){
     edm::InputTag algInputTag_;
     isMc = iConfig.getUntrackedParameter<bool>("isMcLabel");
     isAna = iConfig.getUntrackedParameter<bool>("isAnaLabel");
-    is2016 = iConfig.getUntrackedParameter<bool>("is2016Label");
-    is2017 = iConfig.getUntrackedParameter<bool>("is2017Label");
-    is2018 = iConfig.getUntrackedParameter<bool>("is2018Label");
     muons_ = consumes<edm::View<pat::Muon> >  (iConfig.getParameter<edm::InputTag>("muonLabel"));
     photons_ = consumes<edm::View<pat::Photon> >  (iConfig.getParameter<edm::InputTag>("photonLabel"));
     vertex_ = consumes<edm::View<reco::Vertex> > (iConfig.getParameter<edm::InputTag>("VertexLabel"));
@@ -616,7 +610,6 @@ for (size_t i_hlt = 0; i_hlt != triggerResults->size(); ++i_hlt){
 }
 
 vector<pat::TriggerObjectStandAlone> TriggerObj_DsTau3Mu,  TriggerObj_DsTau3Mu2017, TriggerObj_Dimuon, TriggerObj_DimuonIncl, TriggerObj_DimuonIncl_displ;
-vector<pat::TriggerObjectStandAlone> MuonsObjects_BPMu7, MuonsObjects_BPMu12_IP6, MuonsObjects_BPMu8, MuonsObjects_BPMu8_IP6,MuonsObjects_BPMu8_IP5,MuonsObjects_BPMu9_IP0, MuonsObjects_BPMu9_IP3, MuonsObjects_BPMu9_IP4, MuonsObjects_BPMu9_IP5, MuonsObjects_BPMu9_IP6;
 
 for (pat::TriggerObjectStandAlone obj : *triggerObjects) { // note: not "const &" since we want to call unpackPathNames
     obj.unpackPathNames(triggerNames);
@@ -1018,10 +1011,6 @@ if(isAna){
                     ///////////////Check Trigger Matching///////////////
                     float dR1 = 999., dR2 = 999., dR3 = 999., dR4 = 999.;
                     float dR1_2017 = 999., dR2_2017 = 999., dR3_2017 = 999., dR4_2017 = 999.;
-                    float dR1_Mu7=999.,dR2_Mu7 = 999., dR3_Mu7 = 999., dR4_Mu7 = 999.;
-                    float dR1_Mu8=999.,dR2_Mu8 = 999., dR3_Mu8 = 999., dR4_Mu8 = 999.;
-                    float dR1_Mu8_IP6=999., dR1_Mu12_IP6=999, dR1_Mu8_IP5=999.;
-                    float dR1_Mu9_IP0=999., dR1_Mu9_IP3=999.,  dR1_Mu9_IP4=999., dR1_Mu9_IP5=999., dR1_Mu9_IP6=999.;
 
                     dR1_2017 = MiniAnaB4Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu2017);
                     dR2_2017 = MiniAnaB4Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu2017);
@@ -2377,36 +2366,6 @@ for(edm::View<pat::Muon>::const_iterator mu=muons->begin(); mu!=muons->end(), k<
     MuonPt_HLT2017.clear();
     MuonEta_HLT2017.clear();
     MuonPhi_HLT2017.clear();
-    MuonPt_HLT_BPMu7.clear();
-    MuonEta_HLT_BPMu7.clear();
-    MuonPhi_HLT_BPMu7.clear();
-    MuonPt_HLT_BPMu8.clear();
-    MuonEta_HLT_BPMu8.clear();
-    MuonPhi_HLT_BPMu8.clear();
-    MuonPt_HLT_BPMu8_IP6.clear();
-    MuonEta_HLT_BPMu8_IP6.clear();
-    MuonPhi_HLT_BPMu8_IP6.clear();
-    MuonPt_HLT_BPMu8_IP5.clear();
-    MuonEta_HLT_BPMu8_IP5.clear();
-    MuonPhi_HLT_BPMu8_IP5.clear();
-    MuonPt_HLT_BPMu9_IP0.clear();
-    MuonEta_HLT_BPMu9_IP0.clear();
-    MuonPhi_HLT_BPMu9_IP0.clear();
-    MuonPt_HLT_BPMu9_IP3.clear();
-    MuonEta_HLT_BPMu9_IP3.clear();
-    MuonPhi_HLT_BPMu9_IP3.clear();
-    MuonPt_HLT_BPMu9_IP4.clear();
-    MuonEta_HLT_BPMu9_IP4.clear();
-    MuonPhi_HLT_BPMu9_IP4.clear();
-    MuonPt_HLT_BPMu9_IP5.clear();
-    MuonEta_HLT_BPMu9_IP5.clear();
-    MuonPhi_HLT_BPMu9_IP5.clear();
-    MuonPt_HLT_BPMu9_IP6.clear();
-    MuonEta_HLT_BPMu9_IP6.clear();
-    MuonPhi_HLT_BPMu9_IP6.clear();
-    MuonPt_HLT_BPMu12_IP6.clear();
-    MuonEta_HLT_BPMu12_IP6.clear();
-    MuonPhi_HLT_BPMu12_IP6.clear();
     
     DistXY_PVSV.clear();
     DistXY_significance_PVSV.clear();
