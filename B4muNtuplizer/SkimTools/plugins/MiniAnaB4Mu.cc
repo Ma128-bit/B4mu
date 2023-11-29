@@ -506,7 +506,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     reco::BeamSpot beamSpot;
     edm::Handle<reco::BeamSpot> beamSpotHandle;
     iEvent.getByToken(token_BeamSpot, beamSpotHandle);
-    const reco::BeamSpot& beamspot = *beamSpotHandle.product();
+    //const reco::BeamSpot& beamspot = *beamSpotHandle.product();
     double x_bs = 0.0;
     double y_bs = 0.0;
     double z_bs = 0.0;
