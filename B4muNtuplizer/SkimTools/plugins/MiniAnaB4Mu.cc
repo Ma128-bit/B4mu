@@ -170,7 +170,6 @@ private:
     bool is2016;
     bool is2017;
     bool is2018;
-    bool isBParking;
     //edm::EDGetTokenT<edm::TriggerResults> trigResultsToken;
     //edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> trigObjCollToken;
     //const TransientTrackBuilder* theTransientTrackBuilder_;
@@ -308,7 +307,6 @@ MiniAnaB4Mu::MiniAnaB4Mu(const edm::ParameterSet& iConfig){
     is2016 = iConfig.getUntrackedParameter<bool>("is2016Label");
     is2017 = iConfig.getUntrackedParameter<bool>("is2017Label");
     is2018 = iConfig.getUntrackedParameter<bool>("is2018Label");
-    isBParking = iConfig.getUntrackedParameter<bool>("isBParkingLabel");
     muons_ = consumes<edm::View<pat::Muon> >  (iConfig.getParameter<edm::InputTag>("muonLabel"));
     photons_ = consumes<edm::View<pat::Photon> >  (iConfig.getParameter<edm::InputTag>("photonLabel"));
     vertex_ = consumes<edm::View<reco::Vertex> > (iConfig.getParameter<edm::InputTag>("VertexLabel"));
@@ -639,38 +637,6 @@ for (pat::TriggerObjectStandAlone obj : *triggerObjects) { // note: not "const &
             TriggerObj_DimuonIncl_displ.push_back(obj);
         }
         
-        if(isBParking){
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8Q"){
-                MuonsObjects_BPMu8.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered7IP4Q"){
-                MuonsObjects_BPMu7.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8IP6Q"){
-                MuonsObjects_BPMu8_IP6.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered8IP5Q"){
-                MuonsObjects_BPMu8_IP5.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP0Q"){
-                MuonsObjects_BPMu9_IP0.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP3Q"){
-                MuonsObjects_BPMu9_IP3.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP4Q"){
-                MuonsObjects_BPMu9_IP4.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9IP5Q"){
-                MuonsObjects_BPMu9_IP5.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered9Q"){
-                MuonsObjects_BPMu9_IP6.push_back(obj);
-            }
-            if(obj.filterLabels()[h]=="hltL3fL1sMu22OrParkL1f0L2f10QL3Filtered12Q"){
-                MuonsObjects_BPMu12_IP6.push_back(obj);
-            }
-        }//isBParking
     }//loop on filterLabels
 }
 
@@ -699,58 +665,6 @@ for(uint t=0; t<TriggerObj_DsTau3Mu2017.size();t++){
     }
     //
 
-if(isBParking){
-    for(uint t=0; t<MuonsObjects_BPMu8.size();t++){
-        MuonPt_HLT_BPMu8.push_back(MuonsObjects_BPMu8.at(t).pt());
-        MuonEta_HLT_BPMu8.push_back(MuonsObjects_BPMu8.at(t).eta());
-        MuonPhi_HLT_BPMu8.push_back(MuonsObjects_BPMu8.at(t).phi());
-    }
-    for(uint t=0; t<MuonsObjects_BPMu7.size();t++){
-        MuonPt_HLT_BPMu7.push_back(MuonsObjects_BPMu7.at(t).pt());
-        MuonEta_HLT_BPMu7.push_back(MuonsObjects_BPMu7.at(t).eta());
-        MuonPhi_HLT_BPMu7.push_back(MuonsObjects_BPMu7.at(t).phi());
-    }
-    for(uint t=0; t<MuonsObjects_BPMu8_IP6.size();t++){
-        MuonPt_HLT_BPMu8_IP6.push_back(MuonsObjects_BPMu8_IP6.at(t).pt());
-        MuonEta_HLT_BPMu8_IP6.push_back(MuonsObjects_BPMu8_IP6.at(t).eta());
-        MuonPhi_HLT_BPMu8_IP6.push_back(MuonsObjects_BPMu8_IP6.at(t).phi());
-    }
-    for(uint t=0; t<MuonsObjects_BPMu8_IP5.size();t++){
-        MuonPt_HLT_BPMu8_IP5.push_back(MuonsObjects_BPMu8_IP5.at(t).pt());
-        MuonEta_HLT_BPMu8_IP5.push_back(MuonsObjects_BPMu8_IP5.at(t).eta());
-        MuonPhi_HLT_BPMu8_IP5.push_back(MuonsObjects_BPMu8_IP5.at(t).phi());
-    }
-    for(uint t=0; t<MuonsObjects_BPMu9_IP0.size();t++){
-        MuonPt_HLT_BPMu9_IP0.push_back(MuonsObjects_BPMu9_IP0.at(t).pt());
-        MuonEta_HLT_BPMu9_IP0.push_back(MuonsObjects_BPMu9_IP0.at(t).eta());
-        MuonPhi_HLT_BPMu9_IP0.push_back(MuonsObjects_BPMu9_IP0.at(t).phi());
-    }
-    for(uint t=0; t< MuonsObjects_BPMu9_IP3.size();t++){
-        MuonPt_HLT_BPMu9_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).pt());
-        MuonEta_HLT_BPMu9_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).eta());
-        MuonPhi_HLT_BPMu9_IP3.push_back(MuonsObjects_BPMu9_IP3.at(t).phi());
-    }
-    for(uint t=0; t< MuonsObjects_BPMu9_IP4.size();t++){
-        MuonPt_HLT_BPMu9_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).pt());
-        MuonEta_HLT_BPMu9_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).eta());
-        MuonPhi_HLT_BPMu9_IP4.push_back(MuonsObjects_BPMu9_IP4.at(t).phi());
-    }
-    for(uint t=0; t< MuonsObjects_BPMu9_IP5.size();t++){
-        MuonPt_HLT_BPMu9_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).pt());
-        MuonEta_HLT_BPMu9_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).eta());
-        MuonPhi_HLT_BPMu9_IP5.push_back(MuonsObjects_BPMu9_IP5.at(t).phi());
-    }
-    for(uint t=0; t< MuonsObjects_BPMu9_IP6.size();t++){
-        MuonPt_HLT_BPMu9_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).pt());
-        MuonEta_HLT_BPMu9_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).eta());
-        MuonPhi_HLT_BPMu9_IP6.push_back(MuonsObjects_BPMu9_IP6.at(t).phi());
-    }
-    for(uint t=0; t< MuonsObjects_BPMu12_IP6.size();t++){
-        MuonPt_HLT_BPMu12_IP6.push_back(MuonsObjects_BPMu12_IP6.at(t).pt());
-        MuonEta_HLT_BPMu12_IP6.push_back(MuonsObjects_BPMu12_IP6.at(t).eta());
-        MuonPhi_HLT_BPMu12_IP6.push_back(MuonsObjects_BPMu12_IP6.at(t).phi());
-    }
-}//isBParking
 
 ///////////////Fill Genparticles ///////////////
 if(isMc){
@@ -1127,50 +1041,6 @@ if(isAna){
                     Mu2_dRtriggerMatch.push_back(dR2);
                     Mu3_dRtriggerMatch.push_back(dR3);
 		    Mu4_dRtriggerMatch.push_back(dR4);
-
-                    if( isBParking){
-                        dR1_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8);
-                        dR2_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu8);
-                        dR3_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu8);
-                        dR4_Mu8 = MiniAnaB4Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu8);
-                        Mu1_dRtriggerMatch_Mu8.push_back(dR1_Mu8);
-                        Mu2_dRtriggerMatch_Mu8.push_back(dR2_Mu8);
-                        Mu3_dRtriggerMatch_Mu8.push_back(dR3_Mu8);
-			Mu4_dRtriggerMatch_Mu8.push_back(dR4_Mu8);
-
-                        dR1_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu7);
-                        dR2_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu2, MuonsObjects_BPMu7);
-                        dR3_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu3, MuonsObjects_BPMu7);
-			dR4_Mu7 = MiniAnaB4Mu::dRtriggerMatch(*mu4, MuonsObjects_BPMu7);
-                        Mu1_dRtriggerMatch_Mu7.push_back(dR1_Mu7);
-                        Mu2_dRtriggerMatch_Mu7.push_back(dR2_Mu7);
-                        Mu3_dRtriggerMatch_Mu7.push_back(dR3_Mu7);
-			Mu4_dRtriggerMatch_Mu7.push_back(dR4_Mu7);
-
-                        dR1_Mu8_IP5 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP5);
-                        Mu1_dRtriggerMatch_Mu8_IP5.push_back(dR1_Mu8_IP5);
-
-                        dR1_Mu8_IP6 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu8_IP6);
-                        Mu1_dRtriggerMatch_Mu8_IP6.push_back(dR1_Mu8_IP6);
-
-                        dR1_Mu9_IP0 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP0);
-                        Mu1_dRtriggerMatch_Mu9_IP0.push_back(dR1_Mu9_IP0);
-
-                        dR1_Mu9_IP3 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP3);
-                        Mu1_dRtriggerMatch_Mu9_IP3.push_back(dR1_Mu9_IP3);
-
-                        dR1_Mu9_IP4 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP4);
-                        Mu1_dRtriggerMatch_Mu9_IP4.push_back(dR1_Mu9_IP4);
-
-                        dR1_Mu9_IP5 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP5);
-                        Mu1_dRtriggerMatch_Mu9_IP5.push_back(dR1_Mu9_IP5);
-
-                        dR1_Mu9_IP6 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu9_IP6);
-                        Mu1_dRtriggerMatch_Mu9_IP6.push_back(dR1_Mu9_IP6);
-
-                        dR1_Mu12_IP6 = MiniAnaB4Mu::dRtriggerMatch(*mu1, MuonsObjects_BPMu12_IP6);
-                        Mu1_dRtriggerMatch_Mu12_IP6.push_back(dR1_Mu12_IP6);
-                    }//isBParking
 
                     ///////////////Check GEN matching and Fill SimInfo///////////////
                     if(isMc){
@@ -2964,39 +2834,6 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("FlightDistBS_SV", &FlightDistBS_SV);
     tree_->Branch("FlightDistBS_SV_Err", &FlightDistBS_SV_Err);
     tree_->Branch("FlightDistBS_SV_Significance", &FlightDistBS_SV_Significance);
-
-    if(isBParking){
-        tree_->Branch("MuonPt_HLT_BPMu7", &MuonPt_HLT_BPMu7);
-        tree_->Branch("MuonEta_HLT_BPMu7", &MuonEta_HLT_BPMu7);
-        tree_->Branch("MuonPhi_HLT_BPMu7", &MuonPhi_HLT_BPMu7);
-        tree_->Branch("MuonPt_HLT_BPMu8", &MuonPt_HLT_BPMu8);
-        tree_->Branch("MuonEta_HLT_BPMu8", &MuonEta_HLT_BPMu8);
-        tree_->Branch("MuonPhi_HLT_BPMu8", &MuonPhi_HLT_BPMu8);
-        tree_->Branch("MuonPt_HLT_BPMu8_IP6", &MuonPt_HLT_BPMu8_IP6);
-        tree_->Branch("MuonEta_HLT_BPMu8_IP6", &MuonEta_HLT_BPMu8_IP6);
-        tree_->Branch("MuonPhi_HLT_BPMu8_IP6", & MuonPhi_HLT_BPMu8_IP6);
-        tree_->Branch("MuonPt_HLT_BPMu8_IP5", &MuonPt_HLT_BPMu8_IP5);
-        tree_->Branch("MuonEta_HLT_BPMu8_IP5", &MuonEta_HLT_BPMu8_IP5);
-        tree_->Branch("MuonPhi_HLT_BPMu8_IP5", &MuonPhi_HLT_BPMu8_IP5);
-        tree_->Branch("MuonPt_HLT_BPMu9_IP0", &MuonPt_HLT_BPMu9_IP0);
-        tree_->Branch("MuonEta_HLT_BPMu9_IP0", &MuonEta_HLT_BPMu9_IP0);
-        tree_->Branch("MuonPhi_HLT_BPMu9_IP0", &MuonPhi_HLT_BPMu9_IP0);
-        tree_->Branch("MuonPt_HLT_BPMu9_IP3", &MuonPt_HLT_BPMu9_IP3);
-        tree_->Branch("MuonEta_HLT_BPMu9_IP3", &MuonEta_HLT_BPMu9_IP3);
-        tree_->Branch("MuonPhi_HLT_BPMu9_IP3", &MuonPhi_HLT_BPMu9_IP3);
-        tree_->Branch("MuonPt_HLT_BPMu9_IP4", &MuonPt_HLT_BPMu9_IP4);
-        tree_->Branch("MuonEta_HLT_BPMu9_IP4", &MuonEta_HLT_BPMu9_IP4);
-        tree_->Branch("MuonPhi_HLT_BPMu9_IP4", &MuonPhi_HLT_BPMu9_IP4);
-        tree_->Branch("MuonPt_HLT_BPMu9_IP5", &MuonPt_HLT_BPMu9_IP5);
-        tree_->Branch("MuonEta_HLT_BPMu9_IP5", &MuonEta_HLT_BPMu9_IP5);
-        tree_->Branch("MuonPhi_HLT_BPMu9_IP5", &MuonPhi_HLT_BPMu9_IP5);
-        tree_->Branch("MuonPt_HLT_BPMu9_IP6", &MuonPt_HLT_BPMu9_IP6);
-        tree_->Branch("MuonEta_HLT_BPMu9_IP6", &MuonEta_HLT_BPMu9_IP6);
-        tree_->Branch("MuonPhi_HLT_BPMu9_IP6", &MuonPhi_HLT_BPMu9_IP6);
-        tree_->Branch("MuonPt_HLT_BPMu12_IP6", &MuonPt_HLT_BPMu12_IP6);
-        tree_->Branch("MuonEta_HLT_BPMu12_IP6", &MuonEta_HLT_BPMu12_IP6);
-        tree_->Branch("MuonPhi_HLT_BPMu12_IP6", &MuonPhi_HLT_BPMu12_IP6);
-    }//isBParking
     
     tree_->Branch("L1Muon_Pt", &L1Muon_Pt);
     tree_->Branch("L1Muon_Eta", &L1Muon_Eta);
