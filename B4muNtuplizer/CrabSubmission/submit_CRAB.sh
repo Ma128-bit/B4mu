@@ -112,7 +112,7 @@ else
         sed -i "s#ERANAME#${era}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        sed -i "s#INPUT_TYPE#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
+        sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${j}.py"
         echo "crab submit -c ${year}_${era}/CRAB_MC_${j}.py"
         ((j++))
         sleep 2
