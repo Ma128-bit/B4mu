@@ -26,49 +26,41 @@ declare -a Post_E_MC22=("/Bd4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_r
 if [ "${year}" == "2022" ]; then
     case "$era" in
       C)
-        echo "Era C."
         Data_ID=("${C_2022[@]}")
         globaltag="124X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraC_355862_357482_Golden.json"
         ;;
       D-v1)
-        echo "Era D-v1."
         Data_ID=("${D_v1_2022[@]}")
         globaltag="124X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
         ;;
       D-v2)
-        echo "Era D-v2."
         Data_ID=("${D_v2_2022[@]}")
         globaltag="124X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
         ;;
       E)
-        echo "Era E."
         Data_ID=("${E_2022[@]}")
         globaltag="124X_dataRun3_Prompt_v10"
         golden_json="Collisions22/Cert_Collisions2022_eraE_359022_360331_Golden.json"
         ;;
       F)
-        echo "Era F."
         Data_ID=("${F_2022[@]}")
         globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraF_360390_362167_Golden.json"
         ;;
       G)
-        echo "Era G."
         Data_ID=("${G_2022[@]}")
         globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
         ;;
       MC_pre)
-        echo "${era}."
         globaltag="130X_mcRun3_2022_realistic_v5"
         datasets=("${Pre_E_MC22[@]}")
         input_type="global"
         ;;
       MC_post)
-        echo "${era}."
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
         datasets=("${Post_E_MC22[@]}")
         input_type="phys03"
@@ -82,7 +74,7 @@ fi
 
 if [[ "$era" != *"MC"* ]]; then
     mkdir -p "${year}_era${era}"
-    echo "Data is selected"
+    echo "Data ${year} - era ${era} is selected"
     path="${directory}/${year}_era${era}/PatAndTree_cfg.py"
     cp "${path_to_skim_file}/run_Data2022_PatAndTree_cfg.py" "$path"
     sed -i "s#124X_dataRun3_v14#${globaltag}#g" "${year}_era${era}/PatAndTree_cfg.py"
@@ -100,7 +92,7 @@ if [[ "$era" != *"MC"* ]]; then
     done
 else
     mkdir -p "${year}_${era}"
-    echo "MC is selected"
+    echo "${era} - ${year} is selected"
     path="${directory}/${year}_${era}/PatAndTree_cfg.py"
     cp "${path_to_skim_file}/run_MC2022_PatAndTree_cfg.py" "$path"
     sed -i "s#130X_mcRun3_2022_realistic_postEE_v6#${globaltag}#g" "${year}_${era}/PatAndTree_cfg.py"
