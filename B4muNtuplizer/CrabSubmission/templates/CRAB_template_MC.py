@@ -1,7 +1,7 @@
 from CRABClient.UserUtilities import config, getUsername
 config = config()
 
-config.General.requestName = 'SkimB4Mu_YEAR_ERANAME_Mini'
+config.General.requestName = 'SkimB4Mu_YEAR_ERANAME_B_TYPE_Mini'
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
 config.General.transferLogs = False
