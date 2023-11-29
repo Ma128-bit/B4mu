@@ -22,6 +22,7 @@ declare -a F_2022=("Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22S
 declare -a G_2022=("Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v2" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1")
 declare -a Pre_E_MC22=("Dataset_prova1" "Dataset_prova2")
 declare -a Post_E_MC22=("/Bd4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER" "/Bs4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bs4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER")
+declare -a bType=("Bd" "Bs")
 
 if [ "${year}" == "2022" ]; then
     case "$era" in
@@ -100,13 +101,14 @@ else
     sed -i "s#130X_mcRun3_2022_realistic_postEE_v6#${globaltag}#g" "${year}_${era}/PatAndTree_cfg.py"
     j=0
     for i in "${datasets[@]}"; do
-        cp templates/CRAB_template_MC.py "${year}_${era}/CRAB_MC_${j}.py"
-        sed -i "s#YEAR#${year}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        sed -i "s#ERANAME#${era}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        crab submit -c "${year}_${era}/CRAB_MC_${j}.py"
+        cp templates/CRAB_template_MC.py "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        sed -i "s#YEAR#${year}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        sed -i "s#ERANAME#${era}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        sed -i "s#B_TYPE#${bType[${j}]}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        crab submit -c "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
         echo "${era} - $j submitted!"
         ((j++))
         sleep 2
