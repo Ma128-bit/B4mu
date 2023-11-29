@@ -71,7 +71,7 @@ process.B4MuSkim = cms.Path(process.FourMuonSelSeq*
                               process.unpackedPatTrigger*
                               process.TreeMakerBkg
                      )
-
+"""
 process.out = cms.OutputModule("PoolOutputModule",
                                fileName = cms.untracked.string("fileMINIADOSIM.root"),
                                SelectEvents = cms.untracked.PSet(SelectEvents = cms.vstring('B4MuSkim')),
@@ -102,5 +102,5 @@ process.out = cms.OutputModule("PoolOutputModule",
 
 
 process.outpath = cms.EndPath(process.out) 
-
+"""
 
