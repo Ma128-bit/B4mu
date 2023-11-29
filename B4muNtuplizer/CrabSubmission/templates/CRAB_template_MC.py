@@ -11,7 +11,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'FILE_TO_SUBMIT_PATH'
 
 config.Data.inputDataset = 'MC_DATASET'
-config.Data.inputDBS = 'global'
+config.Data.inputDBS = 'INPUT_TYPE'
 config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 50
 #config.Data.publication = True
