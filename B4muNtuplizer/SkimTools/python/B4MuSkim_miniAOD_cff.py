@@ -101,7 +101,7 @@ PlotsAfterBCandSel = cms.EDAnalyzer('RecoMuonAnalyzer',
 
 
 FourMuonSelSeq = cms.Sequence(InitialPlots *
-                               #B4MuHLTFilter *
+                               B4MuHLTFilter *
                                #PatMuons *
                                PlotsAfterTrigger *
                                looseMuons *
