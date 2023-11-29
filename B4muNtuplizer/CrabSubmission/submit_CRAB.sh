@@ -2,7 +2,7 @@
 
 if [ $# -ne 2 ]; then
   echo "Usage: $0 <era> <year>"
-  exit 1
+  return
 fi
 
 era=$1
