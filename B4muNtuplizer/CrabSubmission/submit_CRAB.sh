@@ -88,7 +88,7 @@ if [[ "$era" != *"MC"* ]]; then
         sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAB_stream_${i}.py"
-        crab submit -c ${year}_era${era}/CRAB_stream_${i}.py
+        crab submit -c "${year}_era${era}/CRAB_stream_${i}.py"
         echo "Stream $i submitted!"
         sleep 2
     done
@@ -106,7 +106,7 @@ else
         sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        crab submit -c ${year}_${era}/CRAB_MC_${j}.py
+        crab submit -c "${year}_${era}/CRAB_MC_${j}.py"
         echo "${era} - $j submitted!"
         ((j++))
         sleep 2
