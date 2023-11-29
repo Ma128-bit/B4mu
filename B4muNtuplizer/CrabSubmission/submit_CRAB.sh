@@ -72,6 +72,8 @@ if [ "${year}" == "2022" ]; then
     esac
 fi
 
+voms-proxy-init --valid 192:00 --voms cms
+
 if [[ "$era" != *"MC"* ]]; then
     mkdir -p "${year}_era${era}"
     echo "Data ${year} - era ${era} is selected"
@@ -104,7 +106,7 @@ else
         sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${j}.py"
-        echo "crab submit -c ${year}_${era}/CRAB_MC_${j}.py"
+        crab submit -c ${year}_${era}/CRAB_MC_${j}.py
         echo "${era} - $j submitted!"
         ((j++))
         sleep 2
