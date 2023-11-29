@@ -79,7 +79,6 @@ if [[ "$era" != *"MC"* ]]; then
     cp "${path_to_skim_file}/run_Data2022_PatAndTree_cfg.py" "$path"
     sed -i "s#124X_dataRun3_v14#${globaltag}#g" "${year}_era${era}/PatAndTree_cfg.py"
     for i in {0..7}; do
-        echo "Stream $i"
         cp templates/CRAB_template.py "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#YEAR#${year}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#ERANAME#${era}#g" "${year}_era${era}/CRAB_stream_${i}.py"
@@ -88,6 +87,7 @@ if [[ "$era" != *"MC"* ]]; then
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         echo "crab submit -c ${year}_era${era}/CRAB_stream_${i}.py"
+        echo "Stream $i submitted!"
         sleep 2
     done
 else
@@ -98,7 +98,6 @@ else
     sed -i "s#130X_mcRun3_2022_realistic_postEE_v6#${globaltag}#g" "${year}_${era}/PatAndTree_cfg.py"
     j=0
     for i in "${datasets[@]}"; do
-        echo "MC $j"
         cp templates/CRAB_template_MC.py "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#YEAR#${year}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#ERANAME#${era}#g" "${year}_${era}/CRAB_MC_${j}.py"
@@ -106,6 +105,7 @@ else
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${j}.py"
         sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${j}.py"
         echo "crab submit -c ${year}_${era}/CRAB_MC_${j}.py"
+        echo "${era} - $j submitted!"
         ((j++))
         sleep 2
     done
