@@ -82,6 +82,7 @@ fi
 
 if [[ "$era" != *"MC"* ]]; then
     mkdir -p "${year}_era${era}"
+    echo "Data is selected"
     path="${directory}/${year}_era${era}/PatAndTree_cfg.py"
     cp "${path_to_skim_file}/run_Data2022_PatAndTree_cfg.py" "$path"
     sed -i "s#124X_dataRun3_v14#${globaltag}#g" "${year}_era${era}/PatAndTree_cfg.py"
@@ -99,7 +100,7 @@ if [[ "$era" != *"MC"* ]]; then
     done
 else
     mkdir -p "${year}_${era}"
-    echo "\${era} contiene 'MC_'."
+    echo "MC is selected"
     path="${directory}/${year}_${era}/PatAndTree_cfg.py"
     cp "${path_to_skim_file}/run_MC2022_PatAndTree_cfg.py" "$path"
     sed -i "s#130X_mcRun3_2022_realistic_postEE_v6#${globaltag}#g" "${year}_${era}/PatAndTree_cfg.py"
