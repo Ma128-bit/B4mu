@@ -127,6 +127,11 @@ if [[ "$era" != *"MC"* ]]; then
     path="${directory}/${year}_era${era}/PatAndTree_cfg.py"
     cp "${path_to_skim_file}/run_Data2022_PatAndTree_cfg.py" "$path"
     sed -i "s#124X_dataRun3_v14#${globaltag}#g" "${year}_era${era}/PatAndTree_cfg.py"
+    cp templates/report.sh "${year}_era${era}/report.sh"
+    cp templates/status.sh "${year}_era${era}/status.sh"
+    sed -i "s#YEAR#${year}#g" "${year}_era${era}/*.sh"
+    sed -i "s#ERANAME#${era}#g" "${year}_era${era}/*.sh"
+    cp templates/submit.sh "${year}_era${era}/submit.sh"
     for i in {0..7}; do
         cp templates/CRAB_template.py "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#YEAR#${year}#g" "${year}_era${era}/CRAB_stream_${i}.py"
