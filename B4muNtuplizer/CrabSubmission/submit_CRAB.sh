@@ -80,7 +80,7 @@ if [ "${year}" == "2022" ]; then
         ;;
     esac
 fi
-if [ "${year}" == "2022" ]; then
+if [ "${year}" == "2023" ]; then
     case "$era" in
       C-v1)
         Data_ID=("${C_v1_2023[@]}")
