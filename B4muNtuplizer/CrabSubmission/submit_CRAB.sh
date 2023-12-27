@@ -119,8 +119,7 @@ if [ "${year}" == "2023" ]; then
     esac
 fi
 
-#voms-proxy-init --valid 192:00 --voms cms
-echo "golden_json : $golden_json"
+voms-proxy-init --valid 192:00 --voms cms
 echo "golden_json : $golden_json"
 
 if [[ "$era" != *"MC"* ]]; then
