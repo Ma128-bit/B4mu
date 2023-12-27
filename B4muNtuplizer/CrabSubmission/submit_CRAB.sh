@@ -129,8 +129,10 @@ if [[ "$era" != *"MC"* ]]; then
     sed -i "s#124X_dataRun3_v14#${globaltag}#g" "${year}_era${era}/PatAndTree_cfg.py"
     cp templates/report.sh "${year}_era${era}/report.sh"
     cp templates/status.sh "${year}_era${era}/status.sh"
-    sed -i "s#YEAR#${year}#g" "${year}_era${era}/*.sh"
-    sed -i "s#ERANAME#${era}#g" "${year}_era${era}/*.sh"
+    cd "${year}_era${era}"
+    sed -i "s#YEAR#${year}#g" *.sh
+    sed -i "s#ERANAME#${era}#g" *.sh
+    cd ..
     cp templates/submit.sh "${year}_era${era}/submit.sh"
     for i in {0..7}; do
         cp templates/CRAB_template.py "${year}_era${era}/CRAB_stream_${i}.py"
