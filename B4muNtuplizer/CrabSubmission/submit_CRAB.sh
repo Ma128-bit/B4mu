@@ -20,6 +20,14 @@ declare -a D_v2_2022=("Run2022D-PromptReco-v2" "Run2022D-PromptReco-v2" "Run2022
 declare -a E_2022=("Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1")
 declare -a F_2022=("Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1")
 declare -a G_2022=("Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v2" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1")
+
+declare -a C_v1_2023=("Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v2" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1")
+declare -a C_v2_2023=("Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1")
+declare -a C_v3_2023=("Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1")
+declare -a C_v4_2023=("Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v2" "Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1")
+declare -a D_v1_2023=("Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1")
+declare -a D_v2_2023=("Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v2" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1")
+
 declare -a Pre_E_MC22=("Dataset_prova1" "Dataset_prova2")
 declare -a Post_E_MC22=("/Bd4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER" "/Bs4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bs4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER")
 declare -a bType=("Bd" "Bs")
@@ -65,6 +73,44 @@ if [ "${year}" == "2022" ]; then
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
         datasets=("${Post_E_MC22[@]}")
         input_type="phys03"
+        ;;
+      *)
+        echo "Error: The era is incorrect."
+        exit 1
+        ;;
+    esac
+fi
+if [ "${year}" == "2022" ]; then
+    case "$era" in
+      C-v1)
+        Data_ID=("${C_v1_2023[@]}")
+        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraC_355862_357482_Golden.json"
+        ;;
+      C-v2)
+        Data_ID=("${C_v2_2023[@]}")
+        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
+        ;;
+      C-v3)
+        Data_ID=("${C_v3_2023[@]}")
+        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
+        ;;
+      C-v4)
+        Data_ID=("${C_v4_2023[@]}")
+        globaltag="124X_dataRun3_Prompt_v10"
+        golden_json="Collisions22/Cert_Collisions2022_eraE_359022_360331_Golden.json"
+        ;;
+      D-v1)
+        Data_ID=("${D_v1_2023[@]}")
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraF_360390_362167_Golden.json"
+        ;;
+      D-v2)
+        Data_ID=("${D_v2_2023[@]}")
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
         ;;
       *)
         echo "Error: The era is incorrect."
