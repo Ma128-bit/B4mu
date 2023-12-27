@@ -140,7 +140,7 @@ if [[ "$era" != *"MC"* ]]; then
         sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAB_stream_${i}.py"
-        crab submit -c "${year}_era${era}/CRAB_stream_${i}.py"
+        #crab submit -c "${year}_era${era}/CRAB_stream_${i}.py"
         echo "Stream $i submitted!"
         sleep 2
     done
