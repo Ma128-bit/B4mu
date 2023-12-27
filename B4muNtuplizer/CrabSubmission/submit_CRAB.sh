@@ -85,32 +85,32 @@ if [ "${year}" == "2023" ]; then
       C-v1)
         Data_ID=("${C_v1_2023[@]}")
         globaltag="124X_dataRun3_PromptAnalysis_v1"
-        golden_json="Collisions22/Cert_Collisions2022_eraC_355862_357482_Golden.json"
+        golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       C-v2)
         Data_ID=("${C_v2_2023[@]}")
         globaltag="124X_dataRun3_PromptAnalysis_v1"
-        golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
+        golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       C-v3)
         Data_ID=("${C_v3_2023[@]}")
         globaltag="124X_dataRun3_PromptAnalysis_v1"
-        golden_json="Collisions22/Cert_Collisions2022_eraD_357538_357900_Golden.json"
+        golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       C-v4)
         Data_ID=("${C_v4_2023[@]}")
         globaltag="124X_dataRun3_Prompt_v10"
-        golden_json="Collisions22/Cert_Collisions2022_eraE_359022_360331_Golden.json"
+        golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       D-v1)
         Data_ID=("${D_v1_2023[@]}")
         globaltag="130X_dataRun3_PromptAnalysis_v1"
-        golden_json="Collisions22/Cert_Collisions2022_eraF_360390_362167_Golden.json"
+        golden_json="Collisions23/Cert_Collisions2023_eraD_369803_370790_Golden.json"
         ;;
       D-v2)
         Data_ID=("${D_v2_2023[@]}")
         globaltag="130X_dataRun3_PromptAnalysis_v1"
-        golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
+        golden_json="Collisions23/Cert_Collisions2023_eraD_369803_370790_Golden.json"
         ;;
       *)
         echo "Error: The era is incorrect."
