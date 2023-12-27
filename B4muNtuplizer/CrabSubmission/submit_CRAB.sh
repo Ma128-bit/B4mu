@@ -84,22 +84,22 @@ if [ "${year}" == "2023" ]; then
     case "$era" in
       C-v1)
         Data_ID=("${C_v1_2023[@]}")
-        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       C-v2)
         Data_ID=("${C_v2_2023[@]}")
-        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       C-v3)
         Data_ID=("${C_v3_2023[@]}")
-        globaltag="124X_dataRun3_PromptAnalysis_v1"
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       C-v4)
         Data_ID=("${C_v4_2023[@]}")
-        globaltag="124X_dataRun3_Prompt_v10"
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions23/Cert_Collisions2023_eraC_367095_368823_Golden.json"
         ;;
       D-v1)
