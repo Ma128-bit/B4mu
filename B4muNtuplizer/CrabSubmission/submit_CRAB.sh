@@ -129,6 +129,7 @@ if [[ "$era" != *"MC"* ]]; then
     sed -i "s#124X_dataRun3_v14#${globaltag}#g" "${year}_era${era}/PatAndTree_cfg.py"
     cp templates/report.sh "${year}_era${era}/report.sh"
     cp templates/status.sh "${year}_era${era}/status.sh"
+    cp templates/resubmit.sh "${year}_era${era}/resubmit.sh"
     cd "${year}_era${era}"
     sed -i "s#YEAR#${year}#g" *.sh
     sed -i "s#ERANAME#${era}#g" *.sh
