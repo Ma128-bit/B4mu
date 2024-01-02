@@ -352,4 +352,5 @@ bool BsJPsiPhi(double m1, double m2){
     double mass_phi = 1.019;
     double mass_jpsi = 3.096.;
     if (std::abs(mass_phi-mass[0])<2*sigma_phi && std::abs(mass_jpsi-mass[1])<2*sigma_jpsi) return true;
+    else return false;
 }
