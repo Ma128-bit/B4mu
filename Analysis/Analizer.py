@@ -119,6 +119,3 @@ if __name__ == "__main__":
     end = time.time()
     print('Partial execution time ', end-start_2)
     print('Total execution time ', end-start)
-
-
-
