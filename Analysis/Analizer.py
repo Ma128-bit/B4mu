@@ -53,6 +53,7 @@ if __name__ == "__main__":
     
     file_root = list_of_root_files(directory)
     selected_files = select_root_files(file_root, index , delta)
+    selected_files = sorted(selected_files)
     
     print(selected_files)
     
