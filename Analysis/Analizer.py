@@ -1,13 +1,6 @@
-import sys, os, subprocess, json
-import time
+import sys, os, time
 start = time.time()
-import numpy as np
-import pandas as pd
-import uproot
-#import ROOT
-import pickle
 import argparse
-from tqdm import tqdm
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter
 
 gROOT.SetBatch(True)
