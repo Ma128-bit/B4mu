@@ -333,7 +333,7 @@ struct flat2D{
     int i;
     int j;
     flat2D(int ii, int jj) : i(ii), j(jj)  {}
-    float operator()(std::pair<std::vector<double>, std::vector<double>> branch) {
+    double operator()(std::pair<std::vector<double>, std::vector<double>> branch) {
         if(i==0){
             return (branch.first)[j];
         }
