@@ -110,6 +110,12 @@ if __name__ == "__main__":
             branches.append(name_chi2)
             df = df.Define(name_mass, ROOT.flat2D(i, j), ["Dimuon_mass"])
             df = df.Define(name_chi2, ROOT.flat2D(i, j), ["Dimuon_chi2"])
+
+    branches.append("BsJPsiPhi_sel_OS1")
+    branches.append("BsJPsiPhi_sel_OS2")
+    
+    df = df.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2)")
+    df = df.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2)")
     
     if not output_dir.endswith("/"):
         output_dir= output_dir + "/"
