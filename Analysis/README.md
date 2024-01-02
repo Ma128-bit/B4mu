@@ -1,6 +1,6 @@
 # Analysis code for the B&rarr;4mu search at Run 3
 
-## Run analysis on a specific subset of date with
+## Run analysis on a specific subset of data
 
 ```
 python3 Analizer.py --index [ID] --delta [Delta] --directory_IN [Input_dir] --directory_OUT [Output_dir]
