@@ -48,8 +48,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     index = args.index
     delta = args.delta
-    directory = args.directory
-    output_dir = args.output_dir
+    directory = args.directory_IN
+    output_dir = args.directory_OUT
     
     file_root = list_of_root_files(directory)
     selected_files = select_root_files(file_root, index , delta)
