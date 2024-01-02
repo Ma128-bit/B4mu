@@ -17,6 +17,8 @@ gInterpreter.Declare("""
     #include "Utilities.h"
 """)
 
+from ROOT import flat2D
+
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
     return frame
@@ -108,8 +110,8 @@ if __name__ == "__main__":
             name_chi2 = "Dimu_OS"+str(i+1)+"_"+str(j+1)+"_chi2"
             branches.append(name_mass)
             branches.append(name_chi2)
-            df = df.Define(name_mass, ROOT.flat2D(i, j), ["Dimuon_mass"])
-            df = df.Define(name_chi2, ROOT.flat2D(i, j), ["Dimuon_chi2"])
+            df = df.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
+            df = df.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
 
     branches.append("BsJPsiPhi_sel_OS1")
     branches.append("BsJPsiPhi_sel_OS2")
