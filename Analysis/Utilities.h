@@ -108,7 +108,7 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
         //if(isGlobal<2 || isPF<2) continue;
         
         //Cut4 invariant mass
-        if(!(Quadruplet_Mass.at(j)>4.4 && Quadruplet_Mass.at(j)<6.4)) continue;
+        //if(!(Quadruplet_Mass.at(j)>4.4 && Quadruplet_Mass.at(j)<6.4)) continue;
         
         //Cut5 HLT Trigger Matching
         //Not yet implemented
