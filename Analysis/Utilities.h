@@ -343,3 +343,13 @@ struct flat2D{
         else return -1;
     }
 };
+
+bool BsJPsiPhi(double m1, double m2){
+    std::vector<double> mass = {m1, m2};
+    std::sort(mass.begin(), mass.end());
+    double sigma_phi = 0.033;
+    double sigma_jpsi = 0.054;
+    double mass_phi = 1.019;
+    double mass_jpsi = 3.096.;
+    if (std::abs(mass_phi-mass[0])<2*sigma_phi && std::abs(mass_jpsi-mass[1])<2*sigma_jpsi) return true;
+}
