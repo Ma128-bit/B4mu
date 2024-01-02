@@ -110,7 +110,7 @@ if __name__ == "__main__":
             df = df.Define(name_mass, ROOT.flat2D(i, j), ["Dimuon_mass"])
             df = df.Define(name_chi2, ROOT.flat2D(i, j), ["Dimuon_chi2"])
     
-    if !(output_dir.endswith("/")):
+    if not output_dir.endswith("/"):
         output_dir= output_dir + "/"
     
     df.Snapshot("FinalTree", output_dir + "Analyzed_Data_"+str(index)+".root", branches)
