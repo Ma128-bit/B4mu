@@ -4,16 +4,16 @@ start = time.time()
 import numpy as np
 import pandas as pd
 import uproot
-import ROOT
+#import ROOT
 import pickle
 import argparse
 from tqdm import tqdm
-from ROOT import RDataFrame
+from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter
 
-ROOT.gROOT.SetBatch(True)
-ROOT.ROOT.EnableImplicitMT()
+gROOT.SetBatch(True)
+EnableImplicitMT()
 
-ROOT.gInterpreter.Declare("""
+gInterpreter.Declare("""
     #include "Utilities.h"
 """)
 
