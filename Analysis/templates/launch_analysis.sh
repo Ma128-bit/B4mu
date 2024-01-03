@@ -2,7 +2,7 @@
 # Usage:
 #    prepare_condor.sh <index>
 
-helpstring=" Usage:
+helpstring="Usage:
 prepare_condor.sh [index] "
 index=$1
 
