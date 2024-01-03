@@ -13,5 +13,6 @@ if [ -z ${1+x} ]; then
 fi
 
 source /cvmfs/sft.cern.ch/lcg/views/dev3/latest/x86_64-centos7-gcc11-opt/setup.sh
+cd PATH
 python3 PATH/Analizer.py --index $index --delta DELTAVAL --directory_IN INPUT_DIR --directory_OUT OUTPUT_DIR
 
