@@ -124,8 +124,8 @@ if [[ "$era" != *"MC"* ]]; then
         cp templates/launch_analysis.sh "${home_directory}/${year}_era${era}/stream_${i}"
         #sed -i "s#PATH#${home_directory}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#[Delta]#${delta}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#[Input_dir]#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#[Output_dir]#${home_directory}/${year}_era${era}/stream_${i}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        #sed -i "s#[Input_dir]#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        #sed -i "s#[Output_dir]#${home_directory}/${year}_era${era}/stream_${i}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         chmod a+x "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sleep 2
     done
