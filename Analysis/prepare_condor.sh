@@ -3,7 +3,7 @@
 #    prepare_condor.sh <Era> <Year>
 
 helpstring="Usage:
-prepare_condor.sh [Era] [Year] "
+prepare_condor.sh [Era] [Year] [Delta]"
 era=$1
 year=$2
 delta=$3
@@ -129,6 +129,6 @@ if [[ "$era" != *"MC"* ]]; then
         chmod a+x "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sleep 2
     done
-else
+fi
 
 
