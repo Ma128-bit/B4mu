@@ -51,6 +51,9 @@ if __name__ == "__main__":
     selected_files = sorted(selected_files)
     
     print(selected_files)
+    if len(selected_files) == 0:
+        print("The vector is empty. End execution.")
+        exit()
     
     if directory.endswith("/"):
         selected_files = [directory + s for s in selected_files]
