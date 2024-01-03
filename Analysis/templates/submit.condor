@@ -1,4 +1,4 @@
-executable = PATH/launch_training.sh
+executable = PATH/launch_analysis.sh
 arguments = $(Process)
 output  = PATH/log/Job_$(Cluster)_$(Process).out
 error   = PATH/log/Job_$(Cluster)_$(Process).err
