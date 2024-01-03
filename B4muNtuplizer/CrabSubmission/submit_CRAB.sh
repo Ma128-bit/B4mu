@@ -76,11 +76,10 @@ if [ "${year}" == "2022" ]; then
         ;;
       *)
         echo "Error: The era is incorrect."
-        exit 1
+        return
         ;;
     esac
-fi
-if [ "${year}" == "2023" ]; then
+elif [ "${year}" == "2023" ]; then
     case "$era" in
       C-v1)
         Data_ID=("${C_v1_2023[@]}")
@@ -114,9 +113,12 @@ if [ "${year}" == "2023" ]; then
         ;;
       *)
         echo "Error: The era is incorrect."
-        exit 1
+        return
         ;;
     esac
+else
+    echo "Error: The year is incorrect."
+    return
 fi
 
 voms-proxy-init --valid 192:00 --voms cms
