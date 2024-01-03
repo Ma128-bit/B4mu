@@ -115,7 +115,7 @@ if [[ "$era" != *"MC"* ]]; then
             nfiles=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/000${j}/" | wc -l)
             tot=$((tot + nfiles))
         done
-        echo "nfiles=${tot}"
+        #echo "nfiles=${tot}"
         number_of_splits=$(((${tot} / ${delta}) + 1))
         echo "queue ${number_of_splits}" >> "${home_directory}/${year}_era${era}/stream_${i}/submit.condor"
         sed -i "s#PATH#${home_directory}/${year}_era${era}/stream_${i}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit.condor"
