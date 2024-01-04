@@ -91,12 +91,12 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
             continue;
         }
         
-        if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
+        //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
         double vz1 = Muon_vz.at(index.at(0));
         double vz2 = Muon_vz.at(index.at(1));
         double vz3 = Muon_vz.at(index.at(2));
         double vz4 = Muon_vz.at(index.at(3));
-        if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
+        //if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
 
         //Cut3 isGlobal and isPF
         int isGlobal=0;
@@ -105,7 +105,7 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
             isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
             isPF = isPF + Muon_isPF.at(index.at(k));
         }
-        //if(isGlobal<3 || isPF<3) continue;
+        if(isGlobal<3 || isPF<3) continue;
         
         //Cut4 invariant mass
         if(!(Quadruplet_Mass.at(j)>5.15 && Quadruplet_Mass.at(j)<5.55)) continue;
