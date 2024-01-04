@@ -105,7 +105,7 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
             isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
             isPF = isPF + Muon_isPF.at(index.at(k));
         }
-        if(isGlobal<3 || isPF<3) continue;
+        //if(isGlobal<3 || isPF<3) continue;
         
         //Cut4 invariant mass
         if(!(Quadruplet_Mass.at(j)>5.15 && Quadruplet_Mass.at(j)<5.55)) continue;
