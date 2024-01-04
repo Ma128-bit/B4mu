@@ -18,7 +18,7 @@ declare -a Era_2023=("C-v1" "C-v2" "C-v3" "C-v4" "D-v1" "D-v2")
 
 if [ "${year}" == "2022" ]; then
   eras=("${Era_2022[@]}")
-elif [ "${year}" == "2022" ]; then
+elif [ "${year}" == "2023" ]; then
   eras=("${Era_2023[@]}")
 else
   echo "Error: The year is incorrect."
