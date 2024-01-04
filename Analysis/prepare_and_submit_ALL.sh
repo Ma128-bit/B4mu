@@ -25,7 +25,6 @@ else
   echo "Error: The year is incorrect."
 fi
 
-echo "Data ${year} is selected"
 for e in "${eras[@]}"; do
     source prepare_condor.sh $e $year $delta
 done
