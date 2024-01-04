@@ -84,7 +84,7 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
         }
         
         //Cut2 FlightDistBS_SV_Significance, dR and dz
-        if(FlightDistBS_SV_Significance.at(j) < 2 ) continue;
+        //if(FlightDistBS_SV_Significance.at(j) < 2 ) continue;
         vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
         if(index.at(0)==-1){
             cout<<"Error in index\n";
@@ -105,7 +105,7 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
             isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
             isPF = isPF + Muon_isPF.at(index.at(k));
         }
-        if(isGlobal<3 || isPF<3) continue;
+        //if(isGlobal<3 || isPF<3) continue;
         
         //Cut4 invariant mass
         if(!(Quadruplet_Mass.at(j)>5.15 && Quadruplet_Mass.at(j)<5.55)) continue;
