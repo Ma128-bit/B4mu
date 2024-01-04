@@ -19,9 +19,7 @@ Example:`source prepare_and_submit_ALL.sh 2022 300`
 ```
 source prepare_condor.sh [era] [year] [delta]
 ```
-*  [era] is the era:
-  * C, D-v1, D-v2, E, F, G for 2022
-  * C-v1, C-v2, C-v3, C-v4, D-v1, D-v2 for 2023
+*  [era] is the era (`C, D-v1, D-v2, E, F, G` for 2022 `C-v1, C-v2, C-v3, C-v4, D-v1, D-v2` for 2023)
 *  [year] is the year (`2022` or `2023`);
 *  [Delta] is the number of input files per submission
 
