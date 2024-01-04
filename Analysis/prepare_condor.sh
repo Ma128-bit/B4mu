@@ -102,6 +102,7 @@ if [[ "$era" != *"MC"* ]]; then
         mkdir -p "${home_directory}/${year}_era${era}"
     fi
     echo "Data ${year} - era ${era} is selected"
+    echo ""
     for i in {0..7}; do
         if [ ! -d "${home_directory}/${year}_era${era}/stream_${i}" ]; then
             mkdir -p "${home_directory}/${year}_era${era}/stream_${i}"
@@ -134,8 +135,11 @@ if [[ "$era" != *"MC"* ]]; then
         sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit_era.sh"
         sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/hadd_era.sh"
         sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/hadd_era.sh"
+
+        echo -n "."
         sleep 1
     done
 fi
+echo "Done!"
 
 
