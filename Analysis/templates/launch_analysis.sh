@@ -14,6 +14,7 @@ fi
 
 #source /cvmfs/sft.cern.ch/lcg/views/dev3/latest/x86_64-centos7-gcc11-opt/setup.sh
 cd PATH
+source /cvmfs/cms.cern.ch/cmsset_default.sh
 cmsenv
 python3 Analizer.py --index $index --delta DELTAVAL --directory_IN INPUT_DIR --directory_OUT OUTPUT_DIR
 
