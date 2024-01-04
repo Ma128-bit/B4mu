@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 # Usage:
 #    prepare_condor.sh <index>
 
