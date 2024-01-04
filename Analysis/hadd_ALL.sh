@@ -33,4 +33,4 @@ for e in "${eras[@]}"; do
     sleep 1
 done
 
-hadd "Analyzed_Data_${year}.root" "${year}_era*/Analyzed_Data_${year}_Era_*.root"
+hadd Analyzed_Data_${year}.root ${year}_era*/Analyzed_Data_${year}_Era_*.root
