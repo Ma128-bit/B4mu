@@ -102,6 +102,13 @@ if [[ "$era" != *"MC"* ]]; then
         mkdir -p "${home_directory}/${year}_era${era}"
     fi
     echo "Data ${year} - era ${era} is selected"
+    cp templates/submit_era.sh "${home_directory}/${year}_era${era}"
+    cp templates/hadd_era.sh "${home_directory}/${year}_era${era}"
+    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/submit_era.sh"
+    sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/submit_era.sh"
+    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/hadd_era.sh"
+    sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/hadd_era.sh"
+
     for i in {0..7}; do
         if [ ! -d "${home_directory}/${year}_era${era}/stream_${i}" ]; then
             mkdir -p "${home_directory}/${year}_era${era}/stream_${i}"
@@ -127,14 +134,7 @@ if [[ "$era" != *"MC"* ]]; then
         sed -i "s#INPUT_DIR#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#OUTPUT_DIR#${home_directory}/${year}_era${era}/stream_${i}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         chmod a+x "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-
-        cp templates/submit_era.sh "${home_directory}/${year}_era${era}/stream_${i}"
-        cp templates/hadd_era.sh "${home_directory}/${year}_era${era}/stream_${i}"
-        sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit_era.sh"
-        sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit_era.sh"
-        sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/hadd_era.sh"
-        sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/hadd_era.sh"
-
+        
         echo -n "."
         sleep 1
     done
