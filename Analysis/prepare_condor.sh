@@ -129,9 +129,10 @@ if [[ "$era" != *"MC"* ]]; then
         chmod a+x "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
 
         cp templates/submit_era.sh "${home_directory}/${year}_era${era}/stream_${i}"
-        sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit_era.sh"
-        sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit_era.sh"
-        sleep 2
+        cp templates/hadd_era.sh "${home_directory}/${year}_era${era}/stream_${i}"
+        sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/*_era.sh"
+        sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/*_era.sh"
+        sleep 1
     done
 fi
 
