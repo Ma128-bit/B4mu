@@ -23,6 +23,7 @@ elif [ "${year}" == "2022" ]; then
   eras=("${Era_2023[@]}")
 else
   echo "Error: The year is incorrect."
+  return
 fi
 
 for e in "${eras[@]}"; do
