@@ -33,4 +33,7 @@ for e in "${eras[@]}"; do
     sleep 1
 done
 
-hadd Analyzed_Data_${year}.root ${year}_era*/Analyzed_Data_${year}_Era_*.root
+if [ ! -d "FinalFiles" ]; then
+    mkdir -p "FinalFiles"
+fi
+hadd FinalFiles/Analyzed_Data_${year}.root ${year}_era*/Analyzed_Data_${year}_Era_*.root
