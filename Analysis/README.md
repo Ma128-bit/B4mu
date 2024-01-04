@@ -11,7 +11,9 @@ Then:
 ```
 source hadd_ALL.sh
 ```
+Example:`source prepare_and_submit_ALL.sh 2022 300`
 <p>&nbsp;</p>
+
 
 ## Run analysis on an era with condor:
 ```
