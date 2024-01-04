@@ -130,8 +130,10 @@ if [[ "$era" != *"MC"* ]]; then
 
         cp templates/submit_era.sh "${home_directory}/${year}_era${era}/stream_${i}"
         cp templates/hadd_era.sh "${home_directory}/${year}_era${era}/stream_${i}"
-        sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/*_era.sh"
-        sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/*_era.sh"
+        sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit_era.sh"
+        sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit_era.sh"
+        sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/stream_${i}/hadd_era.sh"
+        sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/stream_${i}/hadd_era.sh"
         sleep 1
     done
 fi
