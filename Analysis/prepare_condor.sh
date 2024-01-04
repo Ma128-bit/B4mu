@@ -139,6 +139,6 @@ if [[ "$era" != *"MC"* ]]; then
         sleep 1
     done
 fi
-echo "Done!"
+echo " Done!"
 
 
