@@ -534,7 +534,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         obj.unpackPathNames(triggerNames);
         
         for (unsigned h = 0; h < obj.filterLabels().size(); ++h) {
-            if(obj.filterLabels()[h]=="hltdstau3muDisplaced3muFltr" || obj.filterLabels()[h]=="hltDisplacedmumuFilterDoubleMu43LowMass" || obj.filterLabels()[h]=="hltDisplacedmumuFilterDoubleMu4LowMassDisplaced"){
+            if(obj.filterLabels()[h]=="hltDisplacedmumuFilterDoubleMu43LowMass"){
                 TriggerObj_B4Mu.push_back(obj);
             }
         }//loop on filterLabels
