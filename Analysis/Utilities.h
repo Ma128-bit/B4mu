@@ -123,7 +123,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         }
     }
     vector<int> index = get_4index(MuonPt, Mu1_Pt.at(best_i), Mu2_Pt.at(best_i), Mu3_Pt.at(best_i), Mu4_Pt.at(best_i));
-    int isGlobal=0 isPF=0 isLoose=0, isMedium=0, isTight=0, isSoft=0;
+    int isGlobal=0, isPF=0 isLoose=0, isMedium=0, isTight=0, isSoft=0;
     for(int k=0; k<index.size(); k++){
         isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
         isPF = isPF + Muon_isPF.at(index.at(k));
