@@ -73,7 +73,7 @@ vector<int> get_4index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
     return index;
 }
 
-int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double>Muon_isGlobal, ROOT::VecOps::RVec<double>Muon_isPF, ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
+vector<int> best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double>Muon_isGlobal, ROOT::VecOps::RVec<double>Muon_isPF, ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
     
     vector<int> quad_indx;
     
@@ -119,7 +119,7 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
     if(quad_indx.size()==0) return -99;
     
     double best_chi2=15000000000;
-    double best_i=-1;
+    int best_i=-1;
     
     for(int l=0; l<quad_indx.size(); l++){
         double temp_i=quad_indx.at(l);
@@ -129,10 +129,16 @@ int best_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> 
             best_i=temp_i;
         }
     }
-    return best_i;
+    vector<int> out;
+    out.push_back(best_i);
+    out.push_back(QuadrupletVtx_Chi2.size());
+    return out;
+}
+double best_quadruplet_index(vector<int> out){
+    return out.at(0);
 }
 
-double flattening(ROOT::VecOps::RVec<double> var, double Quadruplet_index){
+double flattening(ROOT::VecOps::RVec<double> var, int Quadruplet_index){
     double value = -99;
     try {
         value = var.at(Quadruplet_index);
