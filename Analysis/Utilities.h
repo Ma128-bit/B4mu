@@ -104,7 +104,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
             isPF = isPF + Muon_isPF.at(index.at(k));
         }
-        //if(isGlobal<4 || isPF<4) continue;
+        if(isGlobal<4 || isPF<4) continue;
         cont3++;
         //Cut5 HLT Trigger Matching
         //Not yet implemented
