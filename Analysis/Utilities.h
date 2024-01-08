@@ -114,7 +114,8 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         quad_indx.push_back(j);
     }
     vector<int> out;
-    if(quad_indx.size()==0) {out.push_back(-99); return out;}
+    if(quad_indx.size()==0) {out.push_back(-99); out.push_back(QuadrupletVtx_Chi2.size());
+    out.push_back(cont1); out.push_back(cont2); out.push_back(cont3); out.push_back(cont4); return out;}
     
     double best_chi2=15000000000;
     int best_i=-1;
