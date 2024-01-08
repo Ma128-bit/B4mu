@@ -94,7 +94,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         //if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
         
         //Cut3 invariant mass
-        if(!(Quadruplet_Mass.at(j)>5.15 && Quadruplet_Mass.at(j)<5.55)) continue;
+        if(!(Quadruplet_Mass.at(j)>5.05 && Quadruplet_Mass.at(j)<5.65)) continue;
         cont2++;
         
         //Cut4 isGlobal and isPF
