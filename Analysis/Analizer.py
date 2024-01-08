@@ -69,11 +69,7 @@ if __name__ == "__main__":
     #Find best Quadruplet
     branches.append("Quadruplet_info")
     df = df.Define("Quadruplet_info","info_quadruplet(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isMVASoft, FlightDistBS_SV_Significance, Muon_vz)")
-    h1 = df.Histo1D(("Quadruplet_info[1]", "Quadruplet_info[1]", 50, -0.5, 49.5), "Quadruplet_info[1]");
-    h2 = df.Histo1D(("Quadruplet_info[2]", "Quadruplet_info[2]", 10, -0.5, 9.5), "Quadruplet_info[2]");
-    h3 = df.Histo1D(("Quadruplet_info[3]", "Quadruplet_info[3]", 10, -0.5, 9.5), "Quadruplet_info[3]");
-    h4 = df.Histo1D(("Quadruplet_info[4]", "Quadruplet_info[4]", 10, -0.5, 9.5), "Quadruplet_info[4]");
-    
+    """
     df = df.Define("Quadruplet_index","best_quadruplet(Quadruplet_info)")
     df = df.Filter("Quadruplet_index>-1")
     
@@ -121,17 +117,11 @@ if __name__ == "__main__":
     
     df = df.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
     df = df.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
-    
+    """
     if not output_dir.endswith("/"):
         output_dir= output_dir + "/"
     
     df.Snapshot("FinalTree", output_dir + "Analyzed_Data_"+str(index)+".root", branches)
-    output_file = ROOT.TFile(output_dir + "Analyzed_Data_"+str(index)+".root", "UPDATE")
-    h1.Write()
-    h2.Write()
-    h3.Write()
-    h4.Write()
-    output_file.Close()
 
     print("Performed ",df.GetNRuns()," loops")
     end = time.time()
