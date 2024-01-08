@@ -528,22 +528,22 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         }
     }
     
-    vector<pat::TriggerObjectStandAlone> TriggerObj_DsTau3Mu;
+    vector<pat::TriggerObjectStandAlone> TriggerObj_B4Mu;
     
     for (pat::TriggerObjectStandAlone obj : *triggerObjects) { // note: not "const &" since we want to call unpackPathNames
         obj.unpackPathNames(triggerNames);
         
         for (unsigned h = 0; h < obj.filterLabels().size(); ++h) {
-            if(obj.filterLabels()[h]=="hltdstau3muDisplaced3muFltr"){
-                TriggerObj_DsTau3Mu.push_back(obj);
+            if(obj.filterLabels()[h]=="hltdstau3muDisplaced3muFltr" || obj.filterLabels()[h]=="hltDisplacedmumuFilterDoubleMu43LowMass" || obj.filterLabels()[h]=="hltDisplacedmumuFilterDoubleMu4LowMassDisplaced"){
+                TriggerObj_B4Mu.push_back(obj);
             }
         }//loop on filterLabels
     }
     
-    for(uint t=0; t<TriggerObj_DsTau3Mu.size();t++){
-        MuonPt_HLT.push_back(TriggerObj_DsTau3Mu.at(t).pt());
-        MuonEta_HLT.push_back(TriggerObj_DsTau3Mu.at(t).eta());
-        MuonPhi_HLT.push_back(TriggerObj_DsTau3Mu.at(t).phi());
+    for(uint t=0; t<TriggerObj_B4Mu.size();t++){
+        MuonPt_HLT.push_back(TriggerObj_B4Mu.at(t).pt());
+        MuonEta_HLT.push_back(TriggerObj_B4Mu.at(t).eta());
+        MuonPhi_HLT.push_back(TriggerObj_B4Mu.at(t).phi());
     }
         
     //
@@ -884,10 +884,10 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         ///////////////Check Trigger Matching///////////////
                         float dR1 = 999., dR2 = 999., dR3 = 999., dR4 = 999.;
                         
-                        dR1 = MiniAnaB4Mu::dRtriggerMatch(*mu1, TriggerObj_DsTau3Mu);
-                        dR2 = MiniAnaB4Mu::dRtriggerMatch(*mu2, TriggerObj_DsTau3Mu);
-                        dR3 = MiniAnaB4Mu::dRtriggerMatch(*mu3, TriggerObj_DsTau3Mu);
-                        dR4 = MiniAnaB4Mu::dRtriggerMatch(*mu4, TriggerObj_DsTau3Mu);
+                        dR1 = MiniAnaB4Mu::dRtriggerMatch(*mu1, TriggerObj_B4Mu);
+                        dR2 = MiniAnaB4Mu::dRtriggerMatch(*mu2, TriggerObj_B4Mu);
+                        dR3 = MiniAnaB4Mu::dRtriggerMatch(*mu3, TriggerObj_B4Mu);
+                        dR4 = MiniAnaB4Mu::dRtriggerMatch(*mu4, TriggerObj_B4Mu);
                         //cout<<"Trigger Matching: dR1="<<dR1<<" dR2="<<dR2<<" dR3="<<dR3<<" dR4="<<dR4<<endl;
                         Mu1_dRtriggerMatch.push_back(dR1);
                         Mu2_dRtriggerMatch.push_back(dR2);
