@@ -73,23 +73,17 @@ vector<int> get_4index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
     return index;
 }
 
-vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double>Muon_isGlobal, ROOT::VecOps::RVec<double>Muon_isPF, ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
+vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isMVASoft,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
     
     vector<int> quad_indx;
-    
     for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
         //Cut1 "strange" events
-        if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){
-            continue;
-        }
+        if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
         
         //Cut2 FlightDistBS_SV_Significance, dR and dz
         //if(FlightDistBS_SV_Significance.at(j) < 2 ) continue;
         vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
-        if(index.at(0)==-1){
-            cout<<"Error in index\n";
-            continue;
-        }
+        if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
         
         //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
         double vz1 = Muon_vz.at(index.at(0));
@@ -112,15 +106,14 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         
         //Cut5 HLT Trigger Matching
         //Not yet implemented
-        
+
         quad_indx.push_back(j);
     }
-    
-    if(quad_indx.size()==0) return -99;
+    vector<int> out;
+    if(quad_indx.size()==0) {out.push_back(-99); return out;}
     
     double best_chi2=15000000000;
     int best_i=-1;
-    
     for(int l=0; l<quad_indx.size(); l++){
         double temp_i=quad_indx.at(l);
         double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
@@ -129,9 +122,24 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             best_i=temp_i;
         }
     }
-    vector<int> out;
+    vector<int> index = get_4index(MuonPt, Mu1_Pt.at(best_i), Mu2_Pt.at(best_i), Mu3_Pt.at(best_i), Mu4_Pt.at(best_i));
+    int isGlobal=0 isPF=0 isLoose=0, isMedium=0, isTight=0, isSoft=0;
+    for(int k=0; k<index.size(); k++){
+        isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
+        isPF = isPF + Muon_isPF.at(index.at(k));
+        isLoose = isLoose + Muon_isLoose.at(index.at(k));
+        isMedium = isMedium + Muon_isMedium.at(index.at(k));
+        isTight = isTight + Muon_isTight.at(index.at(k));
+        isSoft = isSoft + Muon_isSoft.at(index.at(k));
+    }
     out.push_back(best_i);
     out.push_back(QuadrupletVtx_Chi2.size());
+    out.push_back(isGlobal);
+    out.push_back(isPF);
+    out.push_back(isLoose);
+    out.push_back(isMedium);
+    out.push_back(isTight);
+    out.push_back(isSoft);
     return out;
 }
 double best_quadruplet(vector<int> out){
