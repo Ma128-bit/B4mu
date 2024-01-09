@@ -121,7 +121,7 @@ else
     return
 fi
 
-voms-proxy-init --valid 192:00 --voms cms
+#voms-proxy-init --valid 192:00 --voms cms
 
 if [[ "$era" != *"MC"* ]]; then
     mkdir -p "${year}_era${era}"
