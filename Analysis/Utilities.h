@@ -106,9 +106,34 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         }
         if(isGlobal<4 || isPF<4) continue;
         cont3++;
+        
         //Cut5 HLT Trigger Matching
-        //Not yet implemented
-
+        vector<double> pt, eta, phi, pt_HLT, eta_HLT, phi_HLT;
+        for(int h=0; h<4; h++){
+            pt.push_back(MuonPt.at(index.at(h)));
+            eta.push_back(MuonEta.at(index.at(h)));
+            phi.push_back(MuonPhi.at(index.at(h)));
+            pt_HLT.push_back(MuonPt_HLT.at(index.at(h)));
+            eta_HLT.push_back(MuonEta_HLT.at(index.at(h)));
+            phi_HLT.push_back(MuonPhi_HLT.at(index.at(h)));
+        }
+        int HLT_matching = 0;
+        for(int w=0; w<pt_HLT.size();w++){
+            for(int p=0; p<pt.size();p++){
+                double dphi = abs(phi.at(p) - phi_HLT.at(w));
+                double deta = abs(eta.at(p) - eta_HLT.at(w));
+                if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+                double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+                double dpt = abs(pt.at(p) - pt_HLT.at(w))/pt.at(p);
+                if(dR<0.03 && dpt<0.1){
+                    HLT_matching++;
+                    phi.erase(phi.begin() + p);
+                    eta.erase(eta.begin() + p);
+                    pt.erase(pt.begin() + p);
+                    break;
+                }
+        }
+        if(HLT_matching<2) continue;
         cont4++;
         
         quad_indx.push_back(j);
