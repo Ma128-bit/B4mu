@@ -118,25 +118,15 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             pt.push_back(pt_temp);
             eta.push_back(eta_temp);
             phi.push_back(phi_temp);
-        }
-        /*
-        for(int k=0; k<MuonPt_HLT.size(); k++){
-            double pt_temp=MuonPt_HLT.at(index.at(k));
-            double eta_temp=MuonEta_HLT.at(index.at(k));
-            double phi_temp=MuonPhi_HLT.at(index.at(k));
-            pt_HLT.push_back(pt_temp);
-            eta_HLT.push_back(eta_temp);
-            phi_HLT.push_back(phi_temp);
-        }
-        
+        }        
         int HLT_matching = 0;
-        for(int w=0; w<pt_HLT.size();w++){
+        for(int w=0; w<MuonPt_HLT.size();w++){
             for(int p=0; p<pt.size();p++){
-                double dphi = abs(phi.at(p) - phi_HLT.at(w));
-                double deta = abs(eta.at(p) - eta_HLT.at(w));
+                double dphi = abs(phi.at(p) - MuonPhi_HLT.at(w));
+                double deta = abs(eta.at(p) - MuonEta_HLT.at(w));
                 if(dphi > double(M_PI)) dphi -= double(2*M_PI);
                 double dR = TMath::Sqrt(dphi*dphi + deta*deta);
-                double dpt = abs(pt.at(p) - pt_HLT.at(w))/pt.at(p);
+                double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
                 if(dR<0.03 && dpt<0.1){
                     HLT_matching++;
                     phi.erase(phi.begin() + p);
@@ -148,7 +138,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         }
         
         if(HLT_matching<2) continue;
-        */
+        
         cont4++;
         
         quad_indx.push_back(j);
