@@ -132,6 +132,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
                     pt.erase(pt.begin() + p);
                     break;
                 }
+            }
         }
         if(HLT_matching<2) continue;
         cont4++;
