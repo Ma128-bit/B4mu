@@ -116,6 +116,8 @@ if __name__ == "__main__":
     
     df = df.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
     df = df.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
+
+    print(branches)
     
     if not output_dir.endswith("/"):
         output_dir= output_dir + "/"
