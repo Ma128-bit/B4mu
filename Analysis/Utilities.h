@@ -113,6 +113,8 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             pt.push_back(MuonPt.at(index.at(h)));
             eta.push_back(MuonEta.at(index.at(h)));
             phi.push_back(MuonPhi.at(index.at(h)));
+        }
+        for(int h=0; h<MuonPt_HLT.size(); h++){
             pt_HLT.push_back(MuonPt_HLT.at(index.at(h)));
             eta_HLT.push_back(MuonEta_HLT.at(index.at(h)));
             phi_HLT.push_back(MuonPhi_HLT.at(index.at(h)));
