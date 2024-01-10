@@ -119,6 +119,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             eta_HLT.push_back(MuonEta_HLT.at(index.at(h)));
             phi_HLT.push_back(MuonPhi_HLT.at(index.at(h)));
         }
+        /*
         int HLT_matching = 0;
         for(int w=0; w<pt_HLT.size();w++){
             for(int p=0; p<pt.size();p++){
@@ -136,6 +137,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
                 }
             }
         }
+        */
         //if(HLT_matching<2) continue;
         cont4++;
         
@@ -155,15 +157,15 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             best_i=temp_i;
         }
     }
-    vector<int> index2 = get_4index(MuonPt, Mu1_Pt.at(best_i), Mu2_Pt.at(best_i), Mu3_Pt.at(best_i), Mu4_Pt.at(best_i));
+    vector<int> index = get_4index(MuonPt, Mu1_Pt.at(best_i), Mu2_Pt.at(best_i), Mu3_Pt.at(best_i), Mu4_Pt.at(best_i));
     int isGlobal=0, isPF=0, isLoose=0, isMedium=0, isTight=0, isSoft=0;
-    for(int k=0; k<index2.size(); k++){
-        isGlobal = isGlobal + Muon_isGlobal.at(index2.at(k));
-        isPF = isPF + Muon_isPF.at(index2.at(k));
-        isLoose = isLoose + Muon_isLoose.at(index2.at(k));
-        isMedium = isMedium + Muon_isMedium.at(index2.at(k));
-        isTight = isTight + Muon_isTight.at(index2.at(k));
-        isSoft = isSoft + Muon_isSoft.at(index2.at(k));
+    for(int k=0; k<index.size(); k++){
+        isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
+        isPF = isPF + Muon_isPF.at(index.at(k));
+        isLoose = isLoose + Muon_isLoose.at(index.at(k));
+        isMedium = isMedium + Muon_isMedium.at(index.at(k));
+        isTight = isTight + Muon_isTight.at(index.at(k));
+        isSoft = isSoft + Muon_isSoft.at(index.at(k));
     }
     out.push_back(best_i);
     out.push_back(QuadrupletVtx_Chi2.size());
@@ -268,15 +270,15 @@ std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon(d
     return output_index;
 }
 
-double Mass(int mu_index1, int mu_index2, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
+double Mass(int mu_index1, int mu_index, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
     float pt1 = MuonPt.at(mu_index1);
-    float pt2 = MuonPt.at(mu_index2);
+    float pt2 = MuonPt.at(mu_index);
     float eta1 = MuonEta.at(mu_index1);
-    float eta2 = MuonEta.at(mu_index2);
+    float eta2 = MuonEta.at(mu_index);
     float phi1 = MuonPhi.at(mu_index1);
-    float phi2 = MuonPhi.at(mu_index2);
+    float phi2 = MuonPhi.at(mu_index);
     double en1 = MuonEnergy.at(mu_index1);
-    double en2 = MuonEnergy.at(mu_index2);
+    double en2 = MuonEnergy.at(mu_index);
     TLorentzVector mu1, mu2, mutot;
     mu1.SetPtEtaPhiE(pt1, eta1, phi1, en1);
     mu2.SetPtEtaPhiE(pt2, eta2, phi2, en2);
