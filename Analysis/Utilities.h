@@ -108,6 +108,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         cont3++;
         
         //Cut5 HLT Trigger Matching
+        /*
         vector<double> pt, eta, phi, pt_HLT, eta_HLT, phi_HLT;
         for(int h=0; h<4; h++){
             pt.push_back(MuonPt.at(index.at(h)));
@@ -119,7 +120,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             eta_HLT.push_back(MuonEta_HLT.at(index.at(h)));
             phi_HLT.push_back(MuonPhi_HLT.at(index.at(h)));
         }
-        /*
+        
         int HLT_matching = 0;
         for(int w=0; w<pt_HLT.size();w++){
             for(int p=0; p<pt.size();p++){
