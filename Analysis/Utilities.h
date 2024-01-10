@@ -108,17 +108,23 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         cont3++;
         
         //Cut5 HLT Trigger Matching
-        /*
+        
         vector<double> pt, eta, phi, pt_HLT, eta_HLT, phi_HLT;
-        for(int h=0; h<4; h++){
-            pt.push_back(MuonPt.at(index.at(h)));
-            eta.push_back(MuonEta.at(index.at(h)));
-            phi.push_back(MuonPhi.at(index.at(h)));
+        for(int h=0; h<index.size(); h++){
+            float pt_temp=MuonPt.at(index.at(h));
+            float eta_temp=MuonEta.at(index.at(h));
+            float phi_temp=MuonPhi.at(index.at(h));
+            pt.push_back(pt_temp);
+            eta.push_back(eta_temp);
+            phi.push_back(phi_temp);
         }
-        for(int h=0; h<MuonPt_HLT.size(); h++){
-            pt_HLT.push_back(MuonPt_HLT.at(index.at(h)));
-            eta_HLT.push_back(MuonEta_HLT.at(index.at(h)));
-            phi_HLT.push_back(MuonPhi_HLT.at(index.at(h)));
+        for(int k=0; k<MuonPt_HLT.size(); k++){
+            double pt_temp=MuonPt_HLT.at(index.at(k));
+            double eta_temp=MuonEta_HLT.at(index.at(k));
+            double phi_temp=MuonPhi_HLT.at(index.at(k));
+            pt_HLT.push_back(pt_temp);
+            eta_HLT.push_back(eta_temp);
+            phi_HLT.push_back(phi_temp);
         }
         
         int HLT_matching = 0;
@@ -138,7 +144,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
                 }
             }
         }
-        */
+        
         //if(HLT_matching<2) continue;
         cont4++;
         
