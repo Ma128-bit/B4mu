@@ -106,7 +106,8 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         }
         if(isGlobal<4 || isPF<4) continue;
         cont3++;
-        
+
+        /*
         //Cut5 HLT Trigger Matching
         vector<double> pt, eta, phi, pt_HLT, eta_HLT, phi_HLT;
         for(int h=0; h<index.size(); h++){
@@ -145,6 +146,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
         }
         
         if(HLT_matching<2) continue;
+        */
         cont4++;
         
         quad_indx.push_back(j);
