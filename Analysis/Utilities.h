@@ -134,7 +134,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
                 }
             }
         }
-        if(HLT_matching<2) continue;
+        //if(HLT_matching<2) continue;
         cont4++;
         
         quad_indx.push_back(j);
