@@ -152,15 +152,15 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
             best_i=temp_i;
         }
     }
-    vector<int> index = get_4index(MuonPt, Mu1_Pt.at(best_i), Mu2_Pt.at(best_i), Mu3_Pt.at(best_i), Mu4_Pt.at(best_i));
-    int isGlobal=0, isPF=0, isLoose=0, isMedium=0, isTight=0, isSoft=0;
-    for(int k=0; k<index.size(); k++){
-        isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
-        isPF = isPF + Muon_isPF.at(index.at(k));
-        isLoose = isLoose + Muon_isLoose.at(index.at(k));
-        isMedium = isMedium + Muon_isMedium.at(index.at(k));
-        isTight = isTight + Muon_isTight.at(index.at(k));
-        isSoft = isSoft + Muon_isSoft.at(index.at(k));
+    vector<int> index2 = get_4index(MuonPt, Mu1_Pt.at(best_i), Mu2_Pt.at(best_i), Mu3_Pt.at(best_i), Mu4_Pt.at(best_i));
+    isGlobal=0, isPF=0, isLoose=0, isMedium=0, isTight=0, isSoft=0;
+    for(int k=0; k<index2.size(); k++){
+        isGlobal = isGlobal + Muon_isGlobal.at(index2.at(k));
+        isPF = isPF + Muon_isPF.at(index2.at(k));
+        isLoose = isLoose + Muon_isLoose.at(index2.at(k));
+        isMedium = isMedium + Muon_isMedium.at(index2.at(k));
+        isTight = isTight + Muon_isTight.at(index2.at(k));
+        isSoft = isSoft + Muon_isSoft.at(index2.at(k));
     }
     out.push_back(best_i);
     out.push_back(QuadrupletVtx_Chi2.size());
@@ -173,6 +173,7 @@ vector<int> info_quadruplet(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec
     out.push_back(isSoft);
     return out;
 }
+
 double best_quadruplet(vector<int> out){
     return out.at(0);
 }
