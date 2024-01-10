@@ -65,11 +65,10 @@ if __name__ == "__main__":
     
     start_2 = time.time()
     df = load_df(selected_files, "TreeMakerBkg/ntuple")
-    branches.append("Mu1_Pt")
     #Find best Quadruplet
-    #branches.append("Quadruplet_info")
-    #df = df.Define("Quadruplet_info","info_quadruplet(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
-    #df = df.Define("Quadruplet_index","best_quadruplet(Quadruplet_info)")
+    branches.append("Quadruplet_info")
+    df = df.Define("Quadruplet_info","info_quadruplet(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
+    df = df.Define("Quadruplet_index","best_quadruplet(Quadruplet_info)")
     """
     df = df.Filter("Quadruplet_index>-1")
     
