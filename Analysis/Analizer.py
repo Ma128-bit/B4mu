@@ -70,7 +70,7 @@ if __name__ == "__main__":
     df = df.Define("Quadruplet_info","info_quadruplet(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
     df = df.Define("Quadruplet_index","best_quadruplet(Quadruplet_info)")
     df = df.Filter("Quadruplet_index>-1")
-    """
+
     #Flat muon pt eta phi
     for i in range(1,5):
         ind=str(i)
@@ -110,12 +110,13 @@ if __name__ == "__main__":
             df = df.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
             df = df.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
 
+    #BsJPsiPhi selections
     branches.append("BsJPsiPhi_sel_OS1")
     branches.append("BsJPsiPhi_sel_OS2")
     
     df = df.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
     df = df.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
-    """
+
     print(branches)
     
     if not output_dir.endswith("/"):
