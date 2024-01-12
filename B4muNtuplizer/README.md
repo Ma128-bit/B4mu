@@ -1,6 +1,6 @@
 # Ntuplizer code for the B&rarr;4mu search at Run 3
 
-## Run ntuplizer on data:
+## Run ntuplizer on a full dataset:
 ```
 cd CrabSubmission
 source submit_CRAB.sh [era] [year] 
