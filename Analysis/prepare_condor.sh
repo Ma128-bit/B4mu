@@ -32,10 +32,10 @@ declare -a D_v2_2023=("240109_092903" "240109_092916" "240109_092928" "240109_09
 
 declare -a MC22_B4mu_pre=("Dataset_prova1" "Dataset_prova2")
 declare -a MC22_B4mu_post=("" "")
-declare -a B4mu_MC_label=("Bd" "Bs")
+declare -a B4mu_MC_label=("Bd_4mu" "Bs_4mu")
 
-declare -a MC22_BsJPsiPhi_pre=("SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240112_141848")
-declare -a MC22_BsJPsiPhi_post=("SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240112_140733")
+declare -a MC22_BsJPsiPhi_pre=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240112_141848")
+declare -a MC22_BsJPsiPhi_post=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240112_140733")
 declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
 
 
@@ -61,15 +61,19 @@ if [ "${year}" == "2022" ]; then
         ;;
       MC_B4mu_pre)
         datasets=("${MC22_B4mu_pre[@]}")
+        label=("${B4mu_MC_label[@]}")
         ;;
       MC_B4mu_post)
         datasets=("${MC22_B4mu_post[@]}")
+        label=("${B4mu_MC_label[@]}")
         ;;
       MC_BsJPsiPhi_pre)
         datasets=("${MC22_BsJPsiPhi_pre[@]}")
+        label=("${BsJPsiPhi_MC_label[@]}")
         ;;
       MC_BsJPsiPhi_post)
         datasets=("${MC22_BsJPsiPhi_post[@]}")
+        label=("${BsJPsiPhi_MC_label[@]}")
         ;;
       *)
         echo "Error: The era is incorrect."
@@ -155,15 +159,34 @@ else
         mkdir -p "${home_directory}/${year}_${era}"
     fi
     echo "Data ${year} - ${era} is selected"
+    j=0
     for i in "${datasets[@]}"; do
-        mkdir -p "${home_directory}/${year}_${era}/log"
-        cp templates/submit.condor "${home_directory}/${year}_${era}
-        ndir=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/" | wc -l)
-            tot=0
-            for j in $(seq 0 $((ndir - 1))); do
-                nfiles=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/000${j}/" | wc -l)
-                tot=$((tot + nfiles))
-            done
+        if [ ! -d "${home_directory}/${year}_${era}/${label[${j}]}" ]; then
+            mkdir -p "${home_directory}/${year}_${era}/${label[${j}]}"
+            mkdir -p "${home_directory}/${year}_${era}/${label[${j}]}/log"
+        fi
+        cp templates/submit.condor "${home_directory}/${year}_${era}/${label[${j}]}"
+        ndir=$(ls "${file_directory}/${i}/" | wc -l)
+        tot=0
+        for j in $(seq 0 $((ndir - 1))); do
+            nfiles=$(ls "${file_directory}/${i}/000${j}/" | wc -l)
+            tot=$((tot + nfiles))
+        done
+        number_of_splits=$(((${tot} / ${delta}) + 1))
+        echo "queue ${number_of_splits}" >> "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
+        sed -i "s#PATH#${home_directory}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit.condor"
+        chmod a+x "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
+        
+        cp templates/launch_analysis.sh "${home_directory}/${year}_${era}/${label[${j}]}"
+        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#INPUT_DIR#${file_directory}/${i}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#OUTPUT_DIR#${home_directory}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        chmod a+x "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        
+        echo -n "."
+        ((j++))
+        sleep 1
     done
 fi
 echo " Done!"
