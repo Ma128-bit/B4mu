@@ -18,7 +18,7 @@ process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cf
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load("B4muNtuplizer.SkimTools.B4MuSkim_miniAOD_cff")
 
-process.GlobalTag.globaltag = '130X_mcRun3_2022_realistic_postEE_v6' #MC2022
+process.GlobalTag.globaltag = '130X_mcRun3_2023_realistic_v8' #Run3_2023 
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
