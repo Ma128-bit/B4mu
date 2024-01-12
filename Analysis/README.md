@@ -24,7 +24,6 @@ source prepare_condor.sh [era] [year] [delta]
 *  [Delta] is the number of input files per submission
 
 **FOR DATA ONLY**:
-Then:
 ```
 cd [year]_era[era] 
 source submit_era.sh
