@@ -174,7 +174,7 @@ else
         done
         number_of_splits=$(((${tot} / ${delta}) + 1))
         echo "queue ${number_of_splits}" >> "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
-        sed -i "s#PATH#${home_directory}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit.condor"
+        sed -i "s#PATH#${home_directory}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
         chmod a+x "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
         
         cp templates/launch_analysis.sh "${home_directory}/${year}_${era}/${label[${j}]}"
