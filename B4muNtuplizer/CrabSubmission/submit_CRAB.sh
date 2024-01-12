@@ -28,9 +28,15 @@ declare -a C_v4_2023=("Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1" "Run
 declare -a D_v1_2023=("Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1")
 declare -a D_v2_2023=("Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v2" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1")
 
-declare -a Pre_E_MC22=("Dataset_prova1" "Dataset_prova2")
-declare -a Post_E_MC22=("/Bd4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER" "/Bs4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bs4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER")
-declare -a bType=("Bd" "Bs")
+declare -a MC22_B4mu_pre=("Dataset_prova1" "Dataset_prova2")
+declare -a MC22_B4mu_post=("/Bd4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER" "/Bs4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bs4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER")
+declare -a B4mu_MC_label=("Bd" "Bs")
+
+declare -a MC22_BsJPsiPhi_pre=()
+declare -a MC22_BsJPsiPhi_post=()
+
+declare -a BsJPsiPhi_MC_label_pre=("Bs_pre" "Bs_post")
+declare -a BsJPsiPhi_MC_label_post=("Bs_pre" "Bs_post")
 
 if [ "${year}" == "2022" ]; then
     case "$era" in
@@ -64,14 +70,22 @@ if [ "${year}" == "2022" ]; then
         globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
         ;;
-      MC_pre)
+      MC_B4mu_pre)
         globaltag="130X_mcRun3_2022_realistic_v5"
-        datasets=("${Pre_E_MC22[@]}")
+        datasets=("${MC22_B4mu_pre[@]}")
+        label=("${B4mu_MC_label[@]}")
         input_type="global"
         ;;
-      MC_post)
+      MC_B4mu_post)
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
-        datasets=("${Post_E_MC22[@]}")
+        datasets=("${MC22_B4mu_post[@]}")
+        label=("${B4mu_MC_label[@]}")
+        input_type="phys03"
+        ;;
+      MC_BsJPsiPhi)
+        globaltag="130X_mcRun3_2022_realistic_postEE_v6"
+        label=("${BsJPsiPhi_MC_label[@]}")
+        datasets=("${MC22_BsJPsiPhi[@]}")
         input_type="phys03"
         ;;
       *)
@@ -159,15 +173,15 @@ else
     sed -i "s#130X_mcRun3_2022_realistic_postEE_v6#${globaltag}#g" "${year}_${era}/PatAndTree_cfg.py"
     j=0
     for i in "${datasets[@]}"; do
-        cp templates/CRAB_template_MC.py "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
-        sed -i "s#YEAR#${year}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
-        sed -i "s#ERANAME#${era}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
-        sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
-        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
-        sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
-        sed -i "s#B_TYPE#${bType[${j}]}#g" "${year}_${era}/CRAB_MC_${bType[${j}]}.py"
+        cp templates/CRAB_template_MC.py "${year}_${era}/CRAB_MC_${label[${j}]}.py"
+        sed -i "s#YEAR#${year}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
+        sed -i "s#ERANAME#${era}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
+        sed -i "s#MC_DATASET#${i}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
+        sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
+        sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
+        sed -i "s#B_TYPE#${label[${j}]}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
         cd "${year}_${era}"
-        crab submit -c "CRAB_MC_${bType[${j}]}.py"
+        crab submit -c "CRAB_MC_${label[${j}]}.py"
         cd ..
         echo "${era} - $j submitted!"
         ((j++))
