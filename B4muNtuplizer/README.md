@@ -19,11 +19,9 @@ for MC.
 ## Run ntuplizer on few root files:
 ```
 cd SkimTools/test
-cmsRun run_Data2022_PatAndTree_cfg.py
 ```
-for data.
-```
-cmsRun run_MC2022_PatAndTree_cfg.py
-```
-for MC.
+For data: `cmsRun run_Data2022_PatAndTree_cfg.py`
+
+For MC: `cmsRun run_MC2022_PatAndTree_cfg.py`
+
 <p>&nbsp;</p>
