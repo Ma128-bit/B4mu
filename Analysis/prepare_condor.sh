@@ -34,8 +34,8 @@ declare -a MC22_B4mu_pre=("Dataset_prova1" "Dataset_prova2")
 declare -a MC22_B4mu_post=("" "")
 declare -a B4mu_MC_label=("Bd" "Bs")
 
-declare -a MC22_BsJPsiPhi_pre=("")
-declare -a MC22_BsJPsiPhi_post=("")
+declare -a MC22_BsJPsiPhi_pre=("SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240112_141848")
+declare -a MC22_BsJPsiPhi_post=("SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240112_140733")
 declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
 
 
@@ -151,7 +151,20 @@ if [[ "$era" != *"MC"* ]]; then
         sleep 1
     done
 else
-
+    if [ ! -d "${home_directory}/${year}_${era}" ]; then
+        mkdir -p "${home_directory}/${year}_${era}"
+    fi
+    echo "Data ${year} - ${era} is selected"
+    for i in "${datasets[@]}"; do
+        mkdir -p "${home_directory}/${year}_${era}/log"
+        cp templates/submit.condor "${home_directory}/${year}_${era}
+        ndir=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/" | wc -l)
+            tot=0
+            for j in $(seq 0 $((ndir - 1))); do
+                nfiles=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/000${j}/" | wc -l)
+                tot=$((tot + nfiles))
+            done
+    done
 fi
 echo " Done!"
 
