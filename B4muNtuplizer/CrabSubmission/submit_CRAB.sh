@@ -32,11 +32,10 @@ declare -a MC22_B4mu_pre=("Dataset_prova1" "Dataset_prova2")
 declare -a MC22_B4mu_post=("/Bd4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER" "/Bs4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bs4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER")
 declare -a B4mu_MC_label=("Bd" "Bs")
 
-declare -a MC22_BsJPsiPhi_pre=()
-declare -a MC22_BsJPsiPhi_post=()
+declare -a MC22_BsJPsiPhi_pre=("/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
+declare -a MC22_BsJPsiPhi_post=("/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
 
-declare -a BsJPsiPhi_MC_label_pre=("Bs_pre" "Bs_post")
-declare -a BsJPsiPhi_MC_label_post=("Bs_pre" "Bs_post")
+declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
 
 if [ "${year}" == "2022" ]; then
     case "$era" in
@@ -82,11 +81,17 @@ if [ "${year}" == "2022" ]; then
         label=("${B4mu_MC_label[@]}")
         input_type="phys03"
         ;;
-      MC_BsJPsiPhi)
+      MC_BsJPsiPhi_pre)
+        globaltag="130X_mcRun3_2022_realistic_v5"
+        label=("${BsJPsiPhi_MC_label[@]}")
+        datasets=("${MC22_BsJPsiPhi_pre[@]}")
+        input_type="global"
+        ;;
+      MC_BsJPsiPhi_post)
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
         label=("${BsJPsiPhi_MC_label[@]}")
-        datasets=("${MC22_BsJPsiPhi[@]}")
-        input_type="phys03"
+        datasets=("${MC22_BsJPsiPhi_post[@]}")
+        input_type="global"
         ;;
       *)
         echo "Error: The era is incorrect."
