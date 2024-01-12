@@ -34,7 +34,6 @@ declare -a B4mu_MC_label=("Bd" "Bs")
 
 declare -a MC22_BsJPsiPhi_pre=("/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
 declare -a MC22_BsJPsiPhi_post=("/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
-
 declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
 
 if [ "${year}" == "2022" ]; then
