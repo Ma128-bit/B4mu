@@ -1,6 +1,6 @@
 # Analysis code for the B&rarr;4mu search at Run 3
 
-## Run analysis on an entire year with condor:
+## Run analysis on an entire year with condor (ONLY Data):
 ```
 source prepare_and_submit_ALL.sh [year] [delta]
 ```
@@ -15,23 +15,29 @@ Example:`source prepare_and_submit_ALL.sh 2022 300`
 <p>&nbsp;</p>
 
 
-## Run analysis on an era with condor:
+## Run analysis on an era with condor (Data and MC):
 ```
 source prepare_condor.sh [era] [year] [delta]
 ```
-*  [era] is the era (`C, D-v1, D-v2, E, F, G` for 2022 `C-v1, C-v2, C-v3, C-v4, D-v1, D-v2` for 2023)
+*  [era] is the era (`C, D-v1, D-v2, E, F, G, MC_BsJPsiPhi_pre, MC_BsJPsiPhi_post` for 2022 `C-v1, C-v2, C-v3, C-v4, D-v1, D-v2` for 2023)
 *  [year] is the year (`2022` or `2023`);
 *  [Delta] is the number of input files per submission
 
+**FOR DATA ONLY**:
 Then:
 ```
-cd [year]_era[era]
+cd [year]_era[era] 
 source submit_era.sh
 ```
-
 Then:
 ```
 source hadd_era.sh
+```
+**FOR MC**:
+```
+cd [year]_[era]/[MC_lable]
+submit submit.condor with condor
+merge the output with hadd
 ```
 <p>&nbsp;</p>
 
