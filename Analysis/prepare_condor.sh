@@ -30,8 +30,14 @@ declare -a C_v4_2023=("240109_092455" "240109_092509" "240109_092523" "240109_09
 declare -a D_v1_2023=("240109_092702" "240109_092715" "240109_092727" "240109_092740" "240109_092752" "240109_092805" "240109_092818" "240109_092831")
 declare -a D_v2_2023=("240109_092903" "240109_092916" "240109_092928" "240109_092941" "240109_092954" "240109_093007" "240109_093019" "240109_093032")
 
-declare -a Pre_E_MC22=("Dataset_prova1" "Dataset_prova2")
-declare -a Post_E_MC22=("" "")
+declare -a MC22_B4mu_pre=("Dataset_prova1" "Dataset_prova2")
+declare -a MC22_B4mu_post=("" "")
+declare -a B4mu_MC_label=("Bd" "Bs")
+
+declare -a MC22_BsJPsiPhi_pre=("")
+declare -a MC22_BsJPsiPhi_post=("")
+declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
+
 
 if [ "${year}" == "2022" ]; then
     case "$era" in
@@ -53,11 +59,17 @@ if [ "${year}" == "2022" ]; then
       G)
         datasets=("${G_2022[@]}")
         ;;
-      MC_pre)
-        datasets=("${Pre_E_MC22[@]}")
+      MC_B4mu_pre)
+        datasets=("${MC22_B4mu_pre[@]}")
         ;;
-      MC_post)
-        datasets=("${Post_E_MC22[@]}")
+      MC_B4mu_post)
+        datasets=("${MC22_B4mu_post[@]}")
+        ;;
+      MC_BsJPsiPhi_pre)
+        datasets=("${MC22_BsJPsiPhi_pre[@]}")
+        ;;
+      MC_BsJPsiPhi_post)
+        datasets=("${MC22_BsJPsiPhi_post[@]}")
         ;;
       *)
         echo "Error: The era is incorrect."
@@ -138,6 +150,8 @@ if [[ "$era" != *"MC"* ]]; then
         echo -n "."
         sleep 1
     done
+else
+
 fi
 echo " Done!"
 
