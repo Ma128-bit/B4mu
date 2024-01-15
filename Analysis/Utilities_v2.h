@@ -72,39 +72,26 @@ vector<int> get_4index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
     }
     return index;
 }
-std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isTrackerMuon, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
-    vector<int> quad_indx;
-    for (int j=0; j<Mu1_Pt.size(); j++){
-        if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
-        vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
-        if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
-        quad_indx.push_back(j);
-    }
-
-    std::vector<std::vector<std::vector<int>>> out;
-    if(quad_indx.size()==0) {quad_indx.push_back(-99); std::vector<std::vector<int>> temp; temp.push_back(quad_indx); out.push_back(temp); return out;}
+std::vector<std::vector<int>> get_stat(int quad_indx, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isTrackerMuon, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){    
+    std::vector<int> isGlobal(4);
+    std::vector<int> isPF(4);
+    std::vector<int> isLoose(4);
+    std::vector<int> isMedium(4);
+    std::vector<int> isTight(4);
+    std::vector<int> isSoft(4);
+    std::vector<int> isTracker(4);
     
-    std::vector<std::vector<int>> isGlobal(4);
-    std::vector<std::vector<int>> isPF(4);
-    std::vector<std::vector<int>> isLoose(4);
-    std::vector<std::vector<int>> isMedium(4);
-    std::vector<std::vector<int>> isTight(4);
-    std::vector<std::vector<int>> isSoft(4);
-    std::vector<std::vector<int>> isTracker(4);
-    
-    for(int w=0; w<quad_indx.size(); w++){
-        vector<int> index = get_4index(MuonPt, Mu1_Pt.at(quad_indx[w]), Mu2_Pt.at(quad_indx[w]), Mu3_Pt.at(quad_indx[w]), Mu4_Pt.at(quad_indx[w]));
-        for(int k=0; k<index.size(); k++){
-            int isG = Muon_isGlobal.at(index.at(k));
-            isGlobal[k].push_back(isG);
-            int isP = Muon_isPF.at(index.at(k));
-            isPF[k].push_back(isP);
-            isTracker[k].push_back(Muon_isTrackerMuon.at(index.at(k)));
-            isLoose[k].push_back(Muon_isLoose.at(index.at(k)));
-            isMedium[k].push_back(Muon_isMedium.at(index.at(k)));
-            isTight[k].push_back(Muon_isTight.at(index.at(k)));
-            isSoft[k].push_back(Muon_isSoft.at(index.at(k)));
-        }
+    vector<int> index = get_4index(MuonPt, Mu1_Pt.at(quad_indx), Mu2_Pt.at(quad_indx), Mu3_Pt.at(quad_indx), Mu4_Pt.at(quad_indx));
+    for(int k=0; k<index.size(); k++){
+        int isG = Muon_isGlobal.at(index.at(k));
+        isGlobal[k].push_back(isG);
+        int isP = Muon_isPF.at(index.at(k));
+        isPF[k].push_back(isP);
+        isTracker[k].push_back(Muon_isTrackerMuon.at(index.at(k)));
+        isLoose[k].push_back(Muon_isLoose.at(index.at(k)));
+        isMedium[k].push_back(Muon_isMedium.at(index.at(k)));
+        isTight[k].push_back(Muon_isTight.at(index.at(k)));
+        isSoft[k].push_back(Muon_isSoft.at(index.at(k)));
     }
     out.push_back(isGlobal);
     out.push_back(isPF);
@@ -114,12 +101,11 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
     out.push_back(isSoft);
     out.push_back(isTracker);
     return out;
-    
 }
 struct flat3D{
     int i;
     flat3D(int ii) : i(ii)  {}
-    std::vector<std::vector<int>> operator()(std::vector<std::vector<std::vector<int>>> branch) {
+    std::vector<int> operator()(std::vector<std::vector<int>> branch) {
         return branch.at(i);
     }
 };
@@ -219,18 +205,22 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     return quad_indx;
 }
 
-vector<double> flattening(ROOT::VecOps::RVec<double> var, vector<int> Quadruplet_index){
-    vector<double> out;
-    for(int i=0; i<Quadruplet_index.size(); i++){
-        double value = -99;
-        try {
-            value = var.at(Quadruplet_index[i]);
-        } catch (const std::out_of_range& e) {
-            std::cout << "Not valid index " << std::endl;
-            value = -99;
-        }
-        out.push_back(value);
+struct flat_index{
+    int i;
+    flat_index(int ii) : i(ii)  {}
+    double operator()(vector<int> branch) {
+        if(i<branch.size()) return branch[i];
+        else return -99;
     }
-    return out;
-}
+};
 
+double flattening(ROOT::VecOps::RVec<double> var, int Quadruplet_index){
+    double value = -99;
+    try {
+        value = var.at(Quadruplet_index);
+    } catch (const std::out_of_range& e) {
+        std::cout << "Not valid index " << std::endl;
+        return -99;
+    }
+    return value;
+}
