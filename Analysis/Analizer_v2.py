@@ -67,9 +67,17 @@ if __name__ == "__main__":
     branches.append("Quadruplet_indexs")
     df = df.Define("Quadruplet_indexs","best_quadruplets(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
     df = df.Filter("Quadruplet_indexs[0]>-1")
-    branches.append("Stats")
-    df = df.Define("Stats","get_stat(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
     
+    df = df.Define("Stats","get_stat(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
+    branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
+    df = df.Define("isGlobal", flat2D(0), ["Stats"])
+    df = df.Define("isPF", flat2D(1), ["Stats"])
+    df = df.Define("isLoose", flat2D(2), ["Stats"])
+    df = df.Define("isMedium", flat2D(3), ["Stats"])
+    df = df.Define("isTight", flat2D(4), ["Stats"])
+    df = df.Define("isSoft", flat2D(5), ["Stats"])
+    df = df.Define("isTracker", flat2D(6), ["Stats"])
+                    
     #Flat muon pt eta phi
     for i in range(1,5):
         ind=str(i)
