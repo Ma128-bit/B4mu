@@ -109,13 +109,13 @@ if __name__ == "__main__":
 
 
         #Dimuon masses
-        df = df.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
+        rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
         #branches.append("Dimuon_mass")
-        df = df.Define("Dimuon_mass","DimuonMass(Dimuon_index, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
+        rdf = rdf.Define("Dimuon_mass","DimuonMass(Dimuon_index, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
         
         #Dimuon vertex chi2:
         #branches.append("Dimuon_chi2")
-        df = df.Define("Dimuon_chi2","DimuonChi2(Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
+        rdf = rdf.Define("Dimuon_chi2","DimuonChi2(Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
         
         #Flat mass and chi2
         for i in range(2):
@@ -124,15 +124,15 @@ if __name__ == "__main__":
                 name_chi2 = "Dimu_OS"+str(i+1)+"_"+str(j+1)+"_chi2"
                 branches.append(name_mass)
                 branches.append(name_chi2)
-                df = df.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
-                df = df.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
+                rdf = rdf.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
+                rdf = rdf.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
     
         #BsJPsiPhi selections
         branches.append("BsJPsiPhi_sel_OS1")
         branches.append("BsJPsiPhi_sel_OS2")
         
-        df = df.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
-        df = df.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
+        rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
+        rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
 
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
