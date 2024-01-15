@@ -111,8 +111,8 @@ if __name__ == "__main__":
 
 
         #Mass filter
-        if isMC==0:
-            df = df.Filter("abs(Quadruplet_Mass-5.366) > 3*0.05")
+        #if isMC==0:
+            #df = df.Filter("abs(Quadruplet_Mass-5.366) > 3*0.05")
         
         #Dimuon masses
         rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
