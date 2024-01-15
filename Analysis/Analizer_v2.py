@@ -10,6 +10,8 @@ gInterpreter.Declare("""
     #include "Utilities_v2.h"
 """)
 
+from ROOT import flat3D
+
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
     return frame
