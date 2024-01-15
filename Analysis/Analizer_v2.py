@@ -10,7 +10,7 @@ gInterpreter.Declare("""
     #include "Utilities_v2.h"
 """)
 
-from ROOT import flat3D, flat_index, add_index
+from ROOT import flat1D, flat2D, flat_index, add_index
 
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
@@ -79,13 +79,13 @@ if __name__ == "__main__":
         rdf = rdf.Filter("Quadruplet_index>-1")
         rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
         branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
-        rdf = rdf.Define("isGlobal", flat3D(0), ["Stats"])
-        rdf = rdf.Define("isPF", flat3D(1), ["Stats"])
-        rdf = rdf.Define("isLoose", flat3D(2), ["Stats"])
-        rdf = rdf.Define("isMedium", flat3D(3), ["Stats"])
-        rdf = rdf.Define("isTight", flat3D(4), ["Stats"])
-        rdf = rdf.Define("isSoft", flat3D(5), ["Stats"])
-        rdf = rdf.Define("isTracker", flat3D(6), ["Stats"])
+        rdf = rdf.Define("isGlobal", flat1D(0), ["Stats"])
+        rdf = rdf.Define("isPF", flat1D(1), ["Stats"])
+        rdf = rdf.Define("isLoose", flat1D(2), ["Stats"])
+        rdf = rdf.Define("isMedium", flat1D(3), ["Stats"])
+        rdf = rdf.Define("isTight", flat1D(4), ["Stats"])
+        rdf = rdf.Define("isSoft", flat1D(5), ["Stats"])
+        rdf = rdf.Define("isTracker", flat1D(6), ["Stats"])
                         
         #Flat muon pt eta phi
         for i in range(1,5):
