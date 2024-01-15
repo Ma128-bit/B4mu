@@ -106,7 +106,7 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
     out.push_back(isPF);
     out.push_back(isLoose);
     out.push_back(isMedium);
-    out.push_back(isMedium);
+    out.push_back(isTight);
     out.push_back(isSoft);
     return out;
 }
