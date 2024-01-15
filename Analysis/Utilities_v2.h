@@ -88,7 +88,7 @@ std::vector<std::vector<int>> get_stat(ROOT::VecOps::RVec<float> MuonPt, ROOT::V
     std::vector<std::vector<int>> isPF(4);
     std::vector<std::vector<int>> isLoose(4);
     std::vector<std::vector<int>> isMedium(4);
-    std::vector<std::vector<int>> isMedium(4);
+    std::vector<std::vector<int>> isTight(4);
     std::vector<std::vector<int>> isSoft(4);
     
     for(int w=0; w<quad_indx.size(); w++){
