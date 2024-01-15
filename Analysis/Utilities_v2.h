@@ -73,25 +73,23 @@ vector<int> get_4index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
     return index;
 }
 std::vector<std::vector<int>> get_stat(int quad_indx, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isTrackerMuon, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){    
-    std::vector<int> isGlobal(4);
-    std::vector<int> isPF(4);
-    std::vector<int> isLoose(4);
-    std::vector<int> isMedium(4);
-    std::vector<int> isTight(4);
-    std::vector<int> isSoft(4);
-    std::vector<int> isTracker(4);
+    std::vector<int> isGlobal={0,0,0,0};
+    std::vector<int> isPF={0,0,0,0};
+    std::vector<int> isLoose={0,0,0,0};
+    std::vector<int> isMedium={0,0,0,0};
+    std::vector<int> isTight={0,0,0,0};
+    std::vector<int> isSoft={0,0,0,0};
+    std::vector<int> isTracker={0,0,0,0};
     
     vector<int> index = get_4index(MuonPt, Mu1_Pt.at(quad_indx), Mu2_Pt.at(quad_indx), Mu3_Pt.at(quad_indx), Mu4_Pt.at(quad_indx));
     for(int k=0; k<index.size(); k++){
-        int isG = Muon_isGlobal.at(index.at(k));
-        isGlobal[k].push_back(isG);
-        int isP = Muon_isPF.at(index.at(k));
-        isPF[k].push_back(isP);
-        isTracker[k].push_back(Muon_isTrackerMuon.at(index.at(k)));
-        isLoose[k].push_back(Muon_isLoose.at(index.at(k)));
-        isMedium[k].push_back(Muon_isMedium.at(index.at(k)));
-        isTight[k].push_back(Muon_isTight.at(index.at(k)));
-        isSoft[k].push_back(Muon_isSoft.at(index.at(k)));
+        isGlobal[k] = Muon_isGlobal.at(index.at(k));
+        isPF[k] = Muon_isPF.at(index.at(k));
+        isTracker[k] = Muon_isTrackerMuon.at(index.at(k));
+        isLoose[k] = Muon_isLoose.at(index.at(k));
+        isMedium[k] = Muon_isMedium.at(index.at(k));
+        isTight[k] = Muon_isTight.at(index.at(k));
+        isSoft[k] = Muon_isSoft.at(index.at(k));
     }
     out.push_back(isGlobal);
     out.push_back(isPF);
