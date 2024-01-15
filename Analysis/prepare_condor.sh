@@ -149,7 +149,7 @@ if [[ "$era" != *"MC"* ]]; then
         sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#INPUT_DIR#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#OUTPUT_DIR#${home_directory}/${year}_era${era}/stream_${i}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#TRUEFALSE#False#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#TRUEFALSE#0#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         chmod a+x "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         
         echo -n "."
@@ -183,7 +183,7 @@ else
         sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
         sed -i "s#INPUT_DIR#${file_directory}/${i}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
         sed -i "s#OUTPUT_DIR#${home_directory}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#TRUEFALSE#True#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#TRUEFALSE#1#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
         chmod a+x "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
         
         echo -n "."
