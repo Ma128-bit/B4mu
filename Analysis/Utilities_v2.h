@@ -118,7 +118,7 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
 }
 struct flat3D{
     int i;
-    flat2D(int ii) : i(ii)  {}
+    flat3D(int ii) : i(ii)  {}
     std::vector<std::vector<int>> operator()(std::vector<std::vector<std::vector<int>>> branch) {
         return branch.at(i);
     }
