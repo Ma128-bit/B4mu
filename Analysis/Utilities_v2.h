@@ -82,8 +82,10 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
     }
 
     std::vector<std::vector<std::vector<int>>> out;
-    if(quad_indx.size()==0) {quad_indx.push_back(-99); std::vector<std::vector<int>> temp; temp.push_back(quad_indx); out.push_back(temp); return out;}
+    //if(quad_indx.size()==0) {quad_indx.push_back(-99); std::vector<std::vector<int>> temp; temp.push_back(quad_indx); out.push_back(temp); return out;}
 
+    quad_indx.push_back(-99); std::vector<std::vector<int>> temp; temp.push_back(quad_indx); out.push_back(temp); return out;
+    /*
     std::vector<std::vector<int>> isGlobal(4);
     std::vector<std::vector<int>> isPF(4);
     std::vector<std::vector<int>> isLoose(4);
@@ -109,6 +111,7 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
     out.push_back(isTight);
     out.push_back(isSoft);
     return out;
+    */
 }
 vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
     int cont1=0, cont2=0, cont3=0, cont4=0;
