@@ -72,7 +72,7 @@ vector<int> get_4index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
     }
     return index;
 }
-std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
+std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isTrackerMuon, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
     vector<int> quad_indx;
     for (int j=0; j<Mu1_Pt.size(); j++){
         if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
@@ -90,6 +90,7 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
     std::vector<std::vector<int>> isMedium(4);
     std::vector<std::vector<int>> isTight(4);
     std::vector<std::vector<int>> isSoft(4);
+    std::vector<std::vector<int>> isTracker(4);
     
     for(int w=0; w<quad_indx.size(); w++){
         vector<int> index = get_4index(MuonPt, Mu1_Pt.at(quad_indx[w]), Mu2_Pt.at(quad_indx[w]), Mu3_Pt.at(quad_indx[w]), Mu4_Pt.at(quad_indx[w]));
@@ -98,6 +99,7 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
             isGlobal[k].push_back(isG);
             int isP = Muon_isPF.at(index.at(k));
             isPF[k].push_back(isP);
+            isTracker[k].push_back(Muon_isTrackerMuon.at(index.at(k)));
             isLoose[k].push_back(Muon_isLoose.at(index.at(k)));
             isMedium[k].push_back(Muon_isMedium.at(index.at(k)));
             isTight[k].push_back(Muon_isTight.at(index.at(k)));
