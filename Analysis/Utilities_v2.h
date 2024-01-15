@@ -92,7 +92,7 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
     std::vector<std::vector<int>> isSoft(4);
     
     for(int w=0; w<quad_indx.size(); w++){
-        vector<int> index = get_4index(MuonPt, Mu1_Pt.at(w), Mu2_Pt.at(w), Mu3_Pt.at(w), Mu4_Pt.at(w));
+        vector<int> index = get_4index(MuonPt, Mu1_Pt.at(quad_indx[w]), Mu2_Pt.at(quad_indx[w]), Mu3_Pt.at(quad_indx[w]), Mu4_Pt.at(quad_indx[w]));
         for(int k=0; k<index.size(); k++){
             int isG = Muon_isGlobal.at(index.at(k));
             isGlobal[k].push_back(isG);
