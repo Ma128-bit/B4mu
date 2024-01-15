@@ -196,5 +196,6 @@ vector<double> flattening(ROOT::VecOps::RVec<double> var, vector<int> Quadruplet
         }
         out.push_back(value);
     }
+    return out;
 }
 
