@@ -98,10 +98,10 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
             isGlobal[k].push_back(isG);
             int isP = Muon_isPF.at(index.at(k));
             isPF[k].push_back(isP);
-            //isLoose[k].push_back(Muon_isLoose.at(index.at(k)));
-            //isMedium[k].push_back(Muon_isMedium.at(index.at(k)));
-            //isTight[k].push_back(Muon_isTight.at(index.at(k)));
-            //isSoft[k].push_back(Muon_isSoft.at(index.at(k)));
+            isLoose[k].push_back(Muon_isLoose.at(index.at(k)));
+            isMedium[k].push_back(Muon_isMedium.at(index.at(k)));
+            isTight[k].push_back(Muon_isTight.at(index.at(k)));
+            isSoft[k].push_back(Muon_isSoft.at(index.at(k)));
         }
     }
     out.push_back(isGlobal);
