@@ -75,7 +75,7 @@ if __name__ == "__main__":
         ind=str(i)
         for s in ["Pt", "Eta", "Phi"]:
             branches.append("Mu"+ind+"_"+s)
-            df = df.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
+            df = df.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_indexs)")
     
     #Flat quadruplet variables
     quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge"]
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     for v in quadruplet_related_var:
         if "Vtx" not in v:
             branches.append(v)
-        df = df.Redefine(v,"flattening("+v+", Quadruplet_index)")
+        df = df.Redefine(v,"flattening("+v+", Quadruplet_indexs)")
             
     if not output_dir.endswith("/"):
         output_dir= output_dir + "/"
