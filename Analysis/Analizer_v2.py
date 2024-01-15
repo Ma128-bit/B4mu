@@ -73,7 +73,9 @@ if __name__ == "__main__":
         branches=[]
         branches.append("Quadruplet_index")
         rdf = df.Define("Quadruplet_index", flat_index(chi), ["Quadruplet_indexs"])
+        branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
+        branches.append("isMC")
         rdf = rdf.Define("isMC", add_index(isMC))
         
         rdf = rdf.Filter("Quadruplet_index>-1")
