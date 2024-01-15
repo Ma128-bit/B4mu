@@ -10,7 +10,7 @@ gInterpreter.Declare("""
     #include "Utilities_v2.h"
 """)
 
-from ROOT import flat3D
+from ROOT import flat3D, flat_index
 
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
@@ -60,52 +60,57 @@ if __name__ == "__main__":
     else:
         selected_files = [directory + "/" + s for s in selected_files]
 
-    branches=[]
     print("Starting!")
-    
-    start_2 = time.time()
     df = load_df(selected_files, "TreeMakerBkg/ntuple")
     #Find best Quadruplet
-    branches.append("Quadruplet_indexs")
     df = df.Define("Quadruplet_indexs","best_quadruplets(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
     df = df.Filter("Quadruplet_indexs[0]>-1")
-    
-    df = df.Define("Stats","get_stat(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
-    branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
-    df = df.Define("isGlobal", flat3D(0), ["Stats"])
-    df = df.Define("isPF", flat3D(1), ["Stats"])
-    df = df.Define("isLoose", flat3D(2), ["Stats"])
-    df = df.Define("isMedium", flat3D(3), ["Stats"])
-    df = df.Define("isTight", flat3D(4), ["Stats"])
-    df = df.Define("isSoft", flat3D(5), ["Stats"])
-    df = df.Define("isTracker", flat3D(6), ["Stats"])
-                    
-    #Flat muon pt eta phi
-    for i in range(1,5):
-        ind=str(i)
-        for s in ["Pt", "Eta", "Phi"]:
-            branches.append("Mu"+ind+"_"+s)
-            df = df.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_indexs)")
-    
-    #Flat quadruplet variables
-    quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge"]
-    vertex_chi2=""
-    for i in range(1, 4):
-        for j in range(i+1,5):
-            vertex_chi2 = vertex_chi2 + ", Vtx"+str(i)+str(j)+"_Chi2"
-            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
-            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
-    for v in quadruplet_related_var:
-        if "Vtx" not in v:
-            branches.append(v)
-        df = df.Redefine(v,"flattening("+v+", Quadruplet_indexs)")
-            
-    if not output_dir.endswith("/"):
-        output_dir= output_dir + "/"
-    
-    df.Snapshot("FinalTree", output_dir + "Analyzed_Data_"+str(index)+".root", branches)
 
-    print("Performed ",df.GetNRuns()," loops")
-    end = time.time()
-    print('Partial execution time ', end-start_2)
+    for chi in range(5):
+        start_2 = time.time()
+        branches=[]
+        branches.append("Quadruplet_index")
+        rdf = df.Define("Quadruplet_index", flat_index(chi), ["Quadruplet_indexs"])
+        rdf = rdf.Filter("Quadruplet_index>-1")
+        rdf = rdf.Define("Stats","get_stat(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
+        branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
+        rdf = rdf.Define("isGlobal", flat3D(0), ["Stats"])
+        rdf = rdf.Define("isPF", flat3D(1), ["Stats"])
+        rdf = rdf.Define("isLoose", flat3D(2), ["Stats"])
+        rdf = rdf.Define("isMedium", flat3D(3), ["Stats"])
+        rdf = rdf.Define("isTight", flat3D(4), ["Stats"])
+        rdf = rdf.Define("isSoft", flat3D(5), ["Stats"])
+        rdf = rdf.Define("isTracker", flat3D(6), ["Stats"])
+                        
+        #Flat muon pt eta phi
+        for i in range(1,5):
+            ind=str(i)
+            for s in ["Pt", "Eta", "Phi"]:
+                branches.append("Mu"+ind+"_"+s)
+                rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
+        
+        #Flat quadruplet variables
+        quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge"]
+        vertex_chi2=""
+        for i in range(1, 4):
+            for j in range(i+1,5):
+                vertex_chi2 = vertex_chi2 + ", Vtx"+str(i)+str(j)+"_Chi2"
+                quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
+                quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
+        for v in quadruplet_related_var:
+            if "Vtx" not in v:
+                branches.append(v)
+            rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
+                
+        if not output_dir.endswith("/"):
+            output_dir= output_dir + "/"
+        
+        rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_chi_"+str(chi)+"_index_"+str(index)+".root", branches)
+        
+        print("Performed ",rdf.GetNRuns()," loops")
+        del rdf
+        del branches
+        end = time.time()
+        print('Partial execution time ', end-start_2)
+    
     print('Total execution time ', end-start)
