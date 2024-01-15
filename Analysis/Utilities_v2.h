@@ -112,6 +112,7 @@ std::vector<std::vector<std::vector<int>>> get_stat(ROOT::VecOps::RVec<float> Mu
     out.push_back(isMedium);
     out.push_back(isTight);
     out.push_back(isSoft);
+    out.push_back(isTracker);
     return out;
     
 }
