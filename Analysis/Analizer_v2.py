@@ -10,7 +10,7 @@ gInterpreter.Declare("""
     #include "Utilities_v2.h"
 """)
 
-from ROOT import flat3D, flat_index
+from ROOT import flat3D, flat_index, add_index
 
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
@@ -40,11 +40,13 @@ if __name__ == "__main__":
     parser.add_argument("--delta", type=int, help="Number of files per submission")
     parser.add_argument("--directory_IN", type=str, help="Root files directory")
     parser.add_argument("--directory_OUT", type=str, help="Output directory")
+    #parser.add_argument("--isMC", type=int, help="0 for data 1 for MC")
     args = parser.parse_args()
     index = args.index
     delta = args.delta
     directory = args.directory_IN
     output_dir = args.directory_OUT
+    #isMC = args.isMC
     
     file_root = list_of_root_files(directory)
     selected_files = select_root_files(file_root, index , delta)
@@ -71,6 +73,9 @@ if __name__ == "__main__":
         branches=[]
         branches.append("Quadruplet_index")
         rdf = df.Define("Quadruplet_index", flat_index(chi), ["Quadruplet_indexs"])
+        rdf = rdf.Define("chi2_label", add_index(chi))
+        #rdf = rdf.Define("isMC", add_index(isMC))
+        
         rdf = rdf.Filter("Quadruplet_index>-1")
         rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
         branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
