@@ -195,6 +195,27 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
         quad_indx.push_back(j);
     }
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
+
+    vector<double> chi2;
+    for(int l=0; l<quad_indx.size(); l++){
+        double temp_i=quad_indx.at(l);
+        double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
+        chi2.push_back(temp_chi2);
+    }
+
+    std::vector<std::pair<double, int>> v_union;
+    for (size_t i = 0; i < quad_indx.size(); ++i) {
+        v_union.push_back(std::make_pair(chi2[i], quad_indx[i]));
+    }
+    std::sort(v_union.begin(), v_union.end(), 
+              [](const std::pair<double, int>& a, const std::pair<double, int>& b) {
+                  return a.first < b.first;
+              });
+
+    for (size_t i = 0; i < v_union.size(); ++i) {
+        chi2[i] = v_union[i].first;
+        quad_indx[i] = v_union[i].second;
+    }
     return quad_indx;
 }
 
