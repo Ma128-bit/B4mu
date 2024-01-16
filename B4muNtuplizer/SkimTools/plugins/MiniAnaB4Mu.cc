@@ -896,22 +896,34 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         
                         ///////////////Check GEN matching and Fill SimInfo///////////////
                         if(isMc){
-                            bool isMatch1=false; bool isMatch2=false; bool isMatch3=false; bool isMatch4=false;
-                            if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 511 || fabs(mu1->simMotherPdgId()) == 531) ){
-                                isMatch1=true;
+                            int isMatch_phi=0, isMatch_jpsi=0;
+                            if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 333) ){
+                                isMatch_phi++;
                             }
-                            if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 511 || fabs(mu2->simMotherPdgId()) == 531) ){
-                                isMatch2=true;
+                            if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 443) ){
+                                isMatch_jpsi++;
                             }
-                            if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 511 || fabs(mu3->simMotherPdgId()) == 531) ){
-                                isMatch3=true;
+                            if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 333) ){
+                                isMatch_phi++;
                             }
-                            if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 511 || fabs(mu4->simMotherPdgId()) == 531) ){
-                                isMatch4=true;
+                            if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 443) ){
+                                isMatch_jpsi++;
+                            }
+                            if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 333) ){
+                                isMatch_phi++;
+                            }
+                            if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 443) ){
+                                isMatch_jpsi++;
+                            }
+                            if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 333) ){
+                                isMatch_phi++;
+                            }
+                            if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 443) ){
+                                isMatch_jpsi++;
                             }
                             // cout<<QuadrupletIndex<<"Quadruplet Mass:"<<B_It->mass()<<" pt="<<B_It->pt()<<" vtx.x="<<B_It->vx()<<" vtx x="<<QuadrupletVtx.x()<<" chi2="<<B_It->vertexChi2()<<" ndof="<<B_It->vertexNdof()<<endl;
                             // cout<<QuadrupletIndex<<"--Muon 1 pt="<<mu1->pt()<<" Muon2 pt="<<mu2->pt()<<" Mu3 pt="<<mu3->pt()<<" "<<endl;
-                            if( isMatch1 && isMatch2 && isMatch3 && isMatch4) {
+                            if( isMatch_phi==2 && isMatch_jpsi==2) {
                                 //cout<<" Matched Quadruplets mass="<<B_It->mass()<<endl;
                                 GenMatchMu1_SimPt.push_back(mu1->simPt());
                                 GenMatchMu2_SimPt.push_back(mu2->simPt());
@@ -1705,6 +1717,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     GenParticle_Eta.clear();
     GenParticle_Phi.clear();
     GenParticle_MotherPdgId.clear();
+    GenParticle_GrandMotherPdgId.clear();
     GenParticle_vx.clear();
     GenParticle_vy.clear();
     GenParticle_vz.clear();
@@ -2080,6 +2093,7 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("GenParticle_Eta", &GenParticle_Eta);
     tree_->Branch("GenParticle_Phi", &GenParticle_Phi);
     tree_->Branch("GenParticle_MotherPdgId", &GenParticle_MotherPdgId);
+    tree_->Branch("GenParticle_GrandMotherPdgId", &GenParticle_GrandMotherPdgId);
     tree_->Branch("GenParticle_vx", &GenParticle_vx);
     tree_->Branch("GenParticle_vy", &GenParticle_vy);
     tree_->Branch("GenParticle_vz", &GenParticle_vz);
