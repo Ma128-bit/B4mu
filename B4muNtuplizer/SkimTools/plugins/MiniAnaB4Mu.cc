@@ -897,25 +897,25 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         ///////////////Check GEN matching and Fill SimInfo///////////////
                         if(isMc){
                             int isMatch_phi=0, isMatch_jpsi=0;
-                            if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 333) ){
+                            if( ( (fabs(mu1->simMotherPdgId()) == 333) ){
                                 isMatch_phi++;
                             }
                             if( (mu1->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu1->simMotherPdgId()) == 443) ){
                                 isMatch_jpsi++;
                             }
-                            if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 333) ){
+                            if( ( (fabs(mu2->simMotherPdgId()) == 333) ){
                                 isMatch_phi++;
                             }
                             if( (mu2->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu2->simMotherPdgId()) == 443) ){
                                 isMatch_jpsi++;
                             }
-                            if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 333) ){
+                            if( ( (fabs(mu3->simMotherPdgId()) == 333) ){
                                 isMatch_phi++;
                             }
                             if( (mu3->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu3->simMotherPdgId()) == 443) ){
                                 isMatch_jpsi++;
                             }
-                            if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 333) ){
+                            if( ( (fabs(mu4->simMotherPdgId()) == 333) ){
                                 isMatch_phi++;
                             }
                             if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 443) ){
