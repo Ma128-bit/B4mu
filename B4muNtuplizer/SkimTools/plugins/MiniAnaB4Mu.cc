@@ -921,10 +921,11 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 443) ){
                                 isMatch_jpsi++;
                             }
+                            cout<<"isMatch_jpsi: "<<isMatch_jpsi<<" -- isMatch_phi: "<<isMatch_phi<<endl;
                             // cout<<QuadrupletIndex<<"Quadruplet Mass:"<<B_It->mass()<<" pt="<<B_It->pt()<<" vtx.x="<<B_It->vx()<<" vtx x="<<QuadrupletVtx.x()<<" chi2="<<B_It->vertexChi2()<<" ndof="<<B_It->vertexNdof()<<endl;
                             // cout<<QuadrupletIndex<<"--Muon 1 pt="<<mu1->pt()<<" Muon2 pt="<<mu2->pt()<<" Mu3 pt="<<mu3->pt()<<" "<<endl;
                             if( isMatch_phi==2 && isMatch_jpsi==2) {
-                                //cout<<" Matched Quadruplets mass="<<B_It->mass()<<endl;
+                                cout<<" Matched Quadruplets mass="<<B_It->mass()<<endl;
                                 GenMatchMu1_SimPt.push_back(mu1->simPt());
                                 GenMatchMu2_SimPt.push_back(mu2->simPt());
                                 GenMatchMu3_SimPt.push_back(mu3->simPt());
