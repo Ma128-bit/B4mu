@@ -921,6 +921,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 443) ){
                                 isMatch_jpsi++;
                             }
+                            cout<<"mu4->simGrandMotherPdgId(): "<<mu4->simGrandMotherPdgId()<<endl;
+                            cout<<"mu4->simHeaviestMotherFlavour(): "<<mu4->simHeaviestMotherFlavour()<<endl;
                             cout<<"isMatch_jpsi: "<<isMatch_jpsi<<" -- isMatch_phi: "<<isMatch_phi<<endl;
                             // cout<<QuadrupletIndex<<"Quadruplet Mass:"<<B_It->mass()<<" pt="<<B_It->pt()<<" vtx.x="<<B_It->vx()<<" vtx x="<<QuadrupletVtx.x()<<" chi2="<<B_It->vertexChi2()<<" ndof="<<B_It->vertexNdof()<<endl;
                             // cout<<QuadrupletIndex<<"--Muon 1 pt="<<mu1->pt()<<" Muon2 pt="<<mu2->pt()<<" Mu3 pt="<<mu3->pt()<<" "<<endl;
@@ -955,6 +957,37 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                                 GenMatchMu2_Phi.push_back(mu2->phi());
                                 GenMatchMu3_Phi.push_back(mu3->phi());
                                 GenMatchMu4_Phi.push_back(mu4->phi());
+                            }
+                            else{
+                                GenMatchMu1_SimPt.push_back(-99);
+                                GenMatchMu2_SimPt.push_back(-99);
+                                GenMatchMu3_SimPt.push_back(-99);
+                                GenMatchMu4_SimPt.push_back(-99);
+                                
+                                GenMatchMu1_SimEta.push_back(-99);
+                                GenMatchMu2_SimEta.push_back(-99);
+                                GenMatchMu3_SimEta.push_back(-99);
+                                GenMatchMu4_SimEta.push_back(-99);
+                                
+                                GenMatchMu1_SimPhi.push_back(-99);
+                                GenMatchMu2_SimPhi.push_back(-99);
+                                GenMatchMu3_SimPhi.push_back(-99);
+                                GenMatchMu4_SimPhi.push_back(-99);
+                                
+                                GenMatchMu1_Pt.push_back(-99);
+                                GenMatchMu2_Pt.push_back(-99);
+                                GenMatchMu3_Pt.push_back(-99);
+                                GenMatchMu4_Pt.push_back(-99);
+                                
+                                GenMatchMu1_Eta.push_back(-99);
+                                GenMatchMu2_Eta.push_back(-99);
+                                GenMatchMu3_Eta.push_back(-99);
+                                GenMatchMu4_Eta.push_back(-99);
+                                
+                                GenMatchMu1_Phi.push_back(-99);
+                                GenMatchMu2_Phi.push_back(-99);
+                                GenMatchMu3_Phi.push_back(-99);
+                                GenMatchMu4_Phi.push_back(-99);
                             }
                             //GenVtx vars to be added
                         } //if(isMC)
