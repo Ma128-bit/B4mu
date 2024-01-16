@@ -921,7 +921,6 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             if( (mu4->simType() == reco::MatchedMuonFromHeavyFlavour) && (fabs(mu4->simMotherPdgId()) == 443) ){
                                 isMatch_jpsi++;
                             }
-                            cout<<"mu4->simGrandMotherPdgId(): "<<mu4->simGrandMotherPdgId()<<endl;
                             cout<<"mu4->simHeaviestMotherFlavour(): "<<mu4->simHeaviestMotherFlavour()<<endl;
                             cout<<"isMatch_jpsi: "<<isMatch_jpsi<<" -- isMatch_phi: "<<isMatch_phi<<endl;
                             // cout<<QuadrupletIndex<<"Quadruplet Mass:"<<B_It->mass()<<" pt="<<B_It->pt()<<" vtx.x="<<B_It->vx()<<" vtx x="<<QuadrupletVtx.x()<<" chi2="<<B_It->vertexChi2()<<" ndof="<<B_It->vertexNdof()<<endl;
