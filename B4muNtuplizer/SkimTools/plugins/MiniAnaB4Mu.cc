@@ -195,7 +195,7 @@ private:
     
     std::vector<double>   Muon_combinedQuality_updatedSta,  Muon_combinedQuality_trkKink,  Muon_combinedQuality_glbKink,  Muon_combinedQuality_trkRelChi2,  Muon_combinedQuality_staRelChi2,  Muon_combinedQuality_chi2LocalPosition,  Muon_combinedQuality_chi2LocalMomentum,  Muon_combinedQuality_localDistance,  Muon_combinedQuality_globalDeltaEtaPhi,  Muon_combinedQuality_tightMatch,  Muon_combinedQuality_glbTrackProbability,  Muon_calEnergy_em,  Muon_calEnergy_emS9,  Muon_calEnergy_emS25,  Muon_calEnergy_had,  Muon_calEnergy_hadS9,  Muon_segmentCompatibility,  Muon_caloCompatibility,  Muon_ptErrOverPt, Muon_BestTrackPt,  Muon_BestTrackPtErr, Muon_BestTrackEta,  Muon_BestTrackEtaErr,  Muon_BestTrackPhi,  Muon_BestTrackPhiErr;
     
-    std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX;
+    std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simHeaviestMotherFlavour;
     std::vector<double> Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu4_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi, GenMatchMu4_SimPhi, GenMatchMu1_Pt, GenMatchMu2_Pt, GenMatchMu3_Pt, GenMatchMu4_Pt, GenMatchMu1_Eta, GenMatchMu2_Eta, GenMatchMu3_Eta, GenMatchMu4_Eta, GenMatchMu1_Phi, GenMatchMu2_Phi, GenMatchMu3_Phi, GenMatchMu4_Phi;
     
     std::vector<double> RefTrack1_Pt, RefTrack1_Eta, RefTrack1_Phi, RefTrack1_QuadrupletIndex;
@@ -1534,6 +1534,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         Muon_simPdgId.push_back(mu->simPdgId());
         Muon_simMotherPdgId.push_back(mu->simMotherPdgId());
         Muon_simFlavour.push_back(mu->simFlavour());
+        Muon_simHeaviestMotherFlavour.push_back(mu->simHeaviestMotherFlavour());
         Muon_simType.push_back(mu->simType());
         Muon_simBX.push_back(mu->simBX());
         
@@ -1769,6 +1770,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     Muon_simPdgId.clear();
     Muon_simMotherPdgId.clear();
     Muon_simFlavour.clear();
+    Muon_simHeaviestMotherFlavour.clear();
     Muon_simType.clear();
     Muon_simBX.clear();
     MuonEnergy.clear();
@@ -2147,6 +2149,7 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("Muon_simPdgId", &Muon_simPdgId);
     tree_->Branch("Muon_simMotherPdgId", &Muon_simMotherPdgId);
     tree_->Branch("Muon_simFlavour", &Muon_simFlavour);
+    tree_->Branch("Muon_simHeaviestMotherFlavour",&Muon_simHeaviestMotherFlavour);
     tree_->Branch("Muon_simType", &Muon_simType);
     tree_->Branch("Muon_simBX", &Muon_simBX);
     
