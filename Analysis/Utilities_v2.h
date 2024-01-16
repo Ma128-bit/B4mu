@@ -110,7 +110,7 @@ struct flat1D{
     }
 };
 
-vector<int> best_quadruplets(int isMC, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
+vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
     vector<int> quad_indx;
     for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
         //Cut1 "strange" events
@@ -171,37 +171,6 @@ vector<int> best_quadruplets(int isMC, ROOT::VecOps::RVec<float> MuonPt, ROOT::V
         }
         if(HLT_matching<2) continue;
 
-        /*
-        if(isMC>0){ //Cut6 Gen Matching
-            vector<double> pt_HLT, eta_HLT, phi_HLT;
-            vector<float> pt, eta, phi;
-            for(int h=0; h<index.size(); h++){
-                float pt_temp=MuonPt.at(index.at(h));
-                float eta_temp=MuonEta.at(index.at(h));
-                float phi_temp=MuonPhi.at(index.at(h));
-                pt.push_back(pt_temp);
-                eta.push_back(eta_temp);
-                phi.push_back(phi_temp);
-            }        
-            int HLT_matching = 0;
-            for(int w=0; w<MuonPt_HLT.size();w++){
-                for(int p=0; p<pt.size();p++){
-                    double dphi = abs(phi.at(p) - MuonPhi_HLT.at(w));
-                    double deta = abs(eta.at(p) - MuonEta_HLT.at(w));
-                    if(dphi > double(M_PI)) dphi -= double(2*M_PI);
-                    double dR = TMath::Sqrt(dphi*dphi + deta*deta);
-                    double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
-                    if(dR<0.03 && dpt<0.1){
-                        HLT_matching++;
-                        phi.erase(phi.begin() + p);
-                        eta.erase(eta.begin() + p);
-                        pt.erase(pt.begin() + p);
-                        break;
-                    }
-                }
-            }
-        }
-        */
         quad_indx.push_back(j);
     }
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
