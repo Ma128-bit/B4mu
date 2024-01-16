@@ -436,11 +436,14 @@ struct flat2D{
 int BsJPsiPhi(double m1, double m2, double chi1, double chi2){
     std::vector<double> mass = {m1, m2};
     std::sort(mass.begin(), mass.end());
-    double sigma_phi = 0.033;
-    double sigma_jpsi = 0.054;
+    double sigma_phi = 0.015;
+    double sigma_jpsi = 0.035;
     double mass_phi = 1.019;
     double mass_jpsi = 3.096;
-    if (std::abs(mass_phi-mass[0])<2*sigma_phi && std::abs(mass_jpsi-mass[1])<2*sigma_jpsi && chi1<10 && chi2<10) return 2;
-    if (std::abs(mass_phi-mass[0])<2*sigma_phi && std::abs(mass_jpsi-mass[1])<2*sigma_jpsi) return 1;
+    for(int i=2;i<16;i++){
+        if (std::abs(mass_phi-mass[0])<3*sigma_phi && std::abs(mass_jpsi-mass[1])<3*sigma_jpsi && chi1>-1 && chi2>-1 && chi1<10*i && chi2<10*i) return i;
+    }
+    if (std::abs(mass_phi-mass[0])<3*sigma_phi && std::abs(mass_jpsi-mass[1])<3*sigma_jpsi && chi1>-1 && chi2>-1) return 1;
     else return 0;
 }
+
