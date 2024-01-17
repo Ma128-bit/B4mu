@@ -206,7 +206,7 @@ int GenMatching(double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMa
         cout<<"abs(GenParticle_PdgId.at(index[i])): "<<abs(GenParticle_PdgId.at(index[i]))<<endl;
         if(abs(GenParticle_PdgId.at(index[i])) != 13) return -99;
         cout<<"abs(GenParticle_MotherPdgId.at(index[i])): "<<abs(GenParticle_MotherPdgId.at(index[i]))<<endl;
-        if(abs(GenParticle_MotherPdgId.at(index[i])) != 433 && abs(GenParticle_MotherPdgId.at(index[i])) != 333) return -98;
+        if(abs(GenParticle_MotherPdgId.at(index[i])) != 443 && abs(GenParticle_MotherPdgId.at(index[i])) != 333) return -98;
         cout<<"abs(GenParticle_GrandMotherPdgId.at(index[i])): "<<abs(GenParticle_GrandMotherPdgId.at(index[i]))<<endl;
         if(abs(GenParticle_GrandMotherPdgId.at(index[i])) != 531 && abs(GenParticle_GrandMotherPdgId.at(index[i])) != 533) return -97;
     }
