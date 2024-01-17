@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 branches.append("Mu"+ind+"_"+s)
                 branches.append("GenMatchMu"+ind+"_Sim"+s)
                 rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
-                rdf = rdf.Redefine("GenMatchMu"+ind+"_Sim"+s,"flattening(GenMatchMu"+ind+"_Sim"+s", Quadruplet_index)")
+                rdf = rdf.Redefine("GenMatchMu"+ind+"_Sim"+s,"flattening(GenMatchMu"+ind+"_Sim"+s+", Quadruplet_index)")
 
         #Flat quadruplet variables
         quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge"]
