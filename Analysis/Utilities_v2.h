@@ -123,10 +123,12 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
         //if(FlightDistBS_SV_Significance.at(j) < 2 ) continue;
         
         //Cut2 CMS muon system acceptance
+        bool acceptanceCUT = true;
         for(int c=0; c<index.size(); c++){
-            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) continue;
-            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) continue;
+            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
+            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
         }
+        if(acceptanceCUT==false) continue;
         
         //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
         double vz1 = Muon_vz.at(index.at(0));
