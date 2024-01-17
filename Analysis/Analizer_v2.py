@@ -115,7 +115,8 @@ if __name__ == "__main__":
         if isMC==1:
             rdf = rdf.Filter("GenMatchMu1_SimPt>-1 &&  GenMatchMu2_SimPt>-1 && GenMatchMu3_SimPt>-1  && GenMatchMu4_SimPt>-1")
             rdf = rdf.Define("GenMatch","GenMatching(GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenParticle_Pt, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
-
+            branches.append("GenMatch")
+            
         #Mass filter
         #if isMC==0:
             #rdf = rdf.Filter("(Quadruplet_Mass-5.366)>0.15 || (5.366-Quadruplet_Mass)>0.15")
