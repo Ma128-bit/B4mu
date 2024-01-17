@@ -202,13 +202,9 @@ int GenMatching(double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMa
     if(GenMatchMu1_SimPt<-1 || GenMatchMu2_SimPt<-1 || GenMatchMu3_SimPt<-1  || GenMatchMu4_SimPt<-1) return -99;
     vector<int> index = get_4index(GenParticle_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt);
     if(index.size() != 4) return -98;
-    cout<<"index("<<index.size()<<"): "<<index[0]<<" "<<index[1]<<" "<<index[2]<<" "<<index[3]<<endl;
     for(int i=0; i<index.size(); i++){
-        cout<<"abs(GenParticle_PdgId.at(index[i])): "<<abs(GenParticle_PdgId.at(index[i]))<<endl;
         if(abs(GenParticle_PdgId.at(index[i])) != 13) return -97;
-        cout<<"abs(GenParticle_MotherPdgId.at(index[i])): "<<abs(GenParticle_MotherPdgId.at(index[i]))<<endl;
         if(abs(GenParticle_MotherPdgId.at(index[i])) != 443 && abs(GenParticle_MotherPdgId.at(index[i])) != 333) return -96;
-        cout<<"abs(GenParticle_GrandMotherPdgId.at(index[i])): "<<abs(GenParticle_GrandMotherPdgId.at(index[i]))<<endl;
         if(abs(GenParticle_GrandMotherPdgId.at(index[i])) != 531 && abs(GenParticle_GrandMotherPdgId.at(index[i])) != 533) return -95;
     }
     return 1;
