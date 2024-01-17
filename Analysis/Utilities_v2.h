@@ -116,10 +116,17 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
         //Cut1 "strange" events
         if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
         
-        //Cut2 FlightDistBS_SV_Significance, dR and dz
-        //if(FlightDistBS_SV_Significance.at(j) < 2 ) continue;
         vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
         if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
+
+        //Cut2 FlightDistBS_SV_Significance, dR and dz
+        //if(FlightDistBS_SV_Significance.at(j) < 2 ) continue;
+        
+        //Cut2 CMS muon system acceptance
+        for(int c=0; c<index.size(); c++){
+            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) continue;
+            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) continue;
+        }
         
         //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
         double vz1 = Muon_vz.at(index.at(0));
