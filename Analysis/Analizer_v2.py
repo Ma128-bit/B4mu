@@ -71,12 +71,12 @@ if __name__ == "__main__":
     for chi in range(5):
         start_2 = time.time()
         branches=[]
-        branches.append("isMC")
-        df = df.Define("isMC", add_index(isMC))
         branches.append("Quadruplet_index")
         rdf = df.Define("Quadruplet_index", flat_index(chi), ["Quadruplet_indexs"])
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
+        branches.append("isMC")
+        rdf = rdf.Define("isMC", add_index(isMC))
         
         rdf = rdf.Filter("Quadruplet_index>-1")
         rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
