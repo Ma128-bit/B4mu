@@ -71,7 +71,7 @@ if __name__ == "__main__":
     for chi in range(5):
         start_2 = time.time()
         branches=[]
-        branches.append("Quadruplet_index")
+        #branches.append("Quadruplet_index")
         rdf = df.Define("Quadruplet_index", flat_index(chi), ["Quadruplet_indexs"])
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
@@ -94,8 +94,10 @@ if __name__ == "__main__":
             ind=str(i)
             for s in ["Pt", "Eta", "Phi"]:
                 branches.append("Mu"+ind+"_"+s)
+                branches.append("GenMatchMu"+ind+"_Sim"+s)
                 rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
-        
+                rdf = rdf.Redefine("GenMatchMu"+ind+"_Sim"+s,"flattening(GenMatchMu"+ind+"_Sim"+s", Quadruplet_index)")
+
         #Flat quadruplet variables
         quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge"]
         vertex_chi2=""
@@ -109,6 +111,10 @@ if __name__ == "__main__":
                 branches.append(v)
             rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
 
+        # Gen Matching
+        if isMC==1:
+            rdf = rdf.Filter("GenMatchMu1_SimPt>-1 &&  GenMatchMu2_SimPt>-1 && GenMatchMu3_SimPt>-1  && GenMatchMu4_SimPt>-1")
+            rdf = rdf.Define("GenMatch","GenMatching(GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenParticle_Pt, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
 
         #Mass filter
         #if isMC==0:
