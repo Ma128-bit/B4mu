@@ -201,8 +201,10 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
 int GenMatching(double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMatchMu3_SimPt, double GenMatchMu4_SimPt,  ROOT::VecOps::RVec<double> GenParticle_Pt,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     vector<int> index = get_4index(GenParticle_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt);
     if(index.size() != 4) return -100;
+    cout<<"index: "<<index[0]<<index[1]<<index[2]<<index[3]<<endl;
     for(int i=0; i<index.size(); i++){
         if(abs(GenParticle_PdgId.at(index[i])) != 13) return -99;
+        cout<<"abs(GenParticle_MotherPdgId.at(index[i])): "<<abs(GenParticle_MotherPdgId.at(index[i]))<<endl;
         if(abs(GenParticle_MotherPdgId.at(index[i])) != 433 && abs(GenParticle_MotherPdgId.at(index[i])) != 333) return -98;
         if(abs(GenParticle_GrandMotherPdgId.at(index[i])) != 531 && abs(GenParticle_GrandMotherPdgId.at(index[i])) != 533) return -97;
     }
