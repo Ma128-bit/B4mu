@@ -99,6 +99,7 @@ if __name__ == "__main__":
 
         #Flat quadruplet variables
         quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge"]
+        branches = branches + ["QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF"]
         vertex_chi2=""
         for i in range(1, 4):
             for j in range(i+1,5):
