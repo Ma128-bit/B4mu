@@ -207,7 +207,7 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     return quad_indx;
 }
 
-int GenMatching(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMatchMu3_SimPt, double GenMatchMu4_SimPt,  ROOT::VecOps::RVec<double> GenParticle_Pt,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMatchMu3_SimPt, double GenMatchMu4_SimPt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     if(!(GenMatchMu1_SimPt<-1 || GenMatchMu2_SimPt<-1 || GenMatchMu3_SimPt<-1  || GenMatchMu4_SimPt<-1)){
         vector<int> index = get_4index(GenParticle_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt);
         if(index.size() != 4 || index[0]<0) return -98;
@@ -219,26 +219,52 @@ int GenMatching(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, doub
         return 1;
     }
     else{
-        cout<<"Gen muons pt:"<<endl;
-        for(int j=0; j<GenParticle_Pt.size(); j++){ 
-            if(abs(GenParticle_PdgId.at(j))==13) cout<<GenParticle_Pt.at(j)<<" ";
+        vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt), Mu3_Pt, Mu4_Pt);
+        vector<double> pt, eta, phi;
+        for(int h=0; h<index.size(); h++){
+            double pt_temp=MuonPt.at(index.at(h));
+            double eta_temp=MuonEta.at(index.at(h));
+            double phi_temp=MuonPhi.at(index.at(h));
+            pt.push_back(pt_temp);
+            eta.push_back(eta_temp);
+            phi.push_back(phi_temp);
         }
-        cout<<endl;
-        cout<<"Gen muons with mother and grandmother filter pt:"<<endl;
-        int jpsi=0, phi=0;
+        vector<double> Genpt, Geneta, Genphi;
         for(int j=0; j<GenParticle_Pt.size(); j++){ 
             if(abs(GenParticle_PdgId.at(j))==13 && (abs(GenParticle_MotherPdgId.at(j))==443 || abs(GenParticle_MotherPdgId.at(j))==333) && (abs(GenParticle_GrandMotherPdgId.at(j))==531 || abs(GenParticle_GrandMotherPdgId.at(j))==533) ){
-                cout<<GenParticle_Pt.at(j)<<" ";
-                if( abs(GenParticle_MotherPdgId.at(j))==333 ) phi++;
-                if( abs(GenParticle_MotherPdgId.at(j))==443 ) jpsi++;
+                Genpt.push_back(GenParticle_Pt.at(j))
+                Geneta.push_back(GenParticle_Eta.at(j))
+                Genphi.push_back(GenParticle_Phi.at(j))
             }
         }
-        cout<<endl;
-        cout<<"N. jpsi"<<jpsi<<" N. phi"<<phi<<endl;
-        cout<<"Quad muons pt:"<<endl;
-        cout<<Mu1_Pt<<" "<<Mu2_Pt<<" "<<Mu3_Pt<<" "<<Mu4_Pt<<endl;
-        cout<<endl;
-        return -99;
+        int Gen_matching = 0;
+        bool Good_matching = true;
+        for(int w=0; w<pt.size();w++){
+            vector<double> dR_temp, dpt_temp;
+            for(int p=0; p<Genpt.size();p++){
+                double dphi = abs(phi.at(p) - Genphi.at(w));
+                double deta = abs(eta.at(p) - Geneta.at(w));
+                if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+                double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+                double dpt = abs(pt.at(p) - Genpt.at(w))/pt.at(p);
+                dR_temp.push_back(dR)
+                dR_temp.push_back(dpt)
+            }
+            double dR_min = *std::min_element(dR_temp.begin(), dR_temp.end());
+            int dR_minID = std::distance(dR_temp.begin(), dR_min);
+            double dpt_min = *std::min_element(dpt_temp.begin(), dpt_temp.end());
+            int dpt_minID = std::distance(dpt_temp.begin(), dpt_min);
+            if(dpt_minID!=dR_minID) return 99;
+            if(dpt_minID==dR_minID && dR_min<0.03 && dpt_min<0.1){
+                Gen_matching++;
+                Genpt.erase(Genpt.begin() + p);
+                Geneta.erase(Geneta.begin() + p);
+                Genphi.erase(Genphi.begin() + p);
+            }
+            else return 98;
+        }
+        if(Gen_matching<4) return 97;
+        return -1;
     }
 }
 
