@@ -226,6 +226,7 @@ int GenMatching(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, doub
         cout<<endl;
         cout<<"Quad muons pt:"<<endl;
         cout<<Mu1_Pt<<" "<<Mu2_Pt<<" "<<Mu3_Pt<<" "<<Mu4_Pt<<endl;
+        return -99;
     }
 }
 
