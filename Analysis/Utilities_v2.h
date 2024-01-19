@@ -219,7 +219,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
         return 1;
     }
     else{
-        vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt), Mu3_Pt, Mu4_Pt);
+        vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
         vector<double> pt, eta, phi;
         for(int h=0; h<index.size(); h++){
             double pt_temp=MuonPt.at(index.at(h));
@@ -232,9 +232,9 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
         vector<double> Genpt, Geneta, Genphi;
         for(int j=0; j<GenParticle_Pt.size(); j++){ 
             if(abs(GenParticle_PdgId.at(j))==13 && (abs(GenParticle_MotherPdgId.at(j))==443 || abs(GenParticle_MotherPdgId.at(j))==333) && (abs(GenParticle_GrandMotherPdgId.at(j))==531 || abs(GenParticle_GrandMotherPdgId.at(j))==533) ){
-                Genpt.push_back(GenParticle_Pt.at(j))
-                Geneta.push_back(GenParticle_Eta.at(j))
-                Genphi.push_back(GenParticle_Phi.at(j))
+                Genpt.push_back(GenParticle_Pt.at(j));
+                Geneta.push_back(GenParticle_Eta.at(j));
+                Genphi.push_back(GenParticle_Phi.at(j));
             }
         }
         int Gen_matching = 0;
@@ -250,16 +250,18 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 dR_temp.push_back(dR)
                 dR_temp.push_back(dpt)
             }
-            double dR_min = *std::min_element(dR_temp.begin(), dR_temp.end());
-            int dR_minID = std::distance(dR_temp.begin(), dR_min);
-            double dpt_min = *std::min_element(dpt_temp.begin(), dpt_temp.end());
-            int dpt_minID = std::distance(dpt_temp.begin(), dpt_min);
+            auto dR_min_p = std::min_element(dR_temp.begin(), dR_temp.end());
+            int dR_minID = std::distance(dR_temp.begin(), dR_min_p);
+            double dR_min = *dR_min_p;
+            auto dpt_min_p = std::min_element(dpt_temp.begin(), dpt_temp.end());
+            int dpt_minID = std::distance(dpt_temp.begin(), dpt_min_p);
+            double dpt_min = *dpt_min_p;
             if(dpt_minID!=dR_minID) return 99;
             if(dpt_minID==dR_minID && dR_min<0.03 && dpt_min<0.1){
                 Gen_matching++;
-                Genpt.erase(Genpt.begin() + p);
-                Geneta.erase(Geneta.begin() + p);
-                Genphi.erase(Genphi.begin() + p);
+                Genpt.erase(Genpt.begin() + dpt_minID);
+                Geneta.erase(Geneta.begin() + dpt_minID);
+                Genphi.erase(Genphi.begin() + dpt_minID);
             }
             else return 98;
         }
