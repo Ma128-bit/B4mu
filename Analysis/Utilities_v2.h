@@ -266,6 +266,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 //Genphi.erase(Genphi.begin() + dpt_minID);
             }
         }
+        cout<<endl;
         cout<<"Quad:"<<endl;
         for(int p=0; p<pt.size();p++){
             cout<<p<<": pt="<<pt[p]<<" eta="<<eta[p]<<" phi="<<phi[p]<<endl;
