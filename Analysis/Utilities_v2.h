@@ -207,7 +207,7 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     return quad_indx;
 }
 
-int GenMatching(double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMatchMu3_SimPt, double GenMatchMu4_SimPt,  ROOT::VecOps::RVec<double> GenParticle_Pt,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+int GenMatching(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMatchMu3_SimPt, double GenMatchMu4_SimPt,  ROOT::VecOps::RVec<double> GenParticle_Pt,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     if(!(GenMatchMu1_SimPt<-1 || GenMatchMu2_SimPt<-1 || GenMatchMu3_SimPt<-1  || GenMatchMu4_SimPt<-1)){
         vector<int> index = get_4index(GenParticle_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt);
         if(index.size() != 4 || index[0]<0) return -98;
@@ -217,6 +217,15 @@ int GenMatching(double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMa
             if(abs(GenParticle_GrandMotherPdgId.at(index[i])) != 531 && abs(GenParticle_GrandMotherPdgId.at(index[i])) != 533) return -95;
         }
         return 1;
+    }
+    else{
+        cout<<"Gen muons pt:"<<endl;
+        for(int j=0; j<GenParticle_Pt.size(); j++){ 
+            if(abs(GenParticle_PdgId.at(j))==13) cout<<GenParticle_Pt.at(j)<<" ";
+        }
+        cout<<endl;
+        cout<<"Quad muons pt:"<<endl;
+        cout<<Mu1_Pt<<" "<<Mu2_Pt<<" "<<Mu3_Pt<<" "<<Mu4_Pt<<endl;
     }
 }
 
