@@ -225,10 +225,16 @@ int GenMatching(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, doub
         }
         cout<<endl;
         cout<<"Gen muons with mother and grandmother filter pt:"<<endl;
+        int jpsi=0, phi=0;
         for(int j=0; j<GenParticle_Pt.size(); j++){ 
-            if(abs(GenParticle_PdgId.at(j))==13 && (abs(GenParticle_MotherPdgId.at(j))==443 || abs(GenParticle_MotherPdgId.at(j))==333) && (abs(GenParticle_GrandMotherPdgId.at(j))==531 || abs(GenParticle_GrandMotherPdgId.at(j))==533) ) cout<<GenParticle_Pt.at(j)<<" ";
+            if(abs(GenParticle_PdgId.at(j))==13 && (abs(GenParticle_MotherPdgId.at(j))==443 || abs(GenParticle_MotherPdgId.at(j))==333) && (abs(GenParticle_GrandMotherPdgId.at(j))==531 || abs(GenParticle_GrandMotherPdgId.at(j))==533) ){
+                cout<<GenParticle_Pt.at(j)<<" ";
+                if( abs(GenParticle_MotherPdgId.at(j))==333 phi++;
+                if( abs(GenParticle_MotherPdgId.at(j))==443 jpsi++;
+            }
         }
         cout<<endl;
+        cout<<"N. jpsi"<<jpsi<<" N. phi"<<phi<<endl;
         cout<<"Quad muons pt:"<<endl;
         cout<<Mu1_Pt<<" "<<Mu2_Pt<<" "<<Mu3_Pt<<" "<<Mu4_Pt<<endl;
         cout<<endl;
