@@ -259,7 +259,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
             //double dpt_min = *dpt_min_p;
             double dpt_min = dpt_temp[dR_minID];
             //if(dpt_minID!=dR_minID) return 99;
-            if(dpt_minID==dR_minID && dR_min<0.03 && dpt_min<0.1){
+            if(dR_min<0.03 && dpt_min<0.1){
                 Gen_matching++;
                 //Genpt.erase(Genpt.begin() + dpt_minID);
                 //Geneta.erase(Geneta.begin() + dpt_minID);
