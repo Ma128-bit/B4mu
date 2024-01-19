@@ -237,12 +237,12 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 Genphi.push_back(GenParticle_Phi.at(j));
             }
         }
-        /*
+        
         int Gen_matching = 0;
         bool Good_matching = true;
-        for(int w=0; w<pt.size();w++){
+        for(int p=0; p<pt.size();p++){
             vector<double> dR_temp, dpt_temp;
-            for(int p=0; p<Genpt.size();p++){
+            for(int w=0; w<Genpt.size();w++){
                 double dphi = abs(phi.at(p) - Genphi.at(w));
                 double deta = abs(eta.at(p) - Geneta.at(w));
                 if(dphi > double(M_PI)) dphi -= double(2*M_PI);
@@ -267,7 +267,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
             else return 98;
         }
         if(Gen_matching<4) return 97;
-        */
+        
         return -1;
     }
 }
