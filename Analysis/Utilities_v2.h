@@ -265,10 +265,17 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 //Geneta.erase(Geneta.begin() + dpt_minID);
                 //Genphi.erase(Genphi.begin() + dpt_minID);
             }
-            else return 98;
         }
-        if(Gen_matching<4) return 97;
-        
+        cout<<"Quad:"<<endl;
+        for(int p=0; p<pt.size();p++){
+            cout<<p<<": pt="<<pt[p]<<" eta="<<eta[p]<<" phi="<<phi[p]<<endl;
+        }
+        cout<<"Gen:"<<endl;
+        for(int p=0; p<Genpt.size();p++){
+            cout<<p<<": pt="<<Genpt[p]<<" eta="<<Geneta[p]<<" phi="<<Genphi[p]<<endl;
+        }
+        if(Gen_matching<4) return 99;
+        else cout<<"Good!"<<endl;
         return -1;
     }
 }
