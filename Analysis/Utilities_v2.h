@@ -247,8 +247,8 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 if(dphi > double(M_PI)) dphi -= double(2*M_PI);
                 double dR = TMath::Sqrt(dphi*dphi + deta*deta);
                 double dpt = abs(pt.at(p) - Genpt.at(w))/pt.at(p);
-                dR_temp.push_back(dR)
-                dR_temp.push_back(dpt)
+                dR_temp.push_back(dR);
+                dR_temp.push_back(dpt);
             }
             auto dR_min_p = std::min_element(dR_temp.begin(), dR_temp.end());
             int dR_minID = std::distance(dR_temp.begin(), dR_min_p);
