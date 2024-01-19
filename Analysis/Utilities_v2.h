@@ -239,7 +239,6 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
         }
         
         int Gen_matching = 0;
-        bool Good_matching = true;
         for(int p=0; p<pt.size();p++){
             vector<double> dR_temp, dpt_temp;
             for(int w=0; w<Genpt.size();w++){
@@ -262,18 +261,8 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 Genphi.erase(Genphi.begin() + dR_minID);
             }
         }
-        cout<<endl;
-        cout<<"Quad:"<<endl;
-        for(int p=0; p<pt.size();p++){
-            cout<<p<<": pt="<<pt[p]<<" eta="<<eta[p]<<" phi="<<phi[p]<<endl;
-        }
-        cout<<"Gen:"<<endl;
-        for(int p=0; p<Genpt.size();p++){
-            cout<<p<<": pt="<<Genpt[p]<<" eta="<<Geneta[p]<<" phi="<<Genphi[p]<<endl;
-        }
         if(Gen_matching<4) return 99;
-        else cout<<"Good!"<<endl;
-        return -1;
+        else return -1;
     }
 }
 
