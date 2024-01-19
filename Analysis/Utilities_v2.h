@@ -223,6 +223,10 @@ int GenMatching(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, doub
         for(int j=0; j<GenParticle_Pt.size(); j++){ 
             if(abs(GenParticle_PdgId.at(j))==13) cout<<GenParticle_Pt.at(j)<<" ";
         }
+        cout<<"Gen muons with mother and grandmother filter pt:"<<endl;
+        for(int j=0; j<GenParticle_Pt.size(); j++){ 
+            if(abs(GenParticle_PdgId.at(j))==13 && (abs(GenParticle_MotherPdgId.at(j))==443 || abs(GenParticle_MotherPdgId.at(j))==333) && (abs(GenParticle_GrandMotherPdgId.at(j))==531 || abs(GenParticle_GrandMotherPdgId.at(j))==533) ) cout<<GenParticle_Pt.at(j)<<" ";
+        }
         cout<<endl;
         cout<<"Quad muons pt:"<<endl;
         cout<<Mu1_Pt<<" "<<Mu2_Pt<<" "<<Mu3_Pt<<" "<<Mu4_Pt<<endl;
