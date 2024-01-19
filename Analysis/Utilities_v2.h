@@ -257,7 +257,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
             //auto dpt_min_p = std::min_element(dpt_temp.begin(), dpt_temp.end());
             //int dpt_minID = std::distance(dpt_temp.begin(), dpt_min_p);
             //double dpt_min = *dpt_min_p;
-            double dpt_min = dpt_temp[dR_minID]
+            double dpt_min = dpt_temp[dR_minID];
             //if(dpt_minID!=dR_minID) return 99;
             if(dpt_minID==dR_minID && dR_min<0.03 && dpt_min<0.1){
                 Gen_matching++;
