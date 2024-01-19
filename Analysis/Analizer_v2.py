@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
     for chi in range(5):
         start_2 = time.time()
-        branches=[]
+        branches=["evt"]
         rdf = df.Define("Quadruplet_index", flat_index(chi), ["Quadruplet_indexs"])
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
