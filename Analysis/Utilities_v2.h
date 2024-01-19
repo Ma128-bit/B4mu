@@ -237,6 +237,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 Genphi.push_back(GenParticle_Phi.at(j));
             }
         }
+        /*
         int Gen_matching = 0;
         bool Good_matching = true;
         for(int w=0; w<pt.size();w++){
@@ -266,6 +267,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
             else return 98;
         }
         if(Gen_matching<4) return 97;
+        */
         return -1;
     }
 }
