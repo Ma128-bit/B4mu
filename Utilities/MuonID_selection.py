@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     muon_id = ["isGlobal", "isPF", "isLoose", "isMedium", "isTight", "isSoft", "isTracker"]
 
-    """
+
     Nsel = len(muon_id)**4
     bar = Bar('Processing', max=Nsel)
     
@@ -46,7 +46,8 @@ if __name__ == "__main__":
                     bar.next()
 
     #OUT: isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4
-    
+    best_sel = AMS
+    """
     Nsel = len(muon_id)**2
     bar = Bar('Processing', max=Nsel)
     AMS = []
@@ -64,7 +65,7 @@ if __name__ == "__main__":
             bar.next()
 
     #OUT: ((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4))
-    """
+
 
     Nsel = 16*21
     bar = Bar('Processing', max=Nsel)
@@ -87,9 +88,9 @@ if __name__ == "__main__":
                         print("nbkg==0 sel: ",sel)
                     bar.next()
 
-    #OUT: (isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4)
+    #OUT: ((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4))
 
-    """
+    
     Nsel = len(muon_id)**2
     bar = Bar('Processing', max=Nsel)
     AMS = []
@@ -107,10 +108,11 @@ if __name__ == "__main__":
             bar.next()
 
     #OUT: ((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4))
-    """
+    
     
     bar.finish()
     best_sel = selections[AMS.index(max(AMS))]
+    """
     print(best_sel)
     with open('output.txt', 'w') as file:
         file.write(best_sel)
