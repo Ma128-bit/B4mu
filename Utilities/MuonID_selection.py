@@ -105,7 +105,7 @@ if __name__ == "__main__":
             selections.append(sel)
             bar.next()
 
-    OUT: (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) || (isTight[0]+isTight[1]+isTight[2]+isTight[3] == 4)
+    #OUT: (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) || (isTight[0]+isTight[1]+isTight[2]+isTight[3] == 4)
 
     
     bar.finish()
