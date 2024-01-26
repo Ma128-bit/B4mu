@@ -23,10 +23,10 @@ if __name__ == "__main__":
 
     muon_id = ["isGlobal", "isPF", "isLoose", "isMedium", "isTight", "isSoft", "isTracker"]
 
+    """
     Nsel = len(muon_id)**4
     bar = Bar('Processing', max=Nsel)
-
-    """
+    
     AMS = []
     selections = []
     for i in muon_id:
@@ -44,6 +44,8 @@ if __name__ == "__main__":
 
     OUT: isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4
     """
+    Nsel = len(muon_id)**2
+    bar = Bar('Processing', max=Nsel)
     AMS = []
     selections = []
     for i in muon_id:
