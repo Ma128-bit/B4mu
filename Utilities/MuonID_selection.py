@@ -44,5 +44,7 @@ if __name__ == "__main__":
     bar.finish()
     best_sel = selections[AMS.index(max(AMS))]
     print(best_sel)
+    with open('output.txt', 'w') as file:
+        file.write(best_sel)
                     
     
