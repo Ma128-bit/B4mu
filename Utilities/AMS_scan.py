@@ -31,7 +31,7 @@ if __name__ == "__main__":
     file = TFile("../Analysis/FinalFiles/Analyzed_Data_2022All.root", "READ")
     tree = file.Get("FinalTree")
     out_dir="AMS_plot"
-    f not os.path.exists(out_dir):
+    if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     for var in var_dict:
         tree.Draw(var+">>hm"+var_dict[var][1], var_dict[var][0]+" && isMC==1")
