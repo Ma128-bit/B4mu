@@ -40,7 +40,7 @@ if __name__ == "__main__":
                     nsig = rdf_MC.Filter(sel).Count().GetValue()
                     nsig = nsig/evt_MC
                     AMS_temp = math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig))
-                    if(AMS_temp>AMS && nbkg>0):
+                    if(AMS_temp>AMS and nbkg>0):
                         AMS = AMS_temp
                         selections = sel
                     bar.next()
