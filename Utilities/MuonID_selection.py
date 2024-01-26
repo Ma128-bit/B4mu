@@ -50,7 +50,7 @@ if __name__ == "__main__":
     selections = []
     for i in muon_id:
         for j in muon_id:
-            sel = "(+"i+"[0]+"+i+"[1]+"+i+"[2]+"+i+"[3] == 4) && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+"[3] == 4)"
+            sel = "("+i+"[0]+"+i+"[1]+"+i+"[2]+"+i+"[3] == 4) && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+"[3] == 4)"
             nbkg = rdf_data.Filter(sel).Count().GetValue()
             nbkg = nbkg/evt_data
             nsig = rdf_MC.Filter(sel).Count().GetValue()
