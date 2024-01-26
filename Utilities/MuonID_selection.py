@@ -27,8 +27,8 @@ if __name__ == "__main__":
     Nsel = len(muon_id)**4
     bar = Bar('Processing', max=Nsel)
     
-    AMS = []
-    selections = []
+    AMS = 0
+    selections = ""
     for i in muon_id:
         for j in muon_id:
             for k in muon_id:
@@ -39,8 +39,10 @@ if __name__ == "__main__":
                     nbkg = nbkg/evt_data
                     nsig = rdf_MC.Filter(sel).Count().GetValue()
                     nsig = nsig/evt_MC
-                    AMS.append(math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig)))
-                    selections.append(sel)
+                    AMS_temp = math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig))
+                    if(AMS_temp>AMS && nbkg>0):
+                        AMS = AMS_temp
+                        selections = sel
                     bar.next()
 
     #OUT: isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4
