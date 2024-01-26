@@ -76,8 +76,11 @@ if __name__ == "__main__":
                         nbkg = nbkg/evt_data
                         nsig = rdf_MC.Filter(sel).Count().GetValue()
                         nsig = nsig/evt_MC
-                        AMS.append(math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig)))
-                        selections.append(sel)
+                        if(nbkg!=0):
+                            AMS.append(math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig)))
+                            selections.append(sel)
+                        else:
+                            print("nbkg==0 sel: ",sel)
                         bar.next()
             else:
                 for w in range(16):
