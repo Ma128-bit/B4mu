@@ -7,7 +7,7 @@ gROOT.SetBatch(True)
 EnableImplicitMT()
 
 gInterpreter.Declare("""
-    #include "Utilities_v2.h"
+    #include "Utilities.h"
 """)
 
 from ROOT import flat1D, flat2D, flat_index, add_index
