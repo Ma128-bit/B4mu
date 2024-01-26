@@ -68,15 +68,19 @@ if __name__ == "__main__":
     selections = []
     for i in muon_id:
         for j in muon_id:
-            for k in range(1,5):
-                for h in range(1,5):
-                    sel = "("+i+"[0]+"+i+"[1]+"+i+"[2]+"+i+"[3] == "+str(k)+") && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+"[3] == "+str(h)+")"
-                    nbkg = rdf_data.Filter(sel).Count().GetValue()
-                    nbkg = nbkg/evt_data
-                    nsig = rdf_MC.Filter(sel).Count().GetValue()
-                    nsig = nsig/evt_MC
-                    AMS.append(math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig)))
-                    selections.append(sel)
+            if(j!=i):
+                for k in range(1,5):
+                    for h in range(1,5):
+                        sel = "("+i+"[0]+"+i+"[1]+"+i+"[2]+"+i+"[3] == "+str(k)+") && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+"[3] == "+str(h)+")"
+                        nbkg = rdf_data.Filter(sel).Count().GetValue()
+                        nbkg = nbkg/evt_data
+                        nsig = rdf_MC.Filter(sel).Count().GetValue()
+                        nsig = nsig/evt_MC
+                        AMS.append(math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig)))
+                        selections.append(sel)
+                        bar.next()
+            else:
+                for i in range(16):
                     bar.next()
 
     bar.finish()
