@@ -25,7 +25,8 @@ if __name__ == "__main__":
 
     Nsel = len(muon_id)**4
     bar = Bar('Processing', max=Nsel)
-    
+
+    """
     AMS = []
     selections = []
     for i in muon_id:
@@ -41,6 +42,21 @@ if __name__ == "__main__":
                     selections.append(sel)
                     bar.next()
 
+    OUT: isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4
+    """
+    AMS = []
+    selections = []
+    for i in muon_id:
+        for j in muon_id:
+            sel = "(+"i+"[0]+"+i+"[1]+"+i+"[2]+"+i+"[3] == 4) && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+"[3] == 4)"
+            nbkg = rdf_data.Filter(sel).Count().GetValue()
+            nbkg = nbkg/evt_data
+            nsig = rdf_MC.Filter(sel).Count().GetValue()
+            nsig = nsig/evt_MC
+            AMS.append(math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig)))
+            selections.append(sel)
+            bar.next()
+            
     bar.finish()
     best_sel = selections[AMS.index(max(AMS))]
     print(best_sel)
