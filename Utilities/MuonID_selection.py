@@ -3,7 +3,7 @@ gROOT.SetBatch(True)
 import matplotlib.pyplot as plt
 import numpy as np
 import math, os, draw_utilities
-from tqdm import tqdm
+from progress.bar import Bar
 
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
@@ -21,6 +21,9 @@ if __name__ == "__main__":
 
     muon_id = ["isGlobal", "isPF", "isLoose", "isMedium", "isTight", "isSoft", "isTracker"]
 
+    Nsel = len(muon_id)**4
+    bar = Bar('Processing', max=Nsel)
+    
     AMS = []
     selections = []
     for i in muon_id:
@@ -34,7 +37,9 @@ if __name__ == "__main__":
                     nsig = nsig/evt_MC
                     AMS.append(math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig)))
                     selections.append(sel)
+                    bar.next()
 
+    bar.finish()
     best_sel = selections[AMS.index(max(AMS))]
     print(best_sel)
                     
