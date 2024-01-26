@@ -1,4 +1,4 @@
-from ROOT import RDataFrame
+from ROOT import RDataFrame, gROOT
 gROOT.SetBatch(True)
 import matplotlib.pyplot as plt
 import numpy as np
