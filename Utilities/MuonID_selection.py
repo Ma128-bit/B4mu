@@ -1,5 +1,6 @@
-from ROOT import RDataFrame, gROOT
+from ROOT import RDataFrame, gROOT, EnableImplicitMT
 gROOT.SetBatch(True)
+EnableImplicitMT()
 import matplotlib.pyplot as plt
 import numpy as np
 import math, os, draw_utilities
@@ -7,7 +8,7 @@ from progress.bar import Bar
 
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
-    
+
 
 if __name__ == "__main__":
     rdf_data = RDataFrame("FinalTree", "../Analysis/FinalFiles/Analyzed_Data_2022.root")
