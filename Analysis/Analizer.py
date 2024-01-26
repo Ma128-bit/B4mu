@@ -115,7 +115,7 @@ if __name__ == "__main__":
         if isMC==1:
             #rdf = rdf.Filter("GenMatchMu1_SimPt>-1 || GenMatchMu2_SimPt>-1 || GenMatchMu3_SimPt>-1  || GenMatchMu4_SimPt>-1")
             rdf = rdf.Define("GenMatch","GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
-            #rdf = rdf.Filter("GenMatch==1 || GenMatch==-1")
+            rdf = rdf.Filter("GenMatch==1 || GenMatch==-1")
             #branches.append("GenMatch")
             
         #Dimuon masses
