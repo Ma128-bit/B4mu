@@ -72,7 +72,7 @@ if __name__ == "__main__":
         for j in range(i+1, len(muon_id)):
             for k in ["1","2","3","4"]:
                 for h in ["1","2","3","4"]:
-                    sel = "("+i+"[0]+"+i+"[1]+"+i+"[2]+"+i+"[3] == "+k+") && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+"[3] == "+h+")"
+                    sel = "("+muon_id[i]+"[0]+"+muon_id[i]+"[1]+"+muon_id[i]+"[2]+"+muon_id[i]+"[3] == "+k+") && ("+muon_id[j]+"[0]+"+muon_id[j]+"[1]+"+muon_id[j]+"[2]+"+muon_id[j]+"[3] == "+h+")"
                     sel = "("+sel+") && (BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)"                        
                     nbkg = rdf_data.Filter(sel).Count().GetValue()
                     nbkg = nbkg/evt_data
