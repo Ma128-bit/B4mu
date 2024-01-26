@@ -46,7 +46,7 @@ if __name__ == "__main__":
                     bar.next()
 
     #OUT: isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4
-    best_sel = AMS
+    best_sel = selections
     """
     Nsel = len(muon_id)**2
     bar = Bar('Processing', max=Nsel)
