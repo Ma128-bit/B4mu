@@ -71,7 +71,7 @@ if __name__ == "__main__":
             if(j!=i):
                 for k in range(1,5):
                     for h in range(1,5):
-                        sel = "("+i+"[0]+"+i+"[1]+"+i+"[2]+"+i+"[3] == "+str(k)+") && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+"[3] == "+str(h)+")"
+                        sel = "("+i+"[0]+"+i+"[1]+"+i+"[2]+"+i+f"[3] == {k}) && ("+j+"[0]+"+j+"[1]+"+j+"[2]+"+j+f"[3] == {h})"
                         nbkg = rdf_data.Filter(sel).Count().GetValue()
                         nbkg = nbkg/evt_data
                         nsig = rdf_MC.Filter(sel).Count().GetValue()
