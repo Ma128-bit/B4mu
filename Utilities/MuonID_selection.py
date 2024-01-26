@@ -80,7 +80,7 @@ if __name__ == "__main__":
                         selections.append(sel)
                         bar.next()
             else:
-                for i in range(16):
+                for w in range(16):
                     bar.next()
 
     bar.finish()
