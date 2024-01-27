@@ -25,8 +25,8 @@ var_dict = {
     #"Dimu_OS1_2_chi2": ["(BsJPsiPhi_sel_OS1>0)","(120,0,60)",'L', 1, 60, 0.5],
     #"Dimu_OS2_1_chi2": ["(BsJPsiPhi_sel_OS2>0)","(120,0,60)",'L', 1, 60, 0.5],
     #"Dimu_OS2_2_chi2": ["(BsJPsiPhi_sel_OS2>0)","(120,0,60)",'L', 1, 60, 0.5],
-    "Dimu_OS1_dR": ["(BsJPsiPhi_sel_OS1>0)","(100,0,4)",'R', 0.5, 3, 0.005],
-    "Dimu_OS2_dR": ["(BsJPsiPhi_sel_OS2>0)","(100,0,4)",'R', 0.5, 3, 0.005]
+    "Dimu_OS1_dR": ["(BsJPsiPhi_sel_OS1>0)","(100,0,4)",'L', 0.5, 3, 0.005],
+    "Dimu_OS2_dR": ["(BsJPsiPhi_sel_OS2>0)","(100,0,4)",'L', 0.5, 3, 0.005]
 }
 
 if __name__ == "__main__":
