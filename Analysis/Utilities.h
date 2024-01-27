@@ -261,7 +261,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
 
 struct flat0D_int{
     int i;
-    flat0D(int ii) : i(ii)  {}
+    flat0D_int(int ii) : i(ii)  {}
     int operator()(vector<int> branch) {
         if(i<branch.size()) return branch[i];
         else return -99;
@@ -270,7 +270,7 @@ struct flat0D_int{
 
 struct flat0D_double{
     int i;
-    flat0D(int ii) : i(ii)  {}
+    flat0D_double(int ii) : i(ii)  {}
     double operator()(vector<double> branch) {
         if(i<branch.size()) return branch[i];
         else return -99;
