@@ -385,6 +385,42 @@ double Mass(int mu_index1, int mu_index, ROOT::VecOps::RVec<float> MuonPt, ROOT:
     return mutot.M();
 }
 
+std::vector<double> DimuondR(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon_index, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi){
+    
+    std::vector<std::vector<int>> final_pairs1 = Dimuon_index.first;
+    std::vector<std::vector<int>> final_pairs2 = Dimuon_index.second;
+    
+    float eta1, eta2, phi1, phi2;
+    eta1 = MuonEta.at(final_pairs1[0][0]);
+    eta2 = MuonEta.at(final_pairs1[0][1]);
+    phi1 = MuonPhi.at(final_pairs1[0][0]);
+    phi2 = MuonPhi.at(final_pairs1[0][1]);
+    double dr_1A = deltaR(eta1, eta2, phi1, phi2);
+    eta1 = MuonEta.at(final_pairs1[1][0]);
+    eta2 = MuonEta.at(final_pairs1[1][1]);
+    phi1 = MuonPhi.at(final_pairs1[1][0]);
+    phi2 = MuonPhi.at(final_pairs1[1][1]);
+    double dr_1B = deltaR(eta1, eta2, phi1, phi2);
+    double dr_1 = dr_1A + dr_1B;
+    
+    eta1 = MuonEta.at(final_pairs2[0][0]);
+    eta2 = MuonEta.at(final_pairs2[0][1]);
+    phi1 = MuonPhi.at(final_pairs2[0][0]);
+    phi2 = MuonPhi.at(final_pairs2[0][1]);
+    double dr_2A = deltaR(eta1, eta2, phi1, phi2);
+    eta1 = MuonEta.at(final_pairs2[1][0]);
+    eta2 = MuonEta.at(final_pairs2[1][1]);
+    phi1 = MuonPhi.at(final_pairs2[1][0]);
+    phi2 = MuonPhi.at(final_pairs2[1][1]);
+    double dr_2B = deltaR(eta1, eta2, phi1, phi2);
+    double dr_2 = dr_2A + dr_2B;    
+
+    std::vector<double> dR;
+    dR.push_back(dr_1);
+    dR.push_back(dr_2);
+    return(dR);
+}
+
 std::pair<std::vector<double>, std::vector<double>> DimuonMass(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon_index, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
     
     std::vector<double> m1;
