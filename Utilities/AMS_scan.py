@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
         hm.Scale(hd.Integral(0, hd.GetNbinsX()+1)/hm.Integral(0, hm.GetNbinsX()+1))
 
-        cutx = scan_with_1cut(hm, hd, var_dict[var][3], var_dict[var][4], var_dict[var][5], var_dict[var][2]):
+        cutx = scan_with_1cut(hm, hd, var_dict[var][3], var_dict[var][4], var_dict[var][5], var_dict[var][2])
         print(cutx)
         plt.figure(figsize=(8, 4))
         plt.plot(cuts, AMS, label='AMS Curve', color='blue', linestyle='-', linewidth=1)
