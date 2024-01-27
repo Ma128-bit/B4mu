@@ -7,7 +7,9 @@ import math, os, draw_utilities
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
-def scan_with_1cut(hist1, hist2, min1, max1, step, dir):
+out_dir="AMS_plot"
+
+def scan_with_1cut(hist1, hist2, min1, max1, step, dir, var):
     in_events_hist1 = hist1.Integral(0, hist1.GetNbinsX() + 1)
     in_events_hist2 = hist2.Integral(0, hist2.GetNbinsX() + 1)
     AMS = []
@@ -24,7 +26,18 @@ def scan_with_1cut(hist1, hist2, min1, max1, step, dir):
         if(out[1]!=0):
             AMS.append(math.sqrt(2*((out[0]+out[1])*math.log(1+out[0]/out[1]) - out[0])))
             cuts.append(cut)
+
     cutx = round(cuts[AMS.index(max(AMS))], 2)
+    
+    plt.figure(figsize=(8, 4))
+    plt.plot(cuts, AMS, label='AMS Curve', color='blue', linestyle='-', linewidth=1)
+    plt.axvline(x=cutx, color='red', linestyle='--', label='Best Cut')
+    plt.xlabel('cut')
+    plt.ylabel('AMS')
+    plt.title(f"{var} - cut {cutx}")
+    plt.legend()
+    plt.savefig(out_dir+"/"+var+"_AMS.png")
+    
     return cutx
 
 def scan_with_2cuts(hist1, hist2, min1, max1, min2, max2, step):
@@ -62,12 +75,34 @@ var_dict = {
     #"Dimu_OS2_dR": ["(BsJPsiPhi_sel_OS2>0)","(60,0,2.5)",'L', 0.5, 2.5, 0.04]
 }
 
+var_dict2 = {
+    "Dimu_OS1_dR": ["(BsJPsiPhi_sel_OS1>0)","(60,0,2.5)", 0, 0.3, 0.5, 2.5, 0.005],
+    "Dimu_OS2_dR": ["(BsJPsiPhi_sel_OS2>0)","(60,0,2.5)", 0, 0.3, 0.5, 2.5, 0.005]
+}
+
 if __name__ == "__main__":
     file = TFile("../Analysis/FinalFiles/Analyzed_Data_2022All.root", "READ")
     tree = file.Get("FinalTree")
-    out_dir="AMS_plot"
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
+    for var in var_dict2:
+        tree.Draw(var+">>hm"+var_dict[var][1], var_dict[var][0]+" && isMC==1")
+        hm = gDirectory.Get("hm")
+        tree.Draw(var+">>hd"+var_dict[var][1], var_dict[var][0]+" && isMC==0 && abs(Quadruplet_Mass-5.366)>0.15")
+        hd = gDirectory.Get("hd")
+        hm.Scale(hd.Integral(0, hd.GetNbinsX()+1)/hm.Integral(0, hm.GetNbinsX()+1))
+
+        cuts = scan_with_2cuts(hm, hd, var_dict[var][2], var_dict[var][3], var_dict[var][4], var_dict[var][5], var_dict[var][6])
+        
+        canvas = ROOTDrawer()
+        canvas.HaddTH1(hm, Color=4, SetXName=var, SetYName="a.u.", Fill=True, label="Signal MC")
+        canvas.HaddTH1(hd, Color=2, Fill=True, FillStyle=3005, DrawOpt="h same", label="Data Sidebands")
+        canvas.DefTLine(Color=1, Orientation=0, X=cuts[0],  label="Cut left")
+        canvas.DefTLine(Color=40, Orientation=0, X=cuts[1],  label="Cut right")
+        canvas.MakeLegend()
+        canvas.Save(out_dir+"/"+var+"_histo.png", era=2022, extra="Preliminary")
+        canvas.Delete()
+
     for var in var_dict:
         tree.Draw(var+">>hm"+var_dict[var][1], var_dict[var][0]+" && isMC==1")
         hm = gDirectory.Get("hm")
@@ -76,17 +111,8 @@ if __name__ == "__main__":
 
         hm.Scale(hd.Integral(0, hd.GetNbinsX()+1)/hm.Integral(0, hm.GetNbinsX()+1))
 
-        cutx = scan_with_1cut(hm, hd, var_dict[var][3], var_dict[var][4], var_dict[var][5], var_dict[var][2])
-        print(cutx)
-        plt.figure(figsize=(8, 4))
-        plt.plot(cuts, AMS, label='AMS Curve', color='blue', linestyle='-', linewidth=1)
-        plt.axvline(x=cutx, color='red', linestyle='--', label='Best Cut')
-        plt.xlabel('cut')
-        plt.ylabel('AMS')
-        plt.title(f"{var} - cut {cutx}")
-        plt.legend()
-        plt.savefig(out_dir+"/"+var+"_AMS.png")
-            
+        cutx = scan_with_1cut(hm, hd, var_dict[var][3], var_dict[var][4], var_dict[var][5], var_dict[var][2], var)
+        
         canvas = ROOTDrawer(SetLogY=True)
         canvas.HaddTH1(hm, Color=4, SetXName=var, SetYName="a.u.", Fill=True, label="Signal MC")
         canvas.HaddTH1(hd, Color=2, Fill=True, FillStyle=3005, DrawOpt="h same", label="Data Sidebands")
