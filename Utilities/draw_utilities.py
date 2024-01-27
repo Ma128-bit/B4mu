@@ -181,9 +181,26 @@ class ROOTDrawer:
             histo.Scale(1/histo.Integral(0, histo.GetNbinsX() + 1))
         
         if self.FixYRange == False:
-            if(histo.GetMaximum()>self.YRange[1] or self.YRange[1] is None):
+            if(self.YRange[1] is None):
                 self.YRange[1] = histo.GetMaximum()
-            if(histo.GetMinimum()<self.YRange[0] or self.YRange[0] is None):
+            elif(histo.GetMaximum()>self.YRange[1]):
+                self.YRange[1] = histo.GetMaximum()
+
+            if(self.YRange[0] is None):
+                if(self.logy == False):
+                    self.YRange[0] = histo.GetMinimum()
+                elif(self.logy == True and histo.GetMinimum()>0):
+                     self.YRange[0] = histo.GetMinimum()
+                elif(self.logy == True and histo.GetMinimum()<=0):
+                    num_bins = histo.GetNbinsX()
+                    ymin = None
+                    for i in range(1, num_bins + 1):
+                        y_value = histo.GetBinContent(i)
+                        if y_value != 0:
+                            if ymin is None or y_value < ymin:
+                                ymin = y_value
+                    self.YRange[0] = ymin
+            elif(histo.GetMinimum()<self.YRange[0]):
                 if(self.logy == False):
                     self.YRange[0] = histo.GetMinimum()
                 elif(self.logy == True and histo.GetMinimum()>0):
@@ -200,9 +217,14 @@ class ROOTDrawer:
                     
         
         if self.FixXRange == False:
-            if(histo.GetXaxis().GetXmax()>self.XRange[1] or self.XRange[1] is None):
+            if(self.XRange[1] is None):
                 self.XRange[1] = histo.GetXaxis().GetXmax()
-            if(histo.GetXaxis().GetXmin()<self.XRange[0] or self.XRange[0] is None):
+            elif(histo.GetXaxis().GetXmax()>self.XRange[1] or self.XRange[1] is None):
+                self.XRange[1] = histo.GetXaxis().GetXmax()
+                
+            if(self.XRange[0] is None):
+                self.XRange[0] = histo.GetXaxis().GetXmin()    
+            elif(histo.GetXaxis().GetXmin()<self.XRange[0] or self.XRange[0] is None):
                 self.XRange[0] = histo.GetXaxis().GetXmin()
             
         out = [histo, options['label']]
