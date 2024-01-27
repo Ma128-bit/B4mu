@@ -201,15 +201,10 @@ class ROOTDrawer:
                     
         
         if self.FixXRange == False:
-            if(self.XRange[1] is None):
+            if(self.XRange[1] is None or histo.GetXaxis().GetXmax()>self.XRange[1]):
                 self.XRange[1] = histo.GetXaxis().GetXmax()
-            elif(histo.GetXaxis().GetXmax()>self.XRange[1] or self.XRange[1] is None):
-                self.XRange[1] = histo.GetXaxis().GetXmax()
-                
-            if(self.XRange[0] is None):
+            if(self.XRange[0] is None or histo.GetXaxis().GetXmin()<self.XRange[0]):
                 self.XRange[0] = histo.GetXaxis().GetXmin()    
-            elif(histo.GetXaxis().GetXmin()<self.XRange[0] or self.XRange[0] is None):
-                self.XRange[0] = histo.GetXaxis().GetXmin()
             
         out = [histo, options['label']]
         self.histos.append(out)
