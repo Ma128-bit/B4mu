@@ -19,8 +19,8 @@ def scan_with_cut(tree, hist1, hist2, cut, dir):
     return [passed_events_hist1/in_events_hist1, passed_events_hist2/in_events_hist2]
     
 var_dict = {
-    "FlightDistBS_SV_Significance": ["(BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)","(120,0,30)",'R',0, 6, 0.25],
-    "QuadrupletVtx_Chi2": ["(BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)","(200,0,200)",'L', 3, 200, 1],
+    #"FlightDistBS_SV_Significance": ["(BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)","(120,0,30)",'R',0, 6, 0.25],
+    #"QuadrupletVtx_Chi2": ["(BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)","(200,0,200)",'L', 3, 200, 1],
     #"Dimu_OS1_1_chi2": ["(BsJPsiPhi_sel_OS1>0)","(120,0,60)",'L', 1, 60, 0.5],
     #"Dimu_OS1_2_chi2": ["(BsJPsiPhi_sel_OS1>0)","(120,0,60)",'L', 1, 60, 0.5],
     #"Dimu_OS2_1_chi2": ["(BsJPsiPhi_sel_OS2>0)","(120,0,60)",'L', 1, 60, 0.5],
