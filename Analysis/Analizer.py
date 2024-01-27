@@ -10,7 +10,7 @@ gInterpreter.Declare("""
     #include "Utilities.h"
 """)
 
-from ROOT import flat1D, flat2D, flat0D, add_index
+from ROOT import flat1D, flat2D, flat0D_int, flat0D_double, add_index
 
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     for chi in range(5):
         start_2 = time.time()
         branches=["evt"]
-        rdf = df.Define("Quadruplet_index", flat0D(chi), ["Quadruplet_indexs"])
+        rdf = df.Define("Quadruplet_index", flat0D_int(chi), ["Quadruplet_indexs"])
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
         branches.append("isMC")
@@ -139,8 +139,8 @@ if __name__ == "__main__":
 
         # Flat Dimuon_dR
         branches = branches + ["Dimu_OS_dR_1", "Dimu_OS_dR_2"]
-        rdf = df.Define("Dimu_OS_dR_1", flat0D(0), ["Dimuon_dR"])
-        rdf = df.Define("Dimu_OS_dR_2", flat0D(1), ["Dimuon_dR"])
+        rdf = df.Define("Dimu_OS_dR_1", flat0D_double(0), ["Dimuon_dR"])
+        rdf = df.Define("Dimu_OS_dR_2", flat0D_double(1), ["Dimuon_dR"])
         
         #BsJPsiPhi selections
         branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
