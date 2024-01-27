@@ -9,7 +9,7 @@ class ROOTDrawer(draw_utilities.ROOTDrawer):
 
 out_dir="AMS_plot"
 
-def scan_with_1cut(hist1, hist2, min1, max1, step, dir, var):
+def scan_with_1cut(hist1, hist2, min1, max1, step, dir, varx):
     in_events_hist1 = hist1.Integral(0, hist1.GetNbinsX() + 1)
     in_events_hist2 = hist2.Integral(0, hist2.GetNbinsX() + 1)
     AMS = []
@@ -34,9 +34,9 @@ def scan_with_1cut(hist1, hist2, min1, max1, step, dir, var):
     plt.axvline(x=cutx, color='red', linestyle='--', label='Best Cut')
     plt.xlabel('cut')
     plt.ylabel('AMS')
-    plt.title(f"{var} - cut {cutx}")
+    plt.title(f"{varx} - cut {cutx}")
     plt.legend()
-    plt.savefig(out_dir+"/"+var+"_AMS.png")
+    plt.savefig(out_dir+"/"+varx+"_AMS.png")
     
     return cutx
 
