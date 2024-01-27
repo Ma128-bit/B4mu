@@ -259,10 +259,19 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
     }
 }
 
-struct flat0D{
+struct flat0D_int{
     int i;
     flat0D(int ii) : i(ii)  {}
-    double operator()(vector<int> branch) {
+    int operator()(vector<int> branch) {
+        if(i<branch.size()) return branch[i];
+        else return -99;
+    }
+};
+
+struct flat0D_double{
+    int i;
+    flat0D(int ii) : i(ii)  {}
+    double operator()(vector<double> branch) {
         if(i<branch.size()) return branch[i];
         else return -99;
     }
@@ -419,6 +428,7 @@ std::vector<double> DimuondR(std::pair<std::vector<std::vector<int>>, std::vecto
     std::vector<double> dR;
     dR.push_back(dr_1);
     dR.push_back(dr_2);
+    cout<<"dr_1: "<<dr_1<<endl;
     return(dR);
 }
 
