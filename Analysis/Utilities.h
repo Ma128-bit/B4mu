@@ -428,7 +428,6 @@ std::vector<double> DimuondR(std::pair<std::vector<std::vector<int>>, std::vecto
     std::vector<double> dR;
     dR.push_back(dr_1);
     dR.push_back(dr_2);
-    cout<<"dr_1: "<<dr_1<<endl;
     return(dR);
 }
 
