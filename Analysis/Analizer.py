@@ -139,8 +139,8 @@ if __name__ == "__main__":
 
         # Flat Dimuon_dR
         branches = branches + ["Dimu_OS_dR_1", "Dimu_OS_dR_2"]
-        rdf = df.Define("Dimu_OS_dR_1", flat0D_double(0), ["Dimuon_dR"])
-        rdf = df.Define("Dimu_OS_dR_2", flat0D_double(1), ["Dimuon_dR"])
+        rdf = rdf.Define("Dimu_OS_dR_1", flat0D_double(0), ["Dimuon_dR"])
+        rdf = rdf.Define("Dimu_OS_dR_2", flat0D_double(1), ["Dimuon_dR"])
         
         #BsJPsiPhi selections
         branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
