@@ -52,6 +52,8 @@ if __name__ == "__main__":
 
         for cut in scan_v:
             out = scan_with_cut(tree, hm, hd, cut, var_dict[var][2])
+            if out[1]==0:
+                continue
             ratio.append(out[0]/out[1])
             cuts.append(cut)
             AMS.append(math.sqrt(2*((out[0]+out[1])*math.log(1+out[0]/out[1]) - out[0])))
