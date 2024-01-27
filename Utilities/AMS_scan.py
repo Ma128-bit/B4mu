@@ -7,26 +7,57 @@ import math, os, draw_utilities
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
-def scan_with_cut(tree, hist1, hist2, cut, dir):
+def scan_with_1cut(hist1, hist2, min, max, step, dir):
     in_events_hist1 = hist1.Integral(0, hist1.GetNbinsX() + 1)
     in_events_hist2 = hist2.Integral(0, hist2.GetNbinsX() + 1)
-    if dir == 'R':
-        passed_events_hist1 = hist1.Integral(hist1.FindBin(cut), hist1.GetNbinsX() + 1)
-        passed_events_hist2 = hist2.Integral(hist2.FindBin(cut), hist2.GetNbinsX() + 1)
-    if dir == 'L':
-        passed_events_hist1 = hist1.Integral(0, hist1.FindBin(cut))
-        passed_events_hist2 = hist2.Integral(0, hist2.FindBin(cut))
-    return [passed_events_hist1/in_events_hist1, passed_events_hist2/in_events_hist2]
-    
+    AMS = []
+    cuts = []
+    for i in range(int((max-min)/step)):
+        cut = min + i*step
+        if dir == 'R':
+            passed_events_hist1 = hist1.Integral(hist1.FindBin(cut), hist1.GetNbinsX() + 1)
+            passed_events_hist2 = hist2.Integral(hist2.FindBin(cut), hist2.GetNbinsX() + 1)
+        if dir == 'L':
+            passed_events_hist1 = hist1.Integral(0, hist1.FindBin(cut))
+            passed_events_hist2 = hist2.Integral(0, hist2.FindBin(cut))
+        out = [passed_events_hist1/in_events_hist1, passed_events_hist2/in_events_hist2]
+        if(out[1]!=0):
+            AMS.append(math.sqrt(2*((out[0]+out[1])*math.log(1+out[0]/out[1]) - out[0])))
+            cuts.append(cut)
+    cutx = round(cuts[AMS.index(max(AMS))], 2)
+    return cutx
+
+def scan_with_2cuts(hist1, hist2, min1, max1, min2, max2, step):
+    in_events_hist1 = hist1.Integral(0, hist1.GetNbinsX() + 1)
+    in_events_hist2 = hist2.Integral(0, hist2.GetNbinsX() + 1)
+    AMS = []
+    Lcuts = []
+    Rcuts = []
+    for i in range(int((max1-min1)/step)):
+        Lcut = min1 + i*step
+        for j in range(int((max2-min2)/step)):
+            Rcut = min2 + j*step
+            passed_events_hist1 = hist1.Integral(hist1.FindBin(Lcut), hist1.FindBin(Rcut))
+            passed_events_hist2 = hist2.Integral(hist2.FindBin(Lcut), hist2.FindBin(Rcut))
+            out = [passed_events_hist1/in_events_hist1, passed_events_hist2/in_events_hist2]
+            if(out[1]!=0):
+                AMS.append(math.sqrt(2*((out[0]+out[1])*math.log(1+out[0]/out[1]) - out[0])))
+                Lcuts.append(Lcut)
+                Rcuts.append(Rcut)
+    Lcutx = round(Lcuts[AMS.index(max(AMS))], 2)
+    Rcutx = round(Rcuts[AMS.index(max(AMS))], 2)
+    return [Lcutx, Rcutx]
+
+
 var_dict = {
-    #"FlightDistBS_SV_Significance": ["(BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)","(120,0,30)",'R',0, 6, 0.25],
+    "FlightDistBS_SV_Significance": ["(BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)","(120,0,30)",'R',0, 6, 0.25],
     #"QuadrupletVtx_Chi2": ["(BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)","(200,0,200)",'L', 3, 200, 1],
     #"Dimu_OS1_1_chi2": ["(BsJPsiPhi_sel_OS1>0)","(120,0,60)",'L', 1, 60, 0.5],
     #"Dimu_OS1_2_chi2": ["(BsJPsiPhi_sel_OS1>0)","(120,0,60)",'L', 1, 60, 0.5],
     #"Dimu_OS2_1_chi2": ["(BsJPsiPhi_sel_OS2>0)","(120,0,60)",'L', 1, 60, 0.5],
     #"Dimu_OS2_2_chi2": ["(BsJPsiPhi_sel_OS2>0)","(120,0,60)",'L', 1, 60, 0.5],
-    "Dimu_OS1_dR": ["(BsJPsiPhi_sel_OS1>0)","(60,0,2.5)",'R', 0, 0.3, 0.005],
-    "Dimu_OS2_dR": ["(BsJPsiPhi_sel_OS2>0)","(60,0,2.5)",'R', 0, 0.3, 0.005]
+    #"Dimu_OS1_dR": ["(BsJPsiPhi_sel_OS1>0)","(60,0,2.5)",'R', 0, 0.3, 0.005],
+    #"Dimu_OS2_dR": ["(BsJPsiPhi_sel_OS2>0)","(60,0,2.5)",'R', 0, 0.3, 0.005]
     #"Dimu_OS1_dR": ["(BsJPsiPhi_sel_OS1>0)","(60,0,2.5)",'L', 0.5, 2.5, 0.04],
     #"Dimu_OS2_dR": ["(BsJPsiPhi_sel_OS2>0)","(60,0,2.5)",'L', 0.5, 2.5, 0.04]
 }
@@ -45,20 +76,7 @@ if __name__ == "__main__":
 
         hm.Scale(hd.Integral(0, hd.GetNbinsX()+1)/hm.Integral(0, hm.GetNbinsX()+1))
 
-        ratio = []
-        AMS = []
-        cuts = []
-        scan_v = np.arange(var_dict[var][3], var_dict[var][4], var_dict[var][5])
-
-        for cut in scan_v:
-            out = scan_with_cut(tree, hm, hd, cut, var_dict[var][2])
-            if out[1]==0:
-                continue
-            ratio.append(out[0]/out[1])
-            cuts.append(cut)
-            AMS.append(math.sqrt(2*((out[0]+out[1])*math.log(1+out[0]/out[1]) - out[0])))
-            
-        cutx = round(cuts[AMS.index(max(AMS))], 2)
+        cutx = scan_with_1cut(hm, hd, var_dict[var][3], var_dict[var][4], var_dict[var][5], var_dict[var][2]):
         print(cutx)
         plt.figure(figsize=(8, 4))
         plt.plot(cuts, AMS, label='AMS Curve', color='blue', linestyle='-', linewidth=1)
