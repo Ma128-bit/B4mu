@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     muon_id = ["isGlobal", "isPF", "isLoose", "isMedium", "isTight", "isSoft", "isTracker"]
 
-
+    """
     Nsel = len(muon_id)**4
     bar = Bar('Processing', max=Nsel)
     
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     #OUT: isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4
     best_sel = selections
-    """
+    
     Nsel = len(muon_id)**2
     bar = Bar('Processing', max=Nsel)
     AMS = []
@@ -112,9 +112,22 @@ if __name__ == "__main__":
     
     bar.finish()
     best_sel = selections[AMS.index(max(AMS))]
-    """
     print(best_sel)
     with open('output.txt', 'w') as file:
         file.write(best_sel)
+    """
+    selec = ["((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || ((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4)))", "((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4))", "((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4))", "isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4"] 
+    for sel in selec:
+        sel = "("+sel+") && (BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)"
+        nbkg = rdf_data.Filter(sel).Count().GetValue()
+        nbkg = nbkg/evt_data
+        nsig = rdf_MC.Filter(sel).Count().GetValue()
+        nsig = nsig/evt_MC
+        ams = math.sqrt(2*((nsig+nbkg)*math.log(1+nsig/nbkg) - nsig))
+        print(sel)
+        print("nsig: ", nsig, " nbkg: ", nbkg, " ams:", ams)
+        print("")
+
+    
                     
     
