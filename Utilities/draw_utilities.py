@@ -231,6 +231,7 @@ class ROOTDrawer:
             options['Y_1'] = options['Y']
 
         line = TLine(options['X_0'] , options['Y_0'], options['X_1'], options['Y_1'])
+        print("Line: ", options['X_0'] , " ", options['Y_0'], " ", options['X_1'], " ", options['Y_1'])
         line.SetLineColor(options['Color'])
         line.SetLineWidth(options['LineWidth'])
         line.SetLineStyle(options['LineStyle'])
