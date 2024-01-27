@@ -86,13 +86,13 @@ if __name__ == "__main__":
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     for var in var_dict2:
-        tree.Draw(var+">>hm"+var_dict[var][1], var_dict[var][0]+" && isMC==1")
+        tree.Draw(var+">>hm"+var_dict2[var][1], var_dict2[var][0]+" && isMC==1")
         hm = gDirectory.Get("hm")
-        tree.Draw(var+">>hd"+var_dict[var][1], var_dict[var][0]+" && isMC==0 && abs(Quadruplet_Mass-5.366)>0.15")
+        tree.Draw(var+">>hd"+var_dict2[var][1], var_dict2[var][0]+" && isMC==0 && abs(Quadruplet_Mass-5.366)>0.15")
         hd = gDirectory.Get("hd")
         hm.Scale(hd.Integral(0, hd.GetNbinsX()+1)/hm.Integral(0, hm.GetNbinsX()+1))
 
-        cuts = scan_with_2cuts(hm, hd, var_dict[var][2], var_dict[var][3], var_dict[var][4], var_dict[var][5], var_dict[var][6])
+        cuts = scan_with_2cuts(hm, hd, var_dict2[var][2], var_dict2[var][3], var_dict2[var][4], var_dict2[var][5], var_dict2[var][6])
         
         canvas = ROOTDrawer()
         canvas.HaddTH1(hm, Color=4, SetXName=var, SetYName="a.u.", Fill=True, label="Signal MC")
