@@ -183,8 +183,14 @@ class ROOTDrawer:
         if self.FixYRange == False:
             if(histo.GetMaximum()>self.YRange[1]):
                 self.YRange[1] = histo.GetMaximum()
-            if(histo.GetMinimum()<self.YRange[0] and histo.GetMinimum()>0):
-                self.YRange[0] = histo.GetMinimum()
+            if(histo.GetMinimum()<self.YRange[0]):
+                if(self.logy = False):
+                    self.YRange[0] = histo.GetMinimum()
+                elif(self.logy = True and histo.GetMinimum()>0):
+                     self.YRange[0] = histo.GetMinimum()
+                elif(self.logy = True and histo.GetMinimum()<=0):
+                    self.YRange[0] = 0.000001
+                    
         
         if self.FixXRange == False:
             if(histo.GetXaxis().GetXmax()>self.XRange[1]):
