@@ -184,11 +184,11 @@ class ROOTDrawer:
             if(histo.GetMaximum()>self.YRange[1]):
                 self.YRange[1] = histo.GetMaximum()
             if(histo.GetMinimum()<self.YRange[0]):
-                if(self.logy = False):
+                if(self.logy == False):
                     self.YRange[0] = histo.GetMinimum()
-                elif(self.logy = True and histo.GetMinimum()>0):
+                elif(self.logy == True and histo.GetMinimum()>0):
                      self.YRange[0] = histo.GetMinimum()
-                elif(self.logy = True and histo.GetMinimum()<=0):
+                elif(self.logy == True and histo.GetMinimum()<=0):
                     self.YRange[0] = 0.000001
                     
         
@@ -237,7 +237,7 @@ class ROOTDrawer:
             options['Y_1'] = options['Y']
 
         line = TLine(options['X_0'] , options['Y_0'], options['X_1'], options['Y_1'])
-        print("Line: ", options['X_0'] , " ", options['Y_0'], " ", options['X_1'], " ", options['Y_1'])
+        #print("Line: ", options['X_0'] , " ", options['Y_0'], " ", options['X_1'], " ", options['Y_1'])
         line.SetLineColor(options['Color'])
         line.SetLineWidth(options['LineWidth'])
         line.SetLineStyle(options['LineStyle'])
