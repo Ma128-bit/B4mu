@@ -181,26 +181,10 @@ class ROOTDrawer:
             histo.Scale(1/histo.Integral(0, histo.GetNbinsX() + 1))
         
         if self.FixYRange == False:
-            if(self.YRange[1] is None):
-                self.YRange[1] = histo.GetMaximum()
-            elif(histo.GetMaximum()>self.YRange[1]):
+            if(self.YRange[1] is None or histo.GetMaximum()>self.YRange[1]):
                 self.YRange[1] = histo.GetMaximum()
 
-            if(self.YRange[0] is None):
-                if(self.logy == False):
-                    self.YRange[0] = histo.GetMinimum()
-                elif(self.logy == True and histo.GetMinimum()>0):
-                     self.YRange[0] = histo.GetMinimum()
-                elif(self.logy == True and histo.GetMinimum()<=0):
-                    num_bins = histo.GetNbinsX()
-                    ymin = None
-                    for i in range(1, num_bins + 1):
-                        y_value = histo.GetBinContent(i)
-                        if y_value != 0:
-                            if ymin is None or y_value < ymin:
-                                ymin = y_value
-                    self.YRange[0] = ymin
-            elif(histo.GetMinimum()<self.YRange[0]):
+            if(self.YRange[0] is None or histo.GetMinimum()<self.YRange[0]):
                 if(self.logy == False):
                     self.YRange[0] = histo.GetMinimum()
                 elif(self.logy == True and histo.GetMinimum()>0):
