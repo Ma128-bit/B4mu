@@ -60,7 +60,7 @@ if __name__ == "__main__":
             
         cutx = cuts[AMS.index(max(AMS))]
         plt.figure(figsize=(8, 4))
-        plt.plot(scan_v, AMS, label='AMS Curve', color='blue', linestyle='-', linewidth=1)
+        plt.plot(cuts, AMS, label='AMS Curve', color='blue', linestyle='-', linewidth=1)
         plt.axvline(x=cutx, color='red', linestyle='--', label='Best Cut')
         plt.xlabel('cut')
         plt.ylabel('AMS')
