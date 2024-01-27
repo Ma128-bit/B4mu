@@ -7,13 +7,13 @@ import math, os, draw_utilities
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
-def scan_with_1cut(hist1, hist2, min, max, step, dir):
+def scan_with_1cut(hist1, hist2, min1, max1, step, dir):
     in_events_hist1 = hist1.Integral(0, hist1.GetNbinsX() + 1)
     in_events_hist2 = hist2.Integral(0, hist2.GetNbinsX() + 1)
     AMS = []
     cuts = []
-    for i in range(int((max-min)/step)):
-        cut = min + i*step
+    for i in range(int((max1-min1)/step)):
+        cut = min1 + i*step
         if dir == 'R':
             passed_events_hist1 = hist1.Integral(hist1.FindBin(cut), hist1.GetNbinsX() + 1)
             passed_events_hist2 = hist2.Integral(hist2.FindBin(cut), hist2.GetNbinsX() + 1)
