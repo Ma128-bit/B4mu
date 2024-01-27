@@ -10,7 +10,7 @@ gInterpreter.Declare("""
     #include "Utilities.h"
 """)
 
-from ROOT import flat1D, flat2D, flat_index, add_index
+from ROOT import flat1D, flat2D, flat0D, add_index
 
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     for chi in range(5):
         start_2 = time.time()
         branches=["evt"]
-        rdf = df.Define("Quadruplet_index", flat_index(chi), ["Quadruplet_indexs"])
+        rdf = df.Define("Quadruplet_index", flat0D(chi), ["Quadruplet_indexs"])
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
         branches.append("isMC")
@@ -121,7 +121,8 @@ if __name__ == "__main__":
         #Dimuon masses
         rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
         rdf = rdf.Define("Dimuon_mass","DimuonMass(Dimuon_index, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
-        
+        #Dimuon dR
+        rdf = rdf.Define("Dimuon_dR","DimuondR(Dimuon_index, MuonEta, MuonPhi)")  
         #Dimuon vertex chi2:
         rdf = rdf.Define("Dimuon_chi2","DimuonChi2(Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
         
@@ -134,11 +135,15 @@ if __name__ == "__main__":
                 branches.append(name_chi2)
                 rdf = rdf.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
                 rdf = rdf.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
-    
-        #BsJPsiPhi selections
-        branches.append("BsJPsiPhi_sel_OS1")
-        branches.append("BsJPsiPhi_sel_OS2")
+
+
+        # Flat Dimuon_dR
+        branches = branches + ["Dimu_OS_dR_1", "Dimu_OS_dR_2"]
+        rdf = df.Define("Dimu_OS_dR_1", flat0D(0), ["Dimuon_dR"])
+        rdf = df.Define("Dimu_OS_dR_2", flat0D(1), ["Dimuon_dR"])
         
+        #BsJPsiPhi selections
+        branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
         rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
         rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
 
