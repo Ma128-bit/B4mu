@@ -116,7 +116,7 @@ if __name__ == "__main__":
         canvas = ROOTDrawer(SetLogY=True)
         canvas.HaddTH1(hm, Color=4, SetXName=var, SetYName="a.u.", Fill=True, label="Signal MC")
         canvas.HaddTH1(hd, Color=2, Fill=True, FillStyle=3005, DrawOpt="h same", label="Data Sidebands")
-        canvas.DefTLine(Color=1, Orientation=0, X=cutx,  label="Cut")
+        canvas.DefTLine(Color=1, Orientation=0, X=cutx,  label=f"Cut = {round(cutx,2)}")
         canvas.MakeLegend()
         canvas.Save(out_dir+"/"+var+"_histo.png", era=2022, extra="Preliminary")
         canvas.Delete()
