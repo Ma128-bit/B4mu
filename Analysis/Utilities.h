@@ -133,7 +133,8 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
                 Genphi.push_back(GenParticle_Phi.at(j));
             }
         }
-        
+        if(index.size()!=4) cout<<"index.size()!=4"<<endl;
+        if(Genpt.size()!=4) cout<<"Genpt.size()!=4"<<endl;
         int Gen_matching = 0;
         for(int p=0; p<pt.size();p++){
             vector<double> dR_temp, dpt_temp;
@@ -158,6 +159,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
             }
         }
         if(Gen_matching<4) return 99;
+        if(Gen_matching>4) cout<<"Gen_matching>4"<<endl;
         else return -1;
     }
 }
