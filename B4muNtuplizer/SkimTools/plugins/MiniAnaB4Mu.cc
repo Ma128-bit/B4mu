@@ -2179,7 +2179,7 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("GenParticle_Phi", &GenParticle_Phi);
 
     tree_->Branch("GenParticle_Pt_v2", &GenParticle_Pt_v2);
-    tree_->Branch("GenParticle_Eta_v2", &GenParticle_Eta)_v2;
+    tree_->Branch("GenParticle_Eta_v2", &GenParticle_Eta_v2);
     tree_->Branch("GenParticle_Phi_v2", &GenParticle_Phi_v2);
 
     tree_->Branch("GenParticle_MotherPdgId", &GenParticle_MotherPdgId);
