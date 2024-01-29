@@ -113,7 +113,7 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
         if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
 
         //Cut2 FlightDistBS_SV_Significance, dR and dz
-        //if(FlightDistBS_SV_Significance.at(j) < 2 ) continue;
+        if(FlightDistBS_SV_Significance.at(j) < 2.25 ) continue;
         
         //Cut2 CMS muon system acceptance
         bool acceptanceCUT = true;
@@ -135,12 +135,14 @@ vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
         
         //Cut4 isGlobal and isPF
         int isGlobal=0;
-        int isPF=0;
+        int isMedium=0;
+        int isSoft=0;
         for(int k=0; k<index.size(); k++){
             isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
-            isPF = isPF + Muon_isPF.at(index.at(k));
+            isMedium = isMedium + Muon_isMedium.at(index.at(k));
+            isSoft = isSoft + Muon_isSoft.at(index.at(k));
         }
-        //if(isGlobal<4 || isPF<4) continue;
+        if(!((isGlobal==4 || isMedium==4) && isSoft==4)) continue;
 
         
         //Cut5 HLT Trigger Matching
