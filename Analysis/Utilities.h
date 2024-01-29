@@ -103,105 +103,6 @@ std::vector<std::vector<int>> get_stat(int quad_indx, ROOT::VecOps::RVec<float> 
     return out;
 }
 
-vector<int> best_quadruplets(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){
-    vector<int> quad_indx;
-    for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
-        //Cut1 "strange" events
-        if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
-        
-        vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
-        if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
-
-        //Cut2 FlightDistBS_SV_Significance, dR and dz
-        if(FlightDistBS_SV_Significance.at(j) < 2.25 ) continue;
-        
-        //Cut2 CMS muon system acceptance
-        bool acceptanceCUT = true;
-        for(int c=0; c<index.size(); c++){
-            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
-        }
-        if(acceptanceCUT==false) continue;
-        
-        //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
-        double vz1 = Muon_vz.at(index.at(0));
-        double vz2 = Muon_vz.at(index.at(1));
-        double vz3 = Muon_vz.at(index.at(2));
-        double vz4 = Muon_vz.at(index.at(3));
-        //if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
-        
-        //Cut3 invariant mass
-        if(!(Quadruplet_Mass.at(j)>5.05 && Quadruplet_Mass.at(j)<5.65)) continue;
-        
-        //Cut4 isGlobal and isPF
-        int isGlobal=0;
-        int isMedium=0;
-        int isSoft=0;
-        for(int k=0; k<index.size(); k++){
-            isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
-            isMedium = isMedium + Muon_isMedium.at(index.at(k));
-            isSoft = isSoft + Muon_isSoft.at(index.at(k));
-        }
-        if(!((isGlobal==4 || isMedium==4) && isSoft==4)) continue;
-
-        
-        //Cut5 HLT Trigger Matching
-        vector<double> pt_HLT, eta_HLT, phi_HLT;
-        vector<float> pt, eta, phi;
-        for(int h=0; h<index.size(); h++){
-            float pt_temp=MuonPt.at(index.at(h));
-            float eta_temp=MuonEta.at(index.at(h));
-            float phi_temp=MuonPhi.at(index.at(h));
-            pt.push_back(pt_temp);
-            eta.push_back(eta_temp);
-            phi.push_back(phi_temp);
-        }        
-        int HLT_matching = 0;
-        for(int w=0; w<MuonPt_HLT.size();w++){
-            for(int p=0; p<pt.size();p++){
-                double dphi = abs(phi.at(p) - MuonPhi_HLT.at(w));
-                double deta = abs(eta.at(p) - MuonEta_HLT.at(w));
-                if(dphi > double(M_PI)) dphi -= double(2*M_PI);
-                double dR = TMath::Sqrt(dphi*dphi + deta*deta);
-                double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
-                if(dR<0.03 && dpt<0.1){
-                    HLT_matching++;
-                    phi.erase(phi.begin() + p);
-                    eta.erase(eta.begin() + p);
-                    pt.erase(pt.begin() + p);
-                    break;
-                }
-            }
-        }
-        if(HLT_matching<2) continue;
-
-        quad_indx.push_back(j);
-    }
-    if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
-
-    vector<double> chi2;
-    for(int l=0; l<quad_indx.size(); l++){
-        double temp_i=quad_indx.at(l);
-        double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
-        chi2.push_back(temp_chi2);
-    }
-
-    std::vector<std::pair<double, int>> v_union;
-    for (size_t i = 0; i < quad_indx.size(); ++i) {
-        v_union.push_back(std::make_pair(chi2[i], quad_indx[i]));
-    }
-    std::sort(v_union.begin(), v_union.end(), 
-              [](const std::pair<double, int>& a, const std::pair<double, int>& b) {
-                  return a.first < b.first;
-              });
-
-    for (size_t i = 0; i < v_union.size(); ++i) {
-        chi2[i] = v_union[i].first;
-        quad_indx[i] = v_union[i].second;
-    }
-    return quad_indx;
-}
-
 int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMatchMu3_SimPt, double GenMatchMu4_SimPt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     if(!(GenMatchMu1_SimPt<-1 || GenMatchMu2_SimPt<-1 || GenMatchMu3_SimPt<-1  || GenMatchMu4_SimPt<-1)){
         vector<int> index = get_4index(GenParticle_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt);
@@ -259,6 +160,110 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
         if(Gen_matching<4) return 99;
         else return -1;
     }
+}
+
+vector<int> best_quadruplets(int isMC, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenMatchMu1_SimPt, ROOT::VecOps::RVec<double> GenMatchMu2_SimPt, ROOT::VecOps::RVec<double> GenMatchMu3_SimPt, ROOT::VecOps::RVec<double> GenMatchMu4_SimPt, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+    vector<int> quad_indx;
+    for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
+        //Cut1 "strange" events
+        if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
+        
+        vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
+        if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
+
+        //Cut2 FlightDistBS_SV_Significance, dR and dz
+        if(FlightDistBS_SV_Significance.at(j) < 2.25 ) continue;
+        
+        //Cut2 CMS muon system acceptance
+        bool acceptanceCUT = true;
+        for(int c=0; c<index.size(); c++){
+            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
+            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
+        }
+        if(acceptanceCUT==false) continue;
+        
+        //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
+        double vz1 = Muon_vz.at(index.at(0));
+        double vz2 = Muon_vz.at(index.at(1));
+        double vz3 = Muon_vz.at(index.at(2));
+        double vz4 = Muon_vz.at(index.at(3));
+        //if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
+        
+        //Cut3 invariant mass
+        if(!(Quadruplet_Mass.at(j)>5.05 && Quadruplet_Mass.at(j)<5.65)) continue;
+        
+        //Cut4 isGlobal and isPF
+        int isGlobal=0;
+        int isMedium=0;
+        int isSoft=0;
+        for(int k=0; k<index.size(); k++){
+            isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
+            isMedium = isMedium + Muon_isMedium.at(index.at(k));
+            isSoft = isSoft + Muon_isSoft.at(index.at(k));
+        }
+        if(!(isMedium==4)) continue;
+        
+        //Cut5 HLT Trigger Matching
+        vector<double> pt_HLT, eta_HLT, phi_HLT;
+        vector<float> pt, eta, phi;
+        for(int h=0; h<index.size(); h++){
+            float pt_temp=MuonPt.at(index.at(h));
+            float eta_temp=MuonEta.at(index.at(h));
+            float phi_temp=MuonPhi.at(index.at(h));
+            pt.push_back(pt_temp);
+            eta.push_back(eta_temp);
+            phi.push_back(phi_temp);
+        }        
+        int HLT_matching = 0;
+        for(int w=0; w<MuonPt_HLT.size();w++){
+            for(int p=0; p<pt.size();p++){
+                double dphi = abs(phi.at(p) - MuonPhi_HLT.at(w));
+                double deta = abs(eta.at(p) - MuonEta_HLT.at(w));
+                if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+                double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+                double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
+                if(dR<0.03 && dpt<0.1){
+                    HLT_matching++;
+                    phi.erase(phi.begin() + p);
+                    eta.erase(eta.begin() + p);
+                    pt.erase(pt.begin() + p);
+                    break;
+                }
+            }
+        }
+        if(HLT_matching<2) continue;
+
+        //CUT 6: Gen Matching only MC
+        if(isMC>0){
+            int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenMatchMu1_SimPt.at(j), GenMatchMu2_SimPt.at(j), GenMatchMu3_SimPt.at(j), GenMatchMu4_SimPt.at(j), GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)
+            if(abs(genmatch)!=1) continue;
+        }
+        
+        quad_indx.push_back(j);
+    }
+    if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
+
+    vector<double> chi2;
+    for(int l=0; l<quad_indx.size(); l++){
+        double temp_i=quad_indx.at(l);
+        double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
+        chi2.push_back(temp_chi2);
+    }
+
+    std::vector<std::pair<double, int>> v_union;
+    for (size_t i = 0; i < quad_indx.size(); ++i) {
+        v_union.push_back(std::make_pair(chi2[i], quad_indx[i]));
+    }
+    std::sort(v_union.begin(), v_union.end(), 
+              [](const std::pair<double, int>& a, const std::pair<double, int>& b) {
+                  return a.first < b.first;
+              });
+
+    for (size_t i = 0; i < v_union.size(); ++i) {
+        chi2[i] = v_union[i].first;
+        quad_indx[i] = v_union[i].second;
+    }
+    return quad_indx;
 }
 
 struct flat0D_int{
