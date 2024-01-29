@@ -236,12 +236,27 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
             int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenMatchMu1_SimPt.at(j), GenMatchMu2_SimPt.at(j), GenMatchMu3_SimPt.at(j), GenMatchMu4_SimPt.at(j), GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
             if(abs(genmatch)!=1) continue;
         }
-        
+
         quad_indx.push_back(j);
     }
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
     
-    if(quad_indx.size()>1) cout<<"evt: "<<evt<<endl;
+    if(quad_indx.size()>1) {
+        cout<<"evt: "<<evt<<endl;
+        cout<<"Gen:"<<endl;
+        for(int w =0; w<GenParticle_Pt_v2.size(); w++){
+            cout<<GenParticle_Pt_v2[w]<<" ";
+        }
+        cout<<endl;
+        cout<<"Quadruplets:"<<endl;
+        for(ww=0; ww<quad_indx.size(); ww++){
+            vector<int> index_temp = get_4index(MuonPt, Mu1_Pt.at(ww), Mu2_Pt.at(ww), Mu3_Pt.at(ww), Mu4_Pt.at(ww));
+            for(www=0;www<index_temp.size();www++){
+                cout<<MuonPt.at(index.at(www))<<" ";
+            }
+            cout<<endl;
+        }
+    }
 
     vector<double> chi2;
     for(int l=0; l<quad_indx.size(); l++){
