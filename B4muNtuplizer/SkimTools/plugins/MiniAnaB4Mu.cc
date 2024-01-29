@@ -180,7 +180,9 @@ private:
     
     std::vector<int> GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId;
     std::vector<double> GenParticle_Pt, GenParticle_Eta,    GenParticle_Phi, GenParticle_vx, GenParticle_vy, GenParticle_vz;
-    
+
+    std::vector<double> GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2;
+
     //Vtx position
     std::vector<double>  Muon_vx,  Muon_vy,  Muon_vz;
     
@@ -577,7 +579,52 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             } //pdgId
         }
     } //End GenParticles
-    
+
+    ///////////////Fill Genparticles_v2 ///////////////
+    if(isMc){
+        uint j=0;
+        uint ngenP=genParticles->size();
+        std::vector<int> genPidx;
+     
+        for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
+            if( fabs(gp->pdgId())==531  || fabs(gp->pdgId())==533) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi           
+                int number_good_GrandDaughters=0;
+                int number_phi=0;
+                int number_jpsi=0;
+                if (gp->numberOfDaughters() > 0) {
+                    for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
+                        int number_good_GrandDaughters_temp=0;
+                        const reco::Candidate* daughter = gp->daughter(k);
+                        if (fabs(daughter->pdgId())==333) number_phi++;
+                        if (fabs(daughter->pdgId())==443) number_jpsi++;
+                        
+                        if (fabs(daughter->pdgId())==333 || fabs(daughter->pdgId())==443){
+                            if (daughter->numberOfDaughters() > 0 ) {
+                                for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                    const reco::Candidate* granddaughter = daughter->daughter(l);
+                                    if (fabs(granddaughter->pdgId())==13) number_good_GrandDaughters++;
+                                }
+                            }
+                        }
+                    }
+                }
+                if(number_good_GrandDaughters==4 && number_phi==1 && number_jpsi==1){
+                    for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
+                        if (fabs(daughter->pdgId())==333 || fabs(daughter->pdgId())==443){
+                            for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                if (fabs(granddaughter->pdgId())==13){
+                                    GenParticle_Pt_v2.push_back(granddaughter->pt());
+                                    GenParticle_Eta_v2.push_back(granddaughter->eta());
+                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                }
+                            }
+                        }
+                    }
+                }
+                if(number_good_GrandDaughters>4) cout<<"number_good_GrandDaughters>4"<<endl;
+            }
+        }
+    } //End GenParticles_v2
     
     //Primary Vtx
     PVCollection_Size = vertices->size();
@@ -1750,6 +1797,9 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     GenParticle_Pt.clear();
     GenParticle_Eta.clear();
     GenParticle_Phi.clear();
+    GenParticle_Pt_v2.clear();
+    GenParticle_Eta_v2.clear();
+    GenParticle_Phi_v2.clear();
     GenParticle_MotherPdgId.clear();
     GenParticle_GrandMotherPdgId.clear();
     GenParticle_vx.clear();
@@ -2127,6 +2177,11 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("GenParticle_Pt", &GenParticle_Pt);
     tree_->Branch("GenParticle_Eta", &GenParticle_Eta);
     tree_->Branch("GenParticle_Phi", &GenParticle_Phi);
+
+    tree_->Branch("GenParticle_Pt_v2", &GenParticle_Pt_v2);
+    tree_->Branch("GenParticle_Eta_v2", &GenParticle_Eta)_v2;
+    tree_->Branch("GenParticle_Phi_v2", &GenParticle_Phi_v2);
+
     tree_->Branch("GenParticle_MotherPdgId", &GenParticle_MotherPdgId);
     tree_->Branch("GenParticle_GrandMotherPdgId", &GenParticle_GrandMotherPdgId);
     tree_->Branch("GenParticle_vx", &GenParticle_vx);
