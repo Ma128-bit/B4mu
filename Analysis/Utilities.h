@@ -236,14 +236,12 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         //CUT 6: Gen Matching only MC
         if(isMC>0){
             int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenMatchMu1_SimPt.at(j), GenMatchMu2_SimPt.at(j), GenMatchMu3_SimPt.at(j), GenMatchMu4_SimPt.at(j), GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
-            //if(abs(genmatch)!=1) continue;
-            if((genmatch)!=1) continue;
+            if(abs(genmatch)!=1) continue;
         }
         
         quad_indx.push_back(j);
     }
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
-    else cout<<quad_indx.size()<<endl;
     
     if(quad_indx.size()>1) cout<<"evt: "<<evt<<endl;
 
@@ -268,7 +266,6 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         quad_indx[i] = v_union[i].second;
     }
 
-    if(quad_indx.size()>1) cout<<"evt: "<<evt<<endl;
     return quad_indx;
 }
 
