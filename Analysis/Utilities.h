@@ -235,7 +235,7 @@ vector<int> best_quadruplets(int isMC, ROOT::VecOps::RVec<float> MuonPt, ROOT::V
 
         //CUT 6: Gen Matching only MC
         if(isMC>0){
-            int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenMatchMu1_SimPt.at(j), GenMatchMu2_SimPt.at(j), GenMatchMu3_SimPt.at(j), GenMatchMu4_SimPt.at(j), GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)
+            int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenMatchMu1_SimPt.at(j), GenMatchMu2_SimPt.at(j), GenMatchMu3_SimPt.at(j), GenMatchMu4_SimPt.at(j), GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
             if(abs(genmatch)!=1) continue;
         }
         
