@@ -116,7 +116,7 @@ if __name__ == "__main__":
     with open('output.txt', 'w') as file:
         file.write(best_sel)
     """
-    selec = ["((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || ((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4)))", "((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4))", "((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4))", "isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4"] 
+    selec = ["((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4)) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4)", "((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || ((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4)))", "((isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3] == 4) || (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4))", "((isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4) && (isSoft[0]+isSoft[1]+isSoft[2]+isSoft[3] == 4))", "isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3] == 4"] 
     for sel in selec:
         sel = "("+sel+") && (BsJPsiPhi_sel_OS1>0 || BsJPsiPhi_sel_OS2>0)"
         nbkg = rdf_data.Filter(sel).Count().GetValue()
