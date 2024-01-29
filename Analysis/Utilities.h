@@ -159,7 +159,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
             }
         }
         if(Gen_matching<4) return 99;
-        if(Gen_matching>4) cout<<"Gen_matching>4"<<endl;
+        if(Gen_matching>4) {cout<<"Gen_matching>4"<<endl; return -1;}
         else return -1;
     }
 }
