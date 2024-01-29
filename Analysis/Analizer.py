@@ -65,19 +65,18 @@ if __name__ == "__main__":
     print("Starting!")
     df = load_df(selected_files, "TreeMakerBkg/ntuple")
     #Find best Quadruplet
-    df = df.Define("Quadruplet_indexs","best_quadruplets(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
+    df = df.Define("isMC", add_index(isMC))
+    df = df.Define("Quadruplet_indexs","best_quadruplets(isMC, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
     df = df.Filter("Quadruplet_indexs[0]>-1")
 
-    for chi in range(1):
+    for chi in range(5):
         start_2 = time.time()
-        branches=["evt"]
+        branches=["evt", "isMC"]
         rdf = df.Define("Quadruplet_index", flat0D_int(chi), ["Quadruplet_indexs"])
+        rdf = rdf.Filter("Quadruplet_index>-1")
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
-        branches.append("isMC")
-        rdf = rdf.Define("isMC", add_index(isMC))
         
-        rdf = rdf.Filter("Quadruplet_index>-1")
         #Stats
         rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
         branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
@@ -110,13 +109,6 @@ if __name__ == "__main__":
             if "Vtx" not in v:
                 branches.append(v)
             rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
-
-        # Gen Matching
-        if isMC==1:
-            #rdf = rdf.Filter("GenMatchMu1_SimPt>-1 || GenMatchMu2_SimPt>-1 || GenMatchMu3_SimPt>-1  || GenMatchMu4_SimPt>-1")
-            rdf = rdf.Define("GenMatch","GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
-            rdf = rdf.Filter("GenMatch==1 || GenMatch==-1")
-            #branches.append("GenMatch")
             
         #Dimuon masses
         rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
