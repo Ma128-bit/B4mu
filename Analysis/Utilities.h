@@ -252,7 +252,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         for(int ww=0; ww<quad_indx.size(); ww++){
             vector<int> index_temp = get_4index(MuonPt, Mu1_Pt.at(ww), Mu2_Pt.at(ww), Mu3_Pt.at(ww), Mu4_Pt.at(ww));
             for(int www=0;www<index_temp.size();www++){
-                cout<<MuonPt.at(index.at(www))<<" ";
+                cout<<MuonPt.at(index_temp.at(www))<<" ";
             }
             cout<<endl;
         }
