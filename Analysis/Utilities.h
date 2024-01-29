@@ -243,7 +243,8 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         quad_indx.push_back(j);
     }
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
-
+    else cout<<quad_indx.size()<<endl;
+    
     if(quad_indx.size()>1) cout<<"evt: "<<evt<<endl;
 
     vector<double> chi2;
