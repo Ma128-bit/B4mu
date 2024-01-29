@@ -612,8 +612,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
                         if (fabs(daughter->pdgId())==333 || fabs(daughter->pdgId())==443){
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                const reco::Candidate* granddaughter = daughter->daughter(l);
                                 if (fabs(granddaughter->pdgId())==13){
-                                    const reco::Candidate* granddaughter = daughter->daughter(l);
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
                                     GenParticle_Eta_v2.push_back(granddaughter->eta());
                                     GenParticle_Phi_v2.push_back(granddaughter->phi());
