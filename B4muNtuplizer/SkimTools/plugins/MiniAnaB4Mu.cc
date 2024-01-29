@@ -593,8 +593,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                 int number_jpsi=0;
                 if (gp->numberOfDaughters() > 0) {
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
-                        int number_good_GrandDaughters_temp=0;
-                        const reco::Candidate* daughter = gp->daughter(k);
+                        const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
+                        //const reco::Candidate* daughter = gp->daughter(k);
                         if (fabs(daughter->pdgId())==333) number_phi++;
                         if (fabs(daughter->pdgId())==443) number_jpsi++;
                         
