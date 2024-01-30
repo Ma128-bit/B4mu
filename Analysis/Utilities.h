@@ -103,7 +103,8 @@ std::vector<std::vector<int>> get_stat(int quad_indx, ROOT::VecOps::RVec<float> 
     return out;
 }
 
-int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double GenMatchMu1_SimPt, double GenMatchMu2_SimPt, double GenMatchMu3_SimPt, double GenMatchMu4_SimPt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+    /*
     if(!(GenMatchMu1_SimPt<-1 || GenMatchMu2_SimPt<-1 || GenMatchMu3_SimPt<-1  || GenMatchMu4_SimPt<-1)){
         vector<int> index = get_4index(GenParticle_Pt, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt);
         if(index.size() != 4 || index[0]<0) return -98;
@@ -114,53 +115,52 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
         }
         return 1;
     }
-    else{
-        vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
-        vector<double> pt, eta, phi;
-        for(int h=0; h<index.size(); h++){
-            double pt_temp=MuonPt.at(index.at(h));
-            double eta_temp=MuonEta.at(index.at(h));
-            double phi_temp=MuonPhi.at(index.at(h));
-            pt.push_back(pt_temp);
-            eta.push_back(eta_temp);
-            phi.push_back(phi_temp);
-        }
-        vector<double> Genpt, Geneta, Genphi;
-        for(int j=0; j<GenParticle_Pt_v2.size(); j++){ 
-            Genpt.push_back(GenParticle_Pt_v2.at(j));
-            Geneta.push_back(GenParticle_Eta_v2.at(j));
-            Genphi.push_back(GenParticle_Phi_v2.at(j));
-        }
-        if(Genpt.size() != 4) cout<<"Genpt.size() != 4"<<endl;
-        int Gen_matching = 0;
-        for(int p=0; p<pt.size();p++){
-            vector<double> dR_temp, dpt_temp;
-            for(int w=0; w<Genpt.size();w++){
-                double dphi = abs(phi.at(p) - Genphi.at(w));
-                double deta = abs(eta.at(p) - Geneta.at(w));
-                if(dphi > double(M_PI)) dphi -= double(2*M_PI);
-                double dR = TMath::Sqrt(dphi*dphi + deta*deta);
-                double dpt = abs(pt.at(p) - Genpt.at(w))/pt.at(p);
-                dR_temp.push_back(dR);
-                dpt_temp.push_back(dpt);
-            }
-            auto dR_min_p = std::min_element(dR_temp.begin(), dR_temp.end());
-            int dR_minID = std::distance(dR_temp.begin(), dR_min_p);
-            double dR_min = *dR_min_p;
-            double dpt_min = dpt_temp[dR_minID];
-            if(dR_min<0.03 && dpt_min<0.1){
-                Gen_matching++;
-                Genpt.erase(Genpt.begin() + dR_minID);
-                Geneta.erase(Geneta.begin() + dR_minID);
-                Genphi.erase(Genphi.begin() + dR_minID);
-            }
-        }
-        if(Gen_matching<4) return 99;
-        else return -1;
+    */
+    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
+    vector<double> pt, eta, phi;
+    for(int h=0; h<index.size(); h++){
+        double pt_temp=MuonPt.at(index.at(h));
+        double eta_temp=MuonEta.at(index.at(h));
+        double phi_temp=MuonPhi.at(index.at(h));
+        pt.push_back(pt_temp);
+        eta.push_back(eta_temp);
+        phi.push_back(phi_temp);
     }
+    vector<double> Genpt, Geneta, Genphi;
+    for(int j=0; j<GenParticle_Pt_v2.size(); j++){ 
+        Genpt.push_back(GenParticle_Pt_v2.at(j));
+        Geneta.push_back(GenParticle_Eta_v2.at(j));
+        Genphi.push_back(GenParticle_Phi_v2.at(j));
+    }
+    if(Genpt.size() != 4) cout<<"Genpt.size() != 4"<<endl;
+    int Gen_matching = 0;
+    for(int p=0; p<pt.size();p++){
+        vector<double> dR_temp, dpt_temp;
+        for(int w=0; w<Genpt.size();w++){
+            double dphi = abs(phi.at(p) - Genphi.at(w));
+            double deta = abs(eta.at(p) - Geneta.at(w));
+            if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+            double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+            double dpt = abs(pt.at(p) - Genpt.at(w))/pt.at(p);
+            dR_temp.push_back(dR);
+            dpt_temp.push_back(dpt);
+        }
+        auto dR_min_p = std::min_element(dR_temp.begin(), dR_temp.end());
+        int dR_minID = std::distance(dR_temp.begin(), dR_min_p);
+        double dR_min = *dR_min_p;
+        double dpt_min = dpt_temp[dR_minID];
+        if(dR_min<0.03 && dpt_min<0.1){
+            Gen_matching++;
+            Genpt.erase(Genpt.begin() + dR_minID);
+            Geneta.erase(Geneta.begin() + dR_minID);
+            Genphi.erase(Genphi.begin() + dR_minID);
+        }
+    }
+    if(Gen_matching<4) return 99;
+    else return 1;
 }
 
-vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenMatchMu1_SimPt, ROOT::VecOps::RVec<double> GenMatchMu2_SimPt, ROOT::VecOps::RVec<double> GenMatchMu3_SimPt, ROOT::VecOps::RVec<double> GenMatchMu4_SimPt, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     vector<int> quad_indx;
     vector<int> genmetch_id;
     for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
@@ -234,10 +234,9 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
 
         //CUT 6: Gen Matching only MC
         if(isMC>0){
-            int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenMatchMu1_SimPt.at(j), GenMatchMu2_SimPt.at(j), GenMatchMu3_SimPt.at(j), GenMatchMu4_SimPt.at(j), GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
-            if(abs(genmatch)!=1) continue;
+            int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
+            if(genmatch!=1) continue;
             genmetch_id.push_back(genmatch);
-            //if((genmatch)!=-1) continue;
         }
 
         quad_indx.push_back(j);
