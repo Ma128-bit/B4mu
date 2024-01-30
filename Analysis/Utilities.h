@@ -155,7 +155,7 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
         double dRpt_min = *dRpt_min_p;
         double dpt_min = dpt_temp[dRpt_minID];
         double dR_min = dR_temp[dRpt_minID];
-        if(dR_min<0.03 && dpt_min<0.1){
+        if(dR_min<0.03 && dpt_min<0.07){
             Gen_matching++;
             Genpt.erase(Genpt.begin() + dRpt_minID);
             Geneta.erase(Geneta.begin() + dRpt_minID);
@@ -226,7 +226,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
                 if(dphi > double(M_PI)) dphi -= double(2*M_PI);
                 double dR = TMath::Sqrt(dphi*dphi + deta*deta);
                 double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
-                if(dR<0.03 && dpt<0.07){
+                if(dR<0.03 && dpt<0.1){
                     HLT_matching++;
                     phi.erase(phi.begin() + p);
                     eta.erase(eta.begin() + p);
