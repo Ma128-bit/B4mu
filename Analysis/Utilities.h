@@ -135,23 +135,26 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
     if(Genpt.size() != 4) cout<<"Genpt.size() != 4"<<endl;
     int Gen_matching = 0;
     for(int p=0; p<pt.size();p++){
-        cout<<"Genpt: ";
-        for(int kk=0; kk<Genpt.size(); kk++) {cout<<Genpt[kk]<<" ";}
-        cout<<endl;
-        vector<double> dR_temp, dpt_temp;
+        //cout<<"Genpt: ";
+        //for(int kk=0; kk<Genpt.size(); kk++) {cout<<Genpt[kk]<<" ";}
+        //cout<<endl;
+        vector<double> dR_temp, dpt_temp, dRpt_temp;
         for(int w=0; w<Genpt.size();w++){
             double dphi = abs(phi.at(p) - Genphi.at(w));
             double deta = abs(eta.at(p) - Geneta.at(w));
             if(dphi > double(M_PI)) dphi -= double(2*M_PI);
             double dR = TMath::Sqrt(dphi*dphi + deta*deta);
             double dpt = abs(pt.at(p) - Genpt.at(w))/pt.at(p);
+            double dRpt = TMath::Sqrt(dphi*dphi + deta*deta + dpt*dpt);
             dR_temp.push_back(dR);
             dpt_temp.push_back(dpt);
+            dRpt_temp.push_back(dRpt);
         }
-        auto dR_min_p = std::min_element(dR_temp.begin(), dR_temp.end());
-        int dR_minID = std::distance(dR_temp.begin(), dR_min_p);
-        double dR_min = *dR_min_p;
-        double dpt_min = dpt_temp[dR_minID];
+        auto dRpt_min_p = std::min_element(dRpt_temp.begin(), dRpt_temp.end());
+        int dRpt_minID = std::distance(dRpt_temp.begin(), dRpt_min_p);
+        double dRpt_min = *dRpt_min_p;
+        double dpt_min = dpt_temp[dRpt_minID];
+        double dR_min = dR_temp[dRpt_minID];
         if(dR_min<0.03 && dpt_min<0.1){
             Gen_matching++;
             Genpt.erase(Genpt.begin() + dR_minID);
