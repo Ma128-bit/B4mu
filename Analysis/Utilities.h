@@ -135,6 +135,9 @@ int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> Muon
     if(Genpt.size() != 4) cout<<"Genpt.size() != 4"<<endl;
     int Gen_matching = 0;
     for(int p=0; p<pt.size();p++){
+        cout<<"Genpt: ";
+        for(int kk=0; kk<Genpt.size(); kk++) {cout<<Genpt[kk];}
+        cout<<endl;
         vector<double> dR_temp, dpt_temp;
         for(int w=0; w<Genpt.size();w++){
             double dphi = abs(phi.at(p) - Genphi.at(w));
@@ -244,7 +247,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
     
     if(quad_indx.size()>1) {
-        cout<<"evt: "<<evt<<endl;
+        cout<<"###### evt: "<<evt<<endl;
         cout<<"Gen:"<<endl;
         for(int w =0; w<GenParticle_Pt_v2.size(); w++){
             cout<<GenParticle_Pt_v2[w]<<" ";
