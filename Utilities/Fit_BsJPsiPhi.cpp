@@ -14,13 +14,11 @@
 
 using namespace RooFit;
 
-namespace fs = std::filesystem;
-
 void Fit_BsJPsiPhi() {
     std::string folderName = "Fit_results";
-    if (!fs::exists(folderName)) {
+    if (!std::filesystem::exists(folderName)) {
         // Se la cartella non esiste, crea una nuova cartella
-        if (fs::create_directory(folderName)) {
+        if (std::filesystem::create_directory(folderName)) {
             std::cout << "Cartella creata con successo.\n";
         } else {
             std::cerr << "Errore durante la creazione della cartella.\n";
