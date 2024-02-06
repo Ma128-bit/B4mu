@@ -41,7 +41,7 @@ void Fit_BsJPsiPhi() {
         return;
     }
     
-    tree->Draw("Quadruplet_Mass>>h1(24,5.05,5.65)","(BsJPsiPhi_sel_OS1>1) || (BsJPsiPhi_sel_OS2>1)");
+    tree->Draw("Quadruplet_Mass>>h1(24,5.05,5.65)","(BsJPsiPhi_sel_OS1>0) || (BsJPsiPhi_sel_OS2>0)");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
     RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.05, 5.65);
