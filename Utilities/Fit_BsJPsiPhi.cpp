@@ -10,10 +10,20 @@
 #include <RooExponential.h>
 #include <RooAddPdf.h>
 #include <RooFitResult.h>
+#include <filesystem>
 
 using namespace RooFit;
 
 void Fit_BsJPsiPhi() {
+    std::string folderName = "Fit_results";
+    if (!fs::exists(folderName)) {
+        // Se la cartella non esiste, crea una nuova cartella
+        if (fs::create_directory(folderName)) {
+            std::cout << "Cartella creata con successo.\n";
+        } else {
+            std::cerr << "Errore durante la creazione della cartella.\n";
+        }
+    }
     // Aprire il file root contenente l'albero
     TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_All.root");
     if (!file || file->IsZombie()) {
@@ -28,60 +38,47 @@ void Fit_BsJPsiPhi() {
         file->Close();
         return;
     }
-
-    // Creare una variabile RooRealVar dal ramo dell'albero
-    RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.12, 5.58);
-    x.setRange("R1", 5.2, 5.25);
-    x.setRange("R2", 5.45, 5.5);
-    x.setRange("RT", 5.2, 5.5);
     
-    RooRealVar BsJPsiPhi_sel_OS1("BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS1", 0, 2);
-    RooRealVar BsJPsiPhi_sel_OS2("BsJPsiPhi_sel_OS2", "BsJPsiPhi_sel_OS2", 0, 2);
-
-    // Creare un dataset RooDataSet dalla variabile x
-    RooDataSet data("data", "Dataset", RooArgSet(x, BsJPsiPhi_sel_OS1, BsJPsiPhi_sel_OS2),
-                        Import(*tree), Cut("(BsJPsiPhi_sel_OS1>0) || (BsJPsiPhi_sel_OS2>0)"));
-
-    // Creare il fondo 
-    RooRealVar gamma("#Gamma", "Gamma", -1, -2.0, -1e-2);
+    tree->Draw("Quadruplet_Mass>>h1(24,5.05,5.65)","(BsJPsiPhi_sel_OS1>1) || (BsJPsiPhi_sel_OS2>1)");
+    TH1F *h1 = (TH1F*)gDirectory->Get("h1");
+    
+    RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.05, 5.65);
+    x.setRange("R1", 5.05, 5.25);
+    x.setRange("R2", 5.55, 5.65);
+    x.setRange("RT", 5.05, 5.65);
+    x.setBins(24);
+    
+    RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
+    
+    
+    // Creare il fondo
+    RooRealVar gamma("#Gamma", "Gamma", -0.2, -10, 10);
     RooExponential exp_bkg("exp_bkg", "exp_bkg", x, gamma);
     exp_bkg.fitTo(data,Range("R1,R2"));
 
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
-    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.2);
+    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.005, 0.2);
     RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
-
+    
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 140, 10, 300);
-    RooRealVar nbkg("nbkg", "Numero di background", 200, 50000);
-    
+    RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 500);
+
     RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf, exp_bkg), RooArgList(nsig, nbkg));
 
-    // Eseguire il fit
     RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
-
-    // Visualizzare i risultati del fit
-    result->Print();
-
-    // Creare un frame RooPlot per visualizzare il risultato del fit
+    
     RooPlot *frame = x.frame();
     data.plotOn(frame);
-    //data.plotOn(frame);
-    model.plotOn(frame);
-
-    // Aggiungere la visualizzazione della gaussiana
     model.plotOn(frame, Components(gauss_pdf), LineStyle(kDashed), LineColor(kRed));
-
-    // Aggiungere la visualizzazione dell'esponenziale
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, gamma)), Layout(0.1,0.6,0.9));
     model.plotOn(frame, Components(exp_bkg), LineStyle(kDashed), LineColor(kGreen));
-
-    model.paramOn(frame, Parameters(RooArgSet(nsig,nbkg, mean, sigma, gamma )), Layout(0.2,0.6,0.5));
-
-    // Creare un canvas per visualizzare il risultato del fit
-    TCanvas *canvas = new TCanvas("canvas", "Fit Result", 800, 600);
+    model.plotOn(frame);
+    
+    TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    //canvas->SaveAs("Fit_BsJPsiPhi.png");
+    //canvas->SaveAs("Fit_results/Fit_BsJPsiPhi.png");
 
     // Chiudere il file
     //file->Close();
