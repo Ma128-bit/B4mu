@@ -15,15 +15,6 @@
 using namespace RooFit;
 
 void Fit_BsJPsiPhi() {
-    std::string folderName = "Fit_results";
-    if (!std::filesystem::exists(folderName)) {
-        // Se la cartella non esiste, crea una nuova cartella
-        if (std::filesystem::create_directory(folderName)) {
-            std::cout << "Cartella creata con successo.\n";
-        } else {
-            std::cerr << "Errore durante la creazione della cartella.\n";
-        }
-    }
     // Aprire il file root contenente l'albero
     TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_All.root");
     if (!file || file->IsZombie()) {
@@ -39,7 +30,8 @@ void Fit_BsJPsiPhi() {
         return;
     }
     
-    tree->Draw("Quadruplet_Mass>>h1(32,5.05,5.65)","(BsJPsiPhi_sel_OS1>0) || (BsJPsiPhi_sel_OS2>0)");
+    tree->Draw("Quadruplet_Mass>>h1(32,5.05,5.65)","((BsJPsiPhi_sel_OS1>0 && Dimu_OS1_dR>0.17 && Dimu_OS1_dR<1.08) || (BsJPsiPhi_sel_OS2>0 && Dimu_OS2_dR>0.17 && Dimu_OS2_dR<1.08)) && FlightDistBS_SV_Significance>2.25 ");
+    //tree->Draw("Quadruplet_Mass>>h1(32,5.05,5.65)","((BsJPsiPhi_sel_OS1>0) || (BsJPsiPhi_sel_OS2>0))");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
     RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.05, 5.65);
