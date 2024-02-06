@@ -13,7 +13,7 @@
 
 using namespace RooFit;
 
-void fit() {
+void Fit_BsJPsiPhi() {
     // Aprire il file root contenente l'albero
     TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_All.root");
     if (!file || file->IsZombie()) {
@@ -81,7 +81,7 @@ void fit() {
     // Creare un canvas per visualizzare il risultato del fit
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 800, 600);
     frame->Draw();
-    //canvas->SaveAs("fit_result.png");
+    //canvas->SaveAs("Fit_BsJPsiPhi.png");
 
     // Chiudere il file
     //file->Close();
