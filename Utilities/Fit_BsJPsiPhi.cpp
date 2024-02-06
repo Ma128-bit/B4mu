@@ -15,7 +15,7 @@ using namespace RooFit;
 
 void fit() {
     // Aprire il file root contenente l'albero
-    TFile *file = new TFile("../Analysis/Analyzed_Data_All.root");
+    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_All.root");
     if (!file || file->IsZombie()) {
         std::cerr << "Errore nell'apertura del file" << std::endl;
         return;
