@@ -14,6 +14,8 @@
 
 using namespace RooFit;
 
+namespace fs = std::filesystem;
+
 void Fit_BsJPsiPhi() {
     std::string folderName = "Fit_results";
     if (!fs::exists(folderName)) {
