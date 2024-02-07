@@ -97,8 +97,9 @@ if __name__ == "__main__":
                 #rdf = rdf.Redefine("GenMatchMu"+ind+"_Sim"+s,"flattening(GenMatchMu"+ind+"_Sim"+s+", Quadruplet_index)")
 
         #Flat quadruplet variables
-        quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge"]
-        branches = branches + ["QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF"]
+        quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
+                                  "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV"]
+        branches = branches + quadruplet_related_var
         vertex_chi2=""
         for i in range(1, 4):
             for j in range(i+1,5):
@@ -106,10 +107,11 @@ if __name__ == "__main__":
                 quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
                 quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
         for v in quadruplet_related_var:
-            if "Vtx" not in v:
-                branches.append(v)
             rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
-            
+
+        #cos(θ) angle between B flight direction and 4-muon momentum
+        rdf = rdf.Define("CosAngle_4mu_PV","TreeFin_CosAngle(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, FlightDistPVSV)")
+        
         #Dimuon masses
         rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
         rdf = rdf.Define("Dimuon_mass","DimuonMass(Dimuon_index, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
