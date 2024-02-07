@@ -110,6 +110,7 @@ if __name__ == "__main__":
             rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
 
         #cos(θ) angle between B flight direction and 4-muon momentum
+        branches.append("CosAngle_4mu_PV")
         rdf = rdf.Define("CosAngle_4mu_PV","TreeFin_CosAngle(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, FlightDistPVSV)")
         
         #Dimuon masses
