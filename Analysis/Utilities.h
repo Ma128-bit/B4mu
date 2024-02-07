@@ -66,6 +66,21 @@ double TreeFin_CosAngle(double QuadrupletVtx_x, double QuadrupletVtx_y, double Q
     return cos_ang;
 }
 
+double dR_Max(double Quadruplet_Eta, double Quadruplet_Phi, double Mu1_Eta, double Mu1_Phi, double Mu2_Eta, double Mu2_Phi, double Mu3_Eta, double Mu3_Phi, double Mu4_Eta, double Mu4_Phi){
+    double dr_mu1 = deltaR(Quadruplet_Eta, Mu1_Eta, Quadruplet_Phi, Mu1_Phi);
+    double dr_mu2 = deltaR(Quadruplet_Eta, Mu2_Eta, Quadruplet_Phi, Mu2_Phi);
+    double dr_mu3 = deltaR(Quadruplet_Eta, Mu3_Eta, Quadruplet_Phi, Mu3_Phi);
+    double dr_mu4 = deltaR(Quadruplet_Eta, Mu4_Eta, Quadruplet_Phi, Mu4_Phi);
+
+    double dr_max = dr_mu1;
+    if (dr_mu2>dr_max) dr_max = dr_mu2;
+    if (dr_mu3>dr_max) dr_max = dr_mu3;
+    if (dr_mu4>dr_max) dr_max = dr_mu4;
+
+    return dr_max;
+}
+
+
 vector<int> get_4index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2, double pt3, double pt4){
     vector<int> index;
     int i=0;
