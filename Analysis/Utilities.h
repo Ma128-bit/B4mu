@@ -50,6 +50,21 @@ Bool_t isPairDeltaZGood(double vz1, double vz2, double vz3, double vz4, double D
     else return false;
 }
 
+double TreeFin_CosAngle(double QuadrupletVtx_x, double QuadrupletVtx_y, double QuadrupletVtx_z, double RefittedPV_x, double RefittedPV_y, double RefittedPV_z, double Quadruplet_Pt, double Quadruplet_Eta,double Quadruplet_Phi, double FlightDistPVSV){
+    // Computes the angle between the momentum vector of the 4mu quadruplet (b) and the vector from the primary vertex (a)
+    double a_x = QuadrupletVtx_x - RefittedPV_x;
+    double a_y = QuadrupletVtx_y - RefittedPV_y;
+    double a_z = QuadrupletVtx_z - RefittedPV_z;
+    TVector3 b;
+    b.SetPtEtaPhi(Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi);
+    double b_x = b.Px();
+    double b_y = b.Py();
+    double b_z = b.Pz();
+    double a_mod = abs(FlightDistPVSV);
+    double b_mod = abs(b.Mag());
+    double cos_ang = ((a_x*b_x)+(a_y*b_y)+(a_z*b_z))/(a_mod*b_mod);
+    return cos_ang;
+}
 
 vector<int> get_4index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2, double pt3, double pt4){
     vector<int> index;
