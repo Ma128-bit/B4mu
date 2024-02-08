@@ -309,9 +309,10 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         if(printoption) exit_code=6;
         quad_indx.push_back(j);
     }
+    if(printoption==true) {cout<<evt<<","<<exit_code<<endl;}
+    
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
 
-    if(printoption==true) {cout<<evt<<","<<exit_code<<endl;}
     /*
     if(quad_indx.size()>1) {
         cout<<"###### evt: "<<evt<<endl;
