@@ -213,7 +213,7 @@ bool isNumberPresentInFile(int number) {
         }
         file.close();
     } else {
-        std::cerr << "Unable to open file: " << filename << std::endl;
+        std::cerr << "Unable to open file" << std::endl;
     }
     
     return false;
@@ -221,7 +221,7 @@ bool isNumberPresentInFile(int number) {
 
 vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     vector<int> quad_indx;
-    printoption = false;
+    bool printoption = false;
     if(isNumberPresentInFile(evt) == true) printoption==true;
     if(printoption) cout<<"evt: "<<evt<<" QuadrupletVtx_Chi2.size() :"<<QuadrupletVtx_Chi2.size()<<endl;
 
