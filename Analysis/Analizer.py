@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     for chi in range(1):
         start_2 = time.time()
-        branches=["evt", "isMC"]
+        branches=["evt", "isMC", "run", "lumi"]
         rdf = df.Define("Quadruplet_index", flat0D_int(chi), ["Quadruplet_indexs"])
         rdf = rdf.Filter("Quadruplet_index>-1")
         branches.append("chi2_label")
