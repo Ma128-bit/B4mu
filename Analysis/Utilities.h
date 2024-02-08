@@ -257,7 +257,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
                 double dR = TMath::Sqrt(dphi*dphi + deta*deta);
                 double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
                 //if(dR<0.03 && dpt<0.1){
-                /if(dR<0.1){
+                if(dR<0.1){
                     HLT_matching++;
                     phi.erase(phi.begin() + p);
                     eta.erase(eta.begin() + p);
