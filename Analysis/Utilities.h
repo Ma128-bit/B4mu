@@ -224,7 +224,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         //if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
         
         //Cut3 invariant mass
-        if(!(Quadruplet_Mass.at(j)>5.05 && Quadruplet_Mass.at(j)<5.65)) continue;
+        if(!(Quadruplet_Mass.at(j)>4 && Quadruplet_Mass.at(j)<7)) continue;
         
         //Cut4 isGlobal and isPF
         int isGlobal=0;
