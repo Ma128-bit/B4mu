@@ -222,9 +222,9 @@ bool isNumberPresentInFile(int number) {
 vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     vector<int> quad_indx;
     bool printoption = false;
+    int exit_code = -1;
     if(isNumberPresentInFile(evt) == true) printoption=true;
-    if(printoption) cout<<"evt: "<<evt<<" QuadrupletVtx_Chi2.size() :"<<QuadrupletVtx_Chi2.size()<<endl;
-
+    
     for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
         //Cut1 "strange" events
         if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
@@ -232,7 +232,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
         if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
         
-        if(printoption) cout<<"CUT1 OK"<<endl;
+        if(printoption) exit_code=1;
         
         //Cut2 FlightDistBS_SV_Significance, dR and dz
         //if(FlightDistBS_SV_Significance.at(j) < 2.25 ) continue;
@@ -244,7 +244,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
             if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
         }
         if(acceptanceCUT==false) continue;
-        if(printoption) cout<<"CUT2 OK"<<endl;
+        if(printoption) exit_code=2;
         
         //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
         double vz1 = Muon_vz.at(index.at(0));
@@ -255,7 +255,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         
         //Cut3 invariant mass
         if(!(Quadruplet_Mass.at(j)>4.0 && Quadruplet_Mass.at(j)<7.0)) continue;
-        if(printoption) cout<<"CUT3 OK"<<endl;
+        if(printoption) exit_code=3;
         
         //Cut4 isGlobal and isPF
         int isGlobal=0;
@@ -267,7 +267,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
             isSoft = isSoft + Muon_isSoft.at(index.at(k));
         }
         if(!(isMedium==4)) continue;
-        if(printoption) cout<<"CUT4 OK"<<endl;
+        if(printoption) exit_code=4;
         
         //Cut5 HLT Trigger Matching
         vector<double> pt_HLT, eta_HLT, phi_HLT;
@@ -299,18 +299,20 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
             }
         }
         if(HLT_matching<2) continue;
-        if(printoption) cout<<"CUT5 OK"<<endl;
+        if(printoption) exit_code=5;
         
         //CUT 6: Gen Matching only MC
         if(isMC>0){
             int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
             if(genmatch!=1) continue;
         }
-        if(printoption) cout<<"CUT6 OK"<<endl;
+        if(printoption) exit_code=6;
         quad_indx.push_back(j);
     }
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
-    
+
+    if(printoption==true) {cout<<evt<<","<<exit_code<<endl;}
+    /*
     if(quad_indx.size()>1) {
         cout<<"###### evt: "<<evt<<endl;
         cout<<"Gen:"<<endl;
@@ -327,7 +329,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
             cout<<endl;
         }
     }
-
+    */
     vector<double> chi2;
     for(int l=0; l<quad_indx.size(); l++){
         double temp_i=quad_indx.at(l);
