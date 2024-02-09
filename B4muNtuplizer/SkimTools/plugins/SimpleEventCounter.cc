@@ -136,7 +136,12 @@ SimpleEventCounter::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
    //iEvent.getByToken(muons_,  muons);
    edm::Handle< edm::View<pat::Muon> > muons;
    iEvent.getByToken(muons_, muons);
-    
+    evt  = iEvent.id().event();
+    run  = iEvent.id().run();
+    lumi = iEvent.luminosityBlock();
+
+ cout<<"run: "<<run<<" lumi: "<<lumi<<" evt: "<<evt<<endl;
+ 
     hEvtCount->Fill(1);
     hMuonMult->Fill( muons->size());
     //cout<<"N muons="<< muons->size()<<endl;
