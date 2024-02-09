@@ -23,10 +23,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        'root://xrootd-cms.infn.it//store/mc/Run3Summer22EEMiniAODv4/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/MINIAODSIM/130X_mcRun3_2022_realistic_postEE_v6-v2/2540000/cc3d6df7-e414-440f-b27b-bc0a0cfdb641.root'
-      #"file:/afs/cern.ch/user/m/mbuonsan/B_4mu/B4mu_Ntuple_Analysis/CMSSW_13_0_13/src/B4muNtuplizer/SkimTools/test/Run3_Bd4Mu_step2_322.root"
-      #'root://xrootd-cms.infn.it//store/user/mbuonsan/Bd4Mu_13p6TeV-pythia8_Run3/130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM/231123_153700/0000/Run3_Bd4Mu_step2_310.root'
-      #'/store/user/caruta/Pythia8_DsTau3mu_Run3_2022/124X_mcRun3_2022_realistic_v12_MINIAODSIM/221120_083655/0000/DsTau3mu_2022_step2_1.root'
+      '/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/pickevents.root'
     ),
             #eventsToProcess = cms.untracked.VEventRange('320012:56448719')
 )
@@ -68,35 +65,3 @@ process.B4MuSkim = cms.Path(process.FourMuonSelSeq*
                               process.unpackedPatTrigger*
                               process.TreeMakerBkg
                      )
-"""
-process.out = cms.OutputModule("PoolOutputModule",
-                               fileName = cms.untracked.string("fileMINIADOSIM.root"),
-                               SelectEvents = cms.untracked.PSet(SelectEvents = cms.vstring('B4MuSkim')),
-                               outputCommands = cms.untracked.vstring(
-        'drop *',
-        'keep *_*_*_Tau3MuSkim', 
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_generator_*_*',
-        'keep *_offlineBeamSpot_*_*',
-        'keep *_slimmedMuons_*_*',
-        'keep *_TriggerResults_*_*',
-        'keep *_gtStage2Digis_*_*',
-        'keep *_gmtStage2Digis_*_*',
-        'keep *_scalersRawToDigi_*_*',
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_patTrigger_*_*',
-        'keep *_slimmedAddPileupInfo_*_*',
-        'keep *_slimmedMETs_*_*',
-        'keep *_slimmedMETsNoHF_*_*',
-        'keep *_slimmedMETsPuppi_*_*',
-        'keep *_packedGenParticles_*_*',
-        'keep *_selectedPatTrigger_*_*',
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_slimmedSecondaryVertices_*_*',
-        'keep *_bunchSpacingProducer_*_*',
-        )
-)
-
-
-process.outpath = cms.EndPath(process.out) 
-"""
