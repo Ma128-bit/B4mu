@@ -23,7 +23,8 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-      'file:/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/pickevents.root'
+      'file:/lustre/cms/store/user/mbuonsan/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/crab_pickEvents/240209_143344/0000/pickevents_1.root',
+        
     ),
             #eventsToProcess = cms.untracked.VEventRange('320012:56448719')
 )
