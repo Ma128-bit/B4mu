@@ -33,7 +33,7 @@ PatMuons = patMuons.clone(
 looseMuons = cms.EDFilter("PATMuonSelector",
                           src = cms.InputTag("slimmedMuons"),
                           #cut = cms.string('pt > 2 &&  abs(eta)<2.4 && (innerTrack().isNonnull) && (charge!=0) && (innerTrack().hitPattern().numberOfValidPixelHits()>0)'),
-                          cut = cms.string('pt > 0 &&  abs(eta)<5 && (innerTrack().isNonnull) && (innerTrack().hitPattern().numberOfValidPixelHits()>0)'),
+                          cut = cms.string('pt > 0 &&  abs(eta)<5 && (innerTrack().isNonnull)'),
                           filter = cms.bool(True)
 )
 
