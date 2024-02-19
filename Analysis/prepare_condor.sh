@@ -171,8 +171,8 @@ else
         cp templates/submit.condor "${home_directory}/${year}_${era}/${label[${j}]}"
         ndir=$(ls "${file_directory}/${i}/" | wc -l)
         tot=0
-        for j in $(seq 0 $((ndir - 1))); do
-            nfiles=$(ls "${file_directory}/${i}/000${j}/" | wc -l)
+        for k in $(seq 0 $((ndir - 1))); do
+            nfiles=$(ls "${file_directory}/${i}/000${k}/" | wc -l)
             tot=$((tot + nfiles))
         done
         number_of_splits=$(((${tot} / ${delta}) + 1))
