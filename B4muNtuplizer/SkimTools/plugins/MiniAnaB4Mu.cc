@@ -199,7 +199,7 @@ private:
     
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simHeaviestMotherFlavour;
     std::vector<double> Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu4_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi, GenMatchMu4_SimPhi, GenMatchMu1_Pt, GenMatchMu2_Pt, GenMatchMu3_Pt, GenMatchMu4_Pt, GenMatchMu1_Eta, GenMatchMu2_Eta, GenMatchMu3_Eta, GenMatchMu4_Eta, GenMatchMu1_Phi, GenMatchMu2_Phi, GenMatchMu3_Phi, GenMatchMu4_Phi;
-    std::vector<double> dr, cos2d, lxy_sig, mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, mu1_bs_dxy_sig, mu2_bs_dxy_sig, mu3_bs_dxy_sig, mu4_bs_dxy_sig, vtx_prob;
+    std::vector<double> dr, mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, mu1_bs_dxy_sig, mu2_bs_dxy_sig, mu3_bs_dxy_sig, mu4_bs_dxy_sig, vtx_prob;
 
     std::vector<double> RefTrack1_Pt, RefTrack1_Eta, RefTrack1_Phi, RefTrack1_QuadrupletIndex;
     std::vector<double> RefTrack2_Pt, RefTrack2_Eta, RefTrack2_Phi, RefTrack2_QuadrupletIndex;
@@ -318,6 +318,10 @@ float MiniAnaB4Mu::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlo
     return dRmin;
 }
 
+double PFreliso03(pat::Muon imu){
+     mu_iso03 = imu.pfIsolationR03();
+    return (mu_iso03.sumChargedHadronPt + std::max(mu_iso03.sumNeutralHadronEt + mu_iso03.sumPhotonEt - 0.5 * mu_iso03.sumPUPt, 0.0)) / imu.pt();
+}
 
 bool isGoodTrack(const reco::Track &track) {
     if(track.pt()>1){
@@ -842,7 +846,11 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                                 }
                             }
                         }
-                        dr.push_back(B_It.r())
+                        mu1_pfreliso03.push_back(PFreliso03(*mu1))
+                        mu2_pfreliso03.push_back(PFreliso03(*mu2))
+                        mu3_pfreliso03.push_back(PFreliso03(*mu3))
+                        mu4_pfreliso03.push_back(PFreliso03(*mu4))
+                        dr.push_back(B_It->r())
                         Mu1_Pt.push_back(mu1->pt());
                         Mu1_Eta.push_back(mu1->eta());
                         Mu1_Phi.push_back(mu1->phi());
@@ -1363,6 +1371,10 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         
                     }else{ //!(PVertex.isValid() && B_It->vertexChi2() >0)
                         dr.push_back(-99)
+                        mu1_pfreliso03.push_back(-99)
+                        mu2_pfreliso03.push_back(-99)
+                        mu3_pfreliso03.push_back(-99)
+                        mu4_pfreliso03.push_back(-99)
                         Mu1_Pt.push_back(-99);
                         Mu1_Eta.push_back(-99);
                         Mu1_Phi.push_back(-99);
@@ -2002,8 +2014,6 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     Mu4_dRtriggerMatch.clear();
 
     dr.clear();
-    cos2d.clear();
-    lxy_sig.clear();
     mu1_pfreliso03.clear();
     mu2_pfreliso03.clear();
     mu3_pfreliso03.clear();
@@ -2453,8 +2463,6 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("IsoTrackMu4_Phi",        &IsoTrackMu4_Phi);
     
     tree_->Branch("dr", &dr);
-    tree_->Branch("cos2d", &cos2d);
-    tree_->Branch("lxy_sig", &lxy_sig);
     tree_->Branch("mu1_pfreliso03", &mu1_pfreliso03);
     tree_->Branch("mu2_pfreliso03", &mu2_pfreliso03);
     tree_->Branch("mu3_pfreliso03", &mu3_pfreliso03);
