@@ -54,6 +54,7 @@
 #include "TH2.h"
 #include "TTree.h"
 #include "TLorentzVector.h"
+#include "Math/ProbFunc.h"
 #include "RecoVertex/KalmanVertexFit/interface/KalmanVertexFitter.h"
 #include "RecoVertex/VertexPrimitives/interface/TransientVertex.h"
 #include "RecoBTag/SecondaryVertex/interface/SecondaryVertex.h"
