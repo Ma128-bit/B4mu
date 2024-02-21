@@ -2464,7 +2464,6 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("IsoTrackMu4_Eta",        &IsoTrackMu4_Eta);
     tree_->Branch("IsoTrackMu4_Phi",        &IsoTrackMu4_Phi);
     
-    tree_->Branch("dr", &dr);
     tree_->Branch("mu1_pfreliso03", &mu1_pfreliso03);
     tree_->Branch("mu2_pfreliso03", &mu2_pfreliso03);
     tree_->Branch("mu3_pfreliso03", &mu3_pfreliso03);
