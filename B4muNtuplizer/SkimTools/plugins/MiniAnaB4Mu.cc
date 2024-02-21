@@ -926,8 +926,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             
                             RefittedSV_Chi2.push_back(SVertex_ref.totalChiSquared());
                             RefittedSV_nDOF.push_back(SVertex_ref.degreesOfFreedom());
-                            vtx_prob.push_back(1. - TMath::chisquared_cdf(SVertex_ref.totalChiSquared(), SVertex_ref.degreesOfFreedom()));
-                            vtx_prob_1.push_back(1. - TMath::chisquared_cdf(SVertex_ref.totalChiSquared(), 1));
+                            vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), SVertex_ref.degreesOfFreedom()));
+                            vtx_prob_1.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), 1));
                             RefittedSV_Mass.push_back(LV_B.M());
                             cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
                         } else {
