@@ -319,8 +319,7 @@ float MiniAnaB4Mu::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlo
 }
 
 double PFreliso03(pat::Muon imu){
-     mu_iso03 = imu.pfIsolationR03();
-    return (mu_iso03.sumChargedHadronPt + std::max(mu_iso03.sumNeutralHadronEt + mu_iso03.sumPhotonEt - 0.5 * mu_iso03.sumPUPt, 0.0)) / imu.pt();
+    return (imu.pfIsolationR03().sumChargedHadronPt + std::max(imu.pfIsolationR03().sumNeutralHadronEt + imu.pfIsolationR03().sumPhotonEt - 0.5 * imu.pfIsolationR03().sumPUPt, 0.0)) / imu.pt();
 }
 
 bool isGoodTrack(const reco::Track &track) {
