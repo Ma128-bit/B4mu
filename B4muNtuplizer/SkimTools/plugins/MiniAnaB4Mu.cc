@@ -199,7 +199,7 @@ private:
     
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simHeaviestMotherFlavour;
     std::vector<double> Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu4_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi, GenMatchMu4_SimPhi, GenMatchMu1_Pt, GenMatchMu2_Pt, GenMatchMu3_Pt, GenMatchMu4_Pt, GenMatchMu1_Eta, GenMatchMu2_Eta, GenMatchMu3_Eta, GenMatchMu4_Eta, GenMatchMu1_Phi, GenMatchMu2_Phi, GenMatchMu3_Phi, GenMatchMu4_Phi;
-    std::vector<double> dr, mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, mu1_bs_dxy_sig, mu2_bs_dxy_sig, mu3_bs_dxy_sig, mu4_bs_dxy_sig, vtx_prob;
+    std::vector<double> mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, mu1_bs_dxy_sig, mu2_bs_dxy_sig, mu3_bs_dxy_sig, mu4_bs_dxy_sig, vtx_prob;
 
     std::vector<double> RefTrack1_Pt, RefTrack1_Eta, RefTrack1_Phi, RefTrack1_QuadrupletIndex;
     std::vector<double> RefTrack2_Pt, RefTrack2_Eta, RefTrack2_Phi, RefTrack2_QuadrupletIndex;
@@ -849,8 +849,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         mu2_pfreliso03.push_back(PFreliso03(*mu2));
                         mu3_pfreliso03.push_back(PFreliso03(*mu3));
                         mu4_pfreliso03.push_back(PFreliso03(*mu4));
-                        //dr.push_back(B_It->r());
-                        dr.push_back(0);
+
                         Mu1_Pt.push_back(mu1->pt());
                         Mu1_Eta.push_back(mu1->eta());
                         Mu1_Phi.push_back(mu1->phi());
@@ -1370,7 +1369,6 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         
                         
                     }else{ //!(PVertex.isValid() && B_It->vertexChi2() >0)
-                        dr.push_back(-99);
                         mu1_pfreliso03.push_back(-99);
                         mu2_pfreliso03.push_back(-99);
                         mu3_pfreliso03.push_back(-99);
@@ -2013,7 +2011,6 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     Mu4_NTracks03iso.clear();
     Mu4_dRtriggerMatch.clear();
 
-    dr.clear();
     mu1_pfreliso03.clear();
     mu2_pfreliso03.clear();
     mu3_pfreliso03.clear();
