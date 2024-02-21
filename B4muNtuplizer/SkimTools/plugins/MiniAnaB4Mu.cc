@@ -845,11 +845,11 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                                 }
                             }
                         }
-                        mu1_pfreliso03.push_back(PFreliso03(*mu1))
-                        mu2_pfreliso03.push_back(PFreliso03(*mu2))
-                        mu3_pfreliso03.push_back(PFreliso03(*mu3))
-                        mu4_pfreliso03.push_back(PFreliso03(*mu4))
-                        dr.push_back(B_It->r())
+                        mu1_pfreliso03.push_back(PFreliso03(*mu1));
+                        mu2_pfreliso03.push_back(PFreliso03(*mu2));
+                        mu3_pfreliso03.push_back(PFreliso03(*mu3));
+                        mu4_pfreliso03.push_back(PFreliso03(*mu4));
+                        dr.push_back(B_It->r());
                         Mu1_Pt.push_back(mu1->pt());
                         Mu1_Eta.push_back(mu1->eta());
                         Mu1_Phi.push_back(mu1->phi());
