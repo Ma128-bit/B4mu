@@ -1369,11 +1369,11 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         
                         
                     }else{ //!(PVertex.isValid() && B_It->vertexChi2() >0)
-                        dr.push_back(-99)
-                        mu1_pfreliso03.push_back(-99)
-                        mu2_pfreliso03.push_back(-99)
-                        mu3_pfreliso03.push_back(-99)
-                        mu4_pfreliso03.push_back(-99)
+                        dr.push_back(-99);
+                        mu1_pfreliso03.push_back(-99);
+                        mu2_pfreliso03.push_back(-99);
+                        mu3_pfreliso03.push_back(-99);
+                        mu4_pfreliso03.push_back(-99);
                         Mu1_Pt.push_back(-99);
                         Mu1_Eta.push_back(-99);
                         Mu1_Phi.push_back(-99);
