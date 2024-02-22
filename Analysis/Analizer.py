@@ -96,9 +96,10 @@ if __name__ == "__main__":
                 rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
                 #rdf = rdf.Redefine("GenMatchMu"+ind+"_Sim"+s,"flattening(GenMatchMu"+ind+"_Sim"+s+", Quadruplet_index)")
 
-        #Flat quadruplet variables
+        #Flat quadruplet variables #FlightDistBS_SV_Significance = lxy_sig
         quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
-                                  "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV"]
+                                  "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", 
+                                  "mu4_pfreliso03", "vtx_prob", "vtx_prob_1"]
         branches = branches + quadruplet_related_var
         vertex_chi2=""
         for i in range(1, 4):
@@ -109,12 +110,14 @@ if __name__ == "__main__":
         for v in quadruplet_related_var:
             rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
 
+        #bs_dxy_sig
+        
         #cos(θ) angle between B flight direction and 4-muon momentum
-        branches.append("CosAngle_4mu_PV")
-        rdf = rdf.Define("CosAngle_4mu_PV","TreeFin_CosAngle(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, FlightDistPVSV)")
+        branches.append("Cos2d_PV_SV") #cos2d
+        rdf = rdf.Define("Cos2d_PV_SV","TreeFin_CosAngle(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, FlightDistPVSV)")
         
         #∆R max (maximum R distance between any of the 4 muons and the direction of the sum of the 4 muons momenta)
-        branches.append("dR_max")
+        branches.append("dR_max") #dr
         rdf = rdf.Define("dR_max", "dR_Max(Quadruplet_Eta, Quadruplet_Phi, Mu1_Eta, Mu1_Phi, Mu2_Eta, Mu2_Phi, Mu3_Eta, Mu3_Phi, Mu4_Eta, Mu4_Phi)")
         
         #Dimuon masses
