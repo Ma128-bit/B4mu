@@ -1,15 +1,15 @@
-crab submit -c CRAB_stream0_cfg.py
+crab submit -c CRAB_stream0.py
 sleep 5
-crab submit -c CRAB_stream1_cfg.py
+crab submit -c CRAB_stream1.py
 sleep 5
-crab submit -c CRAB_stream2_cfg.py
+crab submit -c CRAB_stream2.py
 sleep 5
-crab submit -c CRAB_stream3_cfg.py
+crab submit -c CRAB_stream3.py
 sleep 5
-crab submit -c CRAB_stream4_cfg.py
+crab submit -c CRAB_stream4.py
 sleep 5
-crab submit -c CRAB_stream5_cfg.py
+crab submit -c CRAB_stream5.py
 sleep 5
-crab submit -c CRAB_stream6_cfg.py
+crab submit -c CRAB_stream6.py
 sleep 5
-crab submit -c CRAB_stream7_cfg.py
+crab submit -c CRAB_stream7.py
