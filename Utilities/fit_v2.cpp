@@ -38,7 +38,7 @@ void fit_v2() {
     x.setRange("R1", 5.0, 5.25);
     x.setRange("R2", 5.55, 6.0);
     x.setRange("RT", 5.0, 6.0);
-    x.setBins(24);
+    x.setBins(52);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
     
