@@ -52,25 +52,20 @@ void fit_v2() {
     RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
     RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.04);
     RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
-    
-    // Creare la gaussiana N2
-    RooRealVar sigma2("sigma2", "Deviazione standard gaussiana 2", 0.02, 0.001, 0.04);
-    RooGaussian gauss_pdf2("gauss_pdf2", "Signal Gaussian PDF", x, mean, sigma2);
-    
+        
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 40, 10, 1000);
-    RooRealVar nsig2("nsig2", "Numero di segnali 2", 20, 10, 1000);
     RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
     
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf, gauss_pdf2,  exp_bkg), RooArgList(nsig, nsig2, nbkg));
+    RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf,  exp_bkg), RooArgList(nsig, nbkg));
 
     RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(gauss_pdf), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2, gamma)), Layout(0.6,0.9,0.9));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, gamma)), Layout(0.6,0.9,0.9));
     model.plotOn(frame, Components(exp_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
