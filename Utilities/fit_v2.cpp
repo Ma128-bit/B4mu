@@ -58,10 +58,12 @@ void fit_v2() {
     RooGaussian gauss_pdf2("gauss_pdf2", "Signal Gaussian PDF", x, mean, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
-    RooRealVar nsig("nsig", "Numero di segnali", 140, 10, 1000);
+    RooRealVar nsig("nsig", "Numero di segnali", 40, 10, 1000);
+    RooRealVar nsig2("nsig2", "Numero di segnali 2", 40, 10, 1000);
     RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
+    
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf, exp_bkg), RooArgList(nsig, nbkg));
+    RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf, gauss_pdf2,  exp_bkg), RooArgList(nsig, nsig2, nbkg));
 
     RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
     
