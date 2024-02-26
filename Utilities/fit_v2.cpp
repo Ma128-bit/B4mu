@@ -34,10 +34,10 @@ void fit_v2() {
     tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 6.0)","(isJPsiPhi==1)");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
-    RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.0, 6.0);
-    x.setRange("R1", 5.05, 5.25);
-    x.setRange("R2", 5.55, 5.8);
-    x.setRange("RT", 5.05, 5.8);
+    RooRealVar x("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 6.0);
+    x.setRange("R1", 5.0, 5.25);
+    x.setRange("R2", 5.55, 6.0);
+    x.setRange("RT", 5.0, 6.0);
     x.setBins(52);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
@@ -70,7 +70,7 @@ void fit_v2() {
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(gauss_pdf), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, sigma2, gamma)), Layout(0.6,0.9,0.9));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2, gamma)), Layout(0.6,0.9,0.9));
     model.plotOn(frame, Components(exp_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
