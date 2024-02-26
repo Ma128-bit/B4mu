@@ -16,7 +16,7 @@ using namespace RooFit;
 
 void fit_v2() {
     // Aprire il file root contenente l'albero
-    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_2022_v2.root");
+    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_2023_v2.root");
     if (!file || file->IsZombie()) {
         std::cerr << "Errore nell'apertura del file" << std::endl;
         return;
@@ -71,7 +71,7 @@ void fit_v2() {
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("Fit_results/Fit_BsJPsiPhi_2022only.png");
+    canvas->SaveAs("Fit_results/Fit_BsJPsiPhi_2023only.png");
 
     // Chiudere il file
     //file->Close();
