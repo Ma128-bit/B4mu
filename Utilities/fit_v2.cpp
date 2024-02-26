@@ -23,7 +23,7 @@ void fit_v2() {
     }
 
     // Ottenere l'albero dal file
-    TTree *tree = (TTree*)file->Get("FinalTree");
+    TTree *tree = (TTree*)file->Get("OutputTree");
     if (!tree) {
         std::cerr << "Errore nell'apertura dell'albero" << std::endl;
         file->Close();
