@@ -14,7 +14,7 @@
 
 using namespace RooFit;
 
-void fit_v2() {
+void Fit_BsJPsiPhi() {
     // Aprire il file root contenente l'albero
     TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_All.root");
     if (!file || file->IsZombie()) {
