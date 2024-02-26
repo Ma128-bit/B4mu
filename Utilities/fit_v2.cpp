@@ -35,9 +35,9 @@ void fit_v2() {
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
     RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.0, 6.0);
-    x.setRange("R1", 5.0, 5.25);
-    x.setRange("R2", 5.55, 6.0);
-    x.setRange("RT", 5.0, 6.0);
+    x.setRange("R1", 5.1, 5.25);
+    x.setRange("R2", 5.55, 5.8);
+    x.setRange("RT", 5.1, 5.8);
     x.setBins(52);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
