@@ -16,7 +16,7 @@ using namespace RooFit;
 
 void fit_v2() {
     // Aprire il file root contenente l'albero
-    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_All.root");
+    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_2022_v2.root");
     if (!file || file->IsZombie()) {
         std::cerr << "Errore nell'apertura del file" << std::endl;
         return;
@@ -52,6 +52,10 @@ void fit_v2() {
     RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
     RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.005, 0.2);
     RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
+    
+    // Creare la gaussiana N2
+    RooRealVar sigma("sigma2", "Deviazione standard gaussiana 2", 0.01, 0.005, 0.2);
+    RooGaussian gauss_pdf("gauss_pdf2", "Signal Gaussian PDF", x, mean, sigma);
     
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 140, 10, 1000);
