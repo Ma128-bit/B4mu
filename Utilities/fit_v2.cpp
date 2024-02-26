@@ -36,8 +36,8 @@ void fit_v2() {
     
     RooRealVar x("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 6.0);
     x.setRange("R1", 5.0, 5.25);
-    x.setRange("R2", 5.55, 6.0);
-    x.setRange("RT", 5.0, 6.0);
+    x.setRange("R2", 5.55, 5.9);
+    x.setRange("RT", 5.0, 5.9);
     x.setBins(52);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
