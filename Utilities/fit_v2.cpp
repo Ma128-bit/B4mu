@@ -31,13 +31,13 @@ void fit_v2() {
     }
     
     //tree->Draw("Quadruplet_Mass>>h1(24,5.05,5.65)","((BsJPsiPhi_sel_OS1>0 && Dimu_OS1_dR>0.17 && Dimu_OS1_dR<1.08) || (BsJPsiPhi_sel_OS2>0 && Dimu_OS2_dR>0.17 && Dimu_OS2_dR<1.08)) && FlightDistBS_SV_Significance>2.25 ");
-    tree->Draw("Quadruplet_Mass>>h1(30,5.05,5.65)","((BsJPsiPhi_sel_OS1>0) || (BsJPsiPhi_sel_OS2>0))");
+    tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 6.0)","(isJPsiPhi==1)");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
-    RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.05, 5.65);
-    x.setRange("R1", 5.05, 5.25);
-    x.setRange("R2", 5.55, 5.65);
-    x.setRange("RT", 5.05, 5.65);
+    RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.0, 6.0);
+    x.setRange("R1", 5.0, 5.25);
+    x.setRange("R2", 5.55, 6.0);
+    x.setRange("RT", 5.0, 6.0);
     x.setBins(24);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
