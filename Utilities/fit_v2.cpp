@@ -59,7 +59,7 @@ void fit_v2() {
     
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 40, 10, 1000);
-    RooRealVar nsig2("nsig2", "Numero di segnali 2", 40, 10, 1000);
+    RooRealVar nsig2("nsig2", "Numero di segnali 2", 20, 10, 1000);
     RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
     
 
