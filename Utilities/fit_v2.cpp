@@ -50,11 +50,11 @@ void fit_v2() {
 
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
-    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.2);
+    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.04);
     RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
     
     // Creare la gaussiana N2
-    RooRealVar sigma2("sigma2", "Deviazione standard gaussiana 2", 0.02, 0.001, 0.2);
+    RooRealVar sigma2("sigma2", "Deviazione standard gaussiana 2", 0.02, 0.001, 0.04);
     RooGaussian gauss_pdf2("gauss_pdf2", "Signal Gaussian PDF", x, mean, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
