@@ -71,7 +71,7 @@ void fit_v2() {
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("Fit_results/Fit_BsJPsiPhi_2023only.png");
+    canvas->SaveAs("Fit_results/Fit_BsJPsiPhi_2023only_M_only.png");
 
     // Chiudere il file
     //file->Close();
