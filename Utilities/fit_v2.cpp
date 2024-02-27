@@ -16,7 +16,7 @@ using namespace RooFit;
 
 void fit_v2() {
     // Aprire il file root contenente l'albero
-    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_2023_v2.root");
+    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_2022_v2.root");
     if (!file || file->IsZombie()) {
         std::cerr << "Errore nell'apertura del file" << std::endl;
         return;
@@ -31,14 +31,14 @@ void fit_v2() {
     }
     
     //tree->Draw("Quadruplet_Mass>>h1(24,5.05,5.65)","((BsJPsiPhi_sel_OS1>0 && Dimu_OS1_dR>0.17 && Dimu_OS1_dR<1.08) || (BsJPsiPhi_sel_OS2>0 && Dimu_OS2_dR>0.17 && Dimu_OS2_dR<1.08)) && FlightDistBS_SV_Significance>2.25 ");
-    tree->Draw("Quadruplet_Mass_eq>>h1(50,5.0, 5.9)","(isJPsiPhi==1)");
+    tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 5.9)","(isJPsiPhi==1)");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
     RooRealVar x("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 5.9);
     x.setRange("R1", 5.0, 5.25);
     x.setRange("R2", 5.55, 5.9);
     x.setRange("RT", 5.0, 5.9);
-    x.setBins(50);
+    x.setBins(52);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
     
@@ -71,7 +71,7 @@ void fit_v2() {
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("Fit_results/Fit_BsJPsiPhi_2023only_M_only.png");
+    canvas->SaveAs("Fit_results/Fit_BsJPsiPhi_2022only_M_only.png");
 
     // Chiudere il file
     //file->Close();
