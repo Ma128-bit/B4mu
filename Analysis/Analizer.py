@@ -154,7 +154,7 @@ if __name__ == "__main__":
         rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
         rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
         rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
-        rdf = rdf.Define("isJPsiPhi","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min)")
+        rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
 
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
