@@ -640,7 +640,7 @@ std::vector<double> DimuonMassfinal(double Dimu_OS1_1, double Dimu_OS1_2, double
     return mass_max_min;
 }
 
-std::vector<double> BsJPsiPhiMass(double Dimu_OS_max, double Dimu_OS_min, double Quadruplet_Mass){
+double BsJPsiPhiMass(double Dimu_OS_max, double Dimu_OS_min, double Quadruplet_Mass){
     double massjpsi = 3.0969;
     double massphi = 1.019445;
     return Quadruplet_Mass + massjpsi + massphi - Dimu_OS_max - Dimu_OS_min;
