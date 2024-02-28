@@ -54,8 +54,8 @@ void fit_v2() {
     RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
         
     // Creare il modello di fit combinando fondo e gaussiana
-    RooRealVar nsig("nsig", "Numero di segnali", 40, 10, 1000);
-    RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
+    RooRealVar nsig("nsig", "Numero di segnali", 60, 10, 1000);
+    RooRealVar nbkg("nbkg", "Numero di background", h1->GetEntries(), 40, 2*h1->GetEntries());
     
 
     RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf,  exp_bkg), RooArgList(nsig, nbkg));
