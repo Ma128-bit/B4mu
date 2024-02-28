@@ -237,14 +237,17 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         //Cut4 isGlobal and isPF
         int isGlobal=0;
         int isMedium=0;
+        int isPF=0;
         int isSoft=0;
         for(int k=0; k<index.size(); k++){
             isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
             isMedium = isMedium + Muon_isMedium.at(index.at(k));
             isSoft = isSoft + Muon_isSoft.at(index.at(k));
+            isPF = isPF + Muon_isPF.at(index.at(k));
         }
         //if(!(isMedium==4)) continue;
         //if(!(isMedium==4 && isGlobal==4)) continue;
+        if(!(isPF==4)) continue;
         //if(exit_code<4) exit_code=4;
         
         //Cut5 HLT Trigger Matching
