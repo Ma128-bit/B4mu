@@ -647,13 +647,11 @@ double BsJPsiPhiMass(double Dimu_OS_max, double Dimu_OS_min, double Quadruplet_M
 }
 
 int BsJPsiPhi(double Dimu_OS_max, double Dimu_OS_min){
-    std::vector<double> mass = {m1, m2};
-    std::sort(mass.begin(), mass.end());
     double sigma_phi = 0.015;
     double sigma_jpsi = 0.035;
     double massjpsi = 3.0969;
     double massphi = 1.019445;
-    if (std::abs(mass_phi-Dimu_OS_min)<3*sigma_phi && std::abs(mass_jpsi-Dimu_OS_max)<3*sigma_jpsi) return 1;
+    if (std::abs(massphi-Dimu_OS_min)<3*sigma_phi && std::abs(massjpsi-Dimu_OS_max)<3*sigma_jpsi) return 1;
     else return 0;
 }
 
