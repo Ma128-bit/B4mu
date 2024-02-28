@@ -151,7 +151,6 @@ if __name__ == "__main__":
         
         branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
         rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
-        rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
         rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
         rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
         rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
