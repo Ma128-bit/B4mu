@@ -145,9 +145,17 @@ if __name__ == "__main__":
         rdf = rdf.Define("Dimu_OS2_dR", flat0D_double(1), ["Dimuon_dR"])
         
         #BsJPsiPhi selections
-        branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
-        rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
-        rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
+        #branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
+        #rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
+        #rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
+        
+        branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
+        rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
+        rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
+        rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
+        rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
+        rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
+        rdf = rdf.Define("isJPsiPhi","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min)")
 
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
