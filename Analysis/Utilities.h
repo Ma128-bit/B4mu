@@ -247,7 +247,7 @@ vector<int> best_quadruplets(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt
         }
         //if(!(isMedium==4)) continue;
         //if(!(isMedium==4 && isGlobal==4)) continue;
-        if(!(isPF==4)) continue;
+        //if(!(isPF==4)) continue;
         //if(exit_code<4) exit_code=4;
         
         //Cut5 HLT Trigger Matching
