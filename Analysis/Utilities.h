@@ -617,6 +617,48 @@ struct flat2D{
     }
 };
 
+std::vector<double> DimuonMassfinal(double Dimu_OS1_1, double Dimu_OS1_2, double Dimu_OS2_1, double Dimu_OS2_2){
+    double Dimu_OS1_min = std::min(Dimu_OS1_1, Dimu_OS1_2);
+    double Dimu_OS1_max = std::max(Dimu_OS1_1, Dimu_OS1_2);
+    double Dimu_OS2_min = std::min(Dimu_OS2_1, Dimu_OS2_2);
+    double Dimu_OS2_max = std::max(Dimu_OS2_1, Dimu_OS2_2);
+
+    double massjpsi = 3.0969;
+    double massphi = 1.019445;
+    std::vector<double> mass_max_min;
+    
+    double diff1 = std::abs(Dimu_OS1_max-massjpsi) + std::abs(Dimu_OS1_min-massphi);
+    double diff2 = std::abs(Dimu_OS2_max-massjpsi) + std::abs(Dimu_OS2_min-massphi);
+    if(diff1<diff2){
+        mass_max_min.push_back(Dimu_OS1_max);
+        mass_max_min.push_back(Dimu_OS1_min);
+        }
+    else{
+        mass_max_min.push_back(Dimu_OS2_max);
+        mass_max_min.push_back(Dimu_OS2_min);
+        }
+    return mass_max_min;
+}
+
+std::vector<double> BsJPsiPhiMass(double Dimu_OS_max, double Dimu_OS_min, double Quadruplet_Mass){
+    double massjpsi = 3.0969;
+    double massphi = 1.019445;
+    return Quadruplet_Mass + massjpsi + massphi - Dimu_OS_max - Dimu_OS_min;
+}
+
+int BsJPsiPhi(double Dimu_OS_max, double Dimu_OS_min, double chi1, double chi2){
+    std::vector<double> mass = {m1, m2};
+    std::sort(mass.begin(), mass.end());
+    double sigma_phi = 0.015;
+    double sigma_jpsi = 0.035;
+    double massjpsi = 3.0969;
+    double massphi = 1.019445;
+    if (std::abs(mass_phi-Dimu_OS_min)<3*sigma_phi && std::abs(mass_jpsi-Dimu_OS_max)<3*sigma_jpsi && chi1>-1 && chi2>-1) return 1;
+    if (std::abs(mass_phi-Dimu_OS_min)<3*sigma_phi && std::abs(mass_jpsi-Dimu_OS_max)<3*sigma_jpsi) return 2;
+    else return 0;
+}
+
+/*
 int BsJPsiPhi(double m1, double m2, double chi1, double chi2){
     std::vector<double> mass = {m1, m2};
     std::sort(mass.begin(), mass.end());
@@ -630,4 +672,4 @@ int BsJPsiPhi(double m1, double m2, double chi1, double chi2){
     if (std::abs(mass_phi-mass[0])<3*sigma_phi && std::abs(mass_jpsi-mass[1])<3*sigma_jpsi && chi1>-1 && chi2>-1) return 1;
     else return 0;
 }
-
+*/
