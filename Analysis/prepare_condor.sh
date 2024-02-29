@@ -30,12 +30,11 @@ declare -a C_v4_2023=("240221_223205" "240221_223219" "240221_223236" "240221_22
 declare -a D_v1_2023=("240221_223853" "240221_223908" "240222_103703" "240222_103751" "240222_103825" "240221_224014" "240221_224028" "240221_224042")
 declare -a D_v2_2023=("240221_224146" "240221_224200" "240221_224215" "240221_224232" "240221_224250" "240221_224304" "240221_224318" "240221_224332")
 
-declare -a MC22_B4mu_pre=("Dataset_prova1" "Dataset_prova2")
-declare -a MC22_B4mu_post=("" "")
+declare -a MC22_B4mu_pre=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bd_Mini/240229_131755" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/240229_131808")
+declare -a MC22_B4mu_post=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bd_Mini/240229_131939" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bs_Mini/240229_131952")
 declare -a B4mu_MC_label=("Bd_4mu" "Bs_4mu")
 
 declare -a MC22_BsJPsiPhi_pre=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240221_224821")
-#declare -a MC22_BsJPsiPhi_post=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240129_201539")
 declare -a MC22_BsJPsiPhi_post=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240221_224937")
 
 declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
