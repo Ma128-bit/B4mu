@@ -28,8 +28,8 @@ declare -a C_v4_2023=("Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1" "Run
 declare -a D_v1_2023=("Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1")
 declare -a D_v2_2023=("Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v2" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1")
 
-declare -a MC22_B4mu_pre=("Dataset_prova1" "Dataset_prova2")
-declare -a MC22_B4mu_post=("/Bd4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER" "/Bs4Mu_13p6TeV-pythia8_Run3/mbuonsan-130X_mcRun3_2022_realistic_postEE_v6_Bs4Mu_MINIAODSIM-1998bbcdca3ce14ea15a9b06075ab84e/USER")
+declare -a MC22_B4mu_pre=("/BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM" "/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM")
+declare -a MC22_B4mu_post=("/BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v3/MINIAODSIM" "/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v3/MINIAODSIM")
 declare -a B4mu_MC_label=("Bd" "Bs")
 
 declare -a MC22_BsJPsiPhi_pre=("/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
