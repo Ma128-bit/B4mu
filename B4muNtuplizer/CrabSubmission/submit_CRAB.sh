@@ -78,7 +78,7 @@ if [ "${year}" == "2022" ]; then
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
         datasets=("${MC22_B4mu_post[@]}")
         label=("${B4mu_MC_label[@]}")
-        input_type="phys03"
+        input_type="global"
         ;;
       MC_BsJPsiPhi_pre)
         globaltag="130X_mcRun3_2022_realistic_v5"
