@@ -158,17 +158,23 @@ if __name__ == "__main__":
 
         #Not refitted 4mu mass
         rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
-        rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
-        rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
-        rdf = rdf.Define("GenMu_Eta", flat1D_double(1), ["gen_info"])
-        rdf = rdf.Define("GenMu_Phi", flat1D_double(2), ["gen_info"])
+        if isMC != 0:
+            rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
+            rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
+            rdf = rdf.Define("GenMu_Eta", flat1D_double(1), ["gen_info"])
+            rdf = rdf.Define("GenMu_Phi", flat1D_double(2), ["gen_info"])
         for mu in range(4):
             branches.appen("GenMu"+str(mu)+"_Pt")
-            rdf = rdf.Define("GenMu"+str(mu)+"_Pt", flat0D_double(i), ["GenMu_Pt"])
             branches.appen("GenMu"+str(mu)+"_Eta")
-            rdf = rdf.Define("GenMu"+str(mu)+"_Eta", flat0D_double(i), ["GenMu_Eta"])
             branches.appen("GenMu"+str(mu)+"_Phi")
-            rdf = rdf.Define("GenMu"+str(mu)+"_Phi", flat0D_double(i), ["GenMu_Phi"])
+            if isMC != 0:
+                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", flat0D_double(i), ["GenMu_Pt"])
+                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", flat0D_double(i), ["GenMu_Eta"])
+                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", flat0D_double(i), ["GenMu_Phi"])
+            else:
+                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_index(0))
+                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_index(0))
+                rdf = rdf.Define("GenMu"+str(mu)+"_Phi, add_index(0))
         
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
