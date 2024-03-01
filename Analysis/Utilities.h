@@ -655,12 +655,19 @@ int BsJPsiPhi(double Dimu_OS_max, double Dimu_OS_min){
     else return 0;
 }
 
-double not_refit_mass(double pt1, double pt2, double pt3, double pt4, double eta1, double eta2, double eta3, double eta4, double phi1, double phi2, double phi3, double phi4, double en1, double en2, double en3, double en4){
+double not_refit_mass(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2, double pt3, double pt4,  ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
+    vector<int> index = get_4index(MuonPt, pt1, pt2, pt3, pt4);
+    vector<double> eta, phi, en;
+    for(int i=0; i<index.size();i++){
+        eta.push_back(MuonEta.at(index.at(i)));
+        phi.push_back(MuonPhi.at(index.at(i)));
+        en.push_back(MuonEnergy.at(index.at(i)));
+    }
     TLorentzVector mu1, mu2, mu3, mu4, mutot;
-    mu1.SetPtEtaPhiE(pt1, eta1, phi1, en1);
-    mu2.SetPtEtaPhiE(pt2, eta2, phi2, en2);
-    mu1.SetPtEtaPhiE(pt3, eta3, phi3, en3);
-    mu2.SetPtEtaPhiE(pt4, eta4, phi4, en4);
+    mu1.SetPtEtaPhiE(pt1, eta[0], phi[0], en[0]);
+    mu2.SetPtEtaPhiE(pt2, eta[1], phi[1], en[1]);
+    mu1.SetPtEtaPhiE(pt3, eta[2], phi[2], en[2]);
+    mu2.SetPtEtaPhiE(pt4, eta[3], phi[3], en[3]);
     mutot = mu1 + mu2 + mu3 + mu4;
     return mutot.M();
 }
