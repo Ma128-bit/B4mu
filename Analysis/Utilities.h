@@ -672,6 +672,77 @@ double not_refit_mass(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2, 
     return mutot.M();
 }
 
+int GenMatching_v2(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
+    vector<double> pt, eta, phi;
+    for(int h=0; h<index.size(); h++){
+        double pt_temp=MuonPt.at(index.at(h));
+        double eta_temp=MuonEta.at(index.at(h));
+        double phi_temp=MuonPhi.at(index.at(h));
+        pt.push_back(pt_temp);
+        eta.push_back(eta_temp);
+        phi.push_back(phi_temp);
+    }
+    vector<double> Genpt, Geneta, Genphi;
+    for(int j=0; j<GenParticle_Pt_v2.size(); j++){ 
+        Genpt.push_back(GenParticle_Pt_v2.at(j));
+        Geneta.push_back(GenParticle_Eta_v2.at(j));
+        Genphi.push_back(GenParticle_Phi_v2.at(j));
+    }
+    if(Genpt.size() != 4) cout<<"Genpt.size() != 4"<<endl;
+    int Gen_matching = 0;
+    vector<int> index_gen;
+    for(int p=0; p<pt.size();p++){
+        vector<double> dR_temp, dpt_temp, dRpt_temp;
+        for(int w=0; w<Genpt.size();w++){
+            double dphi = abs(phi.at(p) - Genphi.at(w));
+            double deta = abs(eta.at(p) - Geneta.at(w));
+            if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+            double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+            double dpt = abs(pt.at(p) - Genpt.at(w))/pt.at(p);
+            double dRpt = TMath::Sqrt(dphi*dphi + deta*deta + dpt*dpt);
+            dR_temp.push_back(dR);
+            dpt_temp.push_back(dpt);
+            dRpt_temp.push_back(dRpt);
+        }
+        auto dRpt_min_p = std::min_element(dRpt_temp.begin(), dRpt_temp.end());
+        int dRpt_minID = std::distance(dRpt_temp.begin(), dRpt_min_p);
+        double dRpt_min = *dRpt_min_p;
+        double dpt_min = dpt_temp[dRpt_minID];
+        double dR_min = dR_temp[dRpt_minID];
+        if(dR_min<0.03 && dpt_min<0.08){
+            index_gen.push_back(dRpt_minID);
+            Gen_matching++;
+            Genpt.erase(Genpt.begin() + dRpt_minID);
+            Geneta.erase(Geneta.begin() + dRpt_minID);
+            Genphi.erase(Genphi.begin() + dRpt_minID);
+        }
+        else{
+            index_gen.push_back(-1);
+        }
+    }
+    vector<vector<double>> out;
+    vector<double> out_pt;
+    vector<double> out_eta;
+    vector<double> out_phi;
+    for(int ee=0; ee<index_gen.size();ee++){
+        if(index_gen[ee] != -1){
+            out_pt.push_back(GenParticle_Pt_v2.at(index_gen[ee]));
+            out_eta.push_back(GenParticle_Eta_v2.at(index_gen[ee]));
+            out_phi.push_back(GenParticle_Phi_v2.at(index_gen[ee]));
+        }
+        else{
+            out_pt.push_back(-1);
+            out_eta.push_back(-1);
+            out_phi.push_back(-1);
+        }
+    }
+    out.push_back(out_pt);
+    out.push_back(out_eta);
+    out.push_back(out_phi);
+    return out
+}
+
 /*
 int BsJPsiPhi(double m1, double m2, double chi1, double chi2){
     std::vector<double> mass = {m1, m2};
