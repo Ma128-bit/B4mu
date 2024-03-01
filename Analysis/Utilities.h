@@ -674,8 +674,8 @@ double not_refit_mass(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2, 
     TLorentzVector mu1, mu2, mu3, mu4, mutot;
     mu1.SetPtEtaPhiE(pt1, eta[0], phi[0], en[0]);
     mu2.SetPtEtaPhiE(pt2, eta[1], phi[1], en[1]);
-    mu1.SetPtEtaPhiE(pt3, eta[2], phi[2], en[2]);
-    mu2.SetPtEtaPhiE(pt4, eta[3], phi[3], en[3]);
+    mu3.SetPtEtaPhiE(pt3, eta[2], phi[2], en[2]);
+    mu4.SetPtEtaPhiE(pt4, eta[3], phi[3], en[3]);
     mutot = mu1 + mu2 + mu3 + mu4;
     return mutot.M();
 }
