@@ -93,7 +93,9 @@ if __name__ == "__main__":
             ind=str(i)
             for s in ["Pt", "Eta", "Phi"]:
                 branches.append("Mu"+ind+"_"+s)
+                branches.append("RefTrack"+ind+"_"+s)
                 rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
+                rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattening(RefTrack"+ind+"_"+s+", Quadruplet_index)")
                 #rdf = rdf.Redefine("GenMatchMu"+ind+"_Sim"+s,"flattening(GenMatchMu"+ind+"_Sim"+s+", Quadruplet_index)")
 
         #Flat quadruplet variables #FlightDistBS_SV_Significance = lxy_sig
