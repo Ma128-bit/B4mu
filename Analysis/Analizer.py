@@ -156,6 +156,9 @@ if __name__ == "__main__":
         rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
         rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
 
+        #Not refitted 4mu mass
+        rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
+        
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
         
