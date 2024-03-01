@@ -151,7 +151,7 @@ if __name__ == "__main__":
         #rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
         #rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
         
-        branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
+        branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi", "Quadruplet_Mass_no_refit"]
         rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
         rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
         rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
@@ -165,7 +165,7 @@ if __name__ == "__main__":
             rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
             rdf = rdf.Define("GenMu_Eta", flat1D_double(1), ["gen_info"])
             rdf = rdf.Define("GenMu_Phi", flat1D_double(2), ["gen_info"])
-        for mu in range(4):
+        for mu in range(1,4):
             branches.append("GenMu"+str(mu)+"_Pt")
             branches.append("GenMu"+str(mu)+"_Eta")
             branches.append("GenMu"+str(mu)+"_Phi")
