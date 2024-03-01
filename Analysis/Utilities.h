@@ -354,6 +354,14 @@ struct flat0D_double{
     }
 };
 
+struct flat1D_double{
+    int i;
+    flat1D_double(int ii) : i(ii)  {}
+    std::vector<double> operator()(std::vector<std::vector<double>> branch) {
+        return branch.at(i);
+    }
+};
+
 struct flat1D{
     int i;
     flat1D(int ii) : i(ii)  {}
