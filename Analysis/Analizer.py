@@ -174,7 +174,7 @@ if __name__ == "__main__":
             else:
                 rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_index(0))
                 rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_index(0))
-                rdf = rdf.Define("GenMu"+str(mu)+"_Phi, add_index(0))
+                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", add_index(0))
         
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
