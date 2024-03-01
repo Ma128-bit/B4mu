@@ -655,6 +655,16 @@ int BsJPsiPhi(double Dimu_OS_max, double Dimu_OS_min){
     else return 0;
 }
 
+double not_refit_mass(double pt1, double pt2, double pt3, double pt4, double eta1, double eta2, double eta3, double eta4, double phi1, double phi2, double phi3, double phi4, double en1, double en2, double en3, double en4){
+    TLorentzVector mu1, mu2, mu3, mu4, mutot;
+    mu1.SetPtEtaPhiE(pt1, eta1, phi1, en1);
+    mu2.SetPtEtaPhiE(pt2, eta2, phi2, en2);
+    mu1.SetPtEtaPhiE(pt3, eta3, phi3, en3);
+    mu2.SetPtEtaPhiE(pt4, eta4, phi4, en4);
+    mutot = mu1 + mu2 + mu3 + mu4;
+    return mutot.M();
+}
+
 /*
 int BsJPsiPhi(double m1, double m2, double chi1, double chi2){
     std::vector<double> mass = {m1, m2};
