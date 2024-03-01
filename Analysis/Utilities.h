@@ -748,7 +748,7 @@ vector<vector<double>> GenMatching_v2(ROOT::VecOps::RVec<float> MuonPt, ROOT::Ve
     out.push_back(out_pt);
     out.push_back(out_eta);
     out.push_back(out_phi);
-    return out
+    return out;
 }
 
 /*
