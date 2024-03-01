@@ -165,7 +165,7 @@ if __name__ == "__main__":
             rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
             rdf = rdf.Define("GenMu_Eta", flat1D_double(1), ["gen_info"])
             rdf = rdf.Define("GenMu_Phi", flat1D_double(2), ["gen_info"])
-        for mu in range(1,4):
+        for mu in range(1,5):
             branches.append("GenMu"+str(mu)+"_Pt")
             branches.append("GenMu"+str(mu)+"_Eta")
             branches.append("GenMu"+str(mu)+"_Phi")
