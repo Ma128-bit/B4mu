@@ -170,9 +170,9 @@ if __name__ == "__main__":
             branches.append("GenMu"+str(mu)+"_Eta")
             branches.append("GenMu"+str(mu)+"_Phi")
             if isMC != 0:
-                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", flat0D_double(i), ["GenMu_Pt"])
-                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", flat0D_double(i), ["GenMu_Eta"])
-                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", flat0D_double(i), ["GenMu_Phi"])
+                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", flat0D_double(i-1), ["GenMu_Pt"])
+                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", flat0D_double(i-1), ["GenMu_Eta"])
+                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", flat0D_double(i-1), ["GenMu_Phi"])
             else:
                 rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_index(0))
                 rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_index(0))
