@@ -331,7 +331,7 @@ class ROOTDrawer:
             'SetLogY': False,
             'SetLogZ': False,
             'xlow': 0.,
-            'ylow': 0.05,
+            'ylow': 0.,
             'xup': 1.,
             'yup': 0.3,
         }
