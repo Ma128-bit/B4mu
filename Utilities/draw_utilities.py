@@ -330,7 +330,7 @@ class ROOTDrawer:
             'yup': 0.3,
         }
         self.dopull=True
-        
+        self.logpull = [options['SetLogX'], options['SetLogY'], options['SetLogZ']]
         self.canvas.cd()
         self.pad1 = TPad("pad1", "pad1", options[xlow], options[yup], options[xup], 0.95)
         if self.log[0] == True:
@@ -379,10 +379,28 @@ class ROOTDrawer:
             #self.canvas.cd()
             for i in range(len(self.lines)):
                 self.lines[i][0].Draw("same")
-                
+
+        if self.Legend is not None:
+            self.Legend.Draw("same")
+            
         if self.dopull:
             self.pad2.cd() 
             
+        if len(self.pullhisto) > 0:
+            if self.logpull[1] == True:
+                const = 2
+            else:
+                const =1.1
+            self.pullhisto[0][0].GetXaxis().SetRangeUser(self.XRange[0], self.XRange[1])
+            #self.pullhisto[0][0].GetYaxis().SetRangeUser(self.YRange[0], const * self.YRange[1])
+            for i in range(len(self.pullhisto)):
+                self.pullhisto[i][0].Draw(self.pullhisto[i][2])
+                
+        if len(self.pullline) > 0:
+            #self.canvas.cd()
+            for i in range(len(self.pullline)):
+                self.pullline[i][0].Draw("same")
+        
         if 'era' in kwargs:
             e = kwargs.get('era')
             if 'extra' in kwargs:
@@ -400,8 +418,6 @@ class ROOTDrawer:
         else:
             CMSStyle.setCMSLumiStyle(self.canvas,0)
         
-        if self.Legend is not None:
-            self.Legend.Draw("same")
         self.canvas.Update()
         self.canvas.SaveAs(name)
     
