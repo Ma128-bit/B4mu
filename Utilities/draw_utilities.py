@@ -338,6 +338,7 @@ class ROOTDrawer:
         self.logpull = [options['SetLogX'], options['SetLogY'], options['SetLogZ']]
         self.canvas.cd()
         self.pad1 = TPad("pad1", "pad1", options['xlow'], options['yup'], options['xup'], 0.95)
+        self.pad1.SetTopMargin(0)
         if self.log[0] == True:
             self.pad1.SetLogx()
         if self.log[1] == True:
@@ -352,6 +353,7 @@ class ROOTDrawer:
         
         self.canvas.cd()
         self.pad2 = TPad("pad2", "pad2", options['xlow'], options['ylow'], options['xup'], options['yup'])
+        self.pad2.SetBottomMargin(0.2)
         if options['SetLogX'] == True:
             self.pad2.SetLogx()
         if options['SetLogY'] == True:
