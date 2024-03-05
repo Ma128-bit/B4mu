@@ -276,7 +276,7 @@ class ROOTDrawer:
     
     def MakeLegend(self, **kwargs):
         options = {
-            'wight_bkg': False
+            'white_bkg': False
         }
         for key in options:
             if key in kwargs:
@@ -309,7 +309,7 @@ class ROOTDrawer:
         leg = TLegend(x1_l,y1_l,x1_l+dx_l,y1_l+dy_l)
         leg.SetBorderSize(0)
         if(options['white_bkg']==True):
-            leg.SetFillColor(kWhite)
+            leg.SetFillColor(10)
         else:
             leg.SetFillColor(0)
         leg.SetFillStyle(0)
