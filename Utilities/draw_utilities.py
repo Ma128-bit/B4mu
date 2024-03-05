@@ -9,7 +9,7 @@
 # Usage example:
 ## plot([histogram_1, histogram_2, histogram_3], era='2022', extra="Preliminary", SetYName="Events / 5 GeV", SetYRange=[0.0001, 0.1], Fill=True, Norm= True, SaveAs="pippo.png", SetColor=[8, 9, 46], DrawOpt=["histo", "H", "P"], SetLogY=True)
 
-from ROOT import TCanvas, TLine, std, TLatex, TLegend
+from ROOT import TCanvas, TLine, std, TLatex, TLegend, TPad
 import numpy as np
 import CMSStyle
 CMSStyle.setTDRStyle()
