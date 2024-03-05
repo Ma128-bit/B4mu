@@ -152,6 +152,7 @@ class ROOTDrawer:
         self.Legend = None
         self.pullhisto = []
         self.pullline = []
+        self.dopull = False
         self.grid = [options['SetGridx'], options['SetGridy']]
 
     def HaddTH1(self, histo, **kwargs):
