@@ -330,10 +330,14 @@ class ROOTDrawer:
             'xup': 1.,
             'yup': 0.3,
         }
+        for key in options:
+            if key in kwargs:
+                options[key] = kwargs.get(key)
+                
         self.dopull=True
         self.logpull = [options['SetLogX'], options['SetLogY'], options['SetLogZ']]
         self.canvas.cd()
-        self.pad1 = TPad("pad1", "pad1", options[xlow], options[yup], options[xup], 0.95)
+        self.pad1 = TPad("pad1", "pad1", options['xlow'], options['yup'], options['xup'], 0.95)
         if self.log[0] == True:
             self.pad1.SetLogx()
         if self.log[1] == True:
@@ -347,7 +351,7 @@ class ROOTDrawer:
         self.pad1.Draw()
         
         self.canvas.cd()
-        self.pad2 = TPad("pad2", "pad2", options[xlow], options[ylow], options[xup], options[yup])
+        self.pad2 = TPad("pad2", "pad2", options['xlow'], options['ylow'], options['xup'], options['yup'])
         if options['SetLogX'] == True:
             self.pad2.SetLogx()
         if options['SetLogY'] == True:
