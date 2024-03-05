@@ -334,11 +334,13 @@ class ROOTDrawer:
             'ylow': 0.,
             'xup': 1.,
             'yup': 0.3,
+            'YRange': [-1,3]
         }
         for key in options:
             if key in kwargs:
                 options[key] = kwargs.get(key)
-                
+
+        self.pullYRange = options['YRange']
         self.dopull=True
         self.logpull = [options['SetLogX'], options['SetLogY'], options['SetLogZ']]
         self.canvas.cd()
@@ -409,7 +411,7 @@ class ROOTDrawer:
             self.pullhisto[0][0].GetXaxis().SetTitleSize(0.09);
             self.pullhisto[0][0].GetYaxis().SetTitleSize(0.09);
             self.pullhisto[0][0].GetYaxis().SetTitleOffset(self.pullhisto[0][0].GetYaxis().GetTitleOffset()/2);
-            #self.pullhisto[0][0].GetYaxis().SetRangeUser(self.YRange[0], const * self.YRange[1])
+            self.pullhisto[0][0].GetYaxis().SetRangeUser(self.pullYRange[0], const * self.pullYRange[1])
             for i in range(len(self.pullhisto)):
                 self.pullhisto[i][0].Draw(self.pullhisto[i][2])
                 
@@ -448,5 +450,7 @@ class ROOTDrawer:
         del self.log
         del self.Legend
         del self.lines
+        del self.dopull
+        del self.pullYRange
         del self
     
