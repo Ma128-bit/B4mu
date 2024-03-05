@@ -294,7 +294,7 @@ class ROOTDrawer:
         else: #place legend in the center
             x1_l = 0.40 - dx_l/2.0;
         
-        y1_l = 0.8 - 0.1 * len(self.histos)
+        y1_l = 0.9 - 0.1 * len(self.histos)
         leg = TLegend(x1_l,y1_l,x1_l+dx_l,y1_l+dy_l)
         leg.SetBorderSize(0)
         leg.SetFillColor(0)
