@@ -271,8 +271,8 @@ class ROOTDrawer:
     
     def MakeLegend(self):
         #legend size
-        dx_l = 0.45;
-        dy_l = 0.3;
+        dx_l = 0.45
+        dy_l = 0.1 * len(self.histos)
         
         #automatically place legend depending on peak position
         proba = np.array([0.0, 0.5, 1.0])
@@ -293,7 +293,7 @@ class ROOTDrawer:
         else: #place legend in the center
             x1_l = 0.40 - dx_l/2.0;
         
-        y1_l = 0.57
+        y1_l = 0.8 - 0.1 * len(self.histos)
         leg = TLegend(x1_l,y1_l,x1_l+dx_l,y1_l+dy_l)
         leg.SetBorderSize(0)
         leg.SetFillColor(0)
