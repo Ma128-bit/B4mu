@@ -155,7 +155,8 @@ class ROOTDrawer:
         self.dopull = False
         self.grid = [options['SetGridx'], options['SetGridy']]
 
-    def HaddTH1(self, histo, **kwargs):
+    def HaddTH1(self, histo_temp, **kwargs):
+        histo = histo_temp.Clone()
         options = {
             'Color': 1,
             'LineWidth': 1,
