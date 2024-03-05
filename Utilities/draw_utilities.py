@@ -9,7 +9,7 @@
 # Usage example:
 ## plot([histogram_1, histogram_2, histogram_3], era='2022', extra="Preliminary", SetYName="Events / 5 GeV", SetYRange=[0.0001, 0.1], Fill=True, Norm= True, SaveAs="pippo.png", SetColor=[8, 9, 46], DrawOpt=["histo", "H", "P"], SetLogY=True)
 
-from ROOT import TCanvas, TLine, std, TLatex, TLegend, TPad
+from ROOT import TCanvas, TLine, std, TLatex, TLegend, TPad, kWhite
 import numpy as np
 import CMSStyle
 CMSStyle.setTDRStyle()
@@ -275,6 +275,13 @@ class ROOTDrawer:
             self.pullline.append(out)
     
     def MakeLegend(self):
+        options = {
+            'wight_bkg': False
+        }
+        for key in options:
+            if key in kwargs:
+                options[key] = kwargs.get(key)
+
         #legend size
         dx_l = 0.45
         dy_l = 0.1 * len(self.histos)
@@ -301,7 +308,10 @@ class ROOTDrawer:
         y1_l = 0.9 - 0.1 * len(self.histos)
         leg = TLegend(x1_l,y1_l,x1_l+dx_l,y1_l+dy_l)
         leg.SetBorderSize(0)
-        leg.SetFillColor(0)
+        if(options['white_bkg']==True):
+            leg.SetFillColor(kWhite)
+        else:
+            leg.SetFillColor(0)
         leg.SetFillStyle(0)
         leg.SetTextFont(42)
         leg.SetTextSize(0.035)
