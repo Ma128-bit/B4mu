@@ -102,6 +102,8 @@ def plot(histo, **kwargs):
 class ROOTDrawer:
     def __init__(self, **kwargs):
         options = {
+            'SetGridx': False,
+            'SetGridy': False,
             'figsize': [800, 600],
             'SetName': "canvas",
             'SetTitle': "Canvas",
@@ -116,21 +118,24 @@ class ROOTDrawer:
                 options[key] = kwargs.get(key)
         
         canvas = TCanvas(options['SetName'], options['SetTitle'], options['figsize'][0], options['figsize'][1])
+
+        if options['SetGridx']:
+            canvas.SetGridx()
+        if options['SetGridy']:
+            canvas.SetGridy()
+
+        self.log = [options['SetLogX'], options['SetLogY'], options['SetLogZ']]
         
         if options['SetLogX'] == True:
             canvas.SetLogx();
         if options['SetLogY'] == True:
             canvas.SetLogy();
-            self.logy = True
-        else:
-            self.logy = False
         if options['SetLogZ'] == True:
             canvas.SetLogz();
                 
         self.canvas = canvas
         self.histos = []
         self.lines = []
-        self.drowopt = []
         
         if 'SetXRange' in kwargs:
             self.FixXRange = True
@@ -145,6 +150,9 @@ class ROOTDrawer:
         self.XRange = options['SetXRange']
         self.YRange = options['SetYRange']
         self.Legend = None
+        self.pullhisto = []
+        self.pullline = []
+        self.grid = [options['SetGridx'], options['SetGridy']]
 
     def HaddTH1(self, histo, **kwargs):
         options = {
@@ -160,6 +168,7 @@ class ROOTDrawer:
             'Norm': False,
             'SetXName': "",
             'SetYName': "",
+            'pull': False,
         }
         for key in options:
             if key in kwargs:
@@ -185,11 +194,11 @@ class ROOTDrawer:
                 self.YRange[1] = histo.GetMaximum()
 
             if(self.YRange[0] is None or histo.GetMinimum()<self.YRange[0]):
-                if(self.logy == False):
+                if(self.log[1] == False):
                     self.YRange[0] = histo.GetMinimum()
-                elif(self.logy == True and histo.GetMinimum()>0):
+                elif(self.log[1] == True and histo.GetMinimum()>0):
                      self.YRange[0] = histo.GetMinimum()
-                elif(self.logy == True and histo.GetMinimum()<=0):
+                elif(self.log[1] == True and histo.GetMinimum()<=0):
                     num_bins = histo.GetNbinsX()
                     ymin = None
                     for i in range(1, num_bins + 1):
@@ -206,9 +215,11 @@ class ROOTDrawer:
             if(self.XRange[0] is None or histo.GetXaxis().GetXmin()<self.XRange[0]):
                 self.XRange[0] = histo.GetXaxis().GetXmin()    
             
-        out = [histo, options['label']]
-        self.histos.append(out)
-        self.drowopt.append(options['DrawOpt'])
+        out = [histo, options['label'], options['DrawOpt']]
+        if(options['pull']==False):
+            self.histos.append(out)
+        else:
+            self.pullhisto.append(out)
 
     def DefTLine(self, **kwargs):
         options = {
@@ -222,13 +233,14 @@ class ROOTDrawer:
             'X_0': 0,
             'X_1': 0,
             'Y_0': 0,
-            'Y_1': 0
+            'Y_1': 0,
+            'pull': False,
         }
         for key in options:
             if key in kwargs:
                 options[key] = kwargs.get(key)
 
-        if self.logy == True:
+        if self.log[1] == True:
             const = 2
         else:
             const =1.1
@@ -251,7 +263,10 @@ class ROOTDrawer:
         line.SetLineStyle(options['LineStyle'])
         
         out= [line, options['label']]
-        self.lines.append(out)
+        if(options['pull']==False):
+            self.lines.append(out)
+        else:
+            self.pullline.append(out)
     
     def MakeLegend(self):
         #legend size
@@ -288,11 +303,11 @@ class ROOTDrawer:
         for i in range(len(self.histos)):
             opt = ""
             if(self.histos[i][1]!=""):
-                if "Histo" in self.drowopt[i] or "h" in self.drowopt[i]:
+                if "Histo" in self.histos[i][2] or "h" in self.histos[i][2]:
                     opt = opt +"F"
-                if "P" in self.drowopt[i] or "p" in self.drowopt[i]:
+                if "P" in self.histos[i][2] or "p" in self.histos[i][2]:
                     opt = opt +"lp"
-                if "E" in self.drowopt[i]:
+                if "E" in self.histos[i][2]:
                     opt = opt +"e"
                 leg.AddEntry(self.histos[i][0],self.histos[i][1],opt)
 
@@ -302,24 +317,72 @@ class ROOTDrawer:
                     
         self.Legend = leg
 
-
+    def HaddPull(self, **kwargs):
+        options = {
+            'SetGridx': False,
+            'SetGridy': False,
+            'SetLogX': False,
+            'SetLogY': False,
+            'SetLogZ': False,
+            'xlow': 0.,
+            'ylow': 0.05,
+            'xup': 1.,
+            'yup': 0.3,
+        }
+        self.dopull=True
+        
+        self.canvas.cd()
+        self.pad1 = TPad("pad1", "pad1", options[xlow], options[yup], options[xup], 0.95)
+        if self.log[0] == True:
+            self.pad1.SetLogx()
+        if self.log[1] == True:
+            self.pad1.SetLogy()
+        if self.log[2] == True:
+            self.pad1.SetLogz()
+        if(self.grid[0]):
+            self.pad1.SetGridx()
+        if(self.grid[1]):
+            self.pad1.SetGridy()
+        self.pad1.Draw()
+        
+        self.canvas.cd()
+        self.pad2 = TPad("pad2", "pad2", options[xlow], options[ylow], options[xup], options[yup])
+        if options['SetLogX'] == True:
+            self.pad2.SetLogx()
+        if options['SetLogY'] == True:
+            self.pad2.SetLogy()
+        if options['SetLogZ'] == True:
+            self.pad2.SetLogz()
+        if(options['SetGridx']):
+            self.pad2.SetGridx()
+        if(options['SetGridy']):
+            self.pad2.SetGridy()
+        self.pad2.Draw()
+            
     def Save(self, name, **kwargs):
         self.canvas.cd()
+        
+        if self.dopull:
+            self.pad1.cd() 
+            
         if len(self.histos) > 0:
-            if self.logy == True:
+            if self.log[1] == True:
                 const = 2
             else:
                 const =1.1
             self.histos[0][0].GetXaxis().SetRangeUser(self.XRange[0], self.XRange[1])
             self.histos[0][0].GetYaxis().SetRangeUser(self.YRange[0], const * self.YRange[1])
             for i in range(len(self.histos)):
-                self.histos[i][0].Draw(self.drowopt[i])
+                self.histos[i][0].Draw(self.histos[i][2])
                 
         if len(self.lines) > 0:
-            self.canvas.cd()
+            #self.canvas.cd()
             for i in range(len(self.lines)):
                 self.lines[i][0].Draw("same")
-
+                
+        if self.dopull:
+            self.pad2.cd() 
+            
         if 'era' in kwargs:
             e = kwargs.get('era')
             if 'extra' in kwargs:
@@ -347,10 +410,9 @@ class ROOTDrawer:
         self.canvas.Close()
         del self.canvas
         del self.histos
-        del self.drowopt
         del self.YRange
         del self.XRange
-        del self.logy
+        del self.log
         del self.Legend
         del self.lines
         del self
