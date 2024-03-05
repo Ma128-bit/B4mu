@@ -219,8 +219,12 @@ class ROOTDrawer:
             
         out = [histo, options['label'], options['DrawOpt']]
         if(options['pull']==False):
+            if(len(self.histos)>0):
+                out[2] = out[2] + "same"
             self.histos.append(out)
         else:
+            if(len(self.pullhisto)>0):
+                out[2] = out[2] + "same"
             self.pullhisto.append(out)
 
     def DefTLine(self, **kwargs):
@@ -339,7 +343,7 @@ class ROOTDrawer:
         self.logpull = [options['SetLogX'], options['SetLogY'], options['SetLogZ']]
         self.canvas.cd()
         self.pad1 = TPad("pad1", "pad1", options['xlow'], options['yup'], options['xup'], 0.95)
-        self.pad1.SetTopMargin(0)
+        self.pad1.SetTopMargin(0.01)
         if self.log[0] == True:
             self.pad1.SetLogx()
         if self.log[1] == True:
