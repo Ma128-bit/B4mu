@@ -372,7 +372,7 @@ class ROOTDrawer:
         if(options['SetGridy']):
             self.pad2.SetGridy()
         self.pad2.Draw()
-            
+        
     def Save(self, name, **kwargs):
         self.canvas.cd()
         
