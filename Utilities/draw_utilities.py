@@ -400,6 +400,11 @@ class ROOTDrawer:
             else:
                 const =1.1
             self.pullhisto[0][0].GetXaxis().SetRangeUser(self.XRange[0], self.XRange[1])
+            self.pullhisto[0][0].GetXaxis().SetLabelSize(0.09);
+            self.pullhisto[0][0].GetYaxis().SetLabelSize(0.09);
+            self.pullhisto[0][0].GetXaxis().SetTitleSize(0.09);
+            self.pullhisto[0][0].GetYaxis().SetTitleSize(0.09);
+            self.pullhisto[0][0].GetYaxis().SetTitleOffset(self.pullhisto[0][0].GetYaxis().GetTitleOffset()/2);
             #self.pullhisto[0][0].GetYaxis().SetRangeUser(self.YRange[0], const * self.YRange[1])
             for i in range(len(self.pullhisto)):
                 self.pullhisto[i][0].Draw(self.pullhisto[i][2])
