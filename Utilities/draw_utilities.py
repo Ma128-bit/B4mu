@@ -274,7 +274,7 @@ class ROOTDrawer:
         else:
             self.pullline.append(out)
     
-    def MakeLegend(self):
+    def MakeLegend(self, **kwargs):
         options = {
             'wight_bkg': False
         }
