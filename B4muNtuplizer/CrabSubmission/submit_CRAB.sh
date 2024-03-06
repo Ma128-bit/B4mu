@@ -21,6 +21,7 @@ declare -a E_2022=("Run2022E-PromptReco-v1" "Run2022E-PromptReco-v1" "Run2022E-P
 declare -a F_2022=("Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1" "Run2022F-22Sep2023-v1")
 declare -a G_2022=("Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v2" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1" "Run2022G-22Sep2023-v1")
 
+declare -a B_2023=("Run2023B-22Sep2023-v1" "Run2023B-22Sep2023-v1" "Run2023B-22Sep2023-v1" "Run2023B-22Sep2023-v1" "Run2023B-22Sep2023-v2" "Run2023B-22Sep2023-v1" "Run2023B-22Sep2023-v1" "Run2023B-22Sep2023-v1")
 declare -a C_v1_2023=("Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v2" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1" "Run2023C-22Sep2023_v1-v1")
 declare -a C_v2_2023=("Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1" "Run2023C-22Sep2023_v2-v1")
 declare -a C_v3_2023=("Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1" "Run2023C-22Sep2023_v3-v1")
@@ -99,6 +100,11 @@ if [ "${year}" == "2022" ]; then
     esac
 elif [ "${year}" == "2023" ]; then
     case "$era" in
+      B)
+        Data_ID=("${B_2023[@]}")
+        globaltag="130X_dataRun3_PromptAnalysis_v1"
+        golden_json="Collisions23/Cert_Collisions2023_eraB_366403_367079_Golden.json"
+        ;;
       C-v1)
         Data_ID=("${C_v1_2023[@]}")
         globaltag="130X_dataRun3_PromptAnalysis_v1"
