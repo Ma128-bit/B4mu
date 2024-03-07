@@ -1287,8 +1287,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 
                                 double dR1 = sqrt( reco::deltaR2(Track1.eta(), Track1.phi(), cand->eta(), cand->phi()) );
                                 double dR2 = sqrt( reco::deltaR2(Track2.eta(), Track2.phi(), cand->eta(), cand->phi()) );
-                                double dR3 = sqrt( reco::deltaR2(Track3.eta(), Track3.phi(), cand->eta(), cand->phi()) );
-                                double dR4 = sqrt( reco::deltaR2(Track4.eta(), Track4.phi(), cand->eta(), cand->phi()) );
+                                double dR3 = sqrt( reco::deltaR2(Track_3.eta(), Track_3.phi(), cand->eta(), cand->phi()) );
+                                double dR4 = sqrt( reco::deltaR2(Track_4.eta(), Track_4.phi(), cand->eta(), cand->phi()) );
                                 //cout<<"Skip muon track"<<endl;
                                 if (dR1 < 0.01 || dR2 < 0.01 || dR3 < 0.01 || dR4 < 0.01) continue;
                                 
