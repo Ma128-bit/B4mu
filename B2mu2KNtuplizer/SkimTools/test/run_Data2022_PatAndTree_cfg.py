@@ -43,15 +43,15 @@ process.unpackedPatTrigger = cms.EDProducer("PATTriggerObjectStandAloneUnpacker"
     unpackFilterLabels = cms.bool(True)
 )
 
-process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB4Mu",
-                                      isMcLabel = cms.untracked.bool(False),
+process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
+                                      isMcLabel = cms.untracked.bool(True),
                                       isAnaLabel = cms.untracked.bool(True),
                                       muonLabel=cms.InputTag("looseMuons"),
-                                      photonLabel=cms.InputTag("slimmedPhotons"),
                                       VertexLabel=cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                      TracksLabel=cms.InputTag("looseTracks"),
                                       genParticleLabel=cms.InputTag("prunedGenParticles"),
+                                      Cand2Mu1TrackLabel=cms.InputTag("TwoMuonsTwoTracksKalmanVtxFit"),
                                       pileupSummary = cms.InputTag("slimmedAddPileupInfo"),
-                                      Cand4MuLabel=cms.InputTag("FourMuonsVtxKalmanFit"),
                                       triggerResults = cms.InputTag("TriggerResults", "", "HLT"),
                                       objects = cms.InputTag("unpackedPatTrigger"),
                                       AlgInputTag = cms.InputTag( "gtStage2Digis" ),
