@@ -2,7 +2,7 @@
 // Package:    MiniAna2017/MiniAnaB2Mu2K
 // Class:      MiniAnaB2Mu2K
 //
-/**\class MiniAnaB2Mu2K MiniAnaB2Mu2K.cc MiniAna2017/MiniAnaB2Mu2K/plugins/MiniAnaB2Mu2K.cc
+/* class MiniAnaB2Mu2K MiniAnaB2Mu2K.cc MiniAna2017/MiniAnaB2Mu2K/plugins/MiniAnaB2Mu2K.cc
  
  Description: [one line class summary]
  
@@ -99,13 +99,13 @@
 #include "FWCore/Common/interface/TriggerNames.h"
 #include "FWCore/Common/interface/TriggerResultsByName.h"
 
-#include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "PhysicsTools/PatUtils/interface/TriggerHelper.h"
 #include "DataFormats/PatCandidates/interface/TriggerEvent.h"
 #include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
 #include "DataFormats/PatCandidates/interface/TriggerFilter.h"
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
+#include "DataFormats/Candidate/interface/OverlapChecker.h"
 #include "TrackingTools/IPTools/interface/IPTools.h"
 
 #include "CondFormats/L1TObjects/interface/L1GtTriggerMenu.h"
@@ -126,6 +126,7 @@
 #include "DataFormats/TrackReco/interface/TrackToTrackMap.h"
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
+OverlapChecker overlap;
 ////
 class MiniAnaB2Mu2K : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 public:
@@ -134,6 +135,7 @@ public:
     static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
     float dR(float eta1, float eta2, float phi1, float phi2);
     float dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlone> triggerObjects);
+    float dRtriggerMatchTrk(reco::Track Trk, std::vector<pat::TriggerObjectStandAlone> triggerObjects);
     
     
 private:
@@ -144,16 +146,17 @@ private:
     edm::EDGetTokenT<edm::View<reco::Vertex> > vertex_;
     edm::EDGetTokenT<edm::View<reco::Track> > trackToken_;
     edm::EDGetTokenT<std::vector<pat::PackedCandidate> >srcCands_;
-    edm::EDGetTokenT<edm::View<reco::CompositeCandidate> > Cand4Mu_;
+    edm::EDGetTokenT<edm::View<reco::CompositeCandidate> > Cand2Mu2Tracks_;
     edm::EDGetTokenT<edm::View<reco::GenParticle> > genParticles_;
     edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puToken_ ;
     edm::EDGetTokenT<edm::TriggerResults> triggerToken_;
     edm::EDGetTokenT<BXVector<l1t::Muon> > l1muonsToken_;
     edm::EDGetTokenT<reco::BeamSpot> token_BeamSpot;
-    edm::EDGetTokenT<edm::View<pat::Photon> > photons_;
+    //edm::EDGetTokenT<edm::View<pat::Photon> > photons_;
     edm::EDGetTokenT<std::vector<pat::TriggerObjectStandAlone> > triggerObjects_;
     edm::EDGetToken algToken_;
     edm::EDGetToken algTok_;
+    edm::EDGetTokenT<std::vector<pat::PackedCandidate> >srcCands_;
     edm::ESGetToken<TransientTrackBuilder, TransientTrackRecord> theTransientTrackBuilder_;
     bool isMc;
     bool isAna;
@@ -277,12 +280,12 @@ MiniAnaB2Mu2K::MiniAnaB2Mu2K(const edm::ParameterSet& iConfig){
     isMc = iConfig.getUntrackedParameter<bool>("isMcLabel");
     isAna = iConfig.getUntrackedParameter<bool>("isAnaLabel");
     muons_ = consumes<edm::View<pat::Muon> >  (iConfig.getParameter<edm::InputTag>("muonLabel"));
-    photons_ = consumes<edm::View<pat::Photon> >  (iConfig.getParameter<edm::InputTag>("photonLabel"));
+    //photons_ = consumes<edm::View<pat::Photon> >  (iConfig.getParameter<edm::InputTag>("photonLabel"));
     vertex_ = consumes<edm::View<reco::Vertex> > (iConfig.getParameter<edm::InputTag>("VertexLabel"));
-    trackToken_ = consumes<edm::View<reco::Track> > (edm::InputTag("generalTracks"));
+    trackToken_ = consumes<edm::View<pat::PackedCandidate> > (iConfig.getParameter<edm::InputTag>("TracksLabel"));
     srcCands_ = consumes<std::vector<pat::PackedCandidate> >(edm::InputTag("packedPFCandidates"));
     genParticles_ = consumes<edm::View<reco::GenParticle>  > (iConfig.getParameter<edm::InputTag>("genParticleLabel"));
-    Cand4Mu_ = consumes<edm::View<reco::CompositeCandidate> > (iConfig.getParameter<edm::InputTag>("Cand4MuLabel"));
+    Cand2Mu2Tracks_ = consumes<edm::View<reco::CompositeCandidate> > (iConfig.getParameter<edm::InputTag>("Cand2Mu2TracksLabel"));
     puToken_ =   consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("pileupSummary"));
     triggerToken_ = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("triggerResults"));
     triggerObjects_ = consumes<std::vector<pat::TriggerObjectStandAlone> >(iConfig.getParameter<edm::InputTag>("objects"));
@@ -313,6 +316,16 @@ float MiniAnaB2Mu2K::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandA
     float dRmin = 1.;
     for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
         float deltaR = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), m.eta(), m.phi()));
+        //float deltaR = sqrt( pow(triggerObjects[i].eta() - m.eta(), 2) + pow(acos(cos(triggerObjects[i].phi() - m.phi())), 2));
+        if (deltaR < dRmin) dRmin = deltaR;
+    }
+    return dRmin;
+}
+
+float DsPhiPiTreeMakerMINI::dRtriggerMatchTrk(reco::Track Trk, vector<pat::TriggerObjectStandAlone> triggerObjects) {
+    float dRmin = 1.;
+    for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
+        float deltaR = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), Trk.eta(), Trk.phi()));
         //float deltaR = sqrt( pow(triggerObjects[i].eta() - m.eta(), 2) + pow(acos(cos(triggerObjects[i].phi() - m.phi())), 2));
         if (deltaR < dRmin) dRmin = deltaR;
     }
@@ -411,8 +424,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     edm::Handle< edm::View<pat::Muon> > muons;
     iEvent.getByToken(muons_, muons);
     
-    edm::Handle<edm::View<reco::CompositeCandidate> > Cand4Mu;
-    iEvent.getByToken(Cand4Mu_, Cand4Mu);
+    edm::Handle<edm::View<reco::CompositeCandidate> > Cand2Mu2Tracks;
+    iEvent.getByToken(Cand2Mu2Tracks_, Cand2Mu2Tracks);
     
     edm::Handle< edm::View<reco::GenParticle> > genParticles;
     iEvent.getByToken(genParticles_, genParticles);
@@ -423,8 +436,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     Handle<TriggerResults> triggerResults;
     iEvent.getByToken(triggerToken_, triggerResults);
         
-    edm::Handle< edm::View<pat::Photon> > photons;
-    iEvent.getByToken(photons_, photons);
+    //edm::Handle< edm::View<pat::Photon> > photons;
+    //iEvent.getByToken(photons_, photons);
     
     Handle<std::vector<pat::TriggerObjectStandAlone> > triggerObjects;
     iEvent.getByToken(triggerObjects_, triggerObjects);
@@ -706,12 +719,12 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     //Quadruplets  Loop
     vector<int> Mu1C, Mu2C, Mu3C, Mu4C, BMass;
     
-    //cout<<"Number Of Quadruplets="<<Cand4Mu->size()<<endl;
+    //cout<<"Number Of Quadruplets="<<Cand2Mu2Tracks->size()<<endl;
     std::vector<int> NQuad;
     if(isAna){
-        QuadrupletCollectionSize = Cand4Mu->size() ;
+        QuadrupletCollectionSize = Cand2Mu2Tracks->size() ;
         int QuadrupletIndex =-99; uint trIn=0;
-        for(edm::View<reco::CompositeCandidate>::const_iterator B_It=Cand4Mu->begin(); B_It!=Cand4Mu->end(), trIn<Cand4Mu->size(); ++B_It, ++trIn){
+        for(edm::View<reco::CompositeCandidate>::const_iterator B_It=Cand2Mu2Tracks->begin(); B_It!=Cand2Mu2Tracks->end(), trIn<Cand2Mu2Tracks->size(); ++B_It, ++trIn){
             //cout<<"----------------"<<trIn<<"----------------"<<endl;
             const Candidate * c1 = B_It->daughter(0)->masterClone().get();
             const pat::Muon *mu1 = dynamic_cast<const pat::Muon *>(c1);
@@ -1556,7 +1569,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                     }//!(PVertex.isValid() && B_It->vertexChi2() >0)
                 }//transTracksAssoToVtx_copy.size()>1
             }//(VtxIdV.size()>0 && vertices->size()>0)
-        }//loop Cand4Mu
+        }//loop Cand2Mu2Tracks
     }//isAna
     
     NGoodQuadruplets.push_back(NQuad.size());
@@ -1568,18 +1581,18 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     if(BMass.size()>0)  hEventsAfterBMass->Fill(1);
     
     //////Fill info photons//////
-    PhotonCollectionSize = photons->size();
+    //PhotonCollectionSize = photons->size();
     //cout<<" PhotonCollectionSize="<<PhotonCollectionSize<<endl;
-    uint j=0;
-    for(edm::View<pat::Photon>::const_iterator pho=photons->begin(); pho!=photons->end(), j<photons->size(); ++pho, ++j){
+    //uint j=0;
+    //for(edm::View<pat::Photon>::const_iterator pho=photons->begin(); pho!=photons->end(), j<photons->size(); ++pho, ++j){
         //Basic Kinematics
         //cout<<"   PhotonEnergy="<<pho->energy()<<endl;
-        PhotonPt.push_back(pho->pt());
-        PhotonEt.push_back(pho->et());
-        PhotonEnergy.push_back(pho->energy());
-        PhotonEta.push_back(pho->eta());
-        PhotonPhi.push_back(pho->phi());
-    }
+        //PhotonPt.push_back(pho->pt());
+        //PhotonEt.push_back(pho->et());
+        //PhotonEnergy.push_back(pho->energy());
+        //PhotonEta.push_back(pho->eta());
+        //PhotonPhi.push_back(pho->phi());
+    //}
     
     //////Fill recoMu//////
     std::vector<int> MuFilter;
