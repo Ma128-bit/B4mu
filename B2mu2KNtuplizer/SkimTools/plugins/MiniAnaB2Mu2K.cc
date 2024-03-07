@@ -145,7 +145,6 @@ private:
     edm::EDGetTokenT<edm::View<pat::Muon> > muons_;
     edm::EDGetTokenT<edm::View<reco::Vertex> > vertex_;
     edm::EDGetTokenT<edm::View<reco::Track> > trackToken_;
-    edm::EDGetTokenT<std::vector<pat::PackedCandidate> >srcCands_;
     edm::EDGetTokenT<edm::View<reco::CompositeCandidate> > Cand2Mu2Tracks_;
     edm::EDGetTokenT<edm::View<reco::GenParticle> > genParticles_;
     edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puToken_ ;
@@ -322,7 +321,7 @@ float MiniAnaB2Mu2K::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandA
     return dRmin;
 }
 
-float DsPhiPiTreeMakerMINI::dRtriggerMatchTrk(reco::Track Trk, vector<pat::TriggerObjectStandAlone> triggerObjects) {
+float MiniAnaB2Mu2K::dRtriggerMatchTrk(reco::Track Trk, vector<pat::TriggerObjectStandAlone> triggerObjects) {
     float dRmin = 1.;
     for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
         float deltaR = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), Trk.eta(), Trk.phi()));
@@ -753,13 +752,13 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             const pat::Muon *mu2 = dynamic_cast<const pat::Muon *>(c2);
             
             const Candidate * c3 = B_It->daughter(2)->masterClone().get();
-            const reco::Track *Track_3 = c3->bestTrack();
+            const reco::Track *Track3 = c3->bestTrack();
             
             const Candidate * c4 = B_It->daughter(3)->masterClone().get();
-            const reco::Track *Track_4 = c4->bestTrack();
+            const reco::Track *Track4 = c4->bestTrack();
 
-            const reco::TransientTrack transientTrack3=theTransientTrackBuilder->build( Track_3 );
-            const reco::TransientTrack transientTrack4=theTransientTrackBuilder->build( Track_4 );
+            const reco::TransientTrack transientTrack3=theTransientTrackBuilder->build( Track3 );
+            const reco::TransientTrack transientTrack4=theTransientTrackBuilder->build( Track4 );
             if( !(transientTrack3.isValid()) ) continue;
             if( !(transientTrack4.isValid()) ) continue;
 
@@ -783,12 +782,12 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             const reco::TransientTrack transientTrack2=theTransientTrackBuilder->build( trk2 );
             reco::Track Track1 =transientTrack1.track();
             reco::Track Track2 =transientTrack2.track();
-            reco::Track Track3 =transientTrack3.track();
-            reco::Track Track4 =transientTrack4.track();
+            reco::Track Track_3 =transientTrack3.track();
+            reco::Track Track_4 =transientTrack4.track();
             reco::Track* TrackRef1=&Track1;
             reco::Track* TrackRef2=&Track2;
-            reco::Track* TrackRef3=&Track3;
-            reco::Track* TrackRef4=&Track4;
+            reco::Track* TrackRef3=&Track_3;
+            reco::Track* TrackRef4=&Track_4;
             vector<reco::Track*> SVTrackRef;
             SVTrackRef.push_back(TrackRef1);
             SVTrackRef.push_back(TrackRef2);
@@ -983,8 +982,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         
                         dR1 = MiniAnaB2Mu2K::dRtriggerMatch(*mu1, TriggerObj_B4Mu);
                         dR2 = MiniAnaB2Mu2K::dRtriggerMatch(*mu2, TriggerObj_B4Mu);
-                        dR3 = MiniAnaB2Mu2K::dRtriggerMatch(*Track3, TriggerObj_B4Mu);
-                        dR4 = MiniAnaB2Mu2K::dRtriggerMatch(*Track4, TriggerObj_B4Mu);
+                        dR3 = MiniAnaB2Mu2K::dRtriggerMatchTrk(*Track3, TriggerObj_B4Mu);
+                        dR4 = MiniAnaB2Mu2K::dRtriggerMatchTrk(*Track4, TriggerObj_B4Mu);
                         //cout<<"Trigger Matching: dR1="<<dR1<<" dR2="<<dR2<<" dR3="<<dR3<<" dR4="<<dR4<<endl;
                         Mu1_dRtriggerMatch.push_back(dR1);
                         Mu2_dRtriggerMatch.push_back(dR2);
