@@ -1,0 +1,171 @@
+DEBUG 2024-02-29 13:18:00.241 UTC: 	 CRAB Client version: v3.240110
+DEBUG 2024-02-29 13:18:00.241 UTC: 	 Running on: Linux ui03.recas.ba.infn.it 3.10.0-1160.80.1.el7.x86_64 #1 SMP Tue Nov 8 15:48:59 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2024-02-29 13:18:00.241 UTC: 	 Executing command: 'submit'
+DEBUG 2024-02-29 13:18:00.242 UTC: 	 Found CRAB cache file /lustrehome/mbuonsante/.crab3
+INFO 2024-02-29 13:18:00.242 UTC: 	 Will use CRAB configuration file CRAB_MC_Bs.py
+DEBUG 2024-02-29 13:18:00.242 UTC: 	 Loading CRAB configuration file.
+DEBUG 2024-02-29 13:18:00.245 UTC: 	 Will use CRAB plugin ANALYSIS (i.e. will run an analysis job type).
+DEBUG 2024-02-29 13:18:00.247 UTC: 	 Checking credentials
+DEBUG 2024-02-29 13:18:00.247 UTC: 	 Found proxy file /tmp/x509up_u881331
+DEBUG 2024-02-29 13:18:00.247 UTC: 	 Making sure it has proper VOMS extension
+DEBUG 2024-02-29 13:18:00.247 UTC: 	 Executing command :
+ voms-proxy-info --vo --file /tmp/x509up_u881331
+DEBUG 2024-02-29 13:18:01.474 UTC: 	 output : cms
+
+ error: 
+ retcode : 0
+DEBUG 2024-02-29 13:18:01.474 UTC: 	 Getting proxy life time left
+DEBUG 2024-02-29 13:18:01.474 UTC: 	 Executing command :
+ voms-proxy-info --actimeleft --timeleft --file /tmp/x509up_u881331
+DEBUG 2024-02-29 13:18:02.933 UTC: 	 output : 691172
+691171
+
+ error: 
+ retcode : 0
+DEBUG 2024-02-29 13:18:02.933 UTC: 	 Proxy valid for 191:59:31 hours
+DEBUG 2024-02-29 13:18:02.934 UTC: 	 Encoded data for curl request: subresource=delegatedn
+DEBUG 2024-02-29 13:18:03.107 UTC: 	 Registering user credentials on myproxy for /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+DEBUG 2024-02-29 13:18:03.107 UTC: 	 Executing command :
+ voms-proxy-info --identity --file /tmp/x509up_u881331
+DEBUG 2024-02-29 13:18:04.528 UTC: 	 output : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mbuonsan/CN=866052/CN=Marco Buonsante
+
+ error: 
+ retcode : 0
+DEBUG 2024-02-29 13:18:04.528 UTC: 	 Getting myproxy life time left for db438794163ae221c16ac5cdc1e476b2bc2ff634
+DEBUG 2024-02-29 13:18:04.528 UTC: 	 Executing command :
+ myproxy-info -s myproxy.cern.ch -l db438794163ae221c16ac5cdc1e476b2bc2ff634
+DEBUG 2024-02-29 13:18:04.881 UTC: 	 output : username: db438794163ae221c16ac5cdc1e476b2bc2ff634
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=mbuonsan/CN=866052/CN=Marco Buonsante
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  timeleft: 310:23:23  (12.9 days)
+
+ error: 
+ retcode : 0
+DEBUG 2024-02-29 13:18:04.881 UTC: 	 Myproxy is valid: 1117380
+DEBUG 2024-02-29 13:18:04.881 UTC: 	 Executing command :
+ openssl x509 -noout -dates -in ~/.globus/usercert.pem
+DEBUG 2024-02-29 13:18:04.903 UTC: 	 output : notBefore=Feb  8 11:18:49 2023 GMT
+notAfter=Mar 14 11:18:49 2024 GMT
+
+ error: 
+ retcode : 0
+INFO 2024-02-29 13:18:04.913 UTC: 	 Your user certificate is going to expire in 13 days. See: https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookStartingGrid#ObtainingCert 
+DEBUG 2024-02-29 13:18:04.913 UTC: 	 Result of myproxy credential check:
+  Credential exists on myproxy: username: db438794163ae221c16ac5cdc1e476b2bc2ff634  - validity: 12 days, 22:23:00
+DEBUG 2024-02-29 13:18:04.913 UTC: 	 Command use: submit
+DEBUG 2024-02-29 13:18:04.913 UTC: 	 Options use: ['-c', 'CRAB_MC_Bs.py']
+DEBUG 2024-02-29 13:18:04.913 UTC: 	 Encoded data for curl request: subresource=version
+DEBUG 2024-02-29 13:18:05.108 UTC: 	 CRABClient version: v3.240110
+DEBUG 2024-02-29 13:18:05.108 UTC: 	 Instance is prod
+DEBUG 2024-02-29 13:18:05.108 UTC: 	 Server base url is cmsweb.cern.ch
+DEBUG 2024-02-29 13:18:05.108 UTC: 	 Command api workflow
+DEBUG 2024-02-29 13:18:05.108 UTC: 	 Started submission
+DEBUG 2024-02-29 13:18:05.108 UTC: 	 Working on /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini
+DEBUG 2024-02-29 13:18:05.108 UTC: 	 Encoded data for curl request: subresource=backendurls
+DEBUG 2024-02-29 13:18:05.327 UTC: 	 Loading required information from the environment
+DEBUG 2024-02-29 13:18:05.327 UTC: 	 Found CMSSW_13_0_13 for slc7_amd64_gcc11 with base /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13
+DEBUG 2024-02-29 13:18:05.327 UTC: 	 Loading required information from the environment
+DEBUG 2024-02-29 13:18:05.327 UTC: 	 Found CMSSW_13_0_13 for slc7_amd64_gcc11 with base /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13
+DEBUG 2024-02-29 13:18:05.327 UTC: 	 UNIQUE NAME: tarUUID 77ee1142-e914-48b1-9e59-e6f48dfab3c5 
+DEBUG 2024-02-29 13:18:05.327 UTC: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferOutputs = True
+config.General.workArea = 'crab_projects'
+config.General.transferLogs = False
+config.General.requestName = 'SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini'
+config.section_('JobType')
+config.JobType.allowUndistributedCMSSW = True
+config.JobType.psetName = '/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/PatAndTree_cfg.py'
+config.JobType.pluginName = 'Analysis'
+config.section_('Data')
+config.Data.inputDataset = '/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM'
+config.Data.splitting = 'LumiBased'
+config.Data.outputDatasetTag = 'SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini'
+config.Data.unitsPerJob = 300
+config.Data.inputDBS = 'global'
+config.Data.allowNonValidInputDataset = True
+config.section_('Site')
+config.Site.ignoreGlobalBlacklist = True
+config.Site.storageSite = 'T2_IT_Bari'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2024-02-29 13:18:05.327 UTC: 	 self.config.JobType.psetName: /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/PatAndTree_cfg.py
+INFO 2024-02-29 13:18:05.327 UTC: 	 Importing CMSSW configuration /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/PatAndTree_cfg.py
+INFO 2024-02-29 13:18:06.945 UTC: 	 Finished importing CMSSW configuration /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/PatAndTree_cfg.py
+DEBUG 2024-02-29 13:18:06.946 UTC: 	 Writing CMSSW configuration to /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/inputs/PSet.py
+DEBUG 2024-02-29 13:18:07.036 UTC: 	 The following EDM output files will be collected: []
+DEBUG 2024-02-29 13:18:07.036 UTC: 	 The following TFile output files will be collected: ['TreeMC.root']
+DEBUG 2024-02-29 13:18:07.036 UTC: 	 The following user output files (not listed as PoolOuputModule or TFileService in the CMSSW PSet) will be collected: 
+DEBUG 2024-02-29 13:18:07.036 UTC: 	 Loading required information from the environment
+DEBUG 2024-02-29 13:18:07.036 UTC: 	 Found CMSSW_13_0_13 for slc7_amd64_gcc11 with base /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13
+DEBUG 2024-02-29 13:18:07.036 UTC: 	 Making tarball in /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/inputs/77ee1142-e914-48b1-9e59-e6f48dfab3c5default.tgz
+DEBUG 2024-02-29 13:18:07.037 UTC: 	 Checking directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/bin
+DEBUG 2024-02-29 13:18:07.037 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/bin to tarball
+DEBUG 2024-02-29 13:18:07.038 UTC: 	 Checking directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/python
+DEBUG 2024-02-29 13:18:07.038 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/python to tarball
+DEBUG 2024-02-29 13:18:07.085 UTC: 	 Checking directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/cfipython
+DEBUG 2024-02-29 13:18:07.085 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/cfipython to tarball
+DEBUG 2024-02-29 13:18:07.093 UTC: 	 Checking directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/lib
+DEBUG 2024-02-29 13:18:07.093 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/lib to tarball
+DEBUG 2024-02-29 13:18:07.497 UTC: 	 Checking directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/biglib
+DEBUG 2024-02-29 13:18:07.497 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/biglib to tarball
+DEBUG 2024-02-29 13:18:07.498 UTC: 	 Checking directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/module
+DEBUG 2024-02-29 13:18:07.498 UTC: 	 Checking directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/config/SCRAM/hooks
+DEBUG 2024-02-29 13:18:07.501 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/config/SCRAM/hooks to tarball
+DEBUG 2024-02-29 13:18:07.522 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/SkimTools/python to tarball
+DEBUG 2024-02-29 13:18:07.538 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/CommonTools/CandAlgos/interface to tarball
+DEBUG 2024-02-29 13:18:07.543 UTC: 	 Adding directory /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/CommonTools/CandAlgos/python to tarball
+DEBUG 2024-02-29 13:18:07.686 UTC: 	 Uploading archive /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/inputs/77ee1142-e914-48b1-9e59-e6f48dfab3c5default.tgz (0.644531.1 MB) to the CRAB cache. Using URI https://cmsweb.cern.ch/S3/crabcache_prod
+DEBUG 2024-02-29 13:18:08.070 UTC: 	 Encoded data for curl request: subresource=upload&objecttype=sandbox&tarballname=e80ae36f8c188e945e138e9b0eeb6ae1cadb44ed15efd8725b665b3bedbbfecb.tar.gz
+DEBUG 2024-02-29 13:18:08.261 UTC: 	 sandbox e80ae36f8c188e945e138e9b0eeb6ae1cadb44ed15efd8725b665b3bedbbfecb.tar.gz is already in the S3 store, will not upload again
+DEBUG 2024-02-29 13:18:08.261 UTC: 	 Loading required information from the environment
+DEBUG 2024-02-29 13:18:08.261 UTC: 	 Found CMSSW_13_0_13 for slc7_amd64_gcc11 with base /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13
+DEBUG 2024-02-29 13:18:08.261 UTC: 	 Making tarball in /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/inputs/debugFiles.tgz
+DEBUG 2024-02-29 13:18:08.266 UTC: 	 Uploading archive /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/inputs/debugFiles.tgz (2 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/S3/crabcache_prod
+DEBUG 2024-02-29 13:18:08.269 UTC: 	 Encoded data for curl request: subresource=upload&objecttype=sandbox&tarballname=2df1ea27e0f7b2b8f161c897bb0b69c006e59f666171a95a140112357c97dc11.tar.gz
+DEBUG 2024-02-29 13:18:08.451 UTC: 	 Will execute:
+curl -f -v -X POST  -H "User-Agent: CRAB" -F "key=mbuonsan/sandboxes/2df1ea27e0f7b2b8f161c897bb0b69c006e59f666171a95a140112357c97dc11.tar.gz" -F "AWSAccessKeyId=ab00fcc889f248c495d2875f15a3badb" -F "policy=eyJleHBpcmF0aW9uIjogIjIwMjQtMDItMjlUMTQ6MTg6MDhaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiY3JhYmNhY2hlX3Byb2QifSwgeyJrZXkiOiAibWJ1b25zYW4vc2FuZGJveGVzLzJkZjFlYTI3ZTBmN2IyYjhmMTYxYzg5N2JiMGI2OWMwMDZlNTlmNjY2MTcxYTk1YTE0MDExMjM1N2M5N2RjMTEudGFyLmd6In1dfQ==" -F "signature=KJUs495FJ8qW4l4UEJrG4en4XPE=" -F "file=@/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/inputs/debugFiles.tgz" "https://s3.cern.ch/crabcache_prod"
+DEBUG 2024-02-29 13:18:08.613 UTC: 	 exitcode: 0
+stdout: b''
+DEBUG 2024-02-29 13:18:08.614 UTC: 	 sandbox /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/inputs/debugFiles.tgz successully uploaded to S3
+DEBUG 2024-02-29 13:18:08.614 UTC: 	 Result uploading input files: e80ae36f8c188e945e138e9b0eeb6ae1cadb44ed15efd8725b665b3bedbbfecb.tar.gz 
+WARNING 2024-02-29 13:18:08.614 UTC: 	 Warning: The following output files will not be published, as they are not EDM files: ['TreeMC.root']
+DEBUG 2024-02-29 13:18:08.614 UTC: 	 submit() - self.configuration from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferOutputs = True
+config.General.workArea = 'crab_projects'
+config.General.transferLogs = False
+config.General.requestName = 'SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini'
+config.section_('JobType')
+config.JobType.allowUndistributedCMSSW = True
+config.JobType.psetName = '/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/PatAndTree_cfg.py'
+config.JobType.pluginName = 'Analysis'
+config.section_('Data')
+config.Data.inputDataset = '/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM'
+config.Data.splitting = 'LumiBased'
+config.Data.outputDatasetTag = 'SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini'
+config.Data.unitsPerJob = 300
+config.Data.inputDBS = 'global'
+config.Data.allowNonValidInputDataset = True
+config.section_('Site')
+config.Site.ignoreGlobalBlacklist = True
+config.Site.storageSite = 'T2_IT_Bari'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2024-02-29 13:18:08.614 UTC: 	 submit() - self.configreq {'dryrun': 0, 'workflow': 'crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini', 'saveoutput': 1, 'savelogsflag': 0, 'inputdata': '/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM', 'primarydataset': '', 'nonvaliddata': 1, 'userfiles': [], 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'useparent': 0, 'ignorelocality': 0, 'splitalgo': 'LumiBased', 'algoargs': 300, 'totalunits': 0, 'publication': 1, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'publishname2': 'SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini', 'jobtype': 'Analysis', 'generator': 'pythia', 'addoutputfiles': [], 'maxjobruntime': 1250, 'numcores': 1, 'maxmemory': 2000, 'priority': 10, 'nonprodsw': 1, 'asyncdest': 'T2_IT_Bari', 'requireaccelerator': 0, 'oneEventMode': 0, 'extrajdl': [], 'ignoreglobalblacklist': 1, 'partialdataset': 0, 'inputblocks': []}
+DEBUG 2024-02-29 13:18:08.614 UTC: 	 submit() - jobconfig {'addoutputfiles': [], 'tfileoutfiles': ['TreeMC.root'], 'edmoutfiles': [], 'jobarch': 'slc7_amd64_gcc11', 'jobsw': 'CMSSW_13_0_13', 'inputdata': '/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM', 'cacheurl': 'https://cmsweb.cern.ch/S3/crabcache_prod', 'cachefilename': 'e80ae36f8c188e945e138e9b0eeb6ae1cadb44ed15efd8725b665b3bedbbfecb.tar.gz', 'debugfilename': '2df1ea27e0f7b2b8f161c897bb0b69c006e59f666171a95a140112357c97dc11.tar.gz', 'jobtype': 'Analysis'}
+INFO 2024-02-29 13:18:08.614 UTC: 	 Sending the request to the server at cmsweb.cern.ch
+DEBUG 2024-02-29 13:18:08.614 UTC: 	 Submitting {'dryrun': 0, 'workflow': 'crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini', 'saveoutput': 1, 'savelogsflag': 0, 'inputdata': '/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM', 'primarydataset': '', 'nonvaliddata': 1, 'userfiles': [], 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'useparent': 0, 'ignorelocality': 0, 'splitalgo': 'LumiBased', 'algoargs': 300, 'totalunits': 0, 'publication': 1, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'publishname2': 'SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini', 'jobtype': 'Analysis', 'generator': 'pythia', 'addoutputfiles': [], 'maxjobruntime': 1250, 'numcores': 1, 'maxmemory': 2000, 'priority': 10, 'nonprodsw': 1, 'asyncdest': 'T2_IT_Bari', 'requireaccelerator': 0, 'oneEventMode': 0, 'extrajdl': [], 'ignoreglobalblacklist': 1, 'partialdataset': 0, 'inputblocks': [], 'tfileoutfiles': ['TreeMC.root'], 'edmoutfiles': [], 'jobarch': 'slc7_amd64_gcc11', 'jobsw': 'CMSSW_13_0_13', 'cacheurl': 'https://cmsweb.cern.ch/S3/crabcache_prod', 'cachefilename': 'e80ae36f8c188e945e138e9b0eeb6ae1cadb44ed15efd8725b665b3bedbbfecb.tar.gz', 'debugfilename': '2df1ea27e0f7b2b8f161c897bb0b69c006e59f666171a95a140112357c97dc11.tar.gz'} 
+DEBUG 2024-02-29 13:18:08.615 UTC: 	 Encoded data for curl request: dryrun=0&workflow=crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini&saveoutput=1&savelogsflag=0&inputdata=%2FBs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen%2FRun3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3%2FMINIAODSIM&primarydataset=&nonvaliddata=1&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&useparent=0&ignorelocality=0&splitalgo=LumiBased&algoargs=300&totalunits=0&publication=1&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&publishname2=SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini&jobtype=Analysis&generator=pythia&maxjobruntime=1250&numcores=1&maxmemory=2000&priority=10&nonprodsw=1&asyncdest=T2_IT_Bari&requireaccelerator=0&oneEventMode=0&ignoreglobalblacklist=1&partialdataset=0&jobarch=slc7_amd64_gcc11&jobsw=CMSSW_13_0_13&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2FS3%2Fcrabcache_prod&cachefilename=e80ae36f8c188e945e138e9b0eeb6ae1cadb44ed15efd8725b665b3bedbbfecb.tar.gz&debugfilename=2df1ea27e0f7b2b8f161c897bb0b69c006e59f666171a95a140112357c97dc11.tar.gz&tfileoutfiles=TreeMC.root
+DEBUG 2024-02-29 13:18:09.023 UTC: 	 Result: {'result': [{'RequestName': '240229_131808:mbuonsan_crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini'}]}
+INFO 2024-02-29 13:18:09.024 UTC: 	 Success: Your task has been delivered to the prod CRAB3 server.
+INFO 2024-02-29 13:18:09.024 UTC: 	 Task name: 240229_131808:mbuonsan_crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini
+INFO 2024-02-29 13:18:09.024 UTC: 	 Project dir: crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini
+INFO 2024-02-29 13:18:09.024 UTC: 	 Please use ' crab status -d crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini ' to check how the submission process proceeds.
+DEBUG 2024-02-29 13:18:09.024 UTC: 	 About to return
+INFO 2024-02-29 13:18:09.028 UTC: 	 Log file is /lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/B4muNtuplizer/CrabSubmission/2022_MC_B4mu_pre/crab_projects/crab_SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/crab.log
