@@ -576,7 +576,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         
         for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
             
-            if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi
+            if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443 || fabs(gp->pdgId())==321) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi K+
                 GenParticle_PdgId.push_back(gp->pdgId());
                 GenParticle_Pt.push_back(gp->pt());
                 GenParticle_Eta.push_back(gp->eta());
@@ -606,7 +606,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
      
         for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
             if( fabs(gp->pdgId())==531  || fabs(gp->pdgId())==533) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi           
-                int number_good_GrandDaughters=0;
+                int number_good_GrandDaughters_mu=0;
+                int number_good_GrandDaughters_K=0;
                 int number_phi=0;
                 int number_jpsi=0;
                 if (gp->numberOfDaughters() > 0) {
@@ -615,20 +616,28 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         //const reco::Candidate* daughter = gp->daughter(k);
                         if (fabs(daughter->pdgId())==333) number_phi++;
                         if (fabs(daughter->pdgId())==443) number_jpsi++;
-                        if (fabs(daughter->pdgId())==333 || fabs(daughter->pdgId())==443){
+                        if (fabs(daughter->pdgId())==443){
                             if (daughter->numberOfDaughters() > 0 ) {
                                 for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                     const reco::Candidate* granddaughter = daughter->daughter(l);
-                                    if (fabs(granddaughter->pdgId())==13) number_good_GrandDaughters++;
+                                    if (fabs(granddaughter->pdgId())==13) number_good_GrandDaughters_mu++;
                                 }
                             }
                         }
+                        if (fabs(daughter->pdgId())==333){
+                            if (daughter->numberOfDaughters() > 0 ) {
+                                for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                    const reco::Candidate* granddaughter = daughter->daughter(l);
+                                    if (fabs(granddaughter->pdgId())==321) number_good_GrandDaughters_K++;
+                                }
+                            }
+                        }                    
                     }
                 }
-                if(number_good_GrandDaughters==4 && number_phi==1 && number_jpsi==1){
+                if(number_good_GrandDaughters_K==2 && number_good_GrandDaughters_mu==2 && number_phi==1 && number_jpsi==1){
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
-                        if (fabs(daughter->pdgId())==333 || fabs(daughter->pdgId())==443){
+                        if (fabs(daughter->pdgId())==443){
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
                                 if (fabs(granddaughter->pdgId())==13){
@@ -638,9 +647,19 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 }
                             }
                         }
+                        if (fabs(daughter->pdgId())==333){
+                            for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                const reco::Candidate* granddaughter = daughter->daughter(l);
+                                if (fabs(granddaughter->pdgId())==321){
+                                    GenParticle_Pt_v2.push_back(granddaughter->pt());
+                                    GenParticle_Eta_v2.push_back(granddaughter->eta());
+                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                }
+                            }
+                        }
                     }
                 }
-                if(number_good_GrandDaughters>4) cout<<"number_good_GrandDaughters>4"<<endl;
+                if(number_good_GrandDaughters_mu>2) cout<<"number_good_GrandDaughters>4"<<endl;
             }
         }
     } //End GenParticles_v2
@@ -658,6 +677,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     for (std::vector<pat::PackedCandidate>::const_iterator cand = PFCands->begin(); cand != PFCands->end(), kk!= PFCands->size(); ++cand, ++kk) {
         
         if (cand->charge()==0 || cand->vertexRef().isNull() ) continue;
+        //if (!(cand->hasTrackDetails()) ) continue;
         
         int key = cand->vertexRef().key();
         int quality = cand->pvAssociationQuality();
@@ -733,26 +753,34 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             const pat::Muon *mu2 = dynamic_cast<const pat::Muon *>(c2);
             
             const Candidate * c3 = B_It->daughter(2)->masterClone().get();
-            const pat::Muon *mu3 = dynamic_cast<const pat::Muon *>(c3);
+            const reco::Track *Track_3 = c3->bestTrack();
             
             const Candidate * c4 = B_It->daughter(3)->masterClone().get();
-            const pat::Muon *mu4 = dynamic_cast<const pat::Muon *>(c4);
-            
-            cout<<"mu1 pt="<<mu1->pt()<<" m2="<<mu2->pt()<<" m3="<<mu3->pt()<<" m4="<<mu4->pt()<<endl;
-            TrackRef trk1, trk2, trk3, trk4;
+            const reco::Track *Track_4 = c4->bestTrack();
+
+            const reco::TransientTrack transientTrack3=theTransientTrackBuilder->build( Track_3 );
+            const reco::TransientTrack transientTrack4=theTransientTrackBuilder->build( Track_4 );
+            if( !(transientTrack3.isValid()) ) continue;
+            if( !(transientTrack4.isValid()) ) continue;
+
+            //check overlap among the legs of the triplet
+            double dR_13 = sqrt( reco::deltaR2(mu1->eta(), mu1->phi(), c3->eta(), c3->phi()) );
+            double dR_23 = sqrt( reco::deltaR2(mu2->eta(), mu2->phi(), c3->eta(), c3->phi()) );
+            double dR_14 = sqrt( reco::deltaR2(mu1->eta(), mu1->phi(), c4->eta(), c4->phi()) );
+            double dR_24 = sqrt( reco::deltaR2(mu2->eta(), mu2->phi(), c4->eta(), c4->phi()) );
+            if(dR_13<0.01 || dR_23<0.01 || dR_14<0.01 || dR_24<0.01) continue;
+            if(!(fabs(c1->eta()- c3->eta())>  1.e-6)) continue;
+            if(!(fabs(c2->eta()- c3->eta())>  1.e-6)) continue;
+            if(!(fabs(c1->eta()- c4->eta())>  1.e-6)) continue;
+            if(!(fabs(c2->eta()- c4->eta())>  1.e-6)) continue;
+            if(!(B_It->vertexChi2()>0)) continue;
+
+            /////////////////VertexFit///////////////////////////////////
+            TrackRef trk1, trk2;
             trk1 = mu1->innerTrack();
             trk2 = mu2->innerTrack();
-            trk3 = mu3->innerTrack();
-            trk4 = mu4->innerTrack();
-            //cout<<" trk1 id="<<trk1.id()<<" tr2:"<<trk2.id()<<" trk3="<<trk3.id()<<" trk4="<<trk4.id()<<endl;
-            //const reco::TransientTrack transientTrack1=theTransientTrackBuilder_->build( trk1 );
-            //const reco::TransientTrack transientTrack2=theTransientTrackBuilder_->build( trk2 );
-            //const reco::TransientTrack transientTrack3=theTransientTrackBuilder_->build( trk3 );
-            //const reco::TransientTrack transientTrack4=theTransientTrackBuilder_->build( trk4 );
             const reco::TransientTrack transientTrack1=theTransientTrackBuilder->build( trk1 );
             const reco::TransientTrack transientTrack2=theTransientTrackBuilder->build( trk2 );
-            const reco::TransientTrack transientTrack3=theTransientTrackBuilder->build( trk3 );
-            const reco::TransientTrack transientTrack4=theTransientTrackBuilder->build( trk4 );
             reco::Track Track1 =transientTrack1.track();
             reco::Track Track2 =transientTrack2.track();
             reco::Track Track3 =transientTrack3.track();
@@ -848,21 +876,15 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             Mu1C.push_back(1);
                             if((mu2->isGlobalMuon()) && (mu2->isPFMuon())){
                                 Mu2C.push_back(1);
-                                if((mu3->isGlobalMuon()) && (mu3->isPFMuon())){
-                                    Mu3C.push_back(1);
-                                    if((mu4->isGlobalMuon()) && (mu4->isPFMuon())){
-                                        Mu4C.push_back(1);
-                                        if( (B_It->mass()>4.9) &&  (B_It->mass()<5.7) ){
-                                            BMass.push_back(1);
-                                        }
-                                    }
+                                if( (B_It->mass()>4.9) &&  (B_It->mass()<5.7) ){
+                                    BMass.push_back(1);
                                 }
                             }
                         }
                         mu1_pfreliso03.push_back(PFreliso03(*mu1));
                         mu2_pfreliso03.push_back(PFreliso03(*mu2));
-                        mu3_pfreliso03.push_back(PFreliso03(*mu3));
-                        mu4_pfreliso03.push_back(PFreliso03(*mu4));
+                        mu3_pfreliso03.push_back(0);
+                        mu4_pfreliso03.push_back(0);
 
                         Mu1_Pt.push_back(mu1->pt());
                         Mu1_Eta.push_back(mu1->eta());
@@ -874,25 +896,25 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         Mu2_Phi.push_back(mu2->phi());
                         Mu2_QuadrupletIndex.push_back(QuadrupletIndex);
                         
-                        Mu3_Pt.push_back(mu3->pt());
-                        Mu3_Eta.push_back(mu3->eta());
-                        Mu3_Phi.push_back(mu3->phi());
+                        Mu3_Pt.push_back(Track3->pt());
+                        Mu3_Eta.push_back(Track3->eta());
+                        Mu3_Phi.push_back(Track3->phi());
                         Mu3_QuadrupletIndex.push_back(QuadrupletIndex);
                         
-                        Mu4_Pt.push_back(mu4->pt());
-                        Mu4_Eta.push_back(mu4->eta());
-                        Mu4_Phi.push_back(mu4->phi());
+                        Mu4_Pt.push_back(Track4->pt());
+                        Mu4_Eta.push_back(Track4->eta());
+                        Mu4_Phi.push_back(Track4->phi());
                         Mu4_QuadrupletIndex.push_back(QuadrupletIndex);
                         
                         Mu1_IsGlobal.push_back(mu1->isGlobalMuon());
                         Mu2_IsGlobal.push_back(mu2->isGlobalMuon());
-                        Mu3_IsGlobal.push_back(mu3->isGlobalMuon());
-                        Mu4_IsGlobal.push_back(mu4->isGlobalMuon());
+                        Mu3_IsGlobal.push_back(0);
+                        Mu4_IsGlobal.push_back(0);
                         
                         Mu1_IsPF.push_back(mu1->isPFMuon());
                         Mu2_IsPF.push_back(mu2->isPFMuon());
-                        Mu3_IsPF.push_back(mu3->isPFMuon());
-                        Mu4_IsPF.push_back(mu4->isPFMuon());
+                        Mu3_IsPF.push_back(0);
+                        Mu4_IsPF.push_back(0);
                         //cout<<"Reco mu1 pt="<<mu1->pt()<<" mu2 pt="<<mu2->pt()<<" mu3 pt="<<mu3->pt()<<" mu4 pt="<<mu4->pt()<<endl;
                         
                         //Refitted vars related to SV
@@ -961,8 +983,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         
                         dR1 = MiniAnaB2Mu2K::dRtriggerMatch(*mu1, TriggerObj_B4Mu);
                         dR2 = MiniAnaB2Mu2K::dRtriggerMatch(*mu2, TriggerObj_B4Mu);
-                        dR3 = MiniAnaB2Mu2K::dRtriggerMatch(*mu3, TriggerObj_B4Mu);
-                        dR4 = MiniAnaB2Mu2K::dRtriggerMatch(*mu4, TriggerObj_B4Mu);
+                        dR3 = MiniAnaB2Mu2K::dRtriggerMatch(*Track3, TriggerObj_B4Mu);
+                        dR4 = MiniAnaB2Mu2K::dRtriggerMatch(*Track4, TriggerObj_B4Mu);
                         //cout<<"Trigger Matching: dR1="<<dR1<<" dR2="<<dR2<<" dR3="<<dR3<<" dR4="<<dR4<<endl;
                         Mu1_dRtriggerMatch.push_back(dR1);
                         Mu2_dRtriggerMatch.push_back(dR2);
@@ -970,6 +992,37 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         Mu4_dRtriggerMatch.push_back(dR4);
                         
                         ///////////////Check GEN matching and Fill SimInfo///////////////
+                        GenMatchMu1_SimPt.push_back(-99);
+                        GenMatchMu2_SimPt.push_back(-99);
+                        GenMatchMu3_SimPt.push_back(-99);
+                        GenMatchMu4_SimPt.push_back(-99);
+                                
+                        GenMatchMu1_SimEta.push_back(-99);
+                        GenMatchMu2_SimEta.push_back(-99);
+                        GenMatchMu3_SimEta.push_back(-99);
+                        GenMatchMu4_SimEta.push_back(-99);
+                                
+                        GenMatchMu1_SimPhi.push_back(-99);
+                        GenMatchMu2_SimPhi.push_back(-99);
+                        GenMatchMu3_SimPhi.push_back(-99);
+                        GenMatchMu4_SimPhi.push_back(-99);
+                                
+                        GenMatchMu1_Pt.push_back(-99);
+                        GenMatchMu2_Pt.push_back(-99);
+                        GenMatchMu3_Pt.push_back(-99);
+                        GenMatchMu4_Pt.push_back(-99);
+                                
+                        GenMatchMu1_Eta.push_back(-99);
+                        GenMatchMu2_Eta.push_back(-99);
+                        GenMatchMu3_Eta.push_back(-99);
+                        GenMatchMu4_Eta.push_back(-99);
+                                
+                        GenMatchMu1_Phi.push_back(-99);
+                        GenMatchMu2_Phi.push_back(-99);
+                        GenMatchMu3_Phi.push_back(-99);
+                        GenMatchMu4_Phi.push_back(-99);
+
+                        /*
                         if(isMc){
                             int isMatch_phi=0, isMatch_jpsi=0;
                             if( (mu1->simType() == reco::MatchedMuonFromLightFlavour) && (fabs(mu1->simMotherPdgId()) == 333) ){
@@ -1065,7 +1118,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                             //GenVtx vars to be added
                         } //if(isMC)
-                        
+                        */
                         ///////////////Fill Quadruplet Vars///////////////
                         QuadrupletVtx_x.push_back(B_It->vx());
                         QuadrupletVtx_y.push_back(B_It->vy());
@@ -1216,11 +1269,11 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         /////////////////Defining ISO VAR related to the Quadruplet//////////////////////
                         TLorentzVector LV1=TLorentzVector( mu1->px(), mu1->py(), mu1->pz(), mu1->energy() );
                         TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
-                        TLorentzVector LV3=TLorentzVector( mu3->px(), mu3->py(), mu3->pz(), mu3->energy() );
-                        TLorentzVector LV4=TLorentzVector( mu4->px(), mu4->py(), mu4->pz(), mu4->energy() );
+                        TLorentzVector LV3=TLorentzVector( c3->px(), c3->py(), c3->pz(), c3->energy() );
+                        TLorentzVector LV4=TLorentzVector( c4->px(), c4->py(), c4->pz(), c4->energy() );
                         LV_B = LV1 + LV2 + LV3 + LV4;
-                        cout<<QuadrupletIndex<<" B_CandMass "<<B_It->mass()<<" B_Pt="<<B_It->pt()<<endl;
-                        cout<<QuadrupletIndex<<" B_VectMass "<<LV_B.M()<<" B_Pt="<<LV_B.Pt()<<endl;
+                        //cout<<QuadrupletIndex<<" B_CandMass "<<B_It->mass()<<" B_Pt="<<B_It->pt()<<endl;
+                        //cout<<QuadrupletIndex<<" B_VectMass "<<LV_B.M()<<" B_Pt="<<LV_B.Pt()<<endl;
                         
                         int nTracks03_mu1=0, nTracks03_mu2=0, nTracks03_mu3=0, nTracks03_mu4=0;
                         double mindist=9999;
@@ -1231,7 +1284,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         
                         //////////////Loop on PF Candidates////////////////////
                         for (std::vector<pat::PackedCandidate>::const_iterator cand = PFCands->begin(); cand != PFCands->end(), kk!= PFCands->size(); ++cand, ++kk) {
-                            if(  (cand->pt()>1) && (fabs(cand->eta())<2.4) && (cand->trackerLayersWithMeasurement()>5) && (cand->pixelLayersWithMeasurement()>1) && (cand->trackHighPurity())  ){
+                            if(  (cand->pt()>1) && (fabs(cand->eta())<2.4) && (cand->trackerLayersWithMeasurement()>5) && (cand->pixelLayersWithMeasurement()>1) ){
                                 
                                 double dR1 = sqrt( reco::deltaR2(Track1.eta(), Track1.phi(), cand->eta(), cand->phi()) );
                                 double dR2 = sqrt( reco::deltaR2(Track2.eta(), Track2.phi(), cand->eta(), cand->phi()) );
