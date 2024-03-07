@@ -144,7 +144,7 @@ private:
     virtual void endJob() override;
     edm::EDGetTokenT<edm::View<pat::Muon> > muons_;
     edm::EDGetTokenT<edm::View<reco::Vertex> > vertex_;
-    edm::EDGetTokenT<edm::View<reco::Track> > trackToken_;
+    edm::EDGetTokenT<edm::View<pat::PackedCandidate> > trackToken_;
     edm::EDGetTokenT<edm::View<reco::CompositeCandidate> > Cand2Mu2Tracks_;
     edm::EDGetTokenT<edm::View<reco::GenParticle> > genParticles_;
     edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puToken_ ;
