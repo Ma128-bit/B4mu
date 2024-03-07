@@ -62,8 +62,6 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
 )
 
 
-
-
 process.B2Mu2KSkim = cms.Path(process.TwoMuTwoTracksSelSeq*
                               process.unpackedPatTrigger*
                               process.TreeMakerBkg
