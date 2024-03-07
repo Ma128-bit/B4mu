@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 import os
 
-process = cms.Process('B4MuSkim')
+process = cms.Process('B2Mu2KSkim')
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.load("TrackingTools/TransientTrack/TransientTrackBuilder_cfi")
@@ -14,7 +14,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
-process.load("B4muNtuplizer.SkimTools.B4MuSkim_miniAOD_cff")
+process.load("B2mu2KNtuplizer.SkimTools.B2Mu2KSkim_miniAOD_cff")
 
 process.GlobalTag.globaltag = '130X_mcRun3_2022_realistic_postEE_v6' #MC2022
 
@@ -64,40 +64,9 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB4Mu",
 
 
 
-process.B4MuSkim = cms.Path(process.FourMuonSelSeq*
+process.B2Mu2KSkim = cms.Path(process.TwoMuTwoTracksSelSeq*
                               process.unpackedPatTrigger*
                               process.TreeMakerBkg
                      )
-"""
-process.out = cms.OutputModule("PoolOutputModule",
-                               fileName = cms.untracked.string("fileMINIADOSIM.root"),
-                               SelectEvents = cms.untracked.PSet(SelectEvents = cms.vstring('B4MuSkim')),
-                               outputCommands = cms.untracked.vstring(
-        'drop *',
-        'keep *_*_*_Tau3MuSkim', 
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_generator_*_*',
-        'keep *_offlineBeamSpot_*_*',
-        'keep *_slimmedMuons_*_*',
-        'keep *_TriggerResults_*_*',
-        'keep *_gtStage2Digis_*_*',
-        'keep *_gmtStage2Digis_*_*',
-        'keep *_scalersRawToDigi_*_*',
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_patTrigger_*_*',
-        'keep *_slimmedAddPileupInfo_*_*',
-        'keep *_slimmedMETs_*_*',
-        'keep *_slimmedMETsNoHF_*_*',
-        'keep *_slimmedMETsPuppi_*_*',
-        'keep *_packedGenParticles_*_*',
-        'keep *_selectedPatTrigger_*_*',
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_slimmedSecondaryVertices_*_*',
-        'keep *_bunchSpacingProducer_*_*',
-        )
-)
 
-
-process.outpath = cms.EndPath(process.out) 
-"""
 
