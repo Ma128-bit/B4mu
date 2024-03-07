@@ -1417,8 +1417,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         //Add dxy info
                         GlobalVector dir1(mu1->px(), mu1->py(),  mu1->pz()); //To compute sign of IP
                         GlobalVector dir2(mu2->px(), mu2->py(),  mu2->pz()); //To compute sign of IP
-                        GlobalVector dir3(mu3->px(), mu3->py(),  mu3->pz()); //To compute sign of IP
-                        GlobalVector dir4(mu4->px(), mu4->py(),  mu4->pz()); //To compute sign of IP
+                        GlobalVector dir3(Track3->px(), Track3->py(),  Track3->pz()); //To compute sign of IP
+                        GlobalVector dir4(Track4->px(), Track4->py(),  Track4->pz()); //To compute sign of IP
                         std::pair<bool,Measurement1D> signed_IP2D_mu1 = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, PVertex);
                         std::pair<bool,Measurement1D> signed_IP2D_mu2 = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, PVertex);
                         std::pair<bool,Measurement1D> signed_IP2D_mu3 = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, PVertex);
