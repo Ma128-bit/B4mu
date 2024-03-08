@@ -49,7 +49,7 @@ TwoTracksFilter  = cms.EDFilter("CandViewCountFilter",
                                minNumber = cms.uint32(2),
 )
 
-LooseTrackCandidate = cms.EDProducer("TracksFromCandProducer",
+LooseTrackCandidate = cms.EDProducer("TrackFromCandProducer",
 				src = cms.InputTag("looseTracks")
 )
 
