@@ -38,19 +38,19 @@ DiMuonCandFilter = cms.EDFilter("CandViewCountFilter",
                                 minNumber = cms.uint32(1),
 )
 
-looseTracks = cms.EDFilter("PFCandFilter",
+LooseTrack = cms.EDFilter("PFCandFilter",
                           src = cms.InputTag("packedPFCandidates"),
                           cut = cms.string("pt > 2 &&  abs(eta)<2.4 &&  (charge!=0) && hasTrackDetails() && trackerLayersWithMeasurement()>5 && pixelLayersWithMeasurement()>=1"),
                           filter = cms.bool(True)                                
 )
 
 TwoTracksFilter  = cms.EDFilter("CandViewCountFilter",
-                               src = cms.InputTag("looseTracks"),
+                               src = cms.InputTag("LooseTrack"),
                                minNumber = cms.uint32(2),
 )
 
 LooseTrackCandidate = cms.EDProducer("TrackFromCandProducer",
-				src = cms.InputTag("looseTracks")
+				src = cms.InputTag("LooseTrack")
 )
 
 RecoTrackCand = cms.EDProducer("ConcreteChargedCandidateProducer",
