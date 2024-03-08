@@ -55,7 +55,7 @@ LooseTrackCandidate = cms.EDProducer("TrackFromCandProducer",
 
 RecoTrackCand = cms.EDProducer("ConcreteChargedCandidateProducer",
                                 src = cms.InputTag("LooseTrackCandidate"),
-                                particleType = cms.string("K+"),
+                                particleType = cms.string("pi+"),
 )
 
 TwoMuonsTwoTracksCand = cms.EDProducer("CandViewShallowCloneCombiner",
@@ -95,6 +95,10 @@ PlotsAfterDiMuonCand = cms.EDAnalyzer('RecoMuonAnalyzer',
                                      muonsInputTag = cms.InputTag("looseMuons"),
                                      )
 
+PlotsAfterTracksFilter = cms.EDAnalyzer('RecoMuonAnalyzer',
+                                     muonsInputTag = cms.InputTag("looseMuons"),
+                                     )
+
 PlotsAfterJPsiKKCandSel = cms.EDAnalyzer('RecoMuonAnalyzer',
                                    muonsInputTag = cms.InputTag("looseMuons"),
                                    )
@@ -113,6 +117,7 @@ TwoMuTwoTracksSelSeq = cms.Sequence(InitialPlots *
                                PlotsAfterDiMuonCand *
                                LooseTrack *
                                TwoTracksFilter *
+			       PlotsAfterTracksFilter *
                                LooseTrackCandidate *
                                RecoTrackCand *
                                TwoMuonsTwoTracksCand *
