@@ -429,8 +429,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     edm::Handle< edm::View<reco::GenParticle> > genParticles;
     iEvent.getByToken(genParticles_, genParticles);
     
-    edm::Handle<edm::View<reco::Track> > trackCollection;
-    iEvent.getByToken(trackToken_, trackCollection);
+    edm::Handle<edm::View<pat::PackedCandidate> > trackCollection;
+    iEvent.getByToken(trackToken_,trackCollection);
     
     Handle<TriggerResults> triggerResults;
     iEvent.getByToken(triggerToken_, triggerResults);
