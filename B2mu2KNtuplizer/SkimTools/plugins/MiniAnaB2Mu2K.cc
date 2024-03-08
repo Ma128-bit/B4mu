@@ -899,7 +899,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         Mu3_Eta.push_back(Track3->eta());
                         Mu3_Phi.push_back(Track3->phi());
                         TLorentzVector tempMass3;
-                        tempMass3.SetPxPyPzE(Track3->pt(), Track3->eta(), Track3->phi(), Track3->energy());
+                        tempMass3.SetPxPyPzE(Track3->pt(), Track3->eta(), Track3->phi(), c3->energy());
                         Mu3_Mass.push_back(tempMass3.M());
                         Mu3_QuadrupletIndex.push_back(QuadrupletIndex);
                         
