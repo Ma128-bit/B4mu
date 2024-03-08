@@ -1,7 +1,7 @@
 from CRABClient.UserUtilities import config, getUsername
 config = config()
 
-config.General.requestName = 'SkimB4Mu_YEAR_ERANAME_B_TYPE_Mini'
+config.General.requestName = 'SkimB2Mu2K_YEAR_ERANAME_B_TYPE_Mini'
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
 config.General.transferLogs = False
@@ -17,7 +17,7 @@ config.Data.splitting = 'LumiBased'
 #config.Data.splitting = 'Automatic'
 config.Data.unitsPerJob = 300
 #config.Data.publication = True
-config.Data.outputDatasetTag = 'SkimB4Mu_YEAR_ERANAME_B_TYPE_Mini'
+config.Data.outputDatasetTag = 'SkimB2Mu2K_YEAR_ERANAME_B_TYPE_Mini'
 config.JobType.allowUndistributedCMSSW = True 
 config.Site.storageSite = 'T2_IT_Bari'
 config.Site.ignoreGlobalBlacklist  = True
