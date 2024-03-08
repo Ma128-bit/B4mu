@@ -58,6 +58,17 @@ RecoTrackCand = cms.EDProducer("ConcreteChargedCandidateProducer",
                                 particleType = cms.string("K+"),
 )
 
+DiKCand  = cms.EDProducer("CandViewShallowCloneCombiner",
+                             checkCharge = cms.bool(False),
+                             cut = cms.string('(abs(charge)=0) && (mass < 1.5) && (mass >0.5)'),
+                             decay = cms.string("RecoTrackCand RecoTrackCand")
+)
+
+DiKCandFilter = cms.EDFilter("CandViewCountFilter",
+                                src = cms.InputTag("DiKCand"),
+                                minNumber = cms.uint32(1),
+)
+
 TwoMuonsTwoTracksCand = cms.EDProducer("CandViewShallowCloneCombiner",
                                       checkCharge = cms.bool(False),
                                       cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta) && (mass < 7) && (mass > 4)'),
@@ -120,6 +131,8 @@ TwoMuTwoTracksSelSeq = cms.Sequence(InitialPlots *
 			       PlotsAfterTracksFilter *
                                LooseTrackCandidate *
                                RecoTrackCand *
+			       DiKCand *
+                               DiKCandFilter *
                                TwoMuonsTwoTracksCand *
                                TwoMuonsTwoTracksCandFilter *
                                TwoMuonsTwoTracksKalmanVtxFit *
