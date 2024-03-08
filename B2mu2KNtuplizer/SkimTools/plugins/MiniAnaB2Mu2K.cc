@@ -940,8 +940,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             TLorentzVector LV1, LV2, LV3, LV4;
                             LV1.SetPxPyPzE(SVTrack1.px(), SVTrack1.py(), SVTrack1.pz(), sqrt(pow(SVTrack1.p(), 2.0) + pow(0.10565, 2.0)));
                             LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.10565, 2.0)));
+                            LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.493677, 2.0))); // 0.493677 GeV K+ mass 
+                            LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.493677, 2.0)));
                             LV_B = LV1 + LV2 + LV3 + LV4;
                             
                             //cout<<"SVTrack1.pt() "<<SVTrack1.pt()<<" SVTrack1.eta() "<<SVTrack1.eta()<<" SVTrack1.phi() "<<SVTrack1.phi()<<endl;
