@@ -738,7 +738,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     //Quadruplets  Loop
     vector<int> Mu1C, Mu2C, Mu3C, Mu4C, BMass;
     
-    //cout<<"Number Of Quadruplets="<<Cand2Mu2Tracks->size()<<endl;
+    cout<<"Number Of Quadruplets="<<Cand2Mu2Tracks->size()<<endl;
     std::vector<int> NQuad;
     if(isAna){
         QuadrupletCollectionSize = Cand2Mu2Tracks->size() ;
