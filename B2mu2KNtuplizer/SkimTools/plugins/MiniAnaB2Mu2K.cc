@@ -794,10 +794,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             SVTrackRef.push_back(TrackRef3);
             SVTrackRef.push_back(TrackRef4);
             vector<reco::TransientTrack> SVRefit;
-            SVRefit.push_back(transientTrack1);
-            SVRefit.push_back(transientTrack2);
-            SVRefit.push_back(transientTrack3);
-            SVRefit.push_back(transientTrack4);
+            SVRefit.push_back(*transientTrack1);
+            SVRefit.push_back(*transientTrack2);
+            SVRefit.push_back(*transientTrack3);
+            SVRefit.push_back(*transientTrack4);
             KalmanVertexFitter SV_fitter (true);
             TransientVertex SVertex = SV_fitter.vertex(SVRefit);
             cout<<SVertex.totalChiSquared()<<endl;
