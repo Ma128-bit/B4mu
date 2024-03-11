@@ -44,7 +44,7 @@ process.unpackedPatTrigger = cms.EDProducer("PATTriggerObjectStandAloneUnpacker"
     unpackFilterLabels = cms.bool(True)
 )
 
-process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
+process.TreeB2mu2K = cms.EDAnalyzer("MiniAnaB2Mu2K",
                                       isMcLabel = cms.untracked.bool(False),
                                       is2KLabel = cms.untracked.bool(True),
                                       isAnaLabel = cms.untracked.bool(True),
@@ -62,7 +62,7 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
                                       
 )
 
-process.TreeMakerBkgpi = cms.EDAnalyzer("MiniAnaB2Mu2K",
+process.TreeB2muKpi = cms.EDAnalyzer("MiniAnaB2Mu2K",
                                       isMcLabel = cms.untracked.bool(False),
                                       is2KLabel = cms.untracked.bool(False),
                                       isAnaLabel = cms.untracked.bool(True),
