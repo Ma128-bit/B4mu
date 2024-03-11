@@ -15,9 +15,9 @@ if [ -z ${4+x} ]; then
     return
 fi
 
-if [ "${analysis}" == "Bs2mu2trk" ]; then
+if [ "${analysis}" == "Bs2mu2k" ]; then
     Analysis_type="B2mu2trk"
-elif [ "${analysis}" == "Bd2mu2trk" ]; then
+elif [ "${analysis}" == "Bd2mukpi" ]; then
     Analysis_type="B2mu2trk"
 elif [ "${analysis}" == "B4mu" ]; then
     Analysis_type="B4mu"
