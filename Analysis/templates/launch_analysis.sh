@@ -16,5 +16,4 @@ fi
 cd PATH
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 cmsenv
-python3 Analizer.py --index $index --delta DELTAVAL --directory_IN INPUT_DIR --directory_OUT OUTPUT_DIR --isMC TRUEFALSE
-
+python3 Analizer.py --index $index --delta DELTAVAL --directory_IN INPUT_DIR --directory_OUT OUTPUT_DIR --isMC TRUEFALSE --analysis_type ANALYSISTYPE
