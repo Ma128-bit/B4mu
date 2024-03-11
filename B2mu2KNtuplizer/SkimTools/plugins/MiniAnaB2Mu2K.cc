@@ -801,7 +801,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             KalmanVertexFitter SV_fitter (true);
             TransientVertex SVertex = SV_fitter.vertex(SVRefit);
             cout<<SVertex.totalChiSquared()<<endl;
-            if(!(SVertex->vertexChi2()>0)) continue;
+            if(!(SVertex.vertexChi2()>0)) continue;
 
             //cout<<" track ref vector= "<<SVTrackRef.size()<<endl;
             
