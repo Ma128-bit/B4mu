@@ -65,7 +65,13 @@ if __name__ == "__main__":
         selected_files = [directory + "/" + s for s in selected_files]
 
     print("Starting!")
-    df = load_df(selected_files, "TreeMakerBkg/ntuple")
+    if(analysis_type=="B2mu2K"):
+        tree_dir_name = "TreeB2mu2K"
+    if(analysis_type=="B2muKpi"):
+        tree_dir_name = "TreeB2muKpi"
+    else:
+        tree_dir_name = "TreeMakerBkg"
+    df = load_df(selected_files, tree_dir_name+"/ntuple")
     #Find best Quadruplet
     df = df.Define("isMC", add_index(isMC))
     df = df.Define("Quadruplet_indexs","best_quadruplets(isMC, evt, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
