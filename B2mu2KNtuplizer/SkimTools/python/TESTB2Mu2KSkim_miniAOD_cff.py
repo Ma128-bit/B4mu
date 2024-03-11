@@ -29,7 +29,7 @@ TwoMuonsFilter = cms.EDFilter("CandViewCountFilter",
 
 DiMuonCand  = cms.EDProducer("CandViewShallowCloneCombiner",
                              checkCharge = cms.bool(False),
-                             cut = cms.string('(abs(charge)=0) && (mass < 3) && (mass >2)'),
+                             cut = cms.string('(abs(charge)=0) && (mass < 4) && (mass >2)'),
                              decay = cms.string("looseMuons looseMuons")
 )
 
