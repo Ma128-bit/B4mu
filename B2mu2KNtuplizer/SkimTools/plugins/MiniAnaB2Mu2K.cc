@@ -970,7 +970,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), SVertex_ref.degreesOfFreedom()));
                             vtx_prob_1.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), 1));
                             RefittedSV_Mass.push_back(LV_B.M());
-                            cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
+                            //cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
                         } else {
                             RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
                             RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
