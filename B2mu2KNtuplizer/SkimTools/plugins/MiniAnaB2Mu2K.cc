@@ -772,8 +772,6 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             if(!(fabs(c2->eta()- c3->eta())>  1.e-6)) continue;
             if(!(fabs(c1->eta()- c4->eta())>  1.e-6)) continue;
             if(!(fabs(c2->eta()- c4->eta())>  1.e-6)) continue;
-            cout<<"---------------- OK ----------------"<<endl;
-            if(!(B_It->vertexChi2()>0)) continue;
 
             std::cout<<"Event N. "<<trIn<<" -- "<<"c3->pt(): "<<c3->pt()<<"c3->eta(): "<<c3->eta()<<"c3->phi(): "<<c3->phi()<<"c3->energy(): "<<c3->energy()<<std::endl;
             /////////////////VertexFit///////////////////////////////////
@@ -803,6 +801,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             KalmanVertexFitter SV_fitter (true);
             TransientVertex SVertex = SV_fitter.vertex(SVRefit);
             cout<<SVertex.totalChiSquared()<<endl;
+            if(!(SVertex->vertexChi2()>0)) continue;
 
             //cout<<" track ref vector= "<<SVTrackRef.size()<<endl;
             
