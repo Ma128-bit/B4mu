@@ -702,7 +702,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     for(uint i=0; i<VtxIdV.size(); i++){
         vector<double> tmp_pt;
         vector<pat::PackedCandidate> tmp_cand;
-        cout<<i<<"----------Stored Vtx id="<<VtxIdV.at(i)<<"---------------"<<endl;
+        //cout<<i<<"----------Stored Vtx id="<<VtxIdV.at(i)<<"---------------"<<endl;
         for (vector<pat::PackedCandidate>::const_iterator myc = MyPFCands.begin(); myc != MyPFCands.end(); ++myc) {
             //cout<<"cand vtx="<<myc->vertexRef().key()<<" cand pt="<<myc->pt()<<endl;
             if(myc->vertexRef().key()==VtxIdV.at(i)) {
@@ -713,7 +713,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         AssoPtToVtx.push_back(tmp_pt);
         AssoCandToVtx.push_back(tmp_cand);
     }//loop VtxIdV
-    cout<<" AssoCandToVtx.size()="<<AssoCandToVtx.size()<<endl;
+    //cout<<" AssoCandToVtx.size()="<<AssoCandToVtx.size()<<endl;
     
     vector<vector<reco::TransientTrack>> transTracksAssoToVtx;
     
@@ -721,11 +721,11 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         std::auto_ptr<reco::TrackCollection> newTrackCollection = std::auto_ptr<reco::TrackCollection>(new TrackCollection);
         std::vector<reco::TransientTrack> transTracks;
         
-        cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" with trk ass. n="<<AssoCandToVtx.at(i).size()<<endl;
+        //cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" with trk ass. n="<<AssoCandToVtx.at(i).size()<<endl;
         for(vector<pat::PackedCandidate>::const_iterator c = AssoCandToVtx.at(i).begin(); c != AssoCandToVtx.at(i).end(); ++c) {
             newTrackCollection->push_back(*(c->bestTrack()));
         }
-        cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" newTrackCollection size="<<newTrackCollection->size()<<endl;
+        //cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" newTrackCollection size="<<newTrackCollection->size()<<endl;
         for (std::vector<reco::Track>::const_iterator iter = newTrackCollection->begin(); iter != newTrackCollection->end(); ++iter){
             reco::TransientTrack tt = theTransientTrackBuilder->build(*iter);
             transTracks.push_back(tt);
@@ -744,7 +744,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         QuadrupletCollectionSize = Cand2Mu2Tracks->size() ;
         int QuadrupletIndex =-99; uint trIn=0;
         for(edm::View<reco::CompositeCandidate>::const_iterator B_It=Cand2Mu2Tracks->begin(); B_It!=Cand2Mu2Tracks->end(), trIn<Cand2Mu2Tracks->size(); ++B_It, ++trIn){
-            cout<<"----------------"<<trIn<<"----------------"<<endl;
+            //cout<<"----------------"<<trIn<<"----------------"<<endl;
             const Candidate * c1 = B_It->daughter(0)->masterClone().get();
             const pat::Muon *mu1 = dynamic_cast<const pat::Muon *>(c1);
             
@@ -772,6 +772,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             if(!(fabs(c2->eta()- c3->eta())>  1.e-6)) continue;
             if(!(fabs(c1->eta()- c4->eta())>  1.e-6)) continue;
             if(!(fabs(c2->eta()- c4->eta())>  1.e-6)) continue;
+            cout<<"---------------- OK ----------------"<<endl;
             if(!(B_It->vertexChi2()>0)) continue;
 
             std::cout<<"Event N. "<<trIn<<" -- "<<"c3->pt(): "<<c3->pt()<<"c3->eta(): "<<c3->eta()<<"c3->phi(): "<<c3->phi()<<"c3->energy(): "<<c3->energy()<<std::endl;
