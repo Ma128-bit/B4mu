@@ -1,16 +1,28 @@
 # !/bin/sh
 # Usage:
-#    prepare_condor.sh <Era> <Year>
+#    prepare_condor.sh <Era> <Year> <Analysis_type> <Delta>
 
 helpstring="Usage:
-prepare_condor.sh [Era] [Year] [Delta]"
+prepare_condor.sh [Era] [Year] [Analysis_type] [Delta]"
 era=$1
 year=$2
-delta=$3
+analysis=$3
+delta=$4
 
 # Check inputs
-if [ -z ${3+x} ]; then
+if [ -z ${4+x} ]; then
     echo -e ${helpstring}
+    return
+fi
+
+if [ "${analysis}" == "Bs2mu2trk" ]; then
+    Analysis_type="B2mu2trk"
+elif [ "${analysis}" == "Bd2mu2trk" ]; then
+    Analysis_type="B2mu2trk"
+elif [ "${analysis}" == "B4mu" ]; then
+    Analysis_type="B4mu"
+else
+    echo "Error: The Analysis_type is incorrect."
     return
 fi
 
@@ -36,103 +48,170 @@ declare -a B4mu_MC_label=("Bd_4mu" "Bs_4mu")
 
 declare -a MC22_BsJPsiPhi_pre=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240221_224821")
 declare -a MC22_BsJPsiPhi_post=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240221_224937")
-
 declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
 
+declare -a MC22_B2mu2trk_pre=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM" "/BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
+declare -a MC22_B2mu2trk_post=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM" "/BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
+declare -a B2mu2trk_MC_label=("Bs2mu2K" "Bd2muKpi")
 
-if [ "${year}" == "2022" ]; then
-    case "$era" in
-      C)
-        datasets=("${C_2022[@]}")
-        ;;
-      D-v1)
-        datasets=("${D_v1_2022[@]}")
-        ;;
-      D-v2)
-        datasets=("${D_v2_2022[@]}")
-        ;;
-      E)
-        datasets=("${E_2022[@]}")
-        ;;
-      F)
-        datasets=("${F_2022[@]}")
-        ;;
-      G)
-        datasets=("${G_2022[@]}")
-        ;;
-      MC_B4mu_pre)
-        datasets=("${MC22_B4mu_pre[@]}")
-        label=("${B4mu_MC_label[@]}")
-        ;;
-      MC_B4mu_post)
-        datasets=("${MC22_B4mu_post[@]}")
-        label=("${B4mu_MC_label[@]}")
-        ;;
-      MC_BsJPsiPhi_pre)
-        datasets=("${MC22_BsJPsiPhi_pre[@]}")
-        label=("${BsJPsiPhi_MC_label[@]}")
-        ;;
-      MC_BsJPsiPhi_post)
-        datasets=("${MC22_BsJPsiPhi_post[@]}")
-        label=("${BsJPsiPhi_MC_label[@]}")
-        ;;
-      *)
-        echo "Error: The era is incorrect."
+if [ "${Analysis_type}" == "B4mu" ]; then
+    if [ "${year}" == "2022" ]; then
+        case "$era" in
+          C)
+            datasets=("${C_2022[@]}")
+            ;;
+          D-v1)
+            datasets=("${D_v1_2022[@]}")
+            ;;
+          D-v2)
+            datasets=("${D_v2_2022[@]}")
+            ;;
+          E)
+            datasets=("${E_2022[@]}")
+            ;;
+          F)
+            datasets=("${F_2022[@]}")
+            ;;
+          G)
+            datasets=("${G_2022[@]}")
+            ;;
+          MC_B4mu_pre)
+            datasets=("${MC22_B4mu_pre[@]}")
+            label=("${B4mu_MC_label[@]}")
+            ;;
+          MC_B4mu_post)
+            datasets=("${MC22_B4mu_post[@]}")
+            label=("${B4mu_MC_label[@]}")
+            ;;
+          MC_BsJPsiPhi_pre)
+            datasets=("${MC22_BsJPsiPhi_pre[@]}")
+            label=("${BsJPsiPhi_MC_label[@]}")
+            ;;
+          MC_BsJPsiPhi_post)
+            datasets=("${MC22_BsJPsiPhi_post[@]}")
+            label=("${BsJPsiPhi_MC_label[@]}")
+            ;;
+          *)
+            echo "Error: The era is incorrect."
+            return
+            ;;
+        esac
+    elif [ "${year}" == "2023" ]; then
+        case "$era" in
+          C-v1)
+            datasets=("${C_v1_2023[@]}")
+            ;;
+          C-v2)
+            datasets=("${C_v2_2023[@]}")
+            ;;
+          C-v3)
+            datasets=("${C_v3_2023[@]}")
+            ;;
+          C-v4)
+            datasets=("${C_v4_2023[@]}")
+            ;;
+          D-v1)
+            datasets=("${D_v1_2023[@]}")
+            ;;
+          D-v2)
+            datasets=("${D_v2_2023[@]}")
+            ;;
+          *)
+            echo "Error: The era is incorrect."
+            return
+            ;;
+        esac
+    else
+        echo "Error: The year is incorrect."
         return
-        ;;
-    esac
-elif [ "${year}" == "2023" ]; then
-    case "$era" in
-      C-v1)
-        datasets=("${C_v1_2023[@]}")
-        ;;
-      C-v2)
-        datasets=("${C_v2_2023[@]}")
-        ;;
-      C-v3)
-        datasets=("${C_v3_2023[@]}")
-        ;;
-      C-v4)
-        datasets=("${C_v4_2023[@]}")
-        ;;
-      D-v1)
-        datasets=("${D_v1_2023[@]}")
-        ;;
-      D-v2)
-        datasets=("${D_v2_2023[@]}")
-        ;;
-      *)
-        echo "Error: The era is incorrect."
+    fi
+elif [ "${Analysis_type}" == "B2mu2trk" ]; then
+    if [ "${year}" == "2022" ]; then
+        case "$era" in
+          C)
+            datasets=("${C_2022[@]}")
+            ;;
+          D-v1)
+            datasets=("${D_v1_2022[@]}")
+            ;;
+          D-v2)
+            datasets=("${D_v2_2022[@]}")
+            ;;
+          E)
+            datasets=("${E_2022[@]}")
+            ;;
+          F)
+            datasets=("${F_2022[@]}")
+            ;;
+          G)
+            datasets=("${G_2022[@]}")
+            ;;
+          MC_B2mu2trk_pre)
+            datasets=("${MC_B2mu2trk_pre[@]}")
+            label=("${B2mu2trk_MC_label[@]}")
+            ;;
+          MC_B2mu2trk_post)
+            datasets=("${MC_B2mu2trk_post[@]}")
+            label=("${B2mu2trk_MC_label[@]}")
+            ;;
+          *)
+            echo "Error: The era is incorrect."
+            return
+            ;;
+        esac
+    elif [ "${year}" == "2023" ]; then
+        case "$era" in
+          C-v1)
+            datasets=("${C_v1_2023[@]}")
+            ;;
+          C-v2)
+            datasets=("${C_v2_2023[@]}")
+            ;;
+          C-v3)
+            datasets=("${C_v3_2023[@]}")
+            ;;
+          C-v4)
+            datasets=("${C_v4_2023[@]}")
+            ;;
+          D-v1)
+            datasets=("${D_v1_2023[@]}")
+            ;;
+          D-v2)
+            datasets=("${D_v2_2023[@]}")
+            ;;
+          *)
+            echo "Error: The era is incorrect."
+            return
+            ;;
+        esac
+    else
+        echo "Error: The year is incorrect."
         return
-        ;;
-    esac
-else
-    echo "Error: The year is incorrect."
-    return
+    fi
 fi
 
 
 home_directory="$PWD"
 
 if [[ "$era" != *"MC"* ]]; then
-    if [ ! -d "${home_directory}/${year}_era${era}" ]; then
-        mkdir -p "${home_directory}/${year}_era${era}"
+    if [ ! -d "${home_directory}/${Analysis_type}/${year}_era${era}" ]; then
+        mkdir -p "${home_directory}/${Analysis_type}/${year}_era${era}"
     fi
     echo "Data ${year} - era ${era} is selected"
-    cp templates/submit_era.sh "${home_directory}/${year}_era${era}"
-    cp templates/hadd_era.sh "${home_directory}/${year}_era${era}"
-    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/submit_era.sh"
-    sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/submit_era.sh"
-    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${year}_era${era}/hadd_era.sh"
-    sed -i "s#ERANAME#${era}#g" "${home_directory}/${year}_era${era}/hadd_era.sh"
+    cp templates/submit_era.sh "${home_directory}/${Analysis_type}/${year}_era${era}"
+    cp templates/hadd_era.sh "${home_directory}/${Analysis_type}/${year}_era${era}"
+    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/submit_era.sh"
+    sed -i "s#ERANAME#${era}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/submit_era.sh"
+    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/hadd_era.sh"
+    sed -i "s#ERANAME#${era}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/hadd_era.sh"
 
     for i in {0..7}; do
-        if [ ! -d "${home_directory}/${year}_era${era}/stream_${i}" ]; then
-            mkdir -p "${home_directory}/${year}_era${era}/stream_${i}"
-            mkdir -p "${home_directory}/${year}_era${era}/stream_${i}/log"
+        if [ ! -d "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}" ]; then
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/log"
         fi
 
-        cp templates/submit.condor "${home_directory}/${year}_era${era}/stream_${i}"
+        cp templates/submit.condor "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
         ndir=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/" | wc -l)
         tot=0
         for j in $(seq 0 $((ndir - 1))); do
@@ -141,33 +220,33 @@ if [[ "$era" != *"MC"* ]]; then
         done
         #echo "nfiles=${tot}"
         number_of_splits=$(((${tot} / ${delta}) + 1))
-        echo "queue ${number_of_splits}" >> "${home_directory}/${year}_era${era}/stream_${i}/submit.condor"
-        sed -i "s#PATH#${home_directory}/${year}_era${era}/stream_${i}#g" "${home_directory}/${year}_era${era}/stream_${i}/submit.condor"
-        chmod a+x "${home_directory}/${year}_era${era}/stream_${i}/submit.condor"
+        echo "queue ${number_of_splits}" >> "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
+        sed -i "s#PATH#${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
         
-        cp templates/launch_analysis.sh "${home_directory}/${year}_era${era}/stream_${i}"
-        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#INPUT_DIR#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#OUTPUT_DIR#${home_directory}/${year}_era${era}/stream_${i}#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#TRUEFALSE#0#g" "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        chmod a+x "${home_directory}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        cp templates/launch_analysis.sh "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
+        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#INPUT_DIR#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#OUTPUT_DIR#${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#TRUEFALSE#0#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         
         echo -n "."
         sleep 1
     done
 else
-    if [ ! -d "${home_directory}/${year}_${era}" ]; then
-        mkdir -p "${home_directory}/${year}_${era}"
+    if [ ! -d "${home_directory}/${Analysis_type}/${year}_${era}" ]; then
+        mkdir -p "${home_directory}/${Analysis_type}/${year}_${era}"
     fi
     echo "Data ${year} - ${era} is selected"
     j=0
     for i in "${datasets[@]}"; do
-        if [ ! -d "${home_directory}/${year}_${era}/${label[${j}]}" ]; then
-            mkdir -p "${home_directory}/${year}_${era}/${label[${j}]}"
-            mkdir -p "${home_directory}/${year}_${era}/${label[${j}]}/log"
+        if [ ! -d "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}" ]; then
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}"
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/log"
         fi
-        cp templates/submit.condor "${home_directory}/${year}_${era}/${label[${j}]}"
+        cp templates/submit.condor "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}"
         ndir=$(ls "${file_directory}/${i}/" | wc -l)
         tot=0
         for k in $(seq 0 $((ndir - 1))); do
@@ -175,17 +254,17 @@ else
             tot=$((tot + nfiles))
         done
         number_of_splits=$(((${tot} / ${delta}) + 1))
-        echo "queue ${number_of_splits}" >> "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
-        sed -i "s#PATH#${home_directory}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
-        chmod a+x "${home_directory}/${year}_${era}/${label[${j}]}/submit.condor"
+        echo "queue ${number_of_splits}" >> "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/submit.condor"
+        sed -i "s#PATH#${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/submit.condor"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/submit.condor"
         
-        cp templates/launch_analysis.sh "${home_directory}/${year}_${era}/${label[${j}]}"
-        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#INPUT_DIR#${file_directory}/${i}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#OUTPUT_DIR#${home_directory}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#TRUEFALSE#1#g" "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        chmod a+x "${home_directory}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        cp templates/launch_analysis.sh "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}"
+        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#INPUT_DIR#${file_directory}/${i}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#OUTPUT_DIR#${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#TRUEFALSE#1#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
         
         echo -n "."
         ((j++))
