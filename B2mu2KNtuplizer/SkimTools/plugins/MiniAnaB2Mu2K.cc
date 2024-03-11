@@ -158,6 +158,7 @@ private:
     edm::EDGetTokenT<std::vector<pat::PackedCandidate> >srcCands_;
     edm::ESGetToken<TransientTrackBuilder, TransientTrackRecord> theTransientTrackBuilder_;
     bool isMc;
+    bool is2K;
     bool isAna;
     HLTConfigProvider hltConfig;
     
@@ -277,6 +278,7 @@ private:
 MiniAnaB2Mu2K::MiniAnaB2Mu2K(const edm::ParameterSet& iConfig){
     edm::InputTag algInputTag_;
     isMc = iConfig.getUntrackedParameter<bool>("isMcLabel");
+    is2K = iConfig.getUntrackedParameter<bool>("is2KLabel");
     isAna = iConfig.getUntrackedParameter<bool>("isAnaLabel");
     muons_ = consumes<edm::View<pat::Muon> >  (iConfig.getParameter<edm::InputTag>("muonLabel"));
     //photons_ = consumes<edm::View<pat::Photon> >  (iConfig.getParameter<edm::InputTag>("photonLabel"));
@@ -943,8 +945,9 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             TLorentzVector LV1, LV2, LV3, LV4;
                             LV1.SetPxPyPzE(SVTrack1.px(), SVTrack1.py(), SVTrack1.pz(), sqrt(pow(SVTrack1.p(), 2.0) + pow(0.10565, 2.0)));
                             LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.493677, 2.0))); // 0.493677 GeV K+ mass 
-                            LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.493677, 2.0)));
+                            LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.493677, 2.0))); // 0.493677 GeV K+ mass
+                            if(is2K==True) LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.493677, 2.0)));
+                            else LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.139570, 2.0)));
                             LV_B = LV1 + LV2 + LV3 + LV4;
                             
                             //cout<<"SVTrack1.pt() "<<SVTrack1.pt()<<" SVTrack1.eta() "<<SVTrack1.eta()<<" SVTrack1.phi() "<<SVTrack1.phi()<<endl;
