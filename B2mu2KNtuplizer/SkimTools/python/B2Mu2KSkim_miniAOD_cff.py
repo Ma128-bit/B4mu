@@ -55,7 +55,7 @@ LooseTrackCandidate = cms.EDProducer("TrackFromCandProducer",
 
 RecoTrackCand = cms.EDProducer("ConcreteChargedCandidateProducer",
                                 src = cms.InputTag("LooseTrackCandidate"),
-                                particleType = cms.string("K+"),
+                                particleType = cms.string("pi+"),
 )
 
 DiKCand  = cms.EDProducer("CandViewShallowCloneCombiner",
