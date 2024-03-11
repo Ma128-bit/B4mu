@@ -26,7 +26,7 @@ source prepare_condor.sh [era] [year] [Analysis_type] [delta]
 
 **FOR DATA ONLY**:
 ```
-cd [year]_era[era] 
+cd [Analysis_type]/[year]_era[era] 
 source submit_era.sh
 ```
 Then:
@@ -35,7 +35,7 @@ source hadd_era.sh
 ```
 **FOR MC**:
 ```
-cd [year]_[era]/[MC_lable]
+cd [Analysis_type]/[year]_[era]/[MC_lable]
 submit submit.condor with condor
 merge the output with hadd
 ```
