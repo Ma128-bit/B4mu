@@ -29,9 +29,9 @@ declare -a C_v4_2023=("Run2023C-22Sep2023_v4-v1" "Run2023C-22Sep2023_v4-v1" "Run
 declare -a D_v1_2023=("Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1" "Run2023D-22Sep2023_v1-v1")
 declare -a D_v2_2023=("Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v2" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1")
 
-declare -a MC22_B2mu2trk_pre=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
-declare -a MC22_B2mu2trk_post=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
-declare -a B4mu_MC_label=("Bs2mu2K")
+declare -a MC22_B2mu2trk_pre=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM" "/BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
+declare -a MC22_B2mu2trk_post=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM" "/BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
+declare -a B4mu_MC_label=("Bs2mu2K" "Bd2muKpi")
 
 
 if [ "${year}" == "2022" ]; then
