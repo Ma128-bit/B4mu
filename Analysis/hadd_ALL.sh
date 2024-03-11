@@ -6,9 +6,10 @@ helpstring="Usage:
 prepare_and_submit_ALL.sh [Year]"
 
 year=$1
+Analysis_type=$2
 
 # Check inputs
-if [ -z ${1+x} ]; then
+if [ -z ${2+x} ]; then
     echo -e ${helpstring}
     return
 fi
@@ -25,6 +26,7 @@ else
   return
 fi
 
+cd "${Analysis_type}"
 for e in "${eras[@]}"; do
     cd "${year}_era${e}"
     source hadd_era.sh
@@ -32,8 +34,9 @@ for e in "${eras[@]}"; do
     cd ..
     sleep 1
 done
+cd ..
 
 if [ ! -d "FinalFiles" ]; then
     mkdir -p "FinalFiles"
 fi
-hadd FinalFiles/Analyzed_Data_${year}.root ${year}_era*/Analyzed_Data_${year}_Era_*.root
+hadd FinalFiles/Analyzed_Data_${Analysis_type}_${year}.root ${Analysis_type}/${year}_era*/Analyzed_Data_${year}_Era_*.root
