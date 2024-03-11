@@ -58,32 +58,35 @@ RecoTrackCand = cms.EDProducer("ConcreteChargedCandidateProducer",
                                 particleType = cms.string("K+"),
 )
 
-DiKCand  = cms.EDProducer("CandViewShallowCloneCombiner",
-                             checkCharge = cms.bool(False),
-                             cut = cms.string('(abs(charge)=0) && (mass < 1.5) && (mass >0.5)'),
-                             decay = cms.string("RecoTrackCand RecoTrackCand")
-)
-
-DiKCandFilter = cms.EDFilter("CandViewCountFilter",
-                                src = cms.InputTag("DiKCand"),
-                                minNumber = cms.uint32(1),
+RecoTrackCandpi = cms.EDProducer("ConcreteChargedCandidateProducer",
+                                src = cms.InputTag("LooseTrackCandidate"),
+                                particleType = cms.string("pi+"),
 )
 
 TwoMuonsTwoTracksCand = cms.EDProducer("CandViewShallowCloneCombiner",
                                       checkCharge = cms.bool(False),
-                                      cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta)'),
+                                      cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta) && ( mass>4.5 && mass<6)'),
                                       decay = cms.string("looseMuons looseMuons RecoTrackCand RecoTrackCand")
 )
 
-TwoMuonsTwoTracksCandFilter = cms.EDFilter("CandViewCountFilter",
-                                    src = cms.InputTag("TwoMuonsTwoTracksCand"),
-                                    minNumber = cms.uint32(1),
-)
 
 TwoMuonsTwoTracksKalmanVtxFit = cms.EDProducer("KalmanVertexFitCompositeCandProducer",
                                               src = cms.InputTag("TwoMuonsTwoTracksCand")
                                               #cut = cms.string('mass <5'),                          
 )                                        
+
+TwoMuonsTwoTracksCandpi = cms.EDProducer("CandViewShallowCloneCombiner",
+                                      checkCharge = cms.bool(False),
+                                      cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta) && ( mass>4.5 && mass<6)'),
+                                      decay = cms.string("looseMuons looseMuons RecoTrackCand RecoTrackCandpi")
+)
+
+TwoMuonsTwoTracksKalmanVtxFitpi = cms.EDProducer("KalmanVertexFitCompositeCandProducer",
+                                              src = cms.InputTag("TwoMuonsTwoTracksCandpi")
+                                              #cut = cms.string('mass <5'),                          
+)  
+
+
 
 ########################Define Histograms########################
 InitialPlots = cms.EDAnalyzer('SimpleEventCounter',
@@ -131,15 +134,13 @@ TwoMuTwoTracksSelSeq = cms.Sequence(InitialPlots *
 			       PlotsAfterTracksFilter *
                                LooseTrackCandidate *
                                RecoTrackCand *
-			       DiKCand *
-                               DiKCandFilter *
+                               RecoTrackCandpi *
                                TwoMuonsTwoTracksCand *
-                               TwoMuonsTwoTracksCandFilter *
                                TwoMuonsTwoTracksKalmanVtxFit *
+                               TwoMuonsTwoTracksCandpi *
+                               TwoMuonsTwoTracksKalmanVtxFitpi *
                                PlotsAfterJPsiKKCandSel
                                )
-
-
 
 
 
