@@ -44,12 +44,13 @@ process.unpackedPatTrigger = cms.EDProducer("PATTriggerObjectStandAloneUnpacker"
     unpackFilterLabels = cms.bool(True)
 )
 
-process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
+process.TreeB2mu2K = cms.EDAnalyzer("MiniAnaB2Mu2K",
                                       isMcLabel = cms.untracked.bool(True),
+                                      is2KLabel = cms.untracked.bool(True),
                                       isAnaLabel = cms.untracked.bool(True),
                                       muonLabel=cms.InputTag("looseMuons"),
                                       VertexLabel=cms.InputTag("offlineSlimmedPrimaryVertices"),
-                                      TracksLabel=cms.InputTag("looseTracks"),
+                                      TracksLabel=cms.InputTag("LooseTrack"),
                                       genParticleLabel=cms.InputTag("prunedGenParticles"),
                                       Cand2Mu2TracksLabel=cms.InputTag("TwoMuonsTwoTracksKalmanVtxFit"),
                                       pileupSummary = cms.InputTag("slimmedAddPileupInfo"),
@@ -61,10 +62,26 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
                                       
 )
 
+process.TreeB2muKpi = cms.EDAnalyzer("MiniAnaB2Mu2K",
+                                      isMcLabel = cms.untracked.bool(True),
+                                      is2KLabel = cms.untracked.bool(False),
+                                      isAnaLabel = cms.untracked.bool(True),
+                                      muonLabel=cms.InputTag("looseMuons"),
+                                      VertexLabel=cms.InputTag("offlineSlimmedPrimaryVertices"),
+                                      TracksLabel=cms.InputTag("LooseTrack"),
+                                      genParticleLabel=cms.InputTag("prunedGenParticles"),
+                                      Cand2Mu2TracksLabel=cms.InputTag("TwoMuonsTwoTracksKalmanVtxFitpi"),
+                                      pileupSummary = cms.InputTag("slimmedAddPileupInfo"),
+                                      triggerResults = cms.InputTag("TriggerResults", "", "HLT"),
+                                      objects = cms.InputTag("unpackedPatTrigger"),
+                                      AlgInputTag = cms.InputTag( "gtStage2Digis" ),
+                                      algInputTag = cms.InputTag( "gtStage2Digis" ),
+                                      extInputTag = cms.InputTag( "gtStage2Digis" )
+                                      
+)
 
 process.B2Mu2KSkim = cms.Path(process.TwoMuTwoTracksSelSeq*
                               process.unpackedPatTrigger*
-                              process.TreeMakerBkg
+                              process.TreeB2mu2K*
+                              process.TreeB2muKpi
                      )
-
-
