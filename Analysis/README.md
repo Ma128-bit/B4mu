@@ -2,9 +2,10 @@
 
 ## Run analysis on an entire year with condor (ONLY Data):
 ```
-source prepare_and_submit_ALL.sh [year] [delta]
+source prepare_and_submit_ALL.sh [year] [Analysis_type] [delta]
 ```
 *  [year] is the year (`2022` or `2023`);
+*  [Analysis_type] `B4mu`, `B2mu2K` or `B2muKpi`;
 *  [Delta] is the number of input files per submission
 
 Then:
