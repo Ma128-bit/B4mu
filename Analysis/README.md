@@ -9,7 +9,7 @@ source prepare_and_submit_ALL.sh [year] [delta]
 
 Then:
 ```
-source hadd_ALL.sh [year]
+source hadd_ALL.sh [year] [Analysis_type]
 ```
 Example:`source prepare_and_submit_ALL.sh 2022 300`
 <p>&nbsp;</p>
