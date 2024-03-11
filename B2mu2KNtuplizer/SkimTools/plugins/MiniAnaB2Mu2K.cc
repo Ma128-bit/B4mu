@@ -797,17 +797,16 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             SVTrackRef.push_back(TrackRef2);
             SVTrackRef.push_back(TrackRef3);
             SVTrackRef.push_back(TrackRef4);
+            /*
             vector<reco::TransientTrack> SVRefit;
             SVRefit.push_back(transientTrack1);
             SVRefit.push_back(transientTrack2);
             SVRefit.push_back(transientTrack3);
             SVRefit.push_back(transientTrack4);
-/*
             KalmanVertexFitter SV_fitter (true);
             TransientVertex SVertex = SV_fitter.vertex(SVRefit);
             cout<<SVertex.totalChiSquared()<<endl;
-            
-*(
+            */
             //cout<<" track ref vector= "<<SVTrackRef.size()<<endl;
             
             reco::Vertex QuadrupletVtx = reco::Vertex(B_It->vertex(), B_It->vertexCovariance(), B_It->vertexChi2(), B_It->vertexNdof(), B_It->numberOfDaughters() );
