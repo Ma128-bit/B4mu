@@ -41,12 +41,14 @@ if __name__ == "__main__":
     parser.add_argument("--directory_IN", type=str, help="Root files directory")
     parser.add_argument("--directory_OUT", type=str, help="Output directory")
     parser.add_argument("--isMC", type=int, help="0 for data 1 for MC")
+    parser.add_argument("--analysis_type", type=str, help="Analysis type")
     args = parser.parse_args()
     index = args.index
     delta = args.delta
     directory = args.directory_IN
     output_dir = args.directory_OUT
     isMC = args.isMC
+    analysis_type = args.analysis_type
     
     file_root = list_of_root_files(directory)
     selected_files = select_root_files(file_root, index , delta)
