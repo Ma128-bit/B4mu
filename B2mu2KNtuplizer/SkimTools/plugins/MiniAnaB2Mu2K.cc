@@ -745,7 +745,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         int QuadrupletIndex =-99; uint trIn=0;
         for(edm::View<reco::CompositeCandidate>::const_iterator B_It=Cand2Mu2Tracks->begin(); B_It!=Cand2Mu2Tracks->end(), trIn<Cand2Mu2Tracks->size(); ++B_It, ++trIn){
 
-            cout<<"B pt="<<B_It->pt()<<" eta="<<B_It->eta()<<" phi="<<B_It->phi()<<" mass="<<B_It->mass()<<endl;
+            //cout<<"B pt="<<B_It->pt()<<" eta="<<B_It->eta()<<" phi="<<B_It->phi()<<" mass="<<B_It->mass()<<endl;
 
             //cout<<"----------------"<<trIn<<"----------------"<<endl;
             const Candidate * c1 = B_It->daughter(0)->masterClone().get();
@@ -777,7 +777,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             if(!(fabs(c2->eta()- c4->eta())>  1.e-6)) continue;
             if(!(B_It->vertexChi2()>0)) continue;
 
-            std::cout<<"Event N. "<<trIn<<" -- "<<"c3->pt(): "<<c3->pt()<<"c3->eta(): "<<c3->eta()<<"c3->phi(): "<<c3->phi()<<"c3->energy(): "<<c3->energy()<<std::endl;
+            //std::cout<<"Event N. "<<trIn<<" -- "<<"c3->pt(): "<<c3->pt()<<"c3->eta(): "<<c3->eta()<<"c3->phi(): "<<c3->phi()<<"c3->energy(): "<<c3->energy()<<std::endl;
             /////////////////VertexFit///////////////////////////////////
             TrackRef trk1, trk2;
             trk1 = mu1->innerTrack();
