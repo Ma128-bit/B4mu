@@ -46,6 +46,7 @@ process.unpackedPatTrigger = cms.EDProducer("PATTriggerObjectStandAloneUnpacker"
 
 process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
                                       isMcLabel = cms.untracked.bool(False),
+                                      is2KLabel = cms.untracked.bool(True),
                                       isAnaLabel = cms.untracked.bool(True),
                                       muonLabel=cms.InputTag("looseMuons"),
                                       VertexLabel=cms.InputTag("offlineSlimmedPrimaryVertices"),
@@ -63,6 +64,7 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB2Mu2K",
 
 process.TreeMakerBkgpi = cms.EDAnalyzer("MiniAnaB2MuKpi",
                                       isMcLabel = cms.untracked.bool(False),
+                                      is2KLabel = cms.untracked.bool(False),
                                       isAnaLabel = cms.untracked.bool(True),
                                       muonLabel=cms.InputTag("looseMuons"),
                                       VertexLabel=cms.InputTag("offlineSlimmedPrimaryVertices"),
