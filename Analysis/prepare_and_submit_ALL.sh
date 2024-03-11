@@ -3,13 +3,14 @@
 #    prepare_and_submit_ALL.sh <Year> <Delta>
 
 helpstring="Usage:
-prepare_and_submit_ALL.sh [Year] [Delta]"
+prepare_and_submit_ALL.sh [Year] [Analysis_type] [Delta]"
 
 year=$1
-delta=$2
+analysis_type=$2
+delta=$3
 
 # Check inputs
-if [ -z ${2+x} ]; then
+if [ -z ${3+x} ]; then
     echo -e ${helpstring}
     return
 fi
@@ -27,12 +28,13 @@ else
 fi
 
 for e in "${eras[@]}"; do
-    source prepare_condor.sh $e $year $delta
+    source prepare_condor.sh $e $year $analysis_type $delta
 done
 
 echo "End preparation ... beginning submission"
-sleep 2
+sleep 1
 
+cd $analysis_type
 for e in "${eras[@]}"; do
     cd "${year}_era${e}"
     source submit_era.sh
@@ -40,3 +42,4 @@ for e in "${eras[@]}"; do
     cd ..
     sleep 1
 done
+cd ..
