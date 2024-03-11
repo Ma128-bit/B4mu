@@ -137,7 +137,7 @@ TwoMuTwoTracksSelSeq = cms.Sequence(InitialPlots *
                                RecoTrackCand *
                                RecoTrackCandpi *
                                TwoMuonsTwoTracksCand *
-                               TwoMuonsTwoTracksCandFilter *
+                               #TwoMuonsTwoTracksCandFilter *
                                TwoMuonsTwoTracksKalmanVtxFit *
                                TwoMuonsTwoTracksCandpi *
                                TwoMuonsTwoTracksKalmanVtxFitpi *
