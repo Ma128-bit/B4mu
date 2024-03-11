@@ -126,7 +126,6 @@
 #include "DataFormats/TrackReco/interface/TrackToTrackMap.h"
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
-OverlapChecker overlap;
 ////
 class MiniAnaB2MuKpi : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 public:
@@ -331,82 +330,7 @@ float MiniAnaB2MuKpi::dRtriggerMatchTrk(reco::Track Trk, vector<pat::TriggerObje
     return dRmin;
 }
 
-double PFreliso03(pat::Muon imu){
-    return (imu.pfIsolationR03().sumChargedHadronPt + std::max(imu.pfIsolationR03().sumNeutralHadronEt + imu.pfIsolationR03().sumPhotonEt - 0.5 * imu.pfIsolationR03().sumPUPt, 0.0)) / imu.pt();
-}
-
-bool isGoodTrack(const reco::Track &track) {
-    if(track.pt()>1){
-        if(std::fabs(track.eta())<2.4){
-            if(track.hitPattern().trackerLayersWithMeasurement()>5){
-                if(track.hitPattern().pixelLayersWithMeasurement()>1) return true;
-            }
-        }
-    }
-    return false;
-}
-
 typedef std::map<const reco::Track*, reco::TransientTrack> TransientTrackMap;
-// auxiliary function to exclude tracks associated to tau lepton decay "leg"
-// from primary event vertex refit
-bool tracksMatchByDeltaR(const reco::Track* trk1, const reco::Track* trk2)
-{
-    //cout<<" pv_t eta="<<trk1->eta()<<" sv_t eta="<<trk2->eta()<<" deltaR(tk1, tk2)="<<reco::deltaR(*trk1, *trk2)<<endl;
-    if ( reco::deltaR(*trk1, *trk2) < 1.e-2 && trk1->charge() == trk2->charge() ) return true;
-    else return false;
-}
-
-bool tracksMatchByDeltaR2(const reco::TransientTrack trk1, const reco::Track* trk2)
-{
-    //cout<<" ++++++++ tracksMatchByDeltaR2 sv_t pt="<<trk2->pt()<<" eta="<<trk2->eta()<<" phi="<<trk2->phi()<<endl;
-    //cout<<" ++++++++ tracksMatchByDeltaR2 pv_t pt="<<trk1.track().pt()<<" eta="<<trk1.track().eta()<<" phi="<<trk1.track().phi()<<" deltaR(tk1, tk2)="<<reco::deltaR(trk1.track(), *trk2)<<endl;
-    if ( reco::deltaR(trk1.track(), *trk2) < 1.e-2 && trk1.track().charge() == trk2->charge() ) return true;
-    else return false;
-}
-
-void removeTracks(TransientTrackMap& pvTracks_toRefit, const std::vector<reco::Track*> svTracks)
-{
-    //  cout<<"Size PV Trk: "<<(pvTracks_toRefit->first).size()<<endl;
-    for ( std::vector<reco::Track*>::const_iterator svTrack = svTracks.begin(); svTrack != svTracks.end(); ++svTrack ){
-        for ( TransientTrackMap::iterator pvTrack = pvTracks_toRefit.begin(); pvTrack != pvTracks_toRefit.end(); ++pvTrack ) {
-            //cout<<"Eta PV Trk:"<<pvTrack->first->eta()<<endl;
-            if ( tracksMatchByDeltaR(pvTrack->first, *svTrack) ) {
-                pvTracks_toRefit.erase(pvTrack);
-                break;
-            }
-        }
-    }
-}
-
-void removeTracks2(std::vector<reco::Track*> pvTracks, const std::vector<reco::Track*> svTracks)
-{
-    for ( std::vector<reco::Track*>::const_iterator svTrack = svTracks.begin(); svTrack != svTracks.end(); ++svTrack ){
-        for ( std::vector<reco::Track*>::const_iterator pvTrack = pvTracks.begin(); pvTrack != pvTracks.end(); ++pvTrack ){
-            if ( tracksMatchByDeltaR(*pvTrack, *svTrack) ) {
-                pvTracks.erase(pvTrack);
-                break;
-            }
-        }
-    }
-}
-
-
-void removeTracks3(vector<reco::TransientTrack> &pvTracks, const std::vector<reco::Track*> svTracks)
-{
-    //cout<<" ++++removeTracks3: tracks associated to PV = "<<pvTracks.size()<<endl;
-    int svtrack_cout = 0;
-    for ( std::vector<reco::Track*>::const_iterator svTrack = svTracks.begin(); svTrack != svTracks.end(); ++svTrack ){
-        ++svtrack_cout;
-        //cout<<" ++++removeTracks3: looking for matching with svTrack "<<svtrack_cout<<endl;
-        for(uint f=0;f<pvTracks.size(); f++){
-            if ( tracksMatchByDeltaR2(pvTracks.at(f), *svTrack) ) {
-                //cout<<"     track to be erased position: "<<f<<" pt="<<pvTracks.at(f).track().pt()<<" eta="<<pvTracks.at(f).track().eta()<<" phi="<<pvTracks.at(f).track().phi()<<endl;
-                pvTracks.erase(pvTracks.begin()+f);
-                break;
-            }
-        }
-    }
-}
 
 void MiniAnaB2MuKpi::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
