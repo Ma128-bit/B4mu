@@ -676,7 +676,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     for (std::vector<pat::PackedCandidate>::const_iterator cand = PFCands->begin(); cand != PFCands->end(), kk!= PFCands->size(); ++cand, ++kk) {
         
         if (cand->charge()==0 || cand->vertexRef().isNull() ) continue;
-        //if (!(cand->hasTrackDetails()) ) continue;
+        if (!(cand->hasTrackDetails()) ) continue;
         
         int key = cand->vertexRef().key();
         int quality = cand->pvAssociationQuality();
@@ -702,7 +702,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     for(uint i=0; i<VtxIdV.size(); i++){
         vector<double> tmp_pt;
         vector<pat::PackedCandidate> tmp_cand;
-        //cout<<i<<"----------Stored Vtx id="<<VtxIdV.at(i)<<"---------------"<<endl;
+        cout<<i<<"----------Stored Vtx id="<<VtxIdV.at(i)<<"---------------"<<endl;
         for (vector<pat::PackedCandidate>::const_iterator myc = MyPFCands.begin(); myc != MyPFCands.end(); ++myc) {
             //cout<<"cand vtx="<<myc->vertexRef().key()<<" cand pt="<<myc->pt()<<endl;
             if(myc->vertexRef().key()==VtxIdV.at(i)) {
@@ -713,7 +713,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         AssoPtToVtx.push_back(tmp_pt);
         AssoCandToVtx.push_back(tmp_cand);
     }//loop VtxIdV
-    //cout<<" AssoCandToVtx.size()="<<AssoCandToVtx.size()<<endl;
+    cout<<" AssoCandToVtx.size()="<<AssoCandToVtx.size()<<endl;
     
     vector<vector<reco::TransientTrack>> transTracksAssoToVtx;
     
@@ -721,11 +721,11 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         std::auto_ptr<reco::TrackCollection> newTrackCollection = std::auto_ptr<reco::TrackCollection>(new TrackCollection);
         std::vector<reco::TransientTrack> transTracks;
         
-        //cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" with trk ass. n="<<AssoCandToVtx.at(i).size()<<endl;
+        cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" with trk ass. n="<<AssoCandToVtx.at(i).size()<<endl;
         for(vector<pat::PackedCandidate>::const_iterator c = AssoCandToVtx.at(i).begin(); c != AssoCandToVtx.at(i).end(); ++c) {
             newTrackCollection->push_back(*(c->bestTrack()));
         }
-        //cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" newTrackCollection size="<<newTrackCollection->size()<<endl;
+        cout<<i<<" vertex ID="<<VtxIdV.at(i)<<" newTrackCollection size="<<newTrackCollection->size()<<endl;
         for (std::vector<reco::Track>::const_iterator iter = newTrackCollection->begin(); iter != newTrackCollection->end(); ++iter){
             reco::TransientTrack tt = theTransientTrackBuilder->build(*iter);
             transTracks.push_back(tt);
