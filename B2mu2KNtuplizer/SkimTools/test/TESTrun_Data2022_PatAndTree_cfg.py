@@ -82,6 +82,6 @@ process.TreeB2muKpi = cms.EDAnalyzer("MiniAnaB2Mu2K",
 
 process.B2Mu2KSkim = cms.Path(process.TwoMuTwoTracksSelSeq*
                               process.unpackedPatTrigger*
-                              process.TreeMakerBkg*
-                              process.TreeMakerBkgpi
+                              process.TreeB2mu2K*
+                              process.TreeB2muKpi
                      )
