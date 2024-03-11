@@ -1,8 +1,8 @@
 // -*- C++ -*-
-// Package:    MiniAna2017/MiniAnaB2Mu2K
-// Class:      MiniAnaB2Mu2K
+// Package:    MiniAna2017/MiniAnaB2MuKpi
+// Class:      MiniAnaB2MuKpi
 //
-/* class MiniAnaB2Mu2K MiniAnaB2Mu2K.cc MiniAna2017/MiniAnaB2Mu2K/plugins/MiniAnaB2Mu2K.cc
+/* class MiniAnaB2MuKpi MiniAnaB2MuKpi.cc MiniAna2017/MiniAnaB2MuKpi/plugins/MiniAnaB2MuKpi.cc
  
  Description: [one line class summary]
  
@@ -128,10 +128,10 @@
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
 OverlapChecker overlap;
 ////
-class MiniAnaB2Mu2K : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+class MiniAnaB2MuKpi : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 public:
-    explicit MiniAnaB2Mu2K(const edm::ParameterSet&);
-    ~MiniAnaB2Mu2K();
+    explicit MiniAnaB2MuKpi(const edm::ParameterSet&);
+    ~MiniAnaB2MuKpi();
     static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
     float dR(float eta1, float eta2, float phi1, float phi2);
     float dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlone> triggerObjects);
@@ -274,7 +274,7 @@ private:
 
 
 
-MiniAnaB2Mu2K::MiniAnaB2Mu2K(const edm::ParameterSet& iConfig){
+MiniAnaB2MuKpi::MiniAnaB2MuKpi(const edm::ParameterSet& iConfig){
     edm::InputTag algInputTag_;
     isMc = iConfig.getUntrackedParameter<bool>("isMcLabel");
     isAna = iConfig.getUntrackedParameter<bool>("isAnaLabel");
@@ -297,21 +297,21 @@ MiniAnaB2Mu2K::MiniAnaB2Mu2K(const edm::ParameterSet& iConfig){
     theTransientTrackBuilder_ = esConsumes<TransientTrackBuilder, TransientTrackRecord>(edm::ESInputTag("", "TransientTrackBuilder"));
 }
 
-MiniAnaB2Mu2K::~MiniAnaB2Mu2K(){
+MiniAnaB2MuKpi::~MiniAnaB2MuKpi(){
     // do anything here that needs to be done at desctruction time
     // (e.g. close files, deallocate resources etc.)
 }
 
 
-float MiniAnaB2Mu2K::dR(float eta1, float eta2, float phi1, float phi2){
+float MiniAnaB2MuKpi::dR(float eta1, float eta2, float phi1, float phi2){
     float dphi=(phi1-phi2);
     float deta=(eta1-eta2);
     float deltaR= TMath::Sqrt(dphi*dphi + deta*deta);
     return deltaR;
 }
 
-float MiniAnaB2Mu2K::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlone> triggerObjects) {
-    //float MiniAnaB2Mu2K::dRtriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects) {
+float MiniAnaB2MuKpi::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandAlone> triggerObjects) {
+    //float MiniAnaB2MuKpi::dRtriggerMatch(pat::Muon m, trigger::TriggerObjectCollection triggerObjects) {
     float dRmin = 1.;
     for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
         float deltaR = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), m.eta(), m.phi()));
@@ -321,7 +321,7 @@ float MiniAnaB2Mu2K::dRtriggerMatch(pat::Muon m, vector<pat::TriggerObjectStandA
     return dRmin;
 }
 
-float MiniAnaB2Mu2K::dRtriggerMatchTrk(reco::Track Trk, vector<pat::TriggerObjectStandAlone> triggerObjects) {
+float MiniAnaB2MuKpi::dRtriggerMatchTrk(reco::Track Trk, vector<pat::TriggerObjectStandAlone> triggerObjects) {
     float dRmin = 1.;
     for (unsigned int i = 0 ; i < triggerObjects.size() ; i++) {
         float deltaR = sqrt( reco::deltaR2(triggerObjects[i].eta(), triggerObjects[i].phi(), Trk.eta(), Trk.phi()));
@@ -408,7 +408,7 @@ void removeTracks3(vector<reco::TransientTrack> &pvTracks, const std::vector<rec
     }
 }
 
-void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+void MiniAnaB2MuKpi::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
     using namespace edm;
     using namespace std;
@@ -983,10 +983,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         ///////////////Check Trigger Matching///////////////
                         float dR1 = 999., dR2 = 999., dR3 = 999., dR4 = 999.;
                         
-                        dR1 = MiniAnaB2Mu2K::dRtriggerMatch(*mu1, TriggerObj_B4Mu);
-                        dR2 = MiniAnaB2Mu2K::dRtriggerMatch(*mu2, TriggerObj_B4Mu);
-                        dR3 = MiniAnaB2Mu2K::dRtriggerMatchTrk(*Track3, TriggerObj_B4Mu);
-                        dR4 = MiniAnaB2Mu2K::dRtriggerMatchTrk(*Track4, TriggerObj_B4Mu);
+                        dR1 = MiniAnaB2MuKpi::dRtriggerMatch(*mu1, TriggerObj_B4Mu);
+                        dR2 = MiniAnaB2MuKpi::dRtriggerMatch(*mu2, TriggerObj_B4Mu);
+                        dR3 = MiniAnaB2MuKpi::dRtriggerMatchTrk(*Track3, TriggerObj_B4Mu);
+                        dR4 = MiniAnaB2MuKpi::dRtriggerMatchTrk(*Track4, TriggerObj_B4Mu);
                         //cout<<"Trigger Matching: dR1="<<dR1<<" dR2="<<dR2<<" dR3="<<dR3<<" dR4="<<dR4<<endl;
                         Mu1_dRtriggerMatch.push_back(dR1);
                         Mu2_dRtriggerMatch.push_back(dR2);
@@ -2244,7 +2244,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
 }
 
 // ------------ method called once each job just before starting event loop  ------------
-void MiniAnaB2Mu2K::beginJob() {
+void MiniAnaB2MuKpi::beginJob() {
     
     hEvents = fs->make<TH1F>("hEvents","hEvents",10,0,10);
     hEventsAfterGoodCand = fs->make<TH1F>("hEventsAfterGoodCand","hEventsAfterGoodCand",10,0,10);
@@ -2630,17 +2630,17 @@ void MiniAnaB2Mu2K::beginJob() {
     tree_->Branch("L1Muon_TfMuonIndex", &L1Muon_TfMuonIndex);
     tree_->Branch("L1Muon_rank", &L1Muon_rank);
     tree_->Branch("L1Muon_isoSum", &L1Muon_isoSum);
-}//MiniAnaB2Mu2K::beginJob
+}//MiniAnaB2MuKpi::beginJob
 
 // ------------ method called once each job just after ending the event loop  ------------
-void MiniAnaB2Mu2K::endJob() {
+void MiniAnaB2MuKpi::endJob() {
     
     tree_->GetDirectory()->cd();
     tree_->Write();
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
-void MiniAnaB2Mu2K::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+void MiniAnaB2MuKpi::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
     //The following says we do not know what parameters are allowed so do no validation
     // Please change this to state exactly what you do use, even if it is no parameters
     edm::ParameterSetDescription desc;
@@ -2649,4 +2649,4 @@ void MiniAnaB2Mu2K::fillDescriptions(edm::ConfigurationDescriptions& description
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(MiniAnaB2Mu2K);
+DEFINE_FWK_MODULE(MiniAnaB2MuKpi);
