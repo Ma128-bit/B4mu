@@ -744,7 +744,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         QuadrupletCollectionSize = Cand2Mu2Tracks->size() ;
         int QuadrupletIndex =-99; uint trIn=0;
         for(edm::View<reco::CompositeCandidate>::const_iterator B_It=Cand2Mu2Tracks->begin(); B_It!=Cand2Mu2Tracks->end(), trIn<Cand2Mu2Tracks->size(); ++B_It, ++trIn){
-            //cout<<"----------------"<<trIn<<"----------------"<<endl;
+            cout<<"----------------"<<trIn<<"----------------"<<endl;
             const Candidate * c1 = B_It->daughter(0)->masterClone().get();
             const pat::Muon *mu1 = dynamic_cast<const pat::Muon *>(c1);
             
