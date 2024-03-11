@@ -65,14 +65,10 @@ RecoTrackCandpi = cms.EDProducer("ConcreteChargedCandidateProducer",
 
 TwoMuonsTwoTracksCand = cms.EDProducer("CandViewShallowCloneCombiner",
                                       checkCharge = cms.bool(False),
-                                      cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta)'),
+                                      cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta) && ( mass>4.5 && mass<6)'),
                                       decay = cms.string("looseMuons looseMuons RecoTrackCand RecoTrackCand")
 )
 
-TwoMuonsTwoTracksCandFilter = cms.EDFilter("CandViewCountFilter",
-                                    src = cms.InputTag("TwoMuonsTwoTracksCand"),
-                                    minNumber = cms.uint32(1),
-)
 
 TwoMuonsTwoTracksKalmanVtxFit = cms.EDProducer("KalmanVertexFitCompositeCandProducer",
                                               src = cms.InputTag("TwoMuonsTwoTracksCand")
@@ -81,7 +77,7 @@ TwoMuonsTwoTracksKalmanVtxFit = cms.EDProducer("KalmanVertexFitCompositeCandProd
 
 TwoMuonsTwoTracksCandpi = cms.EDProducer("CandViewShallowCloneCombiner",
                                       checkCharge = cms.bool(False),
-                                      cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta)'),
+                                      cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta) && ( mass>4.5 && mass<6)'),
                                       decay = cms.string("looseMuons looseMuons RecoTrackCand RecoTrackCandpi")
 )
 
@@ -137,7 +133,6 @@ TwoMuTwoTracksSelSeq = cms.Sequence(InitialPlots *
                                RecoTrackCand *
                                RecoTrackCandpi *
                                TwoMuonsTwoTracksCand *
-                               #TwoMuonsTwoTracksCandFilter *
                                TwoMuonsTwoTracksKalmanVtxFit *
                                TwoMuonsTwoTracksCandpi *
                                TwoMuonsTwoTracksKalmanVtxFitpi *
