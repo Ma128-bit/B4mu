@@ -17,7 +17,7 @@ Example:`source prepare_and_submit_ALL.sh 2022 300`
 
 ## Run analysis on an era with condor (Data and MC):
 ```
-source prepare_condor.sh [era] [year] [delta]
+source prepare_condor.sh [era] [year] [] [delta]
 ```
 *  [era] is the era (`C, D-v1, D-v2, E, F, G, MC_BsJPsiPhi_pre, MC_BsJPsiPhi_post` for 2022 `C-v1, C-v2, C-v3, C-v4, D-v1, D-v2` for 2023)
 *  [year] is the year (`2022` or `2023`);
