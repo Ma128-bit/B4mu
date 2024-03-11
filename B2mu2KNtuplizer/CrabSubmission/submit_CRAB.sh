@@ -31,7 +31,7 @@ declare -a D_v2_2023=("Run2023D-22Sep2023_v2-v1" "Run2023D-22Sep2023_v2-v1" "Run
 
 declare -a MC22_B2mu2trk_pre=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM" "/BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
 declare -a MC22_B2mu2trk_post=("/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM" "/BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
-declare -a B4mu_MC_label=("Bs2mu2K" "Bd2muKpi")
+declare -a B2mu2trk_MC_label=("Bs2mu2K" "Bd2muKpi")
 
 
 if [ "${year}" == "2022" ]; then
@@ -66,16 +66,16 @@ if [ "${year}" == "2022" ]; then
         globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
         ;;
-      MC_B4mu_pre)
+      MC_B2mu2trk_pre)
         globaltag="130X_mcRun3_2022_realistic_v5"
-        datasets=("${MC22_B4mu_pre[@]}")
-        label=("${B4mu_MC_label[@]}")
+        datasets=("${MC22_B2mu2trk_pre[@]}")
+        label=("${B2mu2trk_MC_label[@]}")
         input_type="global"
         ;;
-      MC_B4mu_post)
+      MC_B2mu2trk_post)
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
-        datasets=("${MC22_B4mu_post[@]}")
-        label=("${B4mu_MC_label[@]}")
+        datasets=("${MC22_B2mu2trk_post[@]}")
+        label=("${B2mu2trk_MC_label[@]}")
         input_type="global"
         ;;
       *)
