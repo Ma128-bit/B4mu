@@ -21,7 +21,7 @@ source prepare_condor.sh [era] [year] [Analysis_type] [delta]
 ```
 *  [era] is the era (`C, D-v1, D-v2, E, F, G, MC_BsJPsiPhi_pre, MC_BsJPsiPhi_post` for 2022 `C-v1, C-v2, C-v3, C-v4, D-v1, D-v2` for 2023)
 *  [year] is the year (`2022` or `2023`);
-*  [Analysis_type] "B4mu", "B2mu2K" or "B2muKpi";
+*  [Analysis_type] `B4mu`, `B2mu2K` or `B2muKpi`;
 *  [Delta] is the number of input files per submission
 
 **FOR DATA ONLY**:
@@ -51,6 +51,6 @@ python3 Analizer.py --index [ID] --delta [Delta] --directory_IN [Input_dir] --di
 *  [Delta] is the number of input files;
 *  [ID] is used to select input file root with number between [ID]x[Delta] and ([ID]+1)x[Delta];
 *  [isMC] is 0 for data and 1 for MC;
-*  [Analysis_type] "B4mu", "B2mu2K" or "B2muKpi"
+*  [Analysis_type] `B4mu`, `B2mu2K` or `B2muKpi`
 
 <p>&nbsp;</p>
