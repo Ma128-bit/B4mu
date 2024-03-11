@@ -744,6 +744,9 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         QuadrupletCollectionSize = Cand2Mu2Tracks->size() ;
         int QuadrupletIndex =-99; uint trIn=0;
         for(edm::View<reco::CompositeCandidate>::const_iterator B_It=Cand2Mu2Tracks->begin(); B_It!=Cand2Mu2Tracks->end(), trIn<Cand2Mu2Tracks->size(); ++B_It, ++trIn){
+
+            cout<<"B pt="<<B_It->pt()<<" eta="<<B_It->eta()<<" phi="<<B_It->phi()<<" mass="<<B_It->mass()<<endl;
+
             //cout<<"----------------"<<trIn<<"----------------"<<endl;
             const Candidate * c1 = B_It->daughter(0)->masterClone().get();
             const pat::Muon *mu1 = dynamic_cast<const pat::Muon *>(c1);
@@ -772,6 +775,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             if(!(fabs(c2->eta()- c3->eta())>  1.e-6)) continue;
             if(!(fabs(c1->eta()- c4->eta())>  1.e-6)) continue;
             if(!(fabs(c2->eta()- c4->eta())>  1.e-6)) continue;
+            if(!(B_It->vertexChi2()>0)) continue;
 
             std::cout<<"Event N. "<<trIn<<" -- "<<"c3->pt(): "<<c3->pt()<<"c3->eta(): "<<c3->eta()<<"c3->phi(): "<<c3->phi()<<"c3->energy(): "<<c3->energy()<<std::endl;
             /////////////////VertexFit///////////////////////////////////
@@ -794,15 +798,16 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
             SVTrackRef.push_back(TrackRef3);
             SVTrackRef.push_back(TrackRef4);
             vector<reco::TransientTrack> SVRefit;
-            SVRefit.push_back(*transientTrack1);
-            SVRefit.push_back(*transientTrack2);
-            SVRefit.push_back(*transientTrack3);
-            SVRefit.push_back(*transientTrack4);
+            SVRefit.push_back(transientTrack1);
+            SVRefit.push_back(transientTrack2);
+            SVRefit.push_back(transientTrack3);
+            SVRefit.push_back(transientTrack4);
+/*
             KalmanVertexFitter SV_fitter (true);
             TransientVertex SVertex = SV_fitter.vertex(SVRefit);
             cout<<SVertex.totalChiSquared()<<endl;
-            if(!(SVertex.totalChiSquared()>0)) continue;
-
+            
+*(
             //cout<<" track ref vector= "<<SVTrackRef.size()<<endl;
             
             reco::Vertex QuadrupletVtx = reco::Vertex(B_It->vertex(), B_It->vertexCovariance(), B_It->vertexChi2(), B_It->vertexNdof(), B_It->numberOfDaughters() );
