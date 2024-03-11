@@ -18,8 +18,7 @@ process.load("B2mu2KNtuplizer.SkimTools.TESTB2Mu2KSkim_miniAOD_cff")
 
 process.GlobalTag.globaltag = '124X_dataRun3_v14' #Data2022
 
-#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 
 process.source = cms.Source("PoolSource",
