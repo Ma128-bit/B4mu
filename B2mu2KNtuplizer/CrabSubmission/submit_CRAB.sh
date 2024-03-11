@@ -176,8 +176,7 @@ else
         sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
         sed -i "s#B_TYPE#${label[${j}]}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
         cd "${year}_${era}"
-        #crab submit -c "CRAB_MC_${label[${j}]}.py"
-        echo "crab submit -c CRAB_MC_${label[${j}]}.py"
+        crab submit -c "CRAB_MC_${label[${j}]}.py"
         cd ..
         echo "${era} - $j submitted!"
         ((j++))
