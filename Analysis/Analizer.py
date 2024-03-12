@@ -182,9 +182,9 @@ if __name__ == "__main__":
                 rdf = rdf.Define("GenMu"+str(mu)+"_Eta", flat0D_double(mu-1), ["GenMu_Eta"])
                 rdf = rdf.Define("GenMu"+str(mu)+"_Phi", flat0D_double(mu-1), ["GenMu_Phi"])
             else:
-                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_index(0))
-                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_index(0))
-                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", add_index(0))
+                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_double(0.))
+                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_double(0.))
+                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", add_double(0.))
         
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
