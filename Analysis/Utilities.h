@@ -378,6 +378,14 @@ struct add_index{
     }
 };
 
+struct add_double{
+    double i;
+    add_double(double ii) : i(ii)  {}
+    double operator()() {
+        return i;
+    }
+};
+
 double flattening(ROOT::VecOps::RVec<double> var, int Quadruplet_index){
     double value = -99;
     try {
