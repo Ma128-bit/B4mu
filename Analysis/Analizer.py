@@ -71,7 +71,9 @@ if __name__ == "__main__":
         tree_dir_name = "TreeB2muKpi"
     else:
         tree_dir_name = "TreeMakerBkg"
+        
     df = load_df(selected_files, tree_dir_name+"/ntuple")
+    
     #Find best Quadruplet
     df = df.Define("isMC", add_index(isMC))
     df = df.Define("Quadruplet_indexs","best_quadruplets(isMC, evt, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
@@ -147,7 +149,6 @@ if __name__ == "__main__":
                 branches.append(name_chi2)
                 rdf = rdf.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
                 rdf = rdf.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
-
 
         # Flat Dimuon_dR
         branches = branches + ["Dimu_OS1_dR", "Dimu_OS2_dR"]
