@@ -54,7 +54,7 @@ def flat_MuVar(rdf, branches):
             rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
             rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattening(RefTrack"+ind+"_"+s+", Quadruplet_index)")
 
-def flat_QuadVar(rdf, branches):
+def QuadMuVar(rdf, branches):
     quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
                               "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", 
                               "mu4_pfreliso03", "vtx_prob"] #FlightDistBS_SV_Significance = lxy_sig
@@ -67,6 +67,10 @@ def flat_QuadVar(rdf, branches):
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
     for v in quadruplet_related_var:
         rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
+
+    #Not refitted 4mu mass
+    rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
+        
     return vertex_chi2
 
 def MVA_inputs(rdf, branches):
@@ -88,7 +92,6 @@ def DiMuVar(rdf, branches, vertex_chi2):
     rdf = rdf.Define("Dimuon_dR","DimuondR(Dimuon_index, MuonEta, MuonPhi)")  
     #Dimuon vertex chi2:
     rdf = rdf.Define("Dimuon_chi2","DimuonChi2(Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
-        
     #Flat mass and chi2
     for i in range(2):
         for j in range(2):
@@ -112,6 +115,26 @@ def DiMuVar(rdf, branches, vertex_chi2):
     rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
 
 
+def GenVar(rdf, branches, isMC):
+    if isMC != 0:
+        rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
+        rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
+        rdf = rdf.Define("GenMu_Eta", flat1D_double(1), ["gen_info"])
+        rdf = rdf.Define("GenMu_Phi", flat1D_double(2), ["gen_info"])
+    for mu in range(1,5):
+        branches.append("GenMu"+str(mu)+"_Pt")
+        branches.append("GenMu"+str(mu)+"_Eta")
+        branches.append("GenMu"+str(mu)+"_Phi")
+        if isMC != 0:
+            rdf = rdf.Define("GenMu"+str(mu)+"_Pt", flat0D_double(mu-1), ["GenMu_Pt"])
+            rdf = rdf.Define("GenMu"+str(mu)+"_Eta", flat0D_double(mu-1), ["GenMu_Eta"])
+            rdf = rdf.Define("GenMu"+str(mu)+"_Phi", flat0D_double(mu-1), ["GenMu_Phi"])
+        else:
+            rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_double(0.))
+            rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_double(0.))
+            rdf = rdf.Define("GenMu"+str(mu)+"_Phi", add_double(0.))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="--Analisis inputs: directory, number of files, index")
     parser.add_argument("--index", type=int, help="index for condor submission")
@@ -131,19 +154,17 @@ if __name__ == "__main__":
     file_root = list_of_root_files(directory)
     selected_files = select_root_files(file_root, index , delta)
     selected_files = sorted(selected_files)
-    
     print(selected_files)
     if len(selected_files) == 0:
         print("The vector is empty. End execution.")
         exit()
-    
     if directory.endswith("/"):
         selected_files = [directory + s for s in selected_files]
     else:
         selected_files = [directory + "/" + s for s in selected_files]
 
     print("Starting!")
-    
+
     if(analysis_type=="B2mu2K"):
         tree_dir_name = "TreeB2mu2K"
     elif(analysis_type=="B2muKpi"):
@@ -171,30 +192,10 @@ if __name__ == "__main__":
 
         muonIDs(rdf, branches) #Add muonIDs
         flat_MuVar(rdf, branches) #Flat muon pt eta phi
-        vertex_chi2 = flat_QuadVar(rdf, branches) #Flat quadruplet variables
+        vertex_chi2 = QuadMuVar(rdf, branches) #Quadruplet variables
         MVA_inputs(rdf, branches) #Define MVA input variables
         DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
-
-        #Not refitted 4mu mass
-        rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
-        
-        if isMC != 0:
-            rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
-            rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
-            rdf = rdf.Define("GenMu_Eta", flat1D_double(1), ["gen_info"])
-            rdf = rdf.Define("GenMu_Phi", flat1D_double(2), ["gen_info"])
-        for mu in range(1,5):
-            branches.append("GenMu"+str(mu)+"_Pt")
-            branches.append("GenMu"+str(mu)+"_Eta")
-            branches.append("GenMu"+str(mu)+"_Phi")
-            if isMC != 0:
-                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", flat0D_double(mu-1), ["GenMu_Pt"])
-                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", flat0D_double(mu-1), ["GenMu_Eta"])
-                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", flat0D_double(mu-1), ["GenMu_Phi"])
-            else:
-                rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_double(0.))
-                rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_double(0.))
-                rdf = rdf.Define("GenMu"+str(mu)+"_Phi", add_double(0.))
+        GenVar(rdf, branches, isMC) #Gen-Level variables
         
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
