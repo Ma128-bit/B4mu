@@ -34,6 +34,89 @@ def select_root_files(file_root, i , delta):
             selected_files.append(file)
     return(selected_files)
 
+def muonIDs(rdf, branches):
+    rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
+    branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
+    rdf = rdf.Define("isGlobal", flat1D(0), ["Stats"])
+    rdf = rdf.Define("isPF", flat1D(1), ["Stats"])
+    rdf = rdf.Define("isLoose", flat1D(2), ["Stats"])
+    rdf = rdf.Define("isMedium", flat1D(3), ["Stats"])
+    rdf = rdf.Define("isTight", flat1D(4), ["Stats"])
+    rdf = rdf.Define("isSoft", flat1D(5), ["Stats"])
+    rdf = rdf.Define("isTracker", flat1D(6), ["Stats"])
+
+def flat_MuVar(rdf, branches):
+    for i in range(1,5):
+        ind=str(i)
+        for s in ["Pt", "Eta", "Phi"]:
+            branches.append("Mu"+ind+"_"+s)
+            branches.append("RefTrack"+ind+"_"+s)
+            rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
+            rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattening(RefTrack"+ind+"_"+s+", Quadruplet_index)")
+
+def flat_QuadVar(rdf, branches):
+    quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
+                              "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", 
+                              "mu4_pfreliso03", "vtx_prob"] #FlightDistBS_SV_Significance = lxy_sig
+    branches = branches + quadruplet_related_var
+    vertex_chi2=""
+    for i in range(1, 4):
+        for j in range(i+1,5):
+            vertex_chi2 = vertex_chi2 + ", Vtx"+str(i)+str(j)+"_Chi2"
+            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
+            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
+    for v in quadruplet_related_var:
+        rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
+    return vertex_chi2
+
+def MVA_inputs(rdf, branches):
+    #bs_dxy_sig
+        
+    #cos(θ) angle between B flight direction and 4-muon momentum
+    branches.append("Cos2d_PV_SV") #cos2d
+    rdf = rdf.Define("Cos2d_PV_SV","TreeFin_CosAngle(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, FlightDistPVSV)")
+        
+    #∆R max (maximum R distance between any of the 4 muons and the direction of the sum of the 4 muons momenta)
+    branches.append("dR_max") #dr
+    rdf = rdf.Define("dR_max", "dR_Max(Quadruplet_Eta, Quadruplet_Phi, Mu1_Eta, Mu1_Phi, Mu2_Eta, Mu2_Phi, Mu3_Eta, Mu3_Phi, Mu4_Eta, Mu4_Phi)")
+
+def DiMuVar(rdf, branches, vertex_chi2):
+    #Dimuon masses
+    rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
+    rdf = rdf.Define("Dimuon_mass","DimuonMass(Dimuon_index, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
+    #Dimuon dR
+    rdf = rdf.Define("Dimuon_dR","DimuondR(Dimuon_index, MuonEta, MuonPhi)")  
+    #Dimuon vertex chi2:
+    rdf = rdf.Define("Dimuon_chi2","DimuonChi2(Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
+        
+    #Flat mass and chi2
+    for i in range(2):
+        for j in range(2):
+            name_mass = "Dimu_OS"+str(i+1)+"_"+str(j+1)
+            name_chi2 = "Dimu_OS"+str(i+1)+"_"+str(j+1)+"_chi2"
+            branches.append(name_mass)
+            branches.append(name_chi2)
+            rdf = rdf.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
+            rdf = rdf.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
+
+    # Flat Dimuon_dR
+    branches = branches + ["Dimu_OS1_dR", "Dimu_OS2_dR"]
+    rdf = rdf.Define("Dimu_OS1_dR", flat0D_double(0), ["Dimuon_dR"])
+    rdf = rdf.Define("Dimu_OS2_dR", flat0D_double(1), ["Dimuon_dR"])
+        
+    #BsJPsiPhi selections
+    #branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
+    #rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
+    #rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
+        
+    branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi", "Quadruplet_Mass_no_refit"]
+    rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
+    rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
+    rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
+    rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
+    rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="--Analisis inputs: directory, number of files, index")
     parser.add_argument("--index", type=int, help="index for condor submission")
@@ -65,12 +148,16 @@ if __name__ == "__main__":
         selected_files = [directory + "/" + s for s in selected_files]
 
     print("Starting!")
+    
     if(analysis_type=="B2mu2K"):
         tree_dir_name = "TreeB2mu2K"
-    if(analysis_type=="B2muKpi"):
+    elif(analysis_type=="B2muKpi"):
         tree_dir_name = "TreeB2muKpi"
-    else:
+    elif(analysis_type=="B4mu"):
         tree_dir_name = "TreeMakerBkg"
+    else:
+        print("Wrong analysis type. End execution.")
+        exit()
         
     df = load_df(selected_files, tree_dir_name+"/ntuple")
     
@@ -86,89 +173,16 @@ if __name__ == "__main__":
         rdf = rdf.Filter("Quadruplet_index>-1")
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
-        
-        #Stats
-        rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
-        branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
-        rdf = rdf.Define("isGlobal", flat1D(0), ["Stats"])
-        rdf = rdf.Define("isPF", flat1D(1), ["Stats"])
-        rdf = rdf.Define("isLoose", flat1D(2), ["Stats"])
-        rdf = rdf.Define("isMedium", flat1D(3), ["Stats"])
-        rdf = rdf.Define("isTight", flat1D(4), ["Stats"])
-        rdf = rdf.Define("isSoft", flat1D(5), ["Stats"])
-        rdf = rdf.Define("isTracker", flat1D(6), ["Stats"])
-                        
-        #Flat muon pt eta phi
-        for i in range(1,5):
-            ind=str(i)
-            for s in ["Pt", "Eta", "Phi"]:
-                branches.append("Mu"+ind+"_"+s)
-                branches.append("RefTrack"+ind+"_"+s)
-                rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
-                rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattening(RefTrack"+ind+"_"+s+", Quadruplet_index)")
-                #rdf = rdf.Redefine("GenMatchMu"+ind+"_Sim"+s,"flattening(GenMatchMu"+ind+"_Sim"+s+", Quadruplet_index)")
 
-        #Flat quadruplet variables #FlightDistBS_SV_Significance = lxy_sig
-        quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
-                                  "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", 
-                                  "mu4_pfreliso03", "vtx_prob", "vtx_prob_1"]
-        branches = branches + quadruplet_related_var
-        vertex_chi2=""
-        for i in range(1, 4):
-            for j in range(i+1,5):
-                vertex_chi2 = vertex_chi2 + ", Vtx"+str(i)+str(j)+"_Chi2"
-                quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
-                quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
-        for v in quadruplet_related_var:
-            rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
-
-        #bs_dxy_sig
-        
-        #cos(θ) angle between B flight direction and 4-muon momentum
-        branches.append("Cos2d_PV_SV") #cos2d
-        rdf = rdf.Define("Cos2d_PV_SV","TreeFin_CosAngle(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, FlightDistPVSV)")
-        
-        #∆R max (maximum R distance between any of the 4 muons and the direction of the sum of the 4 muons momenta)
-        branches.append("dR_max") #dr
-        rdf = rdf.Define("dR_max", "dR_Max(Quadruplet_Eta, Quadruplet_Phi, Mu1_Eta, Mu1_Phi, Mu2_Eta, Mu2_Phi, Mu3_Eta, Mu3_Phi, Mu4_Eta, Mu4_Phi)")
-        
-        #Dimuon masses
-        rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
-        rdf = rdf.Define("Dimuon_mass","DimuonMass(Dimuon_index, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
-        #Dimuon dR
-        rdf = rdf.Define("Dimuon_dR","DimuondR(Dimuon_index, MuonEta, MuonPhi)")  
-        #Dimuon vertex chi2:
-        rdf = rdf.Define("Dimuon_chi2","DimuonChi2(Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
-        
-        #Flat mass and chi2
-        for i in range(2):
-            for j in range(2):
-                name_mass = "Dimu_OS"+str(i+1)+"_"+str(j+1)
-                name_chi2 = "Dimu_OS"+str(i+1)+"_"+str(j+1)+"_chi2"
-                branches.append(name_mass)
-                branches.append(name_chi2)
-                rdf = rdf.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
-                rdf = rdf.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
-
-        # Flat Dimuon_dR
-        branches = branches + ["Dimu_OS1_dR", "Dimu_OS2_dR"]
-        rdf = rdf.Define("Dimu_OS1_dR", flat0D_double(0), ["Dimuon_dR"])
-        rdf = rdf.Define("Dimu_OS2_dR", flat0D_double(1), ["Dimuon_dR"])
-        
-        #BsJPsiPhi selections
-        #branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
-        #rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
-        #rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
-        
-        branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi", "Quadruplet_Mass_no_refit"]
-        rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
-        rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
-        rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
-        rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
-        rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
+        muonIDs(rdf, branches) #Add muonIDs
+        flat_MuVar(rdf, branches) #Flat muon pt eta phi
+        vertex_chi2 = flat_QuadVar(rdf, branches) #Flat quadruplet variables
+        MVA_inputs(rdf, branches) #Define MVA input variables
+        DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
 
         #Not refitted 4mu mass
         rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
+        
         if isMC != 0:
             rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
             rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
