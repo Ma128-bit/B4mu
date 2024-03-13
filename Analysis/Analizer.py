@@ -103,12 +103,7 @@ def DiMuVar(rdf, branches, vertex_chi2):
     branches = branches + ["Dimu_OS1_dR", "Dimu_OS2_dR"]
     rdf = rdf.Define("Dimu_OS1_dR", flat0D_double(0), ["Dimuon_dR"])
     rdf = rdf.Define("Dimu_OS2_dR", flat0D_double(1), ["Dimuon_dR"])
-        
-    #BsJPsiPhi selections
-    #branches = branches + ["BsJPsiPhi_sel_OS1", "BsJPsiPhi_sel_OS2"]
-    #rdf = rdf.Define("BsJPsiPhi_sel_OS1","BsJPsiPhi(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS1_1_chi2, Dimu_OS1_2_chi2)")
-    #rdf = rdf.Define("BsJPsiPhi_sel_OS2","BsJPsiPhi(Dimu_OS2_1, Dimu_OS2_2, Dimu_OS2_1_chi2, Dimu_OS2_2_chi2)")
-        
+                
     branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi", "Quadruplet_Mass_no_refit"]
     rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
     rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
