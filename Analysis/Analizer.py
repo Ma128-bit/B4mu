@@ -68,6 +68,7 @@ def QuadMuVar(rdf, branches):
     for v in quadruplet_related_var:
         rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
 
+    branches.append("Quadruplet_Mass_no_refit")
     #Not refitted 4mu mass
     rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
         
@@ -107,7 +108,7 @@ def DiMuVar(rdf, branches, vertex_chi2):
     rdf = rdf.Define("Dimu_OS1_dR", flat0D_double(0), ["Dimuon_dR"])
     rdf = rdf.Define("Dimu_OS2_dR", flat0D_double(1), ["Dimuon_dR"])
                 
-    branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi", "Quadruplet_Mass_no_refit"]
+    branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
     rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
     rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
     rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
