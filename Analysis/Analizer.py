@@ -34,7 +34,7 @@ def select_root_files(file_root, i , delta):
             selected_files.append(file)
     return(selected_files)
 
-def muonIDs(rdf, branches):
+def MuonIDs(rdf, branches):
     rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
     branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
     rdf = rdf.Define("isGlobal", flat1D(0), ["Stats"])
@@ -45,7 +45,7 @@ def muonIDs(rdf, branches):
     rdf = rdf.Define("isSoft", flat1D(5), ["Stats"])
     rdf = rdf.Define("isTracker", flat1D(6), ["Stats"])
 
-def flat_MuVar(rdf, branches):
+def Flat_MuVar(rdf, branches):
     for i in range(1,5):
         ind=str(i)
         for s in ["Pt", "Eta", "Phi"]:
@@ -190,8 +190,8 @@ if __name__ == "__main__":
         branches.append("chi2_label")
         rdf = rdf.Define("chi2_label", add_index(chi))
 
-        muonIDs(rdf, branches) #Add muonIDs
-        flat_MuVar(rdf, branches) #Flat muon pt eta phi
+        MuonIDs(rdf, branches) #Add muonIDs
+        Flat_MuVar(rdf, branches) #Flat muon pt eta phi
         vertex_chi2 = QuadMuVar(rdf, branches) #Quadruplet variables
         MVA_inputs(rdf, branches) #Define MVA input variables
         DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
