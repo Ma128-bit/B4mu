@@ -147,11 +147,11 @@ elif [ "${Analysis_type}" == "B2mu2trk" ]; then
             datasets=("${G_2022[@]}")
             ;;
           MC_B2mu2trk_pre)
-            datasets=("${MC_B2mu2trk_pre[@]}")
+            datasets=("${MC22_B2mu2trk_pre[@]}")
             label=("${B2mu2trk_MC_label[@]}")
             ;;
           MC_B2mu2trk_post)
-            datasets=("${MC_B2mu2trk_post[@]}")
+            datasets=("${MC22_B2mu2trk_post[@]}")
             label=("${B2mu2trk_MC_label[@]}")
             ;;
           *)
