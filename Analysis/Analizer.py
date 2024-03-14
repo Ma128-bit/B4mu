@@ -74,7 +74,7 @@ def QuadMuVar(rdf, branches):
     #Not refitted 4mu mass
     rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
         
-    return [rdf, vertex_chi2]
+    return rdf
 
 def MVA_inputs(rdf, branches):
     #bs_dxy_sig
@@ -202,9 +202,8 @@ if __name__ == "__main__":
         if(analysis_type=="B4mu"):
             rdf = MuonIDs(rdf, branches) #Add muonIDs
         rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
-        out = QuadMuVar(rdf, branches) #Quadruplet variables
-        rdf = out[0]
-        vertex_chi2=out[1]
+        vertex_chi2=""
+        rdf = QuadMuVar(rdf, branches) #Quadruplet variables
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
