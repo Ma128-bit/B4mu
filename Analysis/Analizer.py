@@ -224,8 +224,8 @@ if __name__ == "__main__":
             rdf = DiMassVar_control(rdf, branches, analysis_type)
             branches.append("PhiMassTest2K")
             branches.append("PhiMassTestKpi")
-            rdf = rdf.Define("PhiMassTest2K", TwoObjMassFit(0.493677, 0.493677), ["RefTrac3_Pt", "RefTrac4_Pt", "RefTrac3_Eta", "RefTrac4_Eta","RefTrac3_Phi", "RefTrac4_Phi"])
-            rdf = rdf.Define("PhiMassTestKpi", TwoObjMassFit(0.493677, 0.139570), ["RefTrac3_Pt", "RefTrac4_Pt", "RefTrac3_Eta", "RefTrac4_Eta","RefTrac3_Phi", "RefTrac4_Phi"])
+            rdf = rdf.Define("PhiMassTest2K", TwoObjMassFit(0.493677, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
+            rdf = rdf.Define("PhiMassTestKpi", TwoObjMassFit(0.493677, 0.139570), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
             
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
