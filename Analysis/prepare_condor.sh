@@ -42,13 +42,9 @@ declare -a C_v4_2023=("240221_223205" "240221_223219" "240221_223236" "240221_22
 declare -a D_v1_2023=("240221_223853" "240221_223908" "240222_103703" "240222_103751" "240222_103825" "240221_224014" "240221_224028" "240221_224042")
 declare -a D_v2_2023=("240221_224146" "240221_224200" "240221_224215" "240221_224232" "240221_224250" "240221_224304" "240221_224318" "240221_224332")
 
-declare -a MC22_B4mu_pre=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bd_Mini/240229_131755" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/240229_131808")
-declare -a MC22_B4mu_post=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bd_Mini/240229_131939" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bs_Mini/240229_131952")
-declare -a B4mu_MC_label=("Bd_4mu" "Bs_4mu")
-
-declare -a MC22_BsJPsiPhi_pre=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240221_224821")
-declare -a MC22_BsJPsiPhi_post=("BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240221_224937")
-declare -a BsJPsiPhi_MC_label=("BsJPsiPhi")
+declare -a MC22_B4mu_pre=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bd_Mini/240229_131755" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/240229_131808" "BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240221_224821")
+declare -a MC22_B4mu_post=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bd_Mini/240229_131939" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bs_Mini/240229_131952" "BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240221_224937")
+declare -a B4mu_MC_label=("Bd_4mu" "Bs_4mu" "BsJPsiPhi")
 
 declare -a MC22_B2mu2trk_pre=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_pre_Bs2mu2K_Mini/240311_160420" "BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_pre_Bd2muKpi_Mini/240311_160443")
 declare -a MC22_B2mu2trk_post=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bs2mu2K_Mini/240311_160529" "BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bd2muKpi_Mini/240311_160548")
@@ -82,14 +78,6 @@ if [ "${Analysis_type}" == "B4mu" ]; then
           MC_B4mu_post)
             datasets=("${MC22_B4mu_post[@]}")
             label=("${B4mu_MC_label[@]}")
-            ;;
-          MC_BsJPsiPhi_pre)
-            datasets=("${MC22_BsJPsiPhi_pre[@]}")
-            label=("${BsJPsiPhi_MC_label[@]}")
-            ;;
-          MC_BsJPsiPhi_post)
-            datasets=("${MC22_BsJPsiPhi_post[@]}")
-            label=("${BsJPsiPhi_MC_label[@]}")
             ;;
           *)
             echo "Error: The era is incorrect."
