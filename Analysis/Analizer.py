@@ -44,6 +44,7 @@ def MuonIDs(rdf, branches):
     rdf = rdf.Define("isTight", flat1D(4), ["Stats"])
     rdf = rdf.Define("isSoft", flat1D(5), ["Stats"])
     rdf = rdf.Define("isTracker", flat1D(6), ["Stats"])
+    return rdf
 
 def Flat_MuVar(rdf, branches):
     for i in range(1,5):
@@ -53,6 +54,7 @@ def Flat_MuVar(rdf, branches):
             branches.append("RefTrack"+ind+"_"+s)
             rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
             rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattening(RefTrack"+ind+"_"+s+", Quadruplet_index)")
+    return rdf
 
 def QuadMuVar(rdf, branches):
     quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
@@ -72,7 +74,7 @@ def QuadMuVar(rdf, branches):
     #Not refitted 4mu mass
     rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
         
-    return vertex_chi2
+    return rdf, vertex_chi2
 
 def MVA_inputs(rdf, branches):
     #bs_dxy_sig
@@ -84,6 +86,7 @@ def MVA_inputs(rdf, branches):
     #∆R max (maximum R distance between any of the 4 muons and the direction of the sum of the 4 muons momenta)
     branches.append("dR_max") #dr
     rdf = rdf.Define("dR_max", "dR_Max(Quadruplet_Eta, Quadruplet_Phi, Mu1_Eta, Mu1_Phi, Mu2_Eta, Mu2_Phi, Mu3_Eta, Mu3_Phi, Mu4_Eta, Mu4_Phi)")
+    return rdf
 
 def DiMuVar(rdf, branches, vertex_chi2):
     #Dimuon masses
@@ -114,6 +117,7 @@ def DiMuVar(rdf, branches, vertex_chi2):
     rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
     rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
     rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
+    return rdf
 
 
 def GenVar(rdf, branches, isMC):
@@ -134,6 +138,7 @@ def GenVar(rdf, branches, isMC):
             rdf = rdf.Define("GenMu"+str(mu)+"_Pt", add_double(0.))
             rdf = rdf.Define("GenMu"+str(mu)+"_Eta", add_double(0.))
             rdf = rdf.Define("GenMu"+str(mu)+"_Phi", add_double(0.))
+    return rdf
 
 
 if __name__ == "__main__":
@@ -195,13 +200,13 @@ if __name__ == "__main__":
         rdf = rdf.Define("chi2_label", add_index(chi))
         
         if(analysis_type=="B4mu"):
-            MuonIDs(rdf, branches) #Add muonIDs
-        Flat_MuVar(rdf, branches) #Flat muon pt eta phi
-        vertex_chi2 = QuadMuVar(rdf, branches) #Quadruplet variables
-        MVA_inputs(rdf, branches) #Define MVA input variables
+            rdf = MuonIDs(rdf, branches) #Add muonIDs
+        rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
+        rdf, vertex_chi2 = QuadMuVar(rdf, branches) #Quadruplet variables
+        rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
-            DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
-            GenVar(rdf, branches, isMC) #Gen-Level variables
+            rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
+            rdf = GenVar(rdf, branches, isMC) #Gen-Level variables
         
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
