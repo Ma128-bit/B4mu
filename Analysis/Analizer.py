@@ -106,12 +106,15 @@ def DiMuVar(rdf, branches, vertex_chi2):
             rdf = rdf.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
             rdf = rdf.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
 
+    branches_add ["Dimu_OS1_dR", "Dimu_OS2_dR", "Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
+    for b in branches_add:
+        branches.append(b)
+    
     # Flat Dimuon_dR
-    branches = branches + ["Dimu_OS1_dR", "Dimu_OS2_dR"]
     rdf = rdf.Define("Dimu_OS1_dR", flat0D_double(0), ["Dimuon_dR"])
     rdf = rdf.Define("Dimu_OS2_dR", flat0D_double(1), ["Dimuon_dR"])
-                
-    branches = branches + ["Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
+
+    #Di muon final Mass
     rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
     rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
     rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
@@ -119,7 +122,16 @@ def DiMuVar(rdf, branches, vertex_chi2):
     rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
     return rdf
 
+def DiMassVar_control(rdf, branches, analysis_type):
+    branches.append("Dimu_mass")
+    branches.append("Ditrk_mass")
+    rdf = rdf.Define("Di_mass", "DiMass"+analysis_type+"(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
+    rdf = rdf.Define("Dimu_mass", flat0D_double(0), ["Di_mass"])
+    rdf = rdf.Define("Ditrk_mass", flat0D_double(1), ["Di_mass"])
+    return rdf
 
+    
+          
 def GenVar(rdf, branches, isMC):
     if isMC != 0:
         rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
