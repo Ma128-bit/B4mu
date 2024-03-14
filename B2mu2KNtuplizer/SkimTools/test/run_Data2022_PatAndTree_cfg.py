@@ -25,7 +25,7 @@ process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         #"file:/afs/cern.ch/user/m/mbuonsan/B_4mu/B4mu_Ntuple_Analysis/CMSSW_13_0_13/src/B4muNtuplizer/SkimTools/test/Run3_Bd4Mu_step2_322.root"
         #'root://xrootd-cms.infn.it//store/user/mbuonsan/Bd4Mu_13p6TeV-pythia8_Run3/130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM/231123_153700/0000/Run3_Bd4Mu_step2_310.root'
-        'root://xrootd-cms.infn.it//store/data/Run2022C/ParkingDoubleMuonLowMass0/MINIAOD/PromptReco-v1/000/355/870/00000/5704ed1e-3269-4907-9259-0423545f8db2.root'
+        'root://xrootd-cms.infn.it//store/data/Run2022C/ParkingDoubleMuonLowMass0/MINIAOD/PromptReco-v1/000/355/862/00000/fc972444-ec73-42ea-897c-f2b918fbee7a.root'
     ),
             #eventsToProcess = cms.untracked.VEventRange('320012:56448719')
 )
