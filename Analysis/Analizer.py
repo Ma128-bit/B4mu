@@ -199,8 +199,9 @@ if __name__ == "__main__":
         Flat_MuVar(rdf, branches) #Flat muon pt eta phi
         vertex_chi2 = QuadMuVar(rdf, branches) #Quadruplet variables
         MVA_inputs(rdf, branches) #Define MVA input variables
-        DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
-        GenVar(rdf, branches, isMC) #Gen-Level variables
+        if(analysis_type=="B4mu"):
+            DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
+            GenVar(rdf, branches, isMC) #Gen-Level variables
         
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
