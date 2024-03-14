@@ -926,11 +926,34 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         Ttracks.push_back(transientTrack2);
                         Ttracks.push_back(transientTrack3);
                         Ttracks.push_back(transientTrack4);
+
+                        /* Remove KalmanVertexFitter, include Kinematic fitter
                         KalmanVertexFitter SVfitter (true);
                         TransientVertex SVertex_ref = SVfitter.vertex(Ttracks);
                         vector < TransientTrack > ttrks = SVertex_ref.refittedTracks();
                         //cout<<"ttrks.size() :"<<ttrks.size()<<endl;
-                        
+                        */
+                        //initial chi2 and ndf before kinematic fits. The chi2 of the reconstruction is not considered 
+                        float chi = 0.;
+                        float ndf = 0.;
+                        KinematicParticleFactoryFromRecTrack pFactory;
+                        ParticleMass muon_mass = 0.1056583;
+                        ParticleMass kaon_mass = 0.493677;
+                        ParticleMass pion_mass = 0.493677;
+                        float muon_sigma = muon_mass*1.e-6;
+                        float kaon_sigma = kaon_mass*1.e-6;
+                        float pion_sigma = pion_mass*1.e-6;
+                        vector<RefCountedKinematicParticles> ParticlesList;
+                        ParticlesList.push_back(pFactory.particle(transientTrack1,muon_mass,chi,ndf,muon_sigma));
+                        ParticlesList.push_back(pFactory.particle(transientTrack2,muon_mass,chi,ndf,muon_sigma));
+                        ParticlesList.push_back(pFactory.particle(transientTrack3,kaon_mass,chi,ndf,kaon_sigma));
+                        if(is2K==true) ParticlesList.push_back(pFactory.particle(transientTrack4,kaon_mass,chi,ndf,kaon_sigma));
+                        else ParticlesList.push_back(pFactory.particle(transientTrack4,pion_mass,chi,ndf,pion_sigma));
+                        MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(psi_mass);
+                        KinematicConstrainedVertexFitter kcvFitter;
+                        RefCountedKinematicTree vertexFitTree = kcvFitter.fit(ParticlesList, j_psi_c);
+
+
                         TLorentzVector LV_B;
                         LV_B.SetPxPyPzE(0, 0, 0, 0);
                         
