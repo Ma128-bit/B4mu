@@ -345,7 +345,7 @@ vector<int> B2muX_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, R
 
         if(exit_code<0) exit_code=0;
         
-        vector<int> index = get_2index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
+        vector<int> index = get_2index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j));
         if(index.at(0)==-1){ cout<<"Error in index\n"; continue; }
         
         if(exit_code<1) exit_code=1;
