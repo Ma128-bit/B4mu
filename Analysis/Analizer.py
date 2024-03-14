@@ -219,7 +219,10 @@ if __name__ == "__main__":
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
             rdf = GenVar(rdf, branches, isMC) #Gen-Level variables
-        
+
+        if(analysis_type!="B4mu"):
+            rdf = DiMassVar_control(rdf, branches, analysis_type)
+            
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
         
