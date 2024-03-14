@@ -868,8 +868,8 @@ double NoRefitMassB2muKpi(ROOT::VecOps::RVec<float> MuonPt, double pt1, double p
     TLorentzVector mu1, mu2, mu3, mu4, mutot;
     mu1.SetPtEtaPhiE(pt1, eta[0], phi[0], en[0]);
     mu2.SetPtEtaPhiE(pt2, eta[1], phi[1], en[1]);
-    mu3.SetPtEtaPhiE(pt3, eta3, phi3, 0.493677);
-    mu4.SetPtEtaPhiE(pt4, eta4, phi4, 0.139570);
+    mu3.SetPtEtaPhiM(pt3, eta3, phi3, 0.493677);
+    mu4.SetPtEtaPhiM(pt4, eta4, phi4, 0.139570);
     mutot = mu1 + mu2 + mu3 + mu4;
     return mutot.M();
 }
