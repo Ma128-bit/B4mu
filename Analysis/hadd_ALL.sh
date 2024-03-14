@@ -36,7 +36,7 @@ for e in "${eras[@]}"; do
 done
 cd ..
 
-if [ ! -d "FinalFiles" ]; then
-    mkdir -p "FinalFiles"
+if [ ! -d "FinalFiles_${analysis_type}" ]; then
+    mkdir -p "FinalFiles_${analysis_type}""
 fi
-hadd FinalFiles/Analyzed_Data_${analysis_type}_${year}.root ${analysis_type}/${year}_era*/Analyzed_Data_${year}_Era_*.root
+hadd FinalFiles_${analysis_type}"/Analyzed_Data_${analysis_type}_${year}.root ${analysis_type}/${year}_era*/Analyzed_Data_${year}_Era_*.root
