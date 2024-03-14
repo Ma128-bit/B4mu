@@ -10,7 +10,7 @@ gInterpreter.Declare("""
     #include "Utilities.h"
 """)
 
-from ROOT import flat2D, flat1D_int, flat1D_double, flat0D_int, flat0D_double, add_int, add_double
+from ROOT import flat2D, flat1D_int, flat1D_double, flat0D_int, flat0D_double, add_int, add_double, TwoObjMassFit, FourObjMassFit
 
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
