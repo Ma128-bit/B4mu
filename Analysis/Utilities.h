@@ -485,9 +485,9 @@ struct flat1D_double{
     }
 };
 
-struct flat1D{
+struct flat1D_int{
     int i;
-    flat1D(int ii) : i(ii)  {}
+    flat1D_int(int ii) : i(ii)  {}
     std::vector<int> operator()(std::vector<std::vector<int>> branch) {
         return branch.at(i);
     }
