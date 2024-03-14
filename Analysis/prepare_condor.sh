@@ -1,9 +1,9 @@
 # !/bin/sh
 # Usage:
-#    prepare_condor.sh <Era> <Year> <Ana_temp> <Delta>
+#    prepare_condor.sh <Era> <Year> <Analysis_type> <Delta>
 
 helpstring="Usage:
-prepare_condor.sh [Era] [Year] [Ana_temp] [Delta]"
+prepare_condor.sh [Era] [Year] [Analysis_type] [Delta]"
 era=$1
 year=$2
 Analysis_type=$3
@@ -22,7 +22,7 @@ elif [ "${Analysis_type}" == "B2muKpi" ]; then
 elif [ "${Analysis_type}" == "B4mu" ]; then
     Ana_temp="B4mu"
 else
-    echo "Error: The Ana_temp is incorrect."
+    echo "Error: The Analysis_type is incorrect."
     return
 fi
 
@@ -182,24 +182,24 @@ fi
 home_directory="$PWD"
 
 if [[ "$era" != *"MC"* ]]; then
-    if [ ! -d "${home_directory}/${Ana_temp}/${year}_era${era}" ]; then
-        mkdir -p "${home_directory}/${Ana_temp}/${year}_era${era}"
+    if [ ! -d "${home_directory}/${Analysis_type}/${year}_era${era}" ]; then
+        mkdir -p "${home_directory}/${Analysis_type}/${year}_era${era}"
     fi
     echo "Data ${year} - era ${era} is selected"
-    cp templates/submit_era.sh "${home_directory}/${Ana_temp}/${year}_era${era}"
-    cp templates/hadd_era.sh "${home_directory}/${Ana_temp}/${year}_era${era}"
-    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/submit_era.sh"
-    sed -i "s#ERANAME#${era}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/submit_era.sh"
-    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/hadd_era.sh"
-    sed -i "s#ERANAME#${era}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/hadd_era.sh"
+    cp templates/submit_era.sh "${home_directory}/${Analysis_type}/${year}_era${era}"
+    cp templates/hadd_era.sh "${home_directory}/${Analysis_type}/${year}_era${era}"
+    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/submit_era.sh"
+    sed -i "s#ERANAME#${era}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/submit_era.sh"
+    sed -i "s#YEARNAME#${year}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/hadd_era.sh"
+    sed -i "s#ERANAME#${era}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/hadd_era.sh"
 
     for i in {0..7}; do
-        if [ ! -d "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}" ]; then
-            mkdir -p "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}"
-            mkdir -p "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/log"
+        if [ ! -d "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}" ]; then
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/log"
         fi
 
-        cp templates/submit.condor "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}"
+        cp templates/submit.condor "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
         ndir=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/" | wc -l)
         tot=0
         for j in $(seq 0 $((ndir - 1))); do
@@ -208,34 +208,34 @@ if [[ "$era" != *"MC"* ]]; then
         done
         #echo "nfiles=${tot}"
         number_of_splits=$(((${tot} / ${delta}) + 1))
-        echo "queue ${number_of_splits}" >> "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/submit.condor"
-        sed -i "s#PATH#${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/submit.condor"
-        chmod a+x "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/submit.condor"
+        echo "queue ${number_of_splits}" >> "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
+        sed -i "s#PATH#${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
         
-        cp templates/launch_analysis.sh "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}"
-        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        cp templates/launch_analysis.sh "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
+        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#INPUT_DIR#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#OUTPUT_DIR#${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#TRUEFALSE#0#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#ANALYSISTYPE#${Analysis_type}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        chmod a+x "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#OUTPUT_DIR#${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#TRUEFALSE#0#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#ANALYSISTYPE#${Analysis_type}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         
         echo -n "."
         sleep 1
     done
 else
-    if [ ! -d "${home_directory}/${Ana_temp}/${year}_${era}" ]; then
-        mkdir -p "${home_directory}/${Ana_temp}/${year}_${era}"
+    if [ ! -d "${home_directory}/${Analysis_type}/${year}_${era}" ]; then
+        mkdir -p "${home_directory}/${Analysis_type}/${year}_${era}"
     fi
     echo "Data ${year} - ${era} is selected"
     j=0
     for i in "${datasets[@]}"; do
-        if [ ! -d "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}" ]; then
-            mkdir -p "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}"
-            mkdir -p "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/log"
+        if [ ! -d "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}" ]; then
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}"
+            mkdir -p "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/log"
         fi
-        cp templates/submit.condor "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}"
+        cp templates/submit.condor "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}"
         ndir=$(ls "${file_directory}/${i}/" | wc -l)
         tot=0
         for k in $(seq 0 $((ndir - 1))); do
@@ -243,18 +243,18 @@ else
             tot=$((tot + nfiles))
         done
         number_of_splits=$(((${tot} / ${delta}) + 1))
-        echo "queue ${number_of_splits}" >> "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/submit.condor"
-        sed -i "s#PATH#${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/submit.condor"
-        chmod a+x "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/submit.condor"
+        echo "queue ${number_of_splits}" >> "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/submit.condor"
+        sed -i "s#PATH#${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/submit.condor"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/submit.condor"
         
-        cp templates/launch_analysis.sh "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}"
-        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#INPUT_DIR#${file_directory}/${i}#g" "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#OUTPUT_DIR#${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#TRUEFALSE#1#g" "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        sed -i "s#ANALYSISTYPE#${Analysis_type}#g" "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
-        chmod a+x "${home_directory}/${Ana_temp}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        cp templates/launch_analysis.sh "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}"
+        sed -i "s#PATH#${home_directory}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#INPUT_DIR#${file_directory}/${i}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#OUTPUT_DIR#${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#TRUEFALSE#1#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        sed -i "s#ANALYSISTYPE#${Analysis_type}#g" "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
+        chmod a+x "${home_directory}/${Analysis_type}/${year}_${era}/${label[${j}]}/launch_analysis.sh"
         
         echo -n "."
         ((j++))
