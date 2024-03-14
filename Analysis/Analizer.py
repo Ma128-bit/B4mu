@@ -56,7 +56,7 @@ def Flat_MuVar(rdf, branches):
             rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattening(RefTrack"+ind+"_"+s+", Quadruplet_index)")
     return rdf
 
-def QuadMuVar(rdf, branches):
+def QuadMuVar(rdf, branches, analysis_type):
     quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
                               "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", 
                               "mu4_pfreliso03", "vtx_prob"] #FlightDistBS_SV_Significance = lxy_sig
@@ -72,10 +72,8 @@ def QuadMuVar(rdf, branches):
     for v in quadruplet_related_var:
         rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
 
-    #branches.append("Quadruplet_Mass_no_refit")
-    #Not refitted 4mu mass
-    #rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
-        
+    branches.append("Quadruplet_Mass_no_refit") #Not refitted 4mu mass
+    rdf = rdf.Define("NoRefitMass"+analysis_type, "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi MuonEta, MuonPhi, MuonEnergy)")
     return rdf, vertex_chi2
 
 def MVA_inputs(rdf, branches):
@@ -204,7 +202,7 @@ if __name__ == "__main__":
         if(analysis_type=="B4mu"):
             rdf = MuonIDs(rdf, branches) #Add muonIDs
         rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
-        rdf, vertex_chi2 = QuadMuVar(rdf, branches) #Quadruplet variables
+        rdf, vertex_chi2 = QuadMuVar(rdf, branches, analysis_type) #Quadruplet variables
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
