@@ -493,9 +493,9 @@ struct flat1D_int{
     }
 };
 
-struct add_index{
+struct add_int{
     int i;
-    add_index(int ii) : i(ii)  {}
+    add_int(int ii) : i(ii)  {}
     int operator()() {
         return i;
     }
