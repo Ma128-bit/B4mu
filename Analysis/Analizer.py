@@ -10,7 +10,7 @@ gInterpreter.Declare("""
     #include "Utilities.h"
 """)
 
-from ROOT import flat1D, flat2D, flat0D_int, flat0D_double, add_index, flat1D_double
+from ROOT import flat2D, flat1D_int, flat1D_double, flat0D_int, flat0D_double, add_int, add_double
 
 def load_df(files, treename):
     frame = RDataFrame(treename, files)
@@ -37,13 +37,13 @@ def select_root_files(file_root, i , delta):
 def MuonIDs(rdf, branches):
     rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
     branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
-    rdf = rdf.Define("isGlobal", flat1D(0), ["Stats"])
-    rdf = rdf.Define("isPF", flat1D(1), ["Stats"])
-    rdf = rdf.Define("isLoose", flat1D(2), ["Stats"])
-    rdf = rdf.Define("isMedium", flat1D(3), ["Stats"])
-    rdf = rdf.Define("isTight", flat1D(4), ["Stats"])
-    rdf = rdf.Define("isSoft", flat1D(5), ["Stats"])
-    rdf = rdf.Define("isTracker", flat1D(6), ["Stats"])
+    rdf = rdf.Define("isGlobal", flat1D_int(0), ["Stats"])
+    rdf = rdf.Define("isPF", flat1D_int(1), ["Stats"])
+    rdf = rdf.Define("isLoose", flat1D_int(2), ["Stats"])
+    rdf = rdf.Define("isMedium", flat1D_int(3), ["Stats"])
+    rdf = rdf.Define("isTight", flat1D_int(4), ["Stats"])
+    rdf = rdf.Define("isSoft", flat1D_int(5), ["Stats"])
+    rdf = rdf.Define("isTracker", flat1D_int(6), ["Stats"])
     return rdf
 
 def Flat_MuVar(rdf, branches):
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     df = load_df(selected_files, tree_dir_name+"/ntuple")
     
     #Find best Quadruplet
-    df = df.Define("isMC", add_index(isMC))
+    df = df.Define("isMC", add_int(isMC))
     if(analysis_type=="B4mu"):
         df = df.Define("Quadruplet_indexs","B4mu_QuadSel(isMC, evt, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
     else:
@@ -197,7 +197,7 @@ if __name__ == "__main__":
         rdf = df.Define("Quadruplet_index", flat0D_int(chi), ["Quadruplet_indexs"])
         rdf = rdf.Filter("Quadruplet_index>-1")
         branches.append("chi2_label")
-        rdf = rdf.Define("chi2_label", add_index(chi))
+        rdf = rdf.Define("chi2_label", add_int(chi))
         
         if(analysis_type=="B4mu"):
             rdf = MuonIDs(rdf, branches) #Add muonIDs
