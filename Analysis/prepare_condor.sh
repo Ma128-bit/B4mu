@@ -15,9 +15,9 @@ if [ -z ${4+x} ]; then
     return
 fi
 
-if [ "${analysis}" == "Bs2mu2k" ]; then
+if [ "${analysis}" == "B2mu2K" ]; then
     Analysis_type="B2mu2trk"
-elif [ "${analysis}" == "Bd2mukpi" ]; then
+elif [ "${analysis}" == "B2muKpi" ]; then
     Analysis_type="B2mu2trk"
 elif [ "${analysis}" == "B4mu" ]; then
     Analysis_type="B4mu"
@@ -48,7 +48,7 @@ declare -a B4mu_MC_label=("Bd_4mu" "Bs_4mu" "BsJPsiPhi")
 
 declare -a MC22_B2mu2trk_pre=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_pre_Bs2mu2K_Mini/240311_160420" "BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_pre_Bd2muKpi_Mini/240311_160443")
 declare -a MC22_B2mu2trk_post=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bs2mu2K_Mini/240311_160529" "BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bd2muKpi_Mini/240311_160548")
-declare -a B2mu2trk_MC_label=("Bs2mu2K" "Bd2muKpi")
+declare -a B2mu2trk_MC_label=("B2mu2K" "B2muKpi")
 
 if [ "${Analysis_type}" == "B4mu" ]; then
     if [ "${year}" == "2022" ]; then
