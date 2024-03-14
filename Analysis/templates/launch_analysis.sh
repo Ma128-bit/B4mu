@@ -1,9 +1,9 @@
 #!/bin/sh
 # Usage:
-#    prepare_condor.sh <index>
+#    launch_analysis.sh <index>
 
 helpstring="Usage:
-prepare_condor.sh [index]"
+launch_analysis.sh [index]"
 index=$1
 
 # Check inputs
