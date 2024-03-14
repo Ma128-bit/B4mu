@@ -60,8 +60,8 @@ def QuadMuVar(rdf, branches):
     quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
                               "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", 
                               "mu4_pfreliso03", "vtx_prob"] #FlightDistBS_SV_Significance = lxy_sig
-    #for var in quadruplet_related_var:
-        #branches.append(var)
+    for var in quadruplet_related_var:
+        branches.append(var)
         
     vertex_chi2=""
     for i in range(1, 4):
@@ -74,7 +74,7 @@ def QuadMuVar(rdf, branches):
 
     #branches.append("Quadruplet_Mass_no_refit")
     #Not refitted 4mu mass
-    rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
+    #rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
         
     return rdf, vertex_chi2
 
