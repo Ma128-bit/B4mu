@@ -307,7 +307,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         //if(exit_code<6) exit_code=6;
         quad_indx.push_back(j);
     }
-    cout<<evt<<", "<<exit_code<<endl;
+    //cout<<evt<<", "<<exit_code<<endl;
     
     if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
 
