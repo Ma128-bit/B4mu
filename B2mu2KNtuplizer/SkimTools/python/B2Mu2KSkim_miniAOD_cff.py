@@ -75,6 +75,11 @@ TwoMuonsTwoTracksKalmanVtxFit = cms.EDProducer("KalmanVertexFitCompositeCandProd
                                               #cut = cms.string('mass <5'),                          
 )                                        
 
+TwoMuonsTwoTracksKinVtxFit = cms.EDProducer("KinematicVertexFitCompositeCandProducer",
+                                              src = cms.InputTag("TwoMuonsTwoTracksCand")
+                                              #cut = cms.string('mass <5'),                          
+)     
+
 TwoMuonsTwoTracksCandpi = cms.EDProducer("CandViewShallowCloneCombiner",
                                       checkCharge = cms.bool(False),
                                       cut = cms.string(' (abs(charge)=0) && ((daughter(0).charge+daughter(1).charge)==0) && (daughter(0).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(1).eta) && (daughter(2).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(0).eta) && (daughter(3).eta!=daughter(1).eta) && (daughter(3).eta!=daughter(2).eta) && ( mass>4.5 && mass<6)'),
@@ -86,6 +91,10 @@ TwoMuonsTwoTracksKalmanVtxFitpi = cms.EDProducer("KalmanVertexFitCompositeCandPr
                                               #cut = cms.string('mass <5'),                          
 )  
 
+TwoMuonsTwoTracksKinVtxFitpi = cms.EDProducer("KinematicVertexFitCompositeCandProducer",
+                                              src = cms.InputTag("TwoMuonsTwoTracksCandpi")
+                                              #cut = cms.string('mass <5'),                          
+) 
 
 
 ########################Define Histograms########################
@@ -136,9 +145,11 @@ TwoMuTwoTracksSelSeq = cms.Sequence(InitialPlots *
                                RecoTrackCand *
                                RecoTrackCandpi *
                                TwoMuonsTwoTracksCand *
-                               TwoMuonsTwoTracksKalmanVtxFit *
+                               #TwoMuonsTwoTracksKalmanVtxFit *
+                               TwoMuonsTwoTracksKinVtxFit *
                                TwoMuonsTwoTracksCandpi *
-                               TwoMuonsTwoTracksKalmanVtxFitpi *
+                               #TwoMuonsTwoTracksKalmanVtxFitpi *
+                               TwoMuonsTwoTracksKinVtxFitpi *
                                PlotsAfterJPsiKKCandSel
                                )
 
