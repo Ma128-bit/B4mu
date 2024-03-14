@@ -795,7 +795,7 @@ int BsJPsiPhi(double Dimu_OS_max, double Dimu_OS_min){
     else return 0;
 }
 
-double DiMassB2mu2K(double pt1, double pt2, double pt3, double pt4, double eta3, double eta4, double phi3, double phi4, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
+vector<double> DiMassB2mu2K(double pt1, double pt2, double pt3, double pt4, double eta3, double eta4, double phi3, double phi4, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
     vector<int> index = get_2index(MuonPt, pt1, pt2);
     double dimumass = Mass(index[0], index[1], MuonPt, MuonEta, MuonPhi, MuonEnergy);
     TLorentzVector mu3, mu4, mutot;
@@ -809,7 +809,7 @@ double DiMassB2mu2K(double pt1, double pt2, double pt3, double pt4, double eta3,
     return masses;
 }
 
-double DiMassB2muKpi(double pt1, double pt2, double pt3, double pt4, double eta3, double eta4, double phi3, double phi4, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
+vector<double> DiMassB2muKpi(double pt1, double pt2, double pt3, double pt4, double eta3, double eta4, double phi3, double phi4, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
     vector<int> index = get_2index(MuonPt, pt1, pt2);
     double dimumass = Mass(index[0], index[1], MuonPt, MuonEta, MuonPhi, MuonEnergy);
     TLorentzVector mu3, mu4, mutot;
