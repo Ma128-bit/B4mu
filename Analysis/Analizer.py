@@ -204,6 +204,7 @@ if __name__ == "__main__":
         rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
         vertex_chi2=""
         rdf = QuadMuVar(rdf, branches) #Quadruplet variables
+        print("vertex_chi2: ", vertex_chi2)
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
