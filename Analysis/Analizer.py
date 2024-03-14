@@ -72,7 +72,7 @@ def QuadMuVar(rdf, branches):
     for v in quadruplet_related_var:
         rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
 
-    branches.append("Quadruplet_Mass_no_refit")
+    #branches.append("Quadruplet_Mass_no_refit")
     #Not refitted 4mu mass
     rdf = rdf.Define("Quadruplet_Mass_no_refit", "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonEta, MuonPhi, MuonEnergy)")
         
