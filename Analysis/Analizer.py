@@ -73,7 +73,7 @@ def QuadMuVar(rdf, branches, analysis_type):
         rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
 
     branches.append("Quadruplet_Mass_no_refit") #Not refitted 4mu mass
-    rdf = rdf.Define("NoRefitMass"+analysis_type, "not_refit_mass(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi MuonEta, MuonPhi, MuonEnergy)")
+    rdf = rdf.Define("Quadruplet_Mass_no_refit", "NoRefitMass"+analysis_type+"(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi MuonEta, MuonPhi, MuonEnergy)")
     return rdf, vertex_chi2
 
 def MVA_inputs(rdf, branches):
