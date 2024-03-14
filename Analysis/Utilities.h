@@ -795,6 +795,36 @@ int BsJPsiPhi(double Dimu_OS_max, double Dimu_OS_min){
     else return 0;
 }
 
+struct TwoObjMassFit{
+    double m1;
+    double m2;
+    TwoObjMassFit(double mm1, double mm2) : m1(mm1), m2(mm2)  {}
+    double operator()(double pt1, double pt2, double eta1, double eta2, double phi1, double phi2) {
+        TLorentzVector mu1, mu2, mutot;
+        mu1.SetPtEtaPhiM(pt1, eta1, phi1, m1);
+        mu2.SetPtEtaPhiM(pt2, eta2, phi1, m2);
+        mutot=mu1+mu2;
+        return mutot.M();
+    }
+};
+
+struct FourObjMassFit{
+    double m1;
+    double m2;
+    double m3;
+    double m4;
+    FourObjMassFit(double mm1, double mm2, double mm3, double mm4) : m1(mm1), m2(mm2), m3(mm3), m4(mm4)  {}
+    double operator()(double pt1, double pt2, double pt3, double pt4, double eta1, double eta2, double eta3, double eta4, double phi1, double phi2, double phi3, double phi4) {
+        TLorentzVector mu1, mu2, mu3, mu4, mutot;
+        mu1.SetPtEtaPhiM(pt1, eta1, phi1, m1);
+        mu2.SetPtEtaPhiM(pt2, eta2, phi1, m2);
+        mu3.SetPtEtaPhiM(pt3, eta3, phi3, m3);
+        mu4.SetPtEtaPhiM(pt4, eta4, phi4, m4);
+        mutot=mu1+mu2+mu3+mu4;
+        return mutot.M();
+    }
+};
+
 vector<double> DiMassB2mu2K(double pt1, double pt2, double pt3, double pt4, double eta3, double eta4, double phi3, double phi4, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
     vector<int> index = get_2index(MuonPt, pt1, pt2);
     double dimumass = Mass(index[0], index[1], MuonPt, MuonEta, MuonPhi, MuonEnergy);
