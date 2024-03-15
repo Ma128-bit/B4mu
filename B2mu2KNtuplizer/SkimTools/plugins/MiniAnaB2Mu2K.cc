@@ -935,7 +935,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         */
                         float chi = 0.;
                         float ndf = 0.;
-                        KinematicParticleFactoryFromRecTrack pFactory;
+                        KinematicParticleFactoryFromTransientTrack pFactory;
                         ParticleMass muon_mass = 0.1056583;
                         ParticleMass kaon_mass = 0.493677;
                         ParticleMass pion_mass = 0.139570;
