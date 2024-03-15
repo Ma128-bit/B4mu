@@ -933,13 +933,12 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         vector < TransientTrack > ttrks = SVertex_ref.refittedTracks();
                         //cout<<"ttrks.size() :"<<ttrks.size()<<endl;
                         */
-                        //initial chi2 and ndf before kinematic fits. The chi2 of the reconstruction is not considered 
                         float chi = 0.;
                         float ndf = 0.;
                         KinematicParticleFactoryFromRecTrack pFactory;
                         ParticleMass muon_mass = 0.1056583;
                         ParticleMass kaon_mass = 0.493677;
-                        ParticleMass pion_mass = 0.493677;
+                        ParticleMass pion_mass = 0.139570;
                         float muon_sigma = muon_mass*1.e-6;
                         float kaon_sigma = kaon_mass*1.e-6;
                         float pion_sigma = pion_mass*1.e-6;
