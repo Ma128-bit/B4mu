@@ -341,7 +341,7 @@ vector<int> B2muX_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, R
     
     for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
         //Cut1 "strange" events
-        if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99){ continue;}
+        if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99 || RefTrack1_Pt.at(j) == -99){ continue;}
 
         if(exit_code<0) exit_code=0;
         
