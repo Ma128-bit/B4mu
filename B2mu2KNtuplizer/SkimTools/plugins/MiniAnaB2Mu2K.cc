@@ -193,7 +193,7 @@ private:
     
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simHeaviestMotherFlavour;
     std::vector<double> Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu3_Charge, Mu4_Pt, Mu4_Eta, Mu4_Phi, Mu4_Charge, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu4_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi, GenMatchMu4_SimPhi, GenMatchMu1_Pt, GenMatchMu2_Pt, GenMatchMu3_Pt, GenMatchMu4_Pt, GenMatchMu1_Eta, GenMatchMu2_Eta, GenMatchMu3_Eta, GenMatchMu4_Eta, GenMatchMu1_Phi, GenMatchMu2_Phi, GenMatchMu3_Phi, GenMatchMu4_Phi;
-    std::vector<double> mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, vtx_prob, vtx_prob_1;
+    std::vector<double> mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, vtx_prob, vtx_B_prob;
 
     std::vector<double> RefTrack1_Pt, RefTrack1_Eta, RefTrack1_Phi, RefTrack1_QuadrupletIndex;
     std::vector<double> RefTrack2_Pt, RefTrack2_Eta, RefTrack2_Phi, RefTrack2_QuadrupletIndex;
@@ -941,46 +941,57 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         else ParticlesList.push_back(pFactory.particle(transientTrack4,pion_mass,chi,ndf,pion_sigma));
                         MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(JPsi_mass);
                         KinematicConstrainedVertexFitter kcvFitter;
-                        RefCountedKinematicTree vertexFitTree = kcvFitter.fit(ParticlesList, j_psi_c);
+                        RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList, j_psi_c);
 
                         TLorentzVector LV_B;
                         LV_B.SetPxPyPzE(0, 0, 0, 0);
-                        
-                        if(SVertex_ref.isValid() && SVertex_ref.hasRefittedTracks() && ttrks.size()>2){
-                            //cout<<"VALID ref SV chi2="<<SVertex_ref.totalChiSquared()<<" NDF="<<SVertex_ref.degreesOfFreedom()<<endl;
-                            reco::Track SVTrack1 =ttrks.at(0).track();
-                            reco::Track SVTrack2 =ttrks.at(1).track();
-                            reco::Track SVTrack3 =ttrks.at(2).track();
-                            reco::Track SVTrack4 =ttrks.at(3).track();
-                            
+
+                        if(SVertex_ref->isValid()){
+                            SVertex_ref->movePointerToTheTop();
+                            RefCountedKinematicParticle bCandMC = SVertex_ref->currentParticle();
+                            RefCountedKinematicVertex bDecayVertexMC = SVertex_ref->currentDecayVertex();
+                        }
+
+                        if(SVertex_ref->isValid() && bDecayVertexMC->isValid()){
+                            RefittedSV_Mass.push_back(bCandMC->currentState().mass());
+                            RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
+                            RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
+                            vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(bDecayVertexMC->chiSquared(), (int)bDecayVertexMC->degreesOfFreedom()));
+                            vtx_B_prob.push_back(TMath::Prob(bDecayVertexMC->chiSquared(),(int)bDecayVertexMC->degreesOfFreedom()));
+
+                            SVertex_ref->movePointerToTheFirstChild();
+                            RefCountedKinematicParticle mu1CandMC = SVertex_ref->currentParticle();
+
+                            SVertex_ref->movePointerToTheNextChild();
+                            RefCountedKinematicParticle mu2CandMC = SVertex_ref->currentParticle();
+
+                            SVertex_ref->movePointerToTheNextChild();
+                            RefCountedKinematicParticle T1CandMC = SVertex_ref->currentParticle();
+
+                            SVertex_ref->movePointerToTheNextChild();
+                            RefCountedKinematicParticle T2CandMC = SVertex_ref->currentParticle();
+
+                            KinematicParameters psiMu1KP = mu1CandMC->currentState().kinematicParameters();
+                            KinematicParameters psiMu2KP = mu2CandMC->currentState().kinematicParameters();		   
+
+                            KinematicParameters phiPi1KP = T1CandMC->currentState().kinematicParameters();
+                            KinematicParameters phiPi2KP = T2CandMC->currentState().kinematicParameters();
+                         
+
                             TLorentzVector LV1, LV2, LV3, LV4;
-                            LV1.SetPxPyPzE(SVTrack1.px(), SVTrack1.py(), SVTrack1.pz(), sqrt(pow(SVTrack1.p(), 2.0) + pow(0.10565, 2.0)));
+                            LV1.SetPxPyPzE(psiMu1KP.px(), psiMu1KP.py(), psiMu1KP.pz(), psiMu1KP.energy());
                             LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
                             LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.493677, 2.0))); // 0.493677 GeV K+ mass
                             if(is2K==true) LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.493677, 2.0)));
                             else LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.139570, 2.0)));
                             LV_B = LV1 + LV2 + LV3 + LV4;
                             
-                            //cout<<"SVTrack1.pt() "<<SVTrack1.pt()<<" SVTrack1.eta() "<<SVTrack1.eta()<<" SVTrack1.phi() "<<SVTrack1.phi()<<endl;
-                            //cout<<"Track1.pt() "<<Track1.pt()<<" Track1.eta() "<<Track1.eta()<<" Track1.phi() "<<Track1.phi()<<endl;
-                            //cout<<"SVTrack2.pt() "<<SVTrack2.pt()<<" SVTrack2.eta() "<<SVTrack2.eta()<<" SVTrack2.phi() "<<SVTrack2.phi()<<endl;
-                            //cout<<"Track2.pt() "<<Track2.pt()<<" Track2.eta() "<<Track2.eta()<<" Track2.phi() "<<Track2.phi()<<endl;
-                            //cout<<"SVTrack3.pt() "<<SVTrack3.pt()<<" SVTrack3.eta() "<<SVTrack3.eta()<<" SVTrack3.phi() "<<SVTrack3.phi()<<endl;
-                            //cout<<"Track3.pt() "<<Track3.pt()<<" Track3.eta() "<<Track3.eta()<<" Track3.phi() "<<Track3.phi()<<endl;
-                            //cout<<"SVTrack4.pt() "<<SVTrack4.pt()<<" SVTrack4.eta() "<<SVTrack4.eta()<<" SVTrack4.phi() "<<SVTrack4.phi()<<endl;
-                            //cout<<"Track4.pt() "<<Track4.pt()<<" Track4.eta() "<<Track4.eta()<<" Track4.phi() "<<Track4.phi()<<endl;
-                            //cout<<"mu1->pt() "<<mu1->pt()<<" mu2->pt() "<<mu2->pt()<<" mu3->pt() "<<mu3->pt()<<endl;
                             
                             RefTrack1_Pt.push_back(SVTrack1.pt()); RefTrack1_Eta.push_back(SVTrack1.eta()); RefTrack1_Phi.push_back(SVTrack1.phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
                             RefTrack2_Pt.push_back(SVTrack2.pt()); RefTrack2_Eta.push_back(SVTrack2.eta()); RefTrack2_Phi.push_back(SVTrack2.phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
                             RefTrack3_Pt.push_back(SVTrack3.pt()); RefTrack3_Eta.push_back(SVTrack3.eta()); RefTrack3_Phi.push_back(SVTrack3.phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
                             RefTrack4_Pt.push_back(SVTrack4.pt()); RefTrack4_Eta.push_back(SVTrack4.eta()); RefTrack4_Phi.push_back(SVTrack4.phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
-                            
-                            RefittedSV_Chi2.push_back(SVertex_ref.totalChiSquared());
-                            RefittedSV_nDOF.push_back(SVertex_ref.degreesOfFreedom());
-                            vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), SVertex_ref.degreesOfFreedom()));
-                            vtx_prob_1.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), 1));
-                            RefittedSV_Mass.push_back(LV_B.M());
+                                   
                             //cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
                         } else {
                             RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
@@ -991,7 +1002,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             RefittedSV_Chi2.push_back(-99);
                             RefittedSV_nDOF.push_back(-99);
                             vtx_prob.push_back(-99);
-                            vtx_prob_1.push_back(-99);
+                            vtx_B_prob.push_back(-99);
                             RefittedSV_Mass.push_back(-99);
                         }
                         ///////////////Check Trigger Matching///////////////
@@ -1558,7 +1569,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         RefittedSV_nDOF.push_back(-99);
                         RefittedSV_Mass.push_back(-99);
                         vtx_prob.push_back(-99);
-                        vtx_prob_1.push_back(-99);
+                        vtx_B_prob.push_back(-99);
 
                         IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99);
                         IsoTrackMu2_Pt.push_back(-99); IsoTrackMu2_Eta.push_back(-99); IsoTrackMu2_Phi.push_back(-99);
@@ -2109,7 +2120,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     mu3_pfreliso03.clear();
     mu4_pfreliso03.clear();
     vtx_prob.clear();
-    vtx_prob_1.clear();
+    vtx_B_prob.clear();
 
     RefTrack1_Pt.clear();
     RefTrack1_Eta.clear();
@@ -2556,7 +2567,7 @@ void MiniAnaB2Mu2K::beginJob() {
     tree_->Branch("mu3_pfreliso03", &mu3_pfreliso03);
     tree_->Branch("mu4_pfreliso03", &mu4_pfreliso03);
     tree_->Branch("vtx_prob", &vtx_prob);
-    tree_->Branch("vtx_prob_1", &vtx_prob_1);
+    tree_->Branch("vtx_B_prob", &vtx_B_prob);
 
     tree_->Branch("GenMatchMu1_SimPt", &GenMatchMu1_SimPt);
     tree_->Branch("GenMatchMu2_SimPt", &GenMatchMu2_SimPt);
