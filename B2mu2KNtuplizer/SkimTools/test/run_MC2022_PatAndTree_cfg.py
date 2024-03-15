@@ -23,7 +23,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        'root://xrootd-cms.infn.it//store/mc/Run3Summer22EEMiniAODv4/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/MINIAODSIM/130X_mcRun3_2022_realistic_postEE_v6-v2/50000/43d2b67f-908f-4c7f-952e-22d02e1852a5.root'
+        'root://xrootd-cms.infn.it//store/mc/Run3Summer22EEMiniAODv4/BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/MINIAODSIM/130X_mcRun3_2022_realistic_postEE_v6-v2/30000/967fdf0d-66b9-4b94-a1ac-e93e2851dfb5.root'
       #"file:/afs/cern.ch/user/m/mbuonsan/B_4mu/B4mu_Ntuple_Analysis/CMSSW_13_0_13/src/B4muNtuplizer/SkimTools/test/Run3_Bd4Mu_step2_322.root"
       #'root://xrootd-cms.infn.it//store/user/mbuonsan/Bd4Mu_13p6TeV-pythia8_Run3/130X_mcRun3_2022_realistic_postEE_v6_Bd4Mu_MINIAODSIM/231123_153700/0000/Run3_Bd4Mu_step2_310.root'
       #'/store/user/caruta/Pythia8_DsTau3mu_Run3_2022/124X_mcRun3_2022_realistic_v12_MINIAODSIM/221120_083655/0000/DsTau3mu_2022_step2_1.root'
