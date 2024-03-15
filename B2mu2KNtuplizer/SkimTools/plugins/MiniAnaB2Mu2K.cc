@@ -950,49 +950,57 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             SVertex_ref->movePointerToTheTop();
                             RefCountedKinematicParticle bCandMC = SVertex_ref->currentParticle();
                             RefCountedKinematicVertex bDecayVertexMC = SVertex_ref->currentDecayVertex();
-                        }
-
-                        if(SVertex_ref->isValid() && bDecayVertexMC->isValid()){
-                            RefittedSV_Mass.push_back(bCandMC->currentState().mass());
-                            RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
-                            RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
-                            vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(bDecayVertexMC->chiSquared(), (int)bDecayVertexMC->degreesOfFreedom()));
-                            vtx_B_prob.push_back(TMath::Prob(bDecayVertexMC->chiSquared(),(int)bDecayVertexMC->degreesOfFreedom()));
-
-                            SVertex_ref->movePointerToTheFirstChild();
-                            RefCountedKinematicParticle mu1CandMC = SVertex_ref->currentParticle();
-
-                            SVertex_ref->movePointerToTheNextChild();
-                            RefCountedKinematicParticle mu2CandMC = SVertex_ref->currentParticle();
-
-                            SVertex_ref->movePointerToTheNextChild();
-                            RefCountedKinematicParticle T1CandMC = SVertex_ref->currentParticle();
-
-                            SVertex_ref->movePointerToTheNextChild();
-                            RefCountedKinematicParticle T2CandMC = SVertex_ref->currentParticle();
-
-                            KinematicParameters psiMu1KP = mu1CandMC->currentState().kinematicParameters();
-                            KinematicParameters psiMu2KP = mu2CandMC->currentState().kinematicParameters();		   
-
-                            KinematicParameters phiPi1KP = T1CandMC->currentState().kinematicParameters();
-                            KinematicParameters phiPi2KP = T2CandMC->currentState().kinematicParameters();
-                         
-
-                            TLorentzVector LV1, LV2, LV3, LV4;
-                            LV1.SetPxPyPzE(psiMu1KP.px(), psiMu1KP.py(), psiMu1KP.pz(), psiMu1KP.energy());
-                            LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.493677, 2.0))); // 0.493677 GeV K+ mass
-                            if(is2K==true) LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.493677, 2.0)));
-                            else LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.139570, 2.0)));
-                            LV_B = LV1 + LV2 + LV3 + LV4;
-                            
-                            
-                            RefTrack1_Pt.push_back(SVTrack1.pt()); RefTrack1_Eta.push_back(SVTrack1.eta()); RefTrack1_Phi.push_back(SVTrack1.phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
-                            RefTrack2_Pt.push_back(SVTrack2.pt()); RefTrack2_Eta.push_back(SVTrack2.eta()); RefTrack2_Phi.push_back(SVTrack2.phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
-                            RefTrack3_Pt.push_back(SVTrack3.pt()); RefTrack3_Eta.push_back(SVTrack3.eta()); RefTrack3_Phi.push_back(SVTrack3.phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
-                            RefTrack4_Pt.push_back(SVTrack4.pt()); RefTrack4_Eta.push_back(SVTrack4.eta()); RefTrack4_Phi.push_back(SVTrack4.phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
-                                   
-                            //cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
+                            if(bDecayVertexMC->isValid()){
+                                RefittedSV_Mass.push_back(bCandMC->currentState().mass());
+                                RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
+                                RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
+                                vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(bDecayVertexMC->chiSquared(), (int)bDecayVertexMC->degreesOfFreedom()));
+                                vtx_B_prob.push_back(TMath::Prob(bDecayVertexMC->chiSquared(),(int)bDecayVertexMC->degreesOfFreedom()));
+    
+                                SVertex_ref->movePointerToTheFirstChild();
+                                RefCountedKinematicParticle mu1CandMC = SVertex_ref->currentParticle();
+    
+                                SVertex_ref->movePointerToTheNextChild();
+                                RefCountedKinematicParticle mu2CandMC = SVertex_ref->currentParticle();
+    
+                                SVertex_ref->movePointerToTheNextChild();
+                                RefCountedKinematicParticle T1CandMC = SVertex_ref->currentParticle();
+    
+                                SVertex_ref->movePointerToTheNextChild();
+                                RefCountedKinematicParticle T2CandMC = SVertex_ref->currentParticle();
+    
+                                KinematicParameters psiMu1KP = mu1CandMC->currentState().kinematicParameters();
+                                KinematicParameters psiMu2KP = mu2CandMC->currentState().kinematicParameters();		   
+    
+                                KinematicParameters phiPi1KP = T1CandMC->currentState().kinematicParameters();
+                                KinematicParameters phiPi2KP = T2CandMC->currentState().kinematicParameters();
+                             
+    
+                                TLorentzVector LV1, LV2, LV3, LV4;
+                                LV1.SetPxPyPzE(psiMu1KP.px(), psiMu1KP.py(), psiMu1KP.pz(), psiMu1KP.energy());
+                                LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
+                                LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.493677, 2.0))); // 0.493677 GeV K+ mass
+                                if(is2K==true) LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.493677, 2.0)));
+                                else LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.139570, 2.0)));
+                                LV_B = LV1 + LV2 + LV3 + LV4;
+                                
+                                
+                                RefTrack1_Pt.push_back(SVTrack1.pt()); RefTrack1_Eta.push_back(SVTrack1.eta()); RefTrack1_Phi.push_back(SVTrack1.phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack2_Pt.push_back(SVTrack2.pt()); RefTrack2_Eta.push_back(SVTrack2.eta()); RefTrack2_Phi.push_back(SVTrack2.phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack3_Pt.push_back(SVTrack3.pt()); RefTrack3_Eta.push_back(SVTrack3.eta()); RefTrack3_Phi.push_back(SVTrack3.phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack4_Pt.push_back(SVTrack4.pt()); RefTrack4_Eta.push_back(SVTrack4.eta()); RefTrack4_Phi.push_back(SVTrack4.phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
+                            } else {
+                                RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack3_Pt.push_back(-99); RefTrack3_Eta.push_back(-99); RefTrack3_Phi.push_back(-99); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack4_Pt.push_back(-99); RefTrack4_Eta.push_back(-99); RefTrack4_Phi.push_back(-99); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
+                                
+                                RefittedSV_Chi2.push_back(-99);
+                                RefittedSV_nDOF.push_back(-99);
+                                vtx_prob.push_back(-99);
+                                vtx_B_prob.push_back(-99);
+                                RefittedSV_Mass.push_back(-99);
+                            }
                         } else {
                             RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
                             RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
