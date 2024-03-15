@@ -980,10 +980,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 LV4.SetPxPyPzE(trk2KP.momentum().x(), trk2KP.momentum().y(), trk2KP.momentum().z(), trk2KP.energy());
                                 
                                 
-                                RefTrack1_Pt.push_back(LV1.pt()); RefTrack1_Eta.push_back(LV1.eta()); RefTrack1_Phi.push_back(LV1.phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
-                                RefTrack2_Pt.push_back(LV2.pt()); RefTrack2_Eta.push_back(LV2.eta()); RefTrack2_Phi.push_back(LV2.phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
-                                RefTrack3_Pt.push_back(LV3.pt()); RefTrack3_Eta.push_back(LV3.eta()); RefTrack3_Phi.push_back(LV3.phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
-                                RefTrack4_Pt.push_back(LV4.pt()); RefTrack4_Eta.push_back(LV4.eta()); RefTrack4_Phi.push_back(LV4.phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack1_Pt.push_back(LV1.Pt()); RefTrack1_Eta.push_back(LV1.Eta()); RefTrack1_Phi.push_back(LV1.Phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack2_Pt.push_back(LV2.Pt()); RefTrack2_Eta.push_back(LV2.Eta()); RefTrack2_Phi.push_back(LV2.Phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack3_Pt.push_back(LV3.Pt()); RefTrack3_Eta.push_back(LV3.Eta()); RefTrack3_Phi.push_back(LV3.Phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack4_Pt.push_back(LV4.Pt()); RefTrack4_Eta.push_back(LV4.Eta()); RefTrack4_Phi.push_back(LV4.Phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
                             } else {
                                 RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
                                 RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
@@ -1301,6 +1301,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
                         TLorentzVector LV3=TLorentzVector( c3->px(), c3->py(), c3->pz(), c3->energy() );
                         TLorentzVector LV4=TLorentzVector( c4->px(), c4->py(), c4->pz(), c4->energy() );
+                        TLorentzVector LV_B;
                         LV_B = LV1 + LV2 + LV3 + LV4;
                         //cout<<QuadrupletIndex<<" B_CandMass "<<B_It->mass()<<" B_Pt="<<B_It->pt()<<endl;
                         //cout<<QuadrupletIndex<<" B_VectMass "<<LV_B.M()<<" B_Pt="<<LV_B.Pt()<<endl;
