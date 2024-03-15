@@ -106,8 +106,8 @@ def DiMuVar(rdf, branches, vertex_chi2):
             rdf = rdf.Define(name_mass, flat2D(i, j), ["Dimuon_mass"])
             rdf = rdf.Define(name_chi2, flat2D(i, j), ["Dimuon_chi2"])
 
-    branches_add ["Dimu_OS1_dR", "Dimu_OS2_dR", "Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
-    for b in branches_add:
+    branches_toadd = ["Dimu_OS1_dR", "Dimu_OS2_dR", "Quadruplet_Mass_eq", "Dimu_OS_max", "Dimu_OS_min", "isJPsiPhi"]
+    for b in branches_toadd:
         branches.append(b)
     
     # Flat Dimuon_dR
