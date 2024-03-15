@@ -37,6 +37,6 @@ done
 cd ..
 
 if [ ! -d "FinalFiles_${analysis_type}" ]; then
-    mkdir -p "FinalFiles_${analysis_type}""
+    mkdir -p "FinalFiles_${analysis_type}"
 fi
 hadd FinalFiles_${analysis_type}"/Analyzed_Data_${analysis_type}_${year}.root ${analysis_type}/${year}_era*/Analyzed_Data_${year}_Era_*.root
