@@ -977,7 +977,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                              
     
                                 TLorentzVector LV1, LV2, LV3, LV4;
-                                LV1.SetPxPyPzE(psiMu1KP.px(), psiMu1KP.py(), psiMu1KP.pz(), psiMu1KP.energy());
+                                LV1.SetPxPyPzE(psiMu1KP.momentum().x(), psiMu1KP.momentum().y(), psiMu1KP.momentum().z(), psiMu1KP.energy());
                                 LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
                                 LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.493677, 2.0))); // 0.493677 GeV K+ mass
                                 if(is2K==true) LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.493677, 2.0)));
