@@ -448,8 +448,8 @@ vector<int> B2muX_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, R
     }
     std::sort(v_union.begin(), v_union.end(), 
               [](const std::pair<double, int>& a, const std::pair<double, int>& b) {
-                  //return a.first < b.first;
-                  return a.first > b.first;
+                  return a.first < b.first;
+                  //return a.first > b.first;
               });
 
     for (size_t i = 0; i < v_union.size(); ++i) {
