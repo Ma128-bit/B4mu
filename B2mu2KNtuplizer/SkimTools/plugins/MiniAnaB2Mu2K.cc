@@ -942,7 +942,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(JPsi_mass);
                         KinematicConstrainedVertexFitter kcvFitter;
                         RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList, j_psi_c);
-                        RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList);
+                        //RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList);
 
                         if(SVertex_ref->isValid()){
                             SVertex_ref->movePointerToTheTop();
