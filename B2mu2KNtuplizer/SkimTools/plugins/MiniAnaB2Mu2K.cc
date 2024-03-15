@@ -932,7 +932,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         float muon_sigma = muon_mass*1.e-6;
                         float kaon_sigma = kaon_mass*1.e-6;
                         float pion_sigma = pion_mass*1.e-6;
-                        vector<RefCountedKinematicParticles> ParticlesList;
+                        vector<RefCountedKinematicParticle> ParticlesList;
                         ParticlesList.push_back(pFactory.particle(transientTrack1,muon_mass,chi,ndf,muon_sigma));
                         ParticlesList.push_back(pFactory.particle(transientTrack2,muon_mass,chi,ndf,muon_sigma));
                         ParticlesList.push_back(pFactory.particle(transientTrack3,kaon_mass,chi,ndf,kaon_sigma));
