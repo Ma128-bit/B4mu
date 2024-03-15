@@ -803,7 +803,7 @@ struct TwoObjMassFit{
     double operator()(double pt1, double pt2, double eta1, double eta2, double phi1, double phi2) {
         TLorentzVector mu1, mu2, mutot;
         mu1.SetPtEtaPhiM(pt1, eta1, phi1, m1);
-        mu2.SetPtEtaPhiM(pt2, eta2, phi1, m2);
+        mu2.SetPtEtaPhiM(pt2, eta2, phi2, m2);
         mutot=mu1+mu2;
         return mutot.M();
     }
