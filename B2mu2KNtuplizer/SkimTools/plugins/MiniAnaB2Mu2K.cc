@@ -926,6 +926,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         float chi = 0.;
                         float ndf = 0.;
                         KinematicParticleFactoryFromTransientTrack pFactory;
+                        ParticleMass JPsi_mass = 3.096916;
                         ParticleMass muon_mass = 0.1056583;
                         ParticleMass kaon_mass = 0.493677;
                         ParticleMass pion_mass = 0.139570;
@@ -938,10 +939,9 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         ParticlesList.push_back(pFactory.particle(transientTrack3,kaon_mass,chi,ndf,kaon_sigma));
                         if(is2K==true) ParticlesList.push_back(pFactory.particle(transientTrack4,kaon_mass,chi,ndf,kaon_sigma));
                         else ParticlesList.push_back(pFactory.particle(transientTrack4,pion_mass,chi,ndf,pion_sigma));
-                        MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(psi_mass);
+                        MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(JPsi_mass);
                         KinematicConstrainedVertexFitter kcvFitter;
                         RefCountedKinematicTree vertexFitTree = kcvFitter.fit(ParticlesList, j_psi_c);
-
 
                         TLorentzVector LV_B;
                         LV_B.SetPxPyPzE(0, 0, 0, 0);
