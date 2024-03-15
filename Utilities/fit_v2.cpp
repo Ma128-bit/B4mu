@@ -31,7 +31,7 @@ void fit_v2() {
     }
     
     //tree->Draw("Quadruplet_Mass>>h1(24,5.05,5.65)","((BsJPsiPhi_sel_OS1>0 && Dimu_OS1_dR>0.17 && Dimu_OS1_dR<1.08) || (BsJPsiPhi_sel_OS2>0 && Dimu_OS2_dR>0.17 && Dimu_OS2_dR<1.08)) && FlightDistBS_SV_Significance>2.25 ");
-    tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 5.9)","(isJPsiPhi==1 && (isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3]==4) && (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3]==4))");
+    tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 5.9)","(isJPsiPhi==1 && (isGlobal[0]+isGlobal[1]+isGlobal[2]+isGlobal[3]==4) && (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3]==4) && vtx_prob>0)");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
     RooRealVar x("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 5.9);
