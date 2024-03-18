@@ -596,13 +596,13 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         std::vector<int> genPidx;
      
         for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
-            if( fabs(gp->pdgId())==531  || fabs(gp->pdgId())==533) { // B0 B0s        
+            if( fabs(gp->pdgId())==531  || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==511) { // B0s B0*s B0        
                 int number_good_GrandDaughters_mu=0;
                 int number_good_GrandDaughters_KK=0;
                 int number_good_GrandDaughters_pi=0;
                 int number_good_GrandDaughters_K=0;
                 int number_phi=0;
-                int number_Kstar=0; //313
+                int number_Kstar=0;
                 int number_jpsi=0;
                 if (gp->numberOfDaughters() > 0) {
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
