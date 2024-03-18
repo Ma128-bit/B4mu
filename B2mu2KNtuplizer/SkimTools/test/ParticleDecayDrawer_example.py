@@ -15,7 +15,7 @@ process.source = cms.Source("PoolSource",
 )
 
 process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
-    src = cms.InputTag("prunedGenParticles"),
+    src = cms.InputTag("genParticles"),
     printP4 = cms.untracked.bool(False),
     printPtEtaPhi = cms.untracked.bool(False),
     printVertex = cms.untracked.bool(False)
