@@ -32,4 +32,4 @@ process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
     printVertex = cms.untracked.bool(False)
   )
 """
-process.p = cms.Path(process.printDecay)
+process.p = cms.Path(process.printTree)
