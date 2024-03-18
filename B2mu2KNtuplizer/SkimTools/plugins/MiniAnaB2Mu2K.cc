@@ -596,10 +596,13 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         std::vector<int> genPidx;
      
         for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
-            if( fabs(gp->pdgId())==531  || fabs(gp->pdgId())==533) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi           
+            if( fabs(gp->pdgId())==531  || fabs(gp->pdgId())==533) { // B0 B0s        
                 int number_good_GrandDaughters_mu=0;
+                int number_good_GrandDaughters_KK=0;
+                int number_good_GrandDaughters_pi=0;
                 int number_good_GrandDaughters_K=0;
                 int number_phi=0;
+                int number_Kstar=0; //313
                 int number_jpsi=0;
                 if (gp->numberOfDaughters() > 0) {
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
@@ -607,6 +610,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         //const reco::Candidate* daughter = gp->daughter(k);
                         if (fabs(daughter->pdgId())==333) number_phi++;
                         if (fabs(daughter->pdgId())==443) number_jpsi++;
+                        if (fabs(daughter->pdgId())==313) number_Kstar++;
                         if (fabs(daughter->pdgId())==443){
                             if (daughter->numberOfDaughters() > 0 ) {
                                 for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
@@ -619,13 +623,22 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             if (daughter->numberOfDaughters() > 0 ) {
                                 for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                     const reco::Candidate* granddaughter = daughter->daughter(l);
+                                    if (fabs(granddaughter->pdgId())==321) number_good_GrandDaughters_KK++;
+                                }
+                            }
+                        }       
+                        if (fabs(daughter->pdgId())==313){
+                            if (daughter->numberOfDaughters() > 0 ) {
+                                for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                    const reco::Candidate* granddaughter = daughter->daughter(l);
+                                    if (fabs(granddaughter->pdgId())==211) number_good_GrandDaughters_pi++;
                                     if (fabs(granddaughter->pdgId())==321) number_good_GrandDaughters_K++;
                                 }
                             }
-                        }                    
+                        }
                     }
                 }
-                if(number_good_GrandDaughters_K==2 && number_good_GrandDaughters_mu==2 && number_phi==1 && number_jpsi==1){
+                if(number_good_GrandDaughters_KK==2 && number_good_GrandDaughters_mu==2 && number_phi==1 && number_jpsi==1 && is2K==1){
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
                         if (fabs(daughter->pdgId())==443){
@@ -642,6 +655,31 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
                                 if (fabs(granddaughter->pdgId())==321){
+                                    GenParticle_Pt_v2.push_back(granddaughter->pt());
+                                    GenParticle_Eta_v2.push_back(granddaughter->eta());
+                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                }
+                            }
+                        }
+                    }
+                }
+                if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==0){
+                    for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
+                        const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
+                        if (fabs(daughter->pdgId())==443){
+                            for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                const reco::Candidate* granddaughter = daughter->daughter(l);
+                                if (fabs(granddaughter->pdgId())==13){
+                                    GenParticle_Pt_v2.push_back(granddaughter->pt());
+                                    GenParticle_Eta_v2.push_back(granddaughter->eta());
+                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                }
+                            }
+                        }
+                        if (fabs(daughter->pdgId())==313){
+                            for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
+                                const reco::Candidate* granddaughter = daughter->daughter(l);
+                                if (fabs(granddaughter->pdgId())==321 || fabs(granddaughter->pdgId())==211){
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
                                     GenParticle_Eta_v2.push_back(granddaughter->eta());
                                     GenParticle_Phi_v2.push_back(granddaughter->phi());
