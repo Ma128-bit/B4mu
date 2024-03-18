@@ -14,9 +14,6 @@ process.source = cms.Source("PoolSource",
     ),
 )
 
-process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("TreeMC.root"))
-
 process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
     src = cms.InputTag("genParticles"),
     printP4 = cms.untracked.bool(False),
