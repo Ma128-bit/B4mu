@@ -5,7 +5,7 @@ process = cms.Process("DecayDrawer")
 
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
