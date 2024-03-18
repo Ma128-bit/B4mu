@@ -567,7 +567,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         
         for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
             
-            if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443 || fabs(gp->pdgId())==321 || fabs(gp->pdgId())==313 || fabs(gp->pdgId())==211) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi K+ K*
+            //if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443 || fabs(gp->pdgId())==321 || fabs(gp->pdgId())==313 || fabs(gp->pdgId())==211) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi K+ K*
                 GenParticle_PdgId.push_back(gp->pdgId());
                 GenParticle_Pt.push_back(gp->pt());
                 GenParticle_Eta.push_back(gp->eta());
@@ -585,7 +585,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 }else{
                     GenParticle_MotherPdgId.push_back(-99);
                 }
-            } //pdgId
+            //} //pdgId
         }
     } //End GenParticles
 
