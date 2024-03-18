@@ -1,6 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 import os
 
+process = cms.Process("DecayDrawer")
+
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
@@ -21,3 +23,5 @@ process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
     printPtEtaPhi = cms.untracked.bool(False),
     printVertex = cms.untracked.bool(False)
   )
+
+process.p = cms.Path(process.printDecay)
