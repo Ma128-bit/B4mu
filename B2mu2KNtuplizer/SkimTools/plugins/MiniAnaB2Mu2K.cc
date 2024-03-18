@@ -567,7 +567,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         
         for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
             
-            if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443 || fabs(gp->pdgId())==321) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi K+
+            if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443 || fabs(gp->pdgId())==321 || fabs(gp->pdgId())==313) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi K+ K*
                 GenParticle_PdgId.push_back(gp->pdgId());
                 GenParticle_Pt.push_back(gp->pt());
                 GenParticle_Eta.push_back(gp->eta());
@@ -638,7 +638,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         }
                     }
                 }
-                if(number_good_GrandDaughters_KK==2 && number_good_GrandDaughters_mu==2 && number_phi==1 && number_jpsi==1 && is2K==1){
+                if(number_good_GrandDaughters_KK==2 && number_good_GrandDaughters_mu==2 && number_phi==1 && number_jpsi==1 && is2K==true){
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
                         if (fabs(daughter->pdgId())==443){
@@ -663,7 +663,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         }
                     }
                 }
-                if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==0){
+                if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
                         if (fabs(daughter->pdgId())==443){
