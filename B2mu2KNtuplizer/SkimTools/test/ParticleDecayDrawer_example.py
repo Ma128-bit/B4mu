@@ -5,10 +5,7 @@ process = cms.Process('B2Mu2KSkim')
 
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
-process.GlobalTag.globaltag = '130X_mcRun3_2022_realistic_postEE_v6' #MC2022
-
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
-
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
@@ -17,10 +14,8 @@ process.source = cms.Source("PoolSource",
     ),
 )
 
-
 process.TFileService = cms.Service("TFileService",
                                    fileName = cms.string("TreeMC.root"))
-
 
 process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
     src = cms.InputTag("genParticles"),
