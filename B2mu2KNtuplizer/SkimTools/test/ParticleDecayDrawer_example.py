@@ -5,7 +5,7 @@ process = cms.Process("DecayDrawer")
 
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
@@ -16,7 +16,7 @@ process.source = cms.Source("PoolSource",
 
 
 process.printTree = cms.EDAnalyzer("ParticleListDrawer",
-  maxEventsToPrint = cms.untracked.int32(5),
+  maxEventsToPrint = cms.untracked.int32(100),
   printVertex = cms.untracked.bool(False),
   printOnlyHardInteraction = cms.untracked.bool(False),
   src = cms.InputTag("prunedGenParticles")
