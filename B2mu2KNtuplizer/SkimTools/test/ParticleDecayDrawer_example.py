@@ -3,7 +3,9 @@ import os
 
 process = cms.Process("DecayDrawer")
 
+process.load("FWCore.MessageService.MessageLogger_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
+
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
 
@@ -40,3 +42,6 @@ process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
   )
 """
 process.p = cms.Path(process.printTree)
+
+process.printEventNumber = cms.OutputModule("AsciiOutputModule")
+process.outpath = cms.EndPath(process.printEventNumber)
