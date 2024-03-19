@@ -663,9 +663,11 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         }
                     }
                 }
-                if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
+                //if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
+                if(number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
+                     /*
                         if (fabs(daughter->pdgId())==443){
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
@@ -676,14 +678,16 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 }
                             }
                         }
+                        */
                         if (fabs(daughter->pdgId())==313){
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
-                                if (fabs(granddaughter->pdgId())==321 || fabs(granddaughter->pdgId())==211){
+                                //if (fabs(granddaughter->pdgId())==321 || fabs(granddaughter->pdgId())==211){
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
                                     GenParticle_Eta_v2.push_back(granddaughter->eta());
-                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
-                                }
+                                    GenParticle_Phi_v2.push_back(granddaughter->pdgId());
+                                    //GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                //}
                             }
                         }
                     }
