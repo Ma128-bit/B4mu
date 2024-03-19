@@ -26,9 +26,9 @@ process.printTree = cms.EDAnalyzer("ParticleTreeDrawer",
                                    src = cms.InputTag("prunedGenParticles"),                                                                 
                                    #printP4 = cms.untracked.bool(False),
                                    #printPtEtaPhi = cms.untracked.bool(False),
-                                   #printVertex = cms.untracked.bool(False),
-                                   #printStatus = cms.untracked.bool(False),
-                                   #printIndex = cms.untracked.bool(False),
+                                   printVertex = cms.untracked.bool(True),
+                                   printStatus = cms.untracked.bool(True),
+                                   printIndex = cms.untracked.bool(True),
                                    #status = cms.untracked.vint32( 3 )
                                    )
 """
