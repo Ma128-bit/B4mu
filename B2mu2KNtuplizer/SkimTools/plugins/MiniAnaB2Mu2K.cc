@@ -663,6 +663,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         }
                     }
                 }
+                cout<<"N. pi: "<<number_good_GrandDaughters_pi<<" N. K: "<<number_good_GrandDaughters_K<<" N. mu: "<<number_good_GrandDaughters_mu<<" N. K*: "<<number_Kstar<<" N.jspi: "<<number_jpsi<<endl;
                 //if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
                 if(number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
