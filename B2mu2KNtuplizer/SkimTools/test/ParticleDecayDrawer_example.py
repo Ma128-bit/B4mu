@@ -14,7 +14,7 @@ process.source = cms.Source("PoolSource",
     ),
 )
 
-
+"""
 process.printTree = cms.EDAnalyzer("ParticleListDrawer",
   maxEventsToPrint = cms.untracked.int32(100),
   printVertex = cms.untracked.bool(False),
@@ -31,7 +31,7 @@ process.printTree = cms.EDAnalyzer("ParticleTreeDrawer",
                                    printIndex = cms.untracked.bool(False),
                                    #status = cms.untracked.vint32( 3 )
                                    )
-
+"""
 process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
     src = cms.InputTag("prunedGenParticles"),
     printP4 = cms.untracked.bool(False),
