@@ -177,6 +177,8 @@ private:
 
     std::vector<double> GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2;
 
+    std::vector<double> GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk;
+
     //Vtx position
     std::vector<double>  Muon_vx,  Muon_vy,  Muon_vz;
     
@@ -655,21 +657,18 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
                                 if (fabs(granddaughter->pdgId())==321){
-                                    GenParticle_Pt_v2.push_back(granddaughter->pt());
-                                    GenParticle_Eta_v2.push_back(granddaughter->eta());
-                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                    GenParticle_Pt_trk.push_back(granddaughter->pt());
+                                    GenParticle_Eta_trk.push_back(granddaughter->eta());
+                                    GenParticle_Phi_trk.push_back(granddaughter->phi());
                                 }
                             }
                         }
                     }
                 }
-                cout<<"N. pi: "<<number_good_GrandDaughters_pi<<" N. K: "<<number_good_GrandDaughters_K<<" N. mu: "<<number_good_GrandDaughters_mu<<" N. K*: "<<number_Kstar<<" N.jspi: "<<number_jpsi<<endl;
                 //if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
                 if(number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
-                    cout<<"IN IF"<<endl;
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
-                     /*
                         if (fabs(daughter->pdgId())==443){
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
@@ -680,19 +679,20 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 }
                             }
                         }
-                        */
+                        /*
                         if (fabs(daughter->pdgId())==313){
                             cout<<"IN fabs(daughter->pdgId())==313"<<endl;
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
-                                //if (fabs(granddaughter->pdgId())==321 || fabs(granddaughter->pdgId())==211){
+                                if (fabs(granddaughter->pdgId())==321 || fabs(granddaughter->pdgId())==211){
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
                                     GenParticle_Eta_v2.push_back(granddaughter->eta());
                                     GenParticle_Phi_v2.push_back(granddaughter->pdgId());
-                                    //GenParticle_Phi_v2.push_back(granddaughter->phi());
-                                //}
+                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                }
                             }
                         }
+                        */
                     }
                 }
                 if(number_good_GrandDaughters_mu>2) cout<<"number_good_GrandDaughters>4"<<endl;
@@ -1964,6 +1964,9 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     GenParticle_Pt_v2.clear();
     GenParticle_Eta_v2.clear();
     GenParticle_Phi_v2.clear();
+    GenParticle_Pt_trk.clear();
+    GenParticle_Eta_trk.clear();
+    GenParticle_Phi_trk.clear();
     GenParticle_MotherPdgId.clear();
     GenParticle_GrandMotherPdgId.clear();
     GenParticle_vx.clear();
@@ -2354,6 +2357,10 @@ void MiniAnaB2Mu2K::beginJob() {
     tree_->Branch("GenParticle_Pt_v2", &GenParticle_Pt_v2);
     tree_->Branch("GenParticle_Eta_v2", &GenParticle_Eta_v2);
     tree_->Branch("GenParticle_Phi_v2", &GenParticle_Phi_v2);
+
+    tree_->Branch("GenParticle_Pt_trk", &GenParticle_Pt_trk);
+    tree_->Branch("GenParticle_Eta_trk", &GenParticle_Eta_trk);
+    tree_->Branch("GenParticle_Phi_trk", &GenParticle_Phi_trk);
 
     tree_->Branch("GenParticle_MotherPdgId", &GenParticle_MotherPdgId);
     tree_->Branch("GenParticle_GrandMotherPdgId", &GenParticle_GrandMotherPdgId);
