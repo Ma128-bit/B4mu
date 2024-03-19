@@ -666,6 +666,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 cout<<"N. pi: "<<number_good_GrandDaughters_pi<<" N. K: "<<number_good_GrandDaughters_K<<" N. mu: "<<number_good_GrandDaughters_mu<<" N. K*: "<<number_Kstar<<" N.jspi: "<<number_jpsi<<endl;
                 //if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
                 if(number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
+                    cout<<"IN IF"<<endl;
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
                      /*
@@ -681,6 +682,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         }
                         */
                         if (fabs(daughter->pdgId())==313){
+                            cout<<"IN fabs(daughter->pdgId())==313"<<endl;
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
                                 const reco::Candidate* granddaughter = daughter->daughter(l);
                                 //if (fabs(granddaughter->pdgId())==321 || fabs(granddaughter->pdgId())==211){
