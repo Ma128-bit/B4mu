@@ -11,7 +11,7 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        'root://xrootd-cms.infn.it//store/mc/Run3Summer19DR/BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_14TeV-pythia8-evtgen/GEN-SIM-DIGI-RAW/106X_mcRun3_2021_realistic_v3-v1/270000/15387247-283D-994B-AB20-1EF208D60A62.root'
+        'root://xrootd-cms.infn.it//store/mc/Run3Summer19DR/BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_14TeV-pythia8-evtgen/GEN-SIM-DIGI-RAW/106X_mcRun3_2021_realistic_v3-v1/270000/30A747DC-7C78-7B4A-ACC6-348977E8F598.root'
         #'root://xrootd-cms.infn.it//store/mc/Run3Summer22EEMiniAODv4/BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_TuneCP5_13p6TeV_pythia8-evtgen/MINIAODSIM/130X_mcRun3_2022_realistic_postEE_v6-v2/40000/c741a6b8-14e4-4937-9547-5667b9c76483.root'
     ),
 )
