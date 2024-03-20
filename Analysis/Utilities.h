@@ -398,12 +398,9 @@ vector<int> B2muKpi_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RV
             break;
         }
         if(abs(ditrkmass1-0.892) < abs(ditrkmass2-0.892)) quad_indx[j]=1;
+        else if(abs(ditrkmass1-0.892)<0.05 && abs(ditrkmass2-0.892)<0.05) {quad_indx[j]=1; quad_indx[w_out]=1;}
         else quad_indx[w_out]=1;
     }
-    for (int i = 0; i < QuadrupletVtx_Chi2.size(); ++i) {
-        std::cout << quad_indx[i] << " ";
-    }
-    std::cout << std::endl;
     return quad_indx;
 }
 
