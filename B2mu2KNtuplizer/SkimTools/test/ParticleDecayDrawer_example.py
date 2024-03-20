@@ -7,7 +7,7 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1) )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
@@ -23,17 +23,17 @@ process.printTree = cms.EDAnalyzer("ParticleListDrawer",
   printOnlyHardInteraction = cms.untracked.bool(False),
   src = cms.InputTag("packedGenParticles")
 )
-"""
-process.printTree = cms.EDAnalyzer("ParticleTreeDrawer",
-                                   src = cms.InputTag("packedGenParticles"),                                                                 
+
+process.printTree2 = cms.EDAnalyzer("ParticleTreeDrawer",
+                                   src = cms.InputTag("prunedGenParticles"),                                                                 
                                    printP4 = cms.untracked.bool(False),
                                    printPtEtaPhi = cms.untracked.bool(False),
                                    printVertex = cms.untracked.bool(False),
                                    printStatus = cms.untracked.bool(False),
                                    printIndex = cms.untracked.bool(False),
-                                   #status = cms.untracked.vint32( 3 )
+                                   status = cms.untracked.vint32( 1 )
                                    )
-
+"""
 process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
     src = cms.InputTag("prunedGenParticles"),
     printP4 = cms.untracked.bool(False),
@@ -41,7 +41,4 @@ process.printDecay = cms.EDAnalyzer("ParticleDecayDrawer",
     printVertex = cms.untracked.bool(False)
   )
 """
-process.p = cms.Path(process.printTree)
-
-process.printEventNumber = cms.OutputModule("AsciiOutputModule")
-process.outpath = cms.EndPath(process.printEventNumber)
+process.p = cms.Path(process.printTree * process.printTree2)
