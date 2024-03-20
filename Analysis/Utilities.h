@@ -400,7 +400,7 @@ vector<int> B2muKpi_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RV
         else quad_indx[w_out]=1;
         }
     }
-    for (int i = 0; i < N; ++i) {
+    for (int i = 0; i < QuadrupletVtx_Chi2.size(); ++i) {
         std::cout << quad_indx[i] << " ";
     }
     std::cout << std::endl;
