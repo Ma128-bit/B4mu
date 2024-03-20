@@ -278,6 +278,7 @@ MiniAnaB2Mu2K::MiniAnaB2Mu2K(const edm::ParameterSet& iConfig){
     trackToken_ = consumes<edm::View<pat::PackedCandidate> > (iConfig.getParameter<edm::InputTag>("TracksLabel"));
     srcCands_ = consumes<std::vector<pat::PackedCandidate> >(edm::InputTag("packedPFCandidates"));
     genParticles_ = consumes<edm::View<reco::GenParticle>  > (iConfig.getParameter<edm::InputTag>("genParticleLabel"));
+    genParticlesn2_ = consumes<edm::View<reco::GenParticle>  > (iConfig.getParameter<edm::InputTag>("genParticleLabeln2"));
     Cand2Mu2Tracks_ = consumes<edm::View<reco::CompositeCandidate> > (iConfig.getParameter<edm::InputTag>("Cand2Mu2TracksLabel"));
     puToken_ =   consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("pileupSummary"));
     triggerToken_ = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("triggerResults"));
@@ -422,7 +423,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     
     edm::Handle< edm::View<reco::GenParticle> > genParticles;
     iEvent.getByToken(genParticles_, genParticles);
-    
+
+    edm::Handle< edm::View<reco::GenParticle> > genParticlesn2;
+    iEvent.getByToken(genParticlesn2_, genParticlesn2);
+
     edm::Handle<edm::View<pat::PackedCandidate> > trackCollection;
     iEvent.getByToken(trackToken_,trackCollection);
     
@@ -564,10 +568,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     ///////////////Fill Genparticles ///////////////
     if(isMc){
         uint j=0;
-        uint ngenP=genParticles->size();
+        uint ngenP=genParticlesn2->size();
         std::vector<int> genPidx;
         
-        for(edm::View<reco::GenParticle>::const_iterator gp=genParticles->begin(); gp!=genParticles->end(), j<ngenP; ++gp , ++j){
+        for(edm::View<reco::GenParticle>::const_iterator gp=genParticlesn2->begin(); gp!=genParticlesn2->end(), j<ngenP; ++gp , ++j){
             
             //if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443 || fabs(gp->pdgId())==321 || fabs(gp->pdgId())==313 || fabs(gp->pdgId())==211) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi K+ K*
                 GenParticle_PdgId.push_back(gp->pdgId());
