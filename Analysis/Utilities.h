@@ -398,7 +398,7 @@ vector<int> B2muKpi_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RV
             break;
         }
         if(abs(ditrkmass1-0.892) < abs(ditrkmass2-0.892)) quad_indx[j]=1;
-        else if(abs(ditrkmass1-0.892)<0.1 && abs(ditrkmass2-0.892)<0.1) {quad_indx[j]=1; quad_indx[w_out]=1;}
+        else if(abs(ditrkmass1-ditrkmass2)<0.1) {quad_indx[j]=1; quad_indx[w_out]=1;}
         else quad_indx[w_out]=1;
     }
     return quad_indx;
