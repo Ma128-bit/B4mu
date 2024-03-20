@@ -565,7 +565,9 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     }
         
     //
-    
+
+    std::vector<const pat::PackedGenParticle*> GenParticle_saved;
+
     ///////////////Fill Genparticles ///////////////
     if(isMc){
         uint j=0;
@@ -574,7 +576,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         
         for(edm::View<pat::PackedGenParticle>::const_iterator gp=genParticlesn2->begin(); gp!=genParticlesn2->end(), j<ngenP; ++gp , ++j){
             
-            //if( fabs(gp->pdgId())==13  || fabs(gp->pdgId())==22  || fabs(gp->pdgId())==511 || fabs(gp->pdgId())==531 || fabs(gp->pdgId())==513 || fabs(gp->pdgId())==533 || fabs(gp->pdgId())==333 || fabs(gp->pdgId())==443 || fabs(gp->pdgId())==321 || fabs(gp->pdgId())==313 || fabs(gp->pdgId())==211) { //mu gamma B0 B0s B*0 B*0s Φ J/Psi K+ K*
+            if( (fabs(gp->pdgId())==13 || fabs(gp->pdgId())==321 || fabs(gp->pdgId())==211) && (fabs(gp->mother(0)->pdgId())==313 || fabs(gp->mother(0)->pdgId())==443) ){ //mu K+ pi
+                if(fabs(gp->mother(0)->pdgId())==313) GenParticle_saved.push_back(gp);
                 GenParticle_PdgId.push_back(gp->pdgId());
                 GenParticle_Pt.push_back(gp->pt());
                 GenParticle_Eta.push_back(gp->eta());
@@ -592,7 +595,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                 }else{
                     GenParticle_MotherPdgId.push_back(-99);
                 }
-            //} //pdgId
+            } //pdgId
         }
     } //End GenParticles
 
@@ -635,13 +638,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                         }       
                         if (fabs(daughter->pdgId())==313){
-                            if (daughter->numberOfDaughters() > 0 ) {
-                                for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
-                                    const reco::Candidate* granddaughter = daughter->daughter(l);
-                                    if (fabs(granddaughter->pdgId())==211) number_good_GrandDaughters_pi++;
-                                    if (fabs(granddaughter->pdgId())==321) number_good_GrandDaughters_K++;
-                                }
-                            }
+                            for 
                         }
                     }
                 }
@@ -684,7 +681,6 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 }
                             }
                         }
-                        /*
                         if (fabs(daughter->pdgId())==313){
                             cout<<"IN fabs(daughter->pdgId())==313"<<endl;
                             for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
@@ -697,7 +693,6 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 }
                             }
                         }
-                        */
                     }
                 }
                 if(number_good_GrandDaughters_mu>2) cout<<"number_good_GrandDaughters>4"<<endl;
