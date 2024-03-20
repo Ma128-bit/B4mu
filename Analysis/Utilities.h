@@ -218,7 +218,7 @@ int GenMatching2mu(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> M
         Geneta.push_back(GenParticle_Eta_v2.at(j));
         Genphi.push_back(GenParticle_Phi_v2.at(j));
     }
-    if(Genpt.size() != 2) cout<<"Genpt.size() != 4"<<endl;
+    if(Genpt.size() != 2) cout<<"Genpt.size() != 2"<<endl;
     int Gen_matching = 0;
     for(int p=0; p<pt.size();p++){
         //cout<<"Genpt: ";
