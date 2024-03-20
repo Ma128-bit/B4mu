@@ -137,7 +137,7 @@ private:
     edm::EDGetTokenT<edm::View<pat::PackedCandidate> > trackToken_;
     edm::EDGetTokenT<edm::View<reco::CompositeCandidate> > Cand2Mu2Tracks_;
     edm::EDGetTokenT<edm::View<reco::GenParticle> > genParticles_;
-    edm::EDGetTokenT<edm::View<reco::GenParticle> > genParticlesn2_;
+    edm::EDGetTokenT<edm::View<pat::PackedGenParticle> > genParticlesn2_;
     edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puToken_ ;
     edm::EDGetTokenT<edm::TriggerResults> triggerToken_;
     edm::EDGetTokenT<BXVector<l1t::Muon> > l1muonsToken_;
