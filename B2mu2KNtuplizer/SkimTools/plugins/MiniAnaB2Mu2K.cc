@@ -598,6 +598,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     ///////////////Fill Genparticles_v2 ///////////////
     if(isMc){
         uint j=0;
+        uint jj=0;
         uint ngenP=genParticles->size();
         std::vector<int> genPidx;
      
@@ -685,9 +686,9 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         if (fabs(daughter->pdgId())==313){
                             for(edm::View<pat::PackedGenParticle>::const_iterator gp2=genParticlesn2->begin(); gp2!=genParticlesn2->end(), jj<ngenP; ++gp2 , ++jj) {
                                 if( (fabs(gp2->pdgId())==321 || fabs(gp2->pdgId())==211) && (fabs(gp2->mother(0)->pdgId())==313) && gp2->mother(0) == gp->daughter(k)){
-                                    GenParticle_Pt_v2.push_back(particle->pt());
-                                    GenParticle_Eta_v2.push_back(particle->eta());
-                                    GenParticle_Phi_v2.push_back(particle->phi());
+                                    GenParticle_Pt_v2.push_back(gp2->pt());
+                                    GenParticle_Eta_v2.push_back(gp2->eta());
+                                    GenParticle_Phi_v2.push_back(gp2->phi());
                                 }
                             }
                         }
