@@ -226,10 +226,10 @@ if __name__ == "__main__":
             
             branches.append("PhiMassTest2K")
             branches.append("PhiMassTestKpi")
-            #branches.append("PhiMassTestKpi_test")
+            branches.append("PhiMassTestKpi_test")
             rdf = rdf.Define("PhiMassTest2K", TwoObjMassFit(0.493677, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
             rdf = rdf.Define("PhiMassTestKpi", TwoObjMassFit(0.493677, 0.139570), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
-            #rdf = rdf.Define("PhiMassTestKpi_test", TwoObjMassFit(0.139570, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
+            rdf = rdf.Define("PhiMassTestKpi_test", TwoObjMassFit(0.139570, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
             
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
