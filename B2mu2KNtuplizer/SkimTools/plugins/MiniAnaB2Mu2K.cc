@@ -279,7 +279,7 @@ MiniAnaB2Mu2K::MiniAnaB2Mu2K(const edm::ParameterSet& iConfig){
     trackToken_ = consumes<edm::View<pat::PackedCandidate> > (iConfig.getParameter<edm::InputTag>("TracksLabel"));
     srcCands_ = consumes<std::vector<pat::PackedCandidate> >(edm::InputTag("packedPFCandidates"));
     genParticles_ = consumes<edm::View<reco::GenParticle>  > (iConfig.getParameter<edm::InputTag>("genParticleLabel"));
-    genParticlesn2_ = consumes<edm::View<reco::GenParticle>  > (iConfig.getParameter<edm::InputTag>("genParticleLabeln2"));
+    genParticlesn2_ = consumes<edm::View<pat::PackedGenParticle>  > (iConfig.getParameter<edm::InputTag>("genParticleLabeln2"));
     Cand2Mu2Tracks_ = consumes<edm::View<reco::CompositeCandidate> > (iConfig.getParameter<edm::InputTag>("Cand2Mu2TracksLabel"));
     puToken_ =   consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("pileupSummary"));
     triggerToken_ = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("triggerResults"));
@@ -425,7 +425,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     edm::Handle< edm::View<reco::GenParticle> > genParticles;
     iEvent.getByToken(genParticles_, genParticles);
 
-    edm::Handle< edm::View<reco::GenParticle> > genParticlesn2;
+    edm::Handle< edm::View<pat::PackedGenParticle> > genParticlesn2;
     iEvent.getByToken(genParticlesn2_, genParticlesn2);
 
     edm::Handle<edm::View<pat::PackedCandidate> > trackCollection;
