@@ -638,7 +638,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                         }       
                         if (fabs(daughter->pdgId())==313){
-                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_Ptr.begin(); it != GenParticle_Ptr.end(); ++it) {
+                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_saved.begin(); it != GenParticle_saved.end(); ++it) {
                                 const pat::PackedGenParticle* particle = *it;
                                 if(particle->mother(0) == gp->daughter(k)){
                                     if(particle->pdgId() == 321) number_good_GrandDaughters_K++;
@@ -673,8 +673,8 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         }
                     }
                 }
-                //if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
-                if(number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
+                if(number_good_GrandDaughters_pi==1 && number_good_GrandDaughters_K==1 && number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
+                //if(number_good_GrandDaughters_mu==2 && number_Kstar==1 && number_jpsi==1 && is2K==false){
                     for (uint k = 0; k < gp->numberOfDaughters(); ++k) {
                         const reco::GenParticle* daughter = dynamic_cast<const reco::GenParticle*>(gp->daughter(k));
                         if (fabs(daughter->pdgId())==443){
@@ -688,7 +688,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                         }
                         if (fabs(daughter->pdgId())==313){
-                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_Ptr.begin(); it != GenParticle_Ptr.end(); ++it) {
+                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_saved.begin(); it != GenParticle_saved.end(); ++it) {
                                 const pat::PackedGenParticle* particle = *it;
                                 if(particle->mother(0) == gp->daughter(k) && fabs(particle->pdgId())==321 || fabs(particle->pdgId())==211){
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
