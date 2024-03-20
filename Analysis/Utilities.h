@@ -375,7 +375,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
     return quad_indx;
 }
 
-vector<int> B2muKpi_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<double> Mu3_Eta, ROOT::VecOps::RVec<double> Mu4_Eta, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2){
+vector<int> B2muKpi_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<double> Mu3_Eta, ROOT::VecOps::RVec<double> Mu4_Eta, ROOT::VecOps::RVec<double> Mu3_Phi, ROOT::VecOps::RVec<double> Mu4_Phi,  ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2){
     vector<int> quad_indx(QuadrupletVtx_Chi2.size(), 0);
     
     for (int j=0; j<QuadrupletVtx_Chi2.size(); j++){
@@ -404,7 +404,7 @@ vector<int> B2muKpi_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RV
     return quad_indx;
 }
 
-vector<int> B2mu2K_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<double> Mu3_Eta, ROOT::VecOps::RVec<double> Mu4_Eta, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2){
+vector<int> B2mu2K_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<double> Mu3_Eta, ROOT::VecOps::RVec<double> Mu3_Phi, ROOT::VecOps::RVec<double> Mu4_Phi, ROOT::VecOps::RVec<double> Mu4_Eta, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2){
     vector<int> quad_indx(QuadrupletVtx_Chi2.size(), 1);
     return quad_indx;
 }
