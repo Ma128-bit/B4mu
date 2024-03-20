@@ -25,7 +25,7 @@ process.printTree = cms.EDAnalyzer("ParticleListDrawer",
 )
 """
 process.printTree = cms.EDAnalyzer("ParticleTreeDrawer",
-                                   src = cms.InputTag("genParticles"),                                                                 
+                                   src = cms.InputTag("packedGenParticles"),                                                                 
                                    printP4 = cms.untracked.bool(False),
                                    printPtEtaPhi = cms.untracked.bool(False),
                                    printVertex = cms.untracked.bool(False),
