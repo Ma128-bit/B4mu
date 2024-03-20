@@ -566,8 +566,6 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         
     //
 
-    std::vector<const pat::PackedGenParticle*> GenParticle_saved;
-
     ///////////////Fill Genparticles ///////////////
     if(isMc){
         uint j=0;
@@ -575,9 +573,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
         std::vector<int> genPidx;
         
         for(edm::View<pat::PackedGenParticle>::const_iterator gp=genParticlesn2->begin(); gp!=genParticlesn2->end(), j<ngenP; ++gp , ++j){
-            
             if( (fabs(gp->pdgId())==13 || fabs(gp->pdgId())==321 || fabs(gp->pdgId())==211) && (fabs(gp->mother(0)->pdgId())==313 || fabs(gp->mother(0)->pdgId())==443) ){ //mu K+ pi
-                if(fabs(gp->mother(0)->pdgId())==313) GenParticle_saved.push_back(gp);
                 GenParticle_PdgId.push_back(gp->pdgId());
                 GenParticle_Pt.push_back(gp->pt());
                 GenParticle_Eta.push_back(gp->eta());
@@ -638,11 +634,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                         }       
                         if (fabs(daughter->pdgId())==313){
-                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_saved.begin(); it != GenParticle_saved.end(); ++it) {
-                                const pat::PackedGenParticle* particle = *it;
-                                if(particle->mother(0) == gp->daughter(k)){
-                                    if(particle->pdgId() == 321) number_good_GrandDaughters_K++;
-                                    if(particle->pdgId() == 211) number_good_GrandDaughters_pi++;
+                            for(edm::View<pat::PackedGenParticle>::const_iterator gp2=genParticlesn2->begin(); gp2!=genParticlesn2->end(), jj<ngenP; ++gp2 , ++jj) {
+                                if( (fabs(gp2->pdgId())==321 || fabs(gp2->pdgId())==211) && (fabs(gp2->mother(0)->pdgId())==313) && gp2->mother(0) == gp->daughter(k)){
+                                    if(gp2->pdgId() == 321) number_good_GrandDaughters_K++;
+                                    if(gp2->pdgId() == 211) number_good_GrandDaughters_pi++;
                                 }
                             } 
                         }
@@ -688,13 +683,11 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                         }
                         if (fabs(daughter->pdgId())==313){
-                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_saved.begin(); it != GenParticle_saved.end(); ++it) {
-                                const pat::PackedGenParticle* particle = *it;
-                                if(particle->mother(0) == gp->daughter(k) && fabs(particle->pdgId())==321 || fabs(particle->pdgId())==211){
-                                    GenParticle_Pt_v2.push_back(granddaughter->pt());
-                                    GenParticle_Eta_v2.push_back(granddaughter->eta());
-                                    GenParticle_Phi_v2.push_back(granddaughter->pdgId());
-                                    GenParticle_Phi_v2.push_back(granddaughter->phi());
+                            for(edm::View<pat::PackedGenParticle>::const_iterator gp2=genParticlesn2->begin(); gp2!=genParticlesn2->end(), jj<ngenP; ++gp2 , ++jj) {
+                                if( (fabs(gp2->pdgId())==321 || fabs(gp2->pdgId())==211) && (fabs(gp2->mother(0)->pdgId())==313) && gp2->mother(0) == gp->daughter(k)){
+                                    GenParticle_Pt_v2.push_back(particle->pt());
+                                    GenParticle_Eta_v2.push_back(particle->eta());
+                                    GenParticle_Phi_v2.push_back(particle->phi());
                                 }
                             }
                         }
