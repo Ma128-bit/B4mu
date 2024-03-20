@@ -638,7 +638,13 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                         }       
                         if (fabs(daughter->pdgId())==313){
-                            for 
+                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_Ptr.begin(); it != GenParticle_Ptr.end(); ++it) {
+                                const pat::PackedGenParticle* particle = *it;
+                                if(particle->mother(0) == gp->daughter(k)){
+                                    if(particle->pdgId() == 321) number_good_GrandDaughters_K++;
+                                    if(particle->pdgId() == 211) number_good_GrandDaughters_pi++;
+                                }
+                            } 
                         }
                     }
                 }
@@ -682,10 +688,9 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             }
                         }
                         if (fabs(daughter->pdgId())==313){
-                            cout<<"IN fabs(daughter->pdgId())==313"<<endl;
-                            for (uint l = 0; l < daughter->numberOfDaughters(); ++l) {
-                                const reco::Candidate* granddaughter = daughter->daughter(l);
-                                if (fabs(granddaughter->pdgId())==321 || fabs(granddaughter->pdgId())==211){
+                            for (std::vector<const pat::PackedGenParticle*>::const_iterator it = GenParticle_Ptr.begin(); it != GenParticle_Ptr.end(); ++it) {
+                                const pat::PackedGenParticle* particle = *it;
+                                if(particle->mother(0) == gp->daughter(k) && fabs(particle->pdgId())==321 || fabs(particle->pdgId())==211){
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
                                     GenParticle_Eta_v2.push_back(granddaughter->eta());
                                     GenParticle_Phi_v2.push_back(granddaughter->pdgId());
@@ -695,7 +700,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         }
                     }
                 }
-                if(number_good_GrandDaughters_mu>2) cout<<"number_good_GrandDaughters>4"<<endl;
+                if(number_good_GrandDaughters_mu>2) cout<<"number_good_GrandDaughters>2"<<endl;
             }
         }
     } //End GenParticles_v2
