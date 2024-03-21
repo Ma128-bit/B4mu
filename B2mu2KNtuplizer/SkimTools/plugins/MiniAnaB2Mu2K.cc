@@ -630,7 +630,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                     if (fabs(granddaughter->pdgId())==321) number_good_GrandDaughters_KK++;
                                 }
                             }
-                        }       
+                        }  /*     
                         if (fabs(daughter->pdgId())==313){
                             uint jj=0;
                             for(edm::View<pat::PackedGenParticle>::const_iterator gp2=genParticlesn2->begin(); gp2!=genParticlesn2->end(), jj<ngenP; ++gp2 , ++jj) {
@@ -639,7 +639,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                     if(gp2->pdgId() == 211) number_good_GrandDaughters_pi++;
                                 }
                             } 
-                        }
+                        }*/
                     }
                 }
                 if(number_good_GrandDaughters_KK==2 && number_good_GrandDaughters_mu==2 && number_phi==1 && number_jpsi==1 && is2K==true){
