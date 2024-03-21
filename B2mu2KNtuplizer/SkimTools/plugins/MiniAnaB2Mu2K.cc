@@ -176,9 +176,9 @@ private:
     std::vector<int> GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId;
     std::vector<double> GenParticle_Pt, GenParticle_Eta,    GenParticle_Phi, GenParticle_vx, GenParticle_vy, GenParticle_vz;
 
-    std::vector<double> GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2;
+    std::vector<double> GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId_v2;
 
-    std::vector<double> GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk;
+    std::vector<double> GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk;
 
     //Vtx position
     std::vector<double>  Muon_vx,  Muon_vy,  Muon_vz;
@@ -654,6 +654,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
                                     GenParticle_Eta_v2.push_back(granddaughter->eta());
                                     GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                    GenParticle_PdgId_v2.push_back(granddaughter->pdgId());
                                 }
                             }
                         }
@@ -664,6 +665,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                     GenParticle_Pt_trk.push_back(granddaughter->pt());
                                     GenParticle_Eta_trk.push_back(granddaughter->eta());
                                     GenParticle_Phi_trk.push_back(granddaughter->phi());
+                                    GenParticle_PdgId_trk.push_back(granddaughter->pdgId());
                                 }
                             }
                         }
@@ -680,15 +682,17 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                     GenParticle_Pt_v2.push_back(granddaughter->pt());
                                     GenParticle_Eta_v2.push_back(granddaughter->eta());
                                     GenParticle_Phi_v2.push_back(granddaughter->phi());
+                                    GenParticle_PdgId_v2.push_back(granddaughter->pdgId());
                                 }
                             }
                         }
                         if (fabs(daughter->pdgId())==313){
                             for(edm::View<pat::PackedGenParticle>::const_iterator gp2=genParticlesn2->begin(); gp2!=genParticlesn2->end(), jj<ngenP; ++gp2 , ++jj) {
                                 if( (fabs(gp2->pdgId())==321 || fabs(gp2->pdgId())==211) && (fabs(gp2->mother(0)->pdgId())==313) && gp2->mother(0) == gp->daughter(k)){
-                                    GenParticle_Pt_v2.push_back(gp2->pt());
-                                    GenParticle_Eta_v2.push_back(gp2->eta());
-                                    GenParticle_Phi_v2.push_back(gp2->phi());
+                                    GenParticle_Pt_trk.push_back(gp2->pt());
+                                    GenParticle_Eta_trk.push_back(gp2->eta());
+                                    GenParticle_Phi_trk.push_back(gp2->phi());
+                                    GenParticle_PdgId_trk.push_back(gp2->pdgId());
                                 }
                             }
                         }
