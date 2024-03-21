@@ -1967,9 +1967,11 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     GenParticle_Pt_v2.clear();
     GenParticle_Eta_v2.clear();
     GenParticle_Phi_v2.clear();
+    GenParticle_PdgId_v2.clear();
     GenParticle_Pt_trk.clear();
     GenParticle_Eta_trk.clear();
     GenParticle_Phi_trk.clear();
+    GenParticle_PdgId_trk.clear();
     GenParticle_MotherPdgId.clear();
     GenParticle_GrandMotherPdgId.clear();
     GenParticle_vx.clear();
@@ -2360,10 +2362,12 @@ void MiniAnaB2Mu2K::beginJob() {
     tree_->Branch("GenParticle_Pt_v2", &GenParticle_Pt_v2);
     tree_->Branch("GenParticle_Eta_v2", &GenParticle_Eta_v2);
     tree_->Branch("GenParticle_Phi_v2", &GenParticle_Phi_v2);
+    tree_->Branch("GenParticle_PdgId_v2", &GenParticle_PdgId_v2);
 
     tree_->Branch("GenParticle_Pt_trk", &GenParticle_Pt_trk);
     tree_->Branch("GenParticle_Eta_trk", &GenParticle_Eta_trk);
     tree_->Branch("GenParticle_Phi_trk", &GenParticle_Phi_trk);
+    tree_->Branch("GenParticle_PdgId_trk", &GenParticle_PdgId_trk);
 
     tree_->Branch("GenParticle_MotherPdgId", &GenParticle_MotherPdgId);
     tree_->Branch("GenParticle_GrandMotherPdgId", &GenParticle_GrandMotherPdgId);
