@@ -230,7 +230,10 @@ if __name__ == "__main__":
             rdf = rdf.Define("PhiMassTest2K", TwoObjMassFit(0.493677, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
             rdf = rdf.Define("PhiMassTestKpi", TwoObjMassFit(0.493677, 0.139570), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
             rdf = rdf.Define("PhiMassTestKpi_test", TwoObjMassFit(0.139570, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
-            
+
+        if(analysis_type=="B2muKpi"):
+            branches.append("genMatchB2muKpi")
+            df = df.Define("genMatchB2muKpi","GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double Mu1_Eta, double Mu2_Eta, double Mu3_Eta, double Mu4_Eta, double Mu1_Phi, double Mu2_Phi, double Mu3_Phi, double Mu4_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2, ROOT::VecOps::RVec<double> GenParticle_Pt_trk, ROOT::VecOps::RVec<double> GenParticle_Eta_trk, ROOT::VecOps::RVec<double> GenParticle_Phi_trk, ROOT::VecOps::RVec<int> GenParticle_PdgID_trk){
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
         
