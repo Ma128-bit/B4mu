@@ -999,7 +999,7 @@ vector<vector<double>> GenMatching_v2(ROOT::VecOps::RVec<float> MuonPt, ROOT::Ve
     return out;
 }
 
-int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double Mu1_Eta, double Mu2_Eta, double Mu3_Eta, double Mu4_Eta, double Mu1_Phi, double Mu2_Phi, double Mu3_Phi, double Mu4_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2, ROOT::VecOps::RVec<double> GenParticle_Pt_trk, ROOT::VecOps::RVec<double> GenParticle_Eta_trk, ROOT::VecOps::RVec<double> GenParticle_Phi_trk, ROOT::VecOps::RVec<int> GenParticle_PdgID_trk){
+int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double Mu1_Eta, double Mu2_Eta, double Mu3_Eta, double Mu4_Eta, double Mu1_Phi, double Mu2_Phi, double Mu3_Phi, double Mu4_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2, ROOT::VecOps::RVec<double> GenParticle_Pt_trk, ROOT::VecOps::RVec<double> GenParticle_Eta_trk, ROOT::VecOps::RVec<double> GenParticle_Phi_trk, ROOT::VecOps::RVec<int> GenParticle_PdgId_trk){
     vector<double> pt, eta, phi; vector<double> pt_trk, eta_trk, phi_trk;
     pt.push_back(Mu1_Pt); pt.push_back(Mu2_Pt); pt_trk.push_back(Mu3_Pt); pt_trk.push_back(Mu4_Pt);
     eta.push_back(Mu1_Eta); eta.push_back(Mu2_Eta); eta_trk.push_back(Mu3_Eta); eta_trk.push_back(Mu4_Eta);
@@ -1019,7 +1019,7 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
         Genpt_trk.push_back(GenParticle_Pt_trk.at(j));
         Geneta_trk.push_back(GenParticle_Eta_trk.at(j));
         Genphi_trk.push_back(GenParticle_Phi_trk.at(j));
-        Genpdgid_trk.push_back(GenParticle_PdgID_trk.at(j));
+        Genpdgid_trk.push_back(GenParticle_PdgId_trk.at(j));
     }
     if(Genpt_trk.size() != 2) {cout<<"Genpt_trk.size() != 2"<<endl; return 100;}
     int Gen_matching = 0;
