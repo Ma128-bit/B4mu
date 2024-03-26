@@ -16,11 +16,11 @@ if [ -z ${4+x} ]; then
 fi
 
 if [ "${Analysis_type}" == "B2mu2K" ]; then
-    Ana_temp="B2mu2trk"
+    Ana_temp="B2Mu2K"
 elif [ "${Analysis_type}" == "B2muKpi" ]; then
-    Ana_temp="B2mu2trk"
+    Ana_temp="B2Mu2K"
 elif [ "${Analysis_type}" == "B4mu" ]; then
-    Ana_temp="B4mu"
+    Ana_temp="B4Mu"
 else
     echo "Error: The Analysis_type is incorrect."
     return
@@ -66,7 +66,7 @@ declare -a MC22_B2mu2trk_pre=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13
 declare -a MC22_B2mu2trk_post=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bs2mu2K_Mini/240325_102401" "BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bd2muKpi_Mini/240325_102412")
 declare -a B2mu2trk_MC_label=("B2mu2K" "B2muKpi")
 
-if [ "${Ana_temp}" == "B4mu" ]; then
+if [ "${Ana_temp}" == "B4Mu" ]; then
     if [ "${year}" == "2022" ]; then
         case "$era" in
           C)
@@ -132,7 +132,7 @@ if [ "${Ana_temp}" == "B4mu" ]; then
         echo "Error: The year is incorrect."
         return
     fi
-elif [ "${Ana_temp}" == "B2mu2trk" ]; then
+elif [ "${Ana_temp}" == "B2Mu2K" ]; then
     if [ "${year}" == "2022" ]; then
         case "$era" in
           C)
@@ -222,10 +222,10 @@ if [[ "$era" != *"MC"* ]]; then
         fi
 
         cp templates/submit.condor "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
-        ndir=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/" | wc -l)
+        ndir=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/" | wc -l)
         tot=0
         for j in $(seq 0 $((ndir - 1))); do
-            nfiles=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/000${j}/" | wc -l)
+            nfiles=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/000${j}/" | wc -l)
             tot=$((tot + nfiles))
         done
         #echo "nfiles=${tot}"
@@ -237,7 +237,7 @@ if [[ "$era" != *"MC"* ]]; then
         cp templates/launch_analysis.sh "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
         sed -i "s#PATH#${home_directory}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#DELTAVAL#${delta}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
-        sed -i "s#INPUT_DIR#${file_directory}/ParkingDoubleMuonLowMass${i}/SkimB4Mu_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${Ana_temp}/${year}_era${era}/stream_${i}/launch_analysis.sh"
+        sed -i "s#INPUT_DIR#${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#OUTPUT_DIR#${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#TRUEFALSE#0#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
         sed -i "s#ANALYSISTYPE#${Analysis_type}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/launch_analysis.sh"
