@@ -1011,7 +1011,7 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
         Geneta.push_back(GenParticle_Eta_v2.at(j));
         Genphi.push_back(GenParticle_Phi_v2.at(j));
     }
-    if(Genpt.size() != 2) {cout<<"Genpt.size() != 2"<<endl; return 101}
+    if(Genpt.size() != 2) {cout<<"Genpt.size() != 2"<<endl; return 101;}
     vector<double> Genpt_trk, Geneta_trk, Genphi_trk;
     vector<int> Genpdgid_trk;
     vector<int> trk_pdgID;
@@ -1021,7 +1021,7 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
         Genphi_trk.push_back(GenParticle_Phi_trk.at(j));
         Genpdgid_trk.push_back(GenParticle_PdgID_trk.at(j));
     }
-    if(Genpt_trk.size() != 2) {cout<<"Genpt_trk.size() != 2"<<endl; return 100}
+    if(Genpt_trk.size() != 2) {cout<<"Genpt_trk.size() != 2"<<endl; return 100;}
     int Gen_matching = 0;
     int Gen_matching_trk = 0;
     int is_K = 0;
