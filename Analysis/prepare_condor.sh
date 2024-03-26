@@ -87,11 +87,11 @@ if [ "${Ana_temp}" == "B4Mu" ]; then
           G)
             datasets=("${G_2022[@]}")
             ;;
-          MC_B4mu_pre)
+          MC_pre)
             datasets=("${MC22_B4mu_pre[@]}")
             label=("${B4mu_MC_label[@]}")
             ;;
-          MC_B4mu_post)
+          MC_post)
             datasets=("${MC22_B4mu_post[@]}")
             label=("${B4mu_MC_label[@]}")
             ;;
@@ -153,11 +153,11 @@ elif [ "${Ana_temp}" == "B2Mu2K" ]; then
           G)
             datasets=("${Control_G_2022[@]}")
             ;;
-          MC_B2mu2trk_pre)
+          MC_pre)
             datasets=("${MC22_B2mu2trk_pre[@]}")
             label=("${B2mu2trk_MC_label[@]}")
             ;;
-          MC_B2mu2trk_post)
+          MC_post)
             datasets=("${MC22_B2mu2trk_post[@]}")
             label=("${B2mu2trk_MC_label[@]}")
             ;;
