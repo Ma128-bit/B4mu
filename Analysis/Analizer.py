@@ -233,7 +233,7 @@ if __name__ == "__main__":
 
         if(analysis_type=="B2muKpi"):
             branches.append("genMatchB2muKpi")
-            df = df.Define("genMatchB2muKpi","GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double Mu1_Eta, double Mu2_Eta, double Mu3_Eta, double Mu4_Eta, double Mu1_Phi, double Mu2_Phi, double Mu3_Phi, double Mu4_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2, ROOT::VecOps::RVec<double> GenParticle_Pt_trk, ROOT::VecOps::RVec<double> GenParticle_Eta_trk, ROOT::VecOps::RVec<double> GenParticle_Phi_trk, ROOT::VecOps::RVec<int> GenParticle_PdgID_trk){
+            df = df.Define("genMatchB2muKpi","GenMatching2muKpi(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgID_trk){
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
         
