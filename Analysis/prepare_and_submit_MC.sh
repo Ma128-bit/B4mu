@@ -30,9 +30,9 @@ declare -a MC_B2muKpi=("B2muKpi")
 
 if [ "${analysis_type}" == "B4mu" ]; then
   MC_id=("${MC_B4mu[@]}")
-if [ "${analysis_type}" == "B2mu2K" ]; then
+elif [ "${analysis_type}" == "B2mu2K" ]; then
   MC_id=("${MC_B2mu2K[@]}")
-if [ "${analysis_type}" == "B2muKpi" ]; then
+elif [ "${analysis_type}" == "B2muKpi" ]; then
   MC_id=("${MC_B2muKpi[@]}")
 else
   echo "Error: The analysis_type is incorrect."
