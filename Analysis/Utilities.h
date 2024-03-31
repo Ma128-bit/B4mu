@@ -1069,7 +1069,7 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
         double dRpt_min = *dRpt_min_p;
         double dpt_min = dpt_temp[dRpt_minID];
         double dR_min = dR_temp[dRpt_minID];
-        if(dR_min<0.06 && dpt_min<0.1){
+        if(dR_min<0.03 && dpt_min<0.8){
             Gen_matching_trk++;
             Genpt_trk.erase(Genpt_trk.begin() + dRpt_minID);
             Geneta_trk.erase(Geneta_trk.begin() + dRpt_minID);
