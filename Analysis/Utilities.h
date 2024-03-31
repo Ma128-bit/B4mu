@@ -1080,7 +1080,7 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
     }
     if(!(Gen_matching==2)) return 99;
     if(!(Gen_matching_trk==2)) return 98;
-    if(!(trk_pdgID[0]==321 && trk_pdgID[1]==211)) return -1;
+    if(!(abs(trk_pdgID[0])==321 && abs(trk_pdgID[1])==211)) return -1;
     else return 1;
 }
 
