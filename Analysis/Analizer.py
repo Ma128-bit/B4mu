@@ -233,7 +233,7 @@ if __name__ == "__main__":
 
         if(analysis_type=="B2muKpi" and isMC>0):
             branches.append("genMatchB2muKpi")
-            df = df.Define("genMatchB2muKpi","GenMatching2muKpi(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk)")
+            rdf = rdf.Define("genMatchB2muKpi","GenMatching2muKpi(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk)")
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
         
