@@ -1011,7 +1011,7 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
         Geneta.push_back(GenParticle_Eta_v2.at(j));
         Genphi.push_back(GenParticle_Phi_v2.at(j));
     }
-    if(Genpt.size() != 2) {cout<<"Genpt.size() != 2"<<endl; return 101;}
+    if(Genpt.size() != 2) {cout<<"Genpt.size() != 2"<<endl; return 10;}
     vector<double> Genpt_trk, Geneta_trk, Genphi_trk;
     vector<int> Genpdgid_trk;
     vector<int> trk_pdgID;
@@ -1021,7 +1021,7 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
         Genphi_trk.push_back(GenParticle_Phi_trk.at(j));
         Genpdgid_trk.push_back(GenParticle_PdgId_trk.at(j));
     }
-    if(Genpt_trk.size() != 2) {cout<<"Genpt_trk.size() != 2"<<endl; return 100;}
+    if(Genpt_trk.size() != 2) {cout<<"Genpt_trk.size() != 2"<<endl; return 9;}
     int Gen_matching = 0;
     int Gen_matching_trk = 0;
     int is_K = 0;
@@ -1078,11 +1078,11 @@ int GenMatching2muKpi(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt
             Genpdgid_trk.erase(Genpdgid_trk.begin() + dRpt_minID);
         }
     }
-    if(!(Gen_matching==2)) return 99;
-    if(!(Gen_matching_trk==2)) return 98;
+    if(!(Gen_matching==2)) return 8;
+    if(!(Gen_matching_trk==2)) return 7;
     if(abs(trk_pdgID[0])==211 && abs(trk_pdgID[1])==321) return -1;
     if(abs(trk_pdgID[0])==321 && abs(trk_pdgID[1])==211) return 1;
-    else return 97;
+    else return 6;
 }
 
 /*
