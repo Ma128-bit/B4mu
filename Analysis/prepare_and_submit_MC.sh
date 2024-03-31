@@ -47,7 +47,7 @@ echo "End preparation ... beginning submission"
 sleep 1
 
 cd $analysis_type
-for e in "${eras[@]}"; do
+for e in "${MC_name[@]}"; do
     cd "${year}_${e}"
     for id in "${MC_id[@]}"; do
         cd "${id}"
