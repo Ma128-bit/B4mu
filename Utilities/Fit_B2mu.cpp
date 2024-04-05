@@ -127,19 +127,19 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
-    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.005, 0.001, 0.02);
+    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.05, 0.002, 0.02);
     RooRealVar width("width", "width", 0.005, 0.001, 0.02);
     //RooVoigtian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, width, sigma);
     RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
 
     RooRealVar mean2("mean2", "Media gaussiana 2", (up+down)/2, down, up);
-    RooRealVar sigma2("sigma2", "Deviazione standard gaussiana 2", 0.005, 0.001, 0.02);
+    RooRealVar sigma2("sigma2", "Deviazione standard gaussiana 2", 0.05, 0.005, 0.1);
     RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF 2", x, mean2, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
-    RooRealVar nsig("nsig", "Numero di segnali", 200000, 50000, 400000);
-    RooRealVar nsig2("nsi2g", "Numero di segnali2", 200000, 50000, 400000);
-    RooRealVar nbkg("nbkg", "Numero di background",2000000, 1700000, 2400000);
+    RooRealVar nsig("nsig", "Numero di segnali", 400000, 50000, 800000);
+    RooRealVar nsig2("nsi2g", "Numero di segnali2", 400000, 50000, 800000);
+    RooRealVar nbkg("nbkg", "Numero di background",9000000, 7000000, 10000000);
 
     RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, voigt_pdf2, pol_bkg), RooArgList(nsig, nsig2, nbkg));
 
