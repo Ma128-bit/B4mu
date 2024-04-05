@@ -122,7 +122,7 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     RooRealVar c2("c2", "c2", -0.2, -10, 10);
     RooRealVar c3("c3", "c3", -0.2, -10, 10);
     
-    RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2));
+    RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1);
     pol_bkg.fitTo(data,Range("R1,R3"));
     
     // Creare la gaussiana
