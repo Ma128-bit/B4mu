@@ -16,7 +16,7 @@ using namespace RooFit;
 //Dimu_mass>>h1(100,2.8,3.5)
 //Ditrk_mass>>h2(100,0.795,1.06)
 
-void Fit(TString data="../FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root", TString var="Ditrk_mass", float down=0.795, float up=1.06) {
+void Fit(TString data="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root", TString var="Ditrk_mass", float down=0.795, float up=1.06) {
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(data);
     if (!file || file->IsZombie()) {
