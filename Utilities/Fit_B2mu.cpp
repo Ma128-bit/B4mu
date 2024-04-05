@@ -49,19 +49,20 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
     RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.2);
-    RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
+    RooRealVar width("width", "width", 0.01, 0.001, 0.2);
+    RooVoigtian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, width, sigma);
     
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 10, 10000000);
     RooRealVar nbkg("nbkg", "Numero di background", 10, 10000000);
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf, exp_bkg), RooArgList(nsig, nbkg));
+    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, exp_bkg), RooArgList(nsig, nbkg));
 
     RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
-    model.plotOn(frame, Components(gauss_pdf), LineStyle(kDashed), LineColor(kRed));
+    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed));
     model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, gamma)), Layout(0.1,0.6,0.9));
     model.plotOn(frame, Components(exp_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
@@ -111,19 +112,19 @@ void Fit_B2mu2trk() {
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
     RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.005, 0.2);
-    RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
+    RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
     
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 140, 10, 1000);
     RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf, exp_bkg), RooArgList(nsig, nbkg));
+    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, exp_bkg), RooArgList(nsig, nbkg));
 
     RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
-    model.plotOn(frame, Components(gauss_pdf), LineStyle(kDashed), LineColor(kRed));
+    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed));
     model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, gamma)), Layout(0.1,0.6,0.9));
     model.plotOn(frame, Components(exp_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
