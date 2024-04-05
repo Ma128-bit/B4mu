@@ -47,8 +47,8 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     RooExponential exp_bkg("exp_bkg", "exp_bkg", x, gamma);
 
     // Creare la gaussiana
-    RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
-    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.005, 0.2);
+    RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
+    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.2);
     RooGaussian gauss_pdf("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
     
     // Creare il modello di fit combinando fondo e gaussiana
