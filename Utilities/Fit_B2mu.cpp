@@ -138,7 +138,7 @@ void Fit_B2mu2trk() {
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, c1)), Layout(0.1,0.6,0.9));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, mean2, sigma, sigma2)), Layout(0.1,0.6,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
