@@ -40,7 +40,9 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     x.setBins(100);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
-    
+    x.setRange("R1", 1.002, 1.01);
+    x.setRange("R2", 1.01, 1.03);
+    x.setRange("RT", 1.03, 1.05);
     
     // Creare il fondo
     RooRealVar c1("c1", "c1", -0.2, -10, 10);
@@ -48,7 +50,8 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     RooRealVar c3("c3", "c3", -0.2, -10, 10);
     
     RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2,c3));
-
+    pol_bkg.fitTo(data,Range("R1,R3"));
+    
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
     RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.2);
