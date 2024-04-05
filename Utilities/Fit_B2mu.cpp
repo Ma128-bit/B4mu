@@ -139,7 +139,7 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 800000, 100000, 2000000);
     RooRealVar nsig2("nsi2g", "Numero di segnali2", 800000, 100000, 2000000);
-    RooRealVar nbkg("nbkg", "Numero di background",9000000, 7000000, 10000000);
+    RooRealVar nbkg("nbkg", "Numero di background",12000000, 7000000, 15000000);
 
     RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, voigt_pdf2, pol_bkg), RooArgList(nsig, nsig2, nbkg));
 
