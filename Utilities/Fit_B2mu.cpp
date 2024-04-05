@@ -42,7 +42,7 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
     x.setRange("R1", 1.002, 1.01);
     x.setRange("R2", 1.01, 1.03);
-    x.setRange("RT", 1.03, 1.05);
+    x.setRange("R3", 1.03, 1.05);
     
     // Creare il fondo
     RooRealVar c1("c1", "c1", -0.2, -10, 10);
