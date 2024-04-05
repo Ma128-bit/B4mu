@@ -64,12 +64,13 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF 2", x, mean2, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
-    RooRealVar nsig("nsig", "Numero di segnali", 400000, 100000, 800000);
+    RooRealVar nsig("nsig", "Numero di segnali", 200000, 50000, 400000);
+    RooRealVar nsig2("nsi2g", "Numero di segnali2", 200000, 50000, 400000);
     RooRealVar nbkg("nbkg", "Numero di background",2000000, 1700000, 2400000);
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, voigt_pdf2, pol_bkg), RooArgList(nsig/2, nsig/2, nbkg));
+    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, voigt_pdf2, pol_bkg), RooArgList(nsig, nsig2, nbkg));
 
-    RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
+    RooFitResult *result = model.fitTo(data, Save(true));
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
@@ -128,6 +129,7 @@ void Fit_B2mu2trk() {
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 140, 10, 1000);
     RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
+    
 
     RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, pol_bkg), RooArgList(nsig, nbkg));
 
