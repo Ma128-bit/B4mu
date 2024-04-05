@@ -47,7 +47,7 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     RooRealVar c2("c2", "c2", -0.2, -10, 10);
     RooRealVar c3("c3", "c3", -0.2, -10, 10);
     
-    RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2,c3);
+    RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2,c3));
 
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
