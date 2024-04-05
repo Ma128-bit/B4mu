@@ -89,7 +89,7 @@ void Fit2mu2K(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu
     //file->Close();
 }
 
-void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root", TString var="Ditrk_mass", float down=0.75, float up=1.05) {
+void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root", TString var="Ditrk_mass", float down=0.82, float up=1.05) {
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(dataFile);
     if (!file || file->IsZombie()) {
@@ -113,7 +113,7 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     x.setBins(100);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
-    x.setRange("R1", 0.75, 0.83);
+    x.setRange("R1", 0.82, 0.83);
     x.setRange("R2", 1.01, 1.03);
     x.setRange("R3", 0.93, 1.05);
     
