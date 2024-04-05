@@ -32,7 +32,7 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
         return;
     }
     TString s;
-    s.Form(">>h1(100,%d,%d)", down, up);
+    s.Form(">>h1(100,%f,%f)", down, up);
     tree->Draw(var+s);
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
       
