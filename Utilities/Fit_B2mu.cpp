@@ -43,8 +43,11 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     
     
     // Creare il fondo
-    RooRealVar gamma("#Gamma", "Gamma", -0.2, -10, 10);
-    RooExponential exp_bkg("exp_bkg", "exp_bkg", x, gamma);
+    RooRealVar c1("c1", "c1", -0.2, -10, 10);
+    RooRealVar c2("c2", "c2", -0.2, -10, 10);
+    RooRealVar c3("c3", "c3", -0.2, -10, 10);
+    
+    RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2,c3);
 
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
@@ -56,15 +59,15 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     RooRealVar nsig("nsig", "Numero di segnali", 10, 10000000);
     RooRealVar nbkg("nbkg", "Numero di background", 10, 10000000);
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, exp_bkg), RooArgList(nsig, nbkg));
+    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, pol_bkg), RooArgList(nsig, nbkg));
 
     RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, gamma)), Layout(0.1,0.6,0.9));
-    model.plotOn(frame, Components(exp_bkg), LineStyle(kDashed), LineColor(kGreen));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, c1)), Layout(0.1,0.6,0.9));
+    model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
@@ -105,9 +108,9 @@ void Fit_B2mu2trk() {
     
     
     // Creare il fondo
-    RooRealVar gamma("#Gamma", "Gamma", -0.2, -10, 10);
-    RooExponential exp_bkg("exp_bkg", "exp_bkg", x, gamma);
-    exp_bkg.fitTo(data,Range("R1,R2"));
+    RooRealVar c1("#c1", "c1", -0.2, -10, 10);
+    RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1);
+    pol_bkg.fitTo(data,Range("R1,R2"));
 
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
@@ -118,15 +121,15 @@ void Fit_B2mu2trk() {
     RooRealVar nsig("nsig", "Numero di segnali", 140, 10, 1000);
     RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, exp_bkg), RooArgList(nsig, nbkg));
+    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, pol_bkg), RooArgList(nsig, nbkg));
 
     RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, gamma)), Layout(0.1,0.6,0.9));
-    model.plotOn(frame, Components(exp_bkg), LineStyle(kDashed), LineColor(kGreen));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma, c1)), Layout(0.1,0.6,0.9));
+    model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
