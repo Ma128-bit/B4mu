@@ -33,7 +33,7 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     }
     TString s;
     s.Form(">>h1(100,%f,%f)", down, up);
-    tree->Draw(var+s);
+    tree->Draw(var+s, "abs(Quadruplet_Mass-5.2)<0.4");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
       
     RooRealVar x(var, var, down, up);
