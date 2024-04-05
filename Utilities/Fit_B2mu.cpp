@@ -129,8 +129,8 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     RooRealVar mean("mean", "Media gaussiana", 0.89, 0.88, 0.9);
     RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.05, 0.002, 0.02);
     RooRealVar width("width", "width", 0.005, 0.001, 0.02);
-    RooVoigtian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, width, sigma);
-    //RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
+    //RooVoigtian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, width, sigma);
+    RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
 
     RooRealVar mean2("mean2", "Media gaussiana 2", 0.89, 0.88, 0.9);
     RooRealVar sigma2("sigma2", "Deviazione standard gaussiana 2", 0.05, 0.005, 0.1);
