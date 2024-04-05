@@ -89,7 +89,7 @@ void Fit2mu2K(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu
     //file->Close();
 }
 
-void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root", TString var="Ditrk_mass", float down=0.8, float up=1.05) {
+void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root", TString var="Ditrk_mass", float down=0.75, float up=1.05) {
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(dataFile);
     if (!file || file->IsZombie()) {
@@ -113,9 +113,9 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     x.setBins(100);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
-    x.setRange("R1", 1.002, 1.01);
+    x.setRange("R1", 0.75, 0.83);
     x.setRange("R2", 1.01, 1.03);
-    x.setRange("R3", 1.03, 1.05);
+    x.setRange("R3", 0.93, 1.05);
     
     // Creare il fondo
     RooRealVar c1("c1", "c1", -0.2, -10, 10);
@@ -151,69 +151,6 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed+2));
     model.plotOn(frame, Components(voigt_pdf2), LineStyle(kDashed), LineColor(kRed+2));
     model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, mean2, sigma, sigma2)), Layout(0.5,0.9,0.9));
-    model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
-    model.plotOn(frame);
-    
-    TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
-    frame->Draw();
-    //canvas->SaveAs("Fit_results/Fit_BsJPsiPhi.png");
-
-    // Chiudere il file
-    //file->Close();
-}
-
-void Fit_B2mu2trk() {
-    // Aprire il file root contenente l'albero
-    TFile *file = new TFile("../Analysis/FinalFiles/Analyzed_Data_All.root");
-    if (!file || file->IsZombie()) {
-        std::cerr << "Errore nell'apertura del file" << std::endl;
-        return;
-    }
-
-    // Ottenere l'albero dal file
-    TTree *tree = (TTree*)file->Get("FinalTree");
-    if (!tree) {
-        std::cerr << "Errore nell'apertura dell'albero" << std::endl;
-        file->Close();
-        return;
-    }
-    
-    //tree->Draw("Quadruplet_Mass>>h1(24,5.05,5.65)","((BsJPsiPhi_sel_OS1>0 && Dimu_OS1_dR>0.17 && Dimu_OS1_dR<1.08) || (BsJPsiPhi_sel_OS2>0 && Dimu_OS2_dR>0.17 && Dimu_OS2_dR<1.08)) && FlightDistBS_SV_Significance>2.25 ");
-    tree->Draw("Quadruplet_Mass>>h1(30,5.05,5.65)","((BsJPsiPhi_sel_OS1>0) || (BsJPsiPhi_sel_OS2>0))");
-    TH1F *h1 = (TH1F*)gDirectory->Get("h1");
-    
-    RooRealVar x("Quadruplet_Mass", "Quadruplet_Mass", 5.05, 5.65);
-    x.setRange("R1", 5.05, 5.25);
-    x.setRange("R2", 5.55, 5.65);
-    x.setRange("RT", 5.05, 5.65);
-    x.setBins(24);
-    
-    RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
-    
-    
-    // Creare il fondo
-    RooRealVar c1("#c1", "c1", -0.2, -10, 10);
-    RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1);
-    pol_bkg.fitTo(data,Range("R1,R2"));
-
-    // Creare la gaussiana
-    RooRealVar mean("mean", "Media gaussiana", 5.367, 5.33, 5.40);
-    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.005, 0.2);
-    RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
-    
-    // Creare il modello di fit combinando fondo e gaussiana
-    RooRealVar nsig("nsig", "Numero di segnali", 140, 10, 1000);
-    RooRealVar nbkg("nbkg", "Numero di background", 320, 40, 2000);
-    
-
-    RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, pol_bkg), RooArgList(nsig, nbkg));
-
-    RooFitResult *result = model.fitTo(data, Save(true), Range("RT"));
-    
-    RooPlot *frame = x.frame();
-    data.plotOn(frame);
-    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed));
-    //model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, mean2, sigma, sigma2)), Layout(0.1,0.6,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
