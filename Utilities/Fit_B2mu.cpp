@@ -53,7 +53,8 @@ void Fit(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_20
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
     RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.01, 0.001, 0.2);
     RooRealVar width("width", "width", 0.01, 0.001, 0.2);
-    RooVoigtian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, width, sigma);
+    //RooVoigtian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, width, sigma);
+    RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
     
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 10, 10000000);
