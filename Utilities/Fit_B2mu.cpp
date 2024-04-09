@@ -247,12 +247,12 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
         return;
     }
     TString s;
-    s.Form(">>h1(100,%f,%f)", down, up);
+    s.Form(">>h1(80,%f,%f)", down, up);
     tree->Draw(var+s, "abs(Ditrk_mass-1.019)<0.075 && abs(Dimu_mass-3.1)<0.1");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
       
     RooRealVar x(var, var, down, up);
-    x.setBins(100);
+    x.setBins(80);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
     x.setRange("R1", 4.9, 5.1);
