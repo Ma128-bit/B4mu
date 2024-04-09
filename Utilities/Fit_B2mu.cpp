@@ -198,7 +198,7 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
-    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.05, 0.001, 0.3);
+    RooRealVar sigma("sigma", "Deviazione standard gaussiana", 0.02, 0.001, 0.3);
     RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
 
     // Creare la gaussiana
