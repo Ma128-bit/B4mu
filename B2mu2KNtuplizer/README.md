@@ -12,7 +12,8 @@ source submit_CRAB.sh [era] [year]
 
 **For MC:**
 
-* `[year]` = `2022` or `2023`: `[era]` = `MC_pre, MC_post`
+* `[year]` = `2022` : `[era]` = `MC_B2mu2trk_pre, MC_B2mu2trk_post`
+* `[year]` = `2023` : `[era]` = `Not available`
 
 <p>&nbsp;</p>
 
