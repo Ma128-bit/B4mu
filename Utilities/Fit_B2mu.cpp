@@ -225,10 +225,10 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    //canvas->SaveAs("Fit_results/Fit_BsJPsiPhi.png");
+    canvas->SaveAs("Fit2muKpiM.png");
 
     // Chiudere il file
-    //file->Close();
+    file->Close();
 }
 
 void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root", TString var="Quadruplet_Mass", float down=4.9, float up=5.6) {
@@ -296,8 +296,8 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    //canvas->SaveAs("Fit_results/Fit_BsJPsiPhi.png");
+    canvas->SaveAs("Fit2mu2KM.png");
 
     // Chiudere il file
-    //file->Close();
+    file->Close();
 }
