@@ -45,6 +45,10 @@ declare -a D_v2_2023=("240221_224146" "240221_224200" "240221_224215" "240221_22
 
 declare -a MC22_B4mu_pre=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bd_Mini/240229_131755" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_pre_Bs_Mini/240229_131808" "BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_pre_BsJPsiPhi_Mini/240221_224821")
 declare -a MC22_B4mu_post=("BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bd_Mini/240229_131939" "Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB4Mu_2022_MC_B4mu_post_Bs_Mini/240229_131952" "BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/SkimB4Mu_2022_MC_BsJPsiPhi_post_BsJPsiPhi_Mini/240221_224937")
+
+declare -a MC23_B4mu_pre=()
+declare -a MC23_B4mu_post=()
+
 declare -a B4mu_MC_label=("Bd_4mu" "Bs_4mu" "BsJPsiPhi")
 
 declare -a Control_C_2022=("240325_150034" "240325_150048" "240325_150101" "240325_150115" "240325_150132" "240325_150147" "240325_150201" "240325_150215")
@@ -122,6 +126,14 @@ if [ "${Ana_temp}" == "B4Mu" ]; then
             ;;
           D-v2)
             datasets=("${D_v2_2023[@]}")
+            ;;
+          MC_pre)
+            datasets=("${MC23_B4mu_pre[@]}")
+            label=("${B4mu_MC_label[@]}")
+            ;;
+          MC_post)
+            datasets=("${MC23_B4mu_post[@]}")
+            label=("${B4mu_MC_label[@]}")
             ;;
           *)
             echo "Error: The era is incorrect."
