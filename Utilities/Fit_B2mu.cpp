@@ -231,7 +231,7 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     //file->Close();
 }
 
-void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root", TString var="Quadruplet_Mass", float down=4.9, float up=5.6) {
+void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root", TString var="Quadruplet_Mass", float down=4.9, float up=5.6) {
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(dataFile);
     if (!file || file->IsZombie()) {
