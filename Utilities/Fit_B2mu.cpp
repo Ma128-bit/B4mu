@@ -255,9 +255,9 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
     x.setBins(80);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
-    x.setRange("R1", 4.9, 5.1);
-    x.setRange("R2", 5.1, 5.4);
-    x.setRange("R3", 5.4, 5.6);
+    x.setRange("R1", 4.9, 5.2);
+    x.setRange("R2", 5.2, 5.4);
+    x.setRange("R3", 5.5, 5.6);
     
     // Creare il fondo
     RooRealVar c1("c1", "c1", -0.2, -10, 10);
