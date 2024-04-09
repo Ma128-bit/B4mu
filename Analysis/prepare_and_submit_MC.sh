@@ -1,9 +1,9 @@
 # !/bin/sh
 # Usage:
-#    prepare_and_submit_ALL.sh <Year> <Delta>
+#    prepare_and_submit_MC.sh <Year> <Analysis_type> <Delta>
 
 helpstring="Usage:
-prepare_and_submit_ALL.sh [Year] [Analysis_type] [Delta]"
+prepare_and_submit_MC.sh [Year] [Analysis_type] [Delta]"
 
 year=$1
 analysis_type=$2
