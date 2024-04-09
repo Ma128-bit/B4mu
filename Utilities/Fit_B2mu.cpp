@@ -219,7 +219,7 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(voigt_pdf, voigt_pdf2), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2, c1, c2)), Layout(0.1,0.4,0.9));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, mean2, sigma, sigma2, c1, c2)), Layout(0.1,0.4,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
