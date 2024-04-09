@@ -241,7 +241,7 @@ if __name__ == "__main__":
 
         if(analysis_type!="B4mu"):
             rdf = rdf.Filter("Quadruplet_Mass>4.9 && Quadruplet_Mass<5.9")
-            rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.2")
+            rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
             rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
         
         rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_chi_"+str(chi)+"_index_"+str(index)+".root", branches)
