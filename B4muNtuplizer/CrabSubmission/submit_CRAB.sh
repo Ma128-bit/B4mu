@@ -69,13 +69,13 @@ if [ "${year}" == "2022" ]; then
         globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
         ;;
-      MC_B4mu_pre)
+      MC_pre)
         globaltag="130X_mcRun3_2022_realistic_v5"
         datasets=("${MC22_B4mu_pre[@]}")
         label=("${B4mu_MC_label[@]}")
         input_type="global"
         ;;
-      MC_B4mu_post)
+      MC_post)
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
         datasets=("${MC22_B4mu_post[@]}")
         label=("${B4mu_MC_label[@]}")
@@ -123,13 +123,13 @@ elif [ "${year}" == "2023" ]; then
         globaltag="130X_dataRun3_PromptAnalysis_v1"
         golden_json="Collisions23/Cert_Collisions2023_eraD_369803_370790_Golden.json"
         ;;
-      MC_B4mu_pre)
+      MC_pre)
         globaltag="130X_mcRun3_2023_realistic_v14"
         datasets=("${MC23_B4mu_pre[@]}")
         label=("${B4mu_MC_label[@]}")
         input_type="global"
         ;;
-      MC_B4mu_post)
+      MC_post)
         globaltag="130X_mcRun3_2023_realistic_postBPix_v2"
         datasets=("${MC23_B4mu_post[@]}")
         label=("${B4mu_MC_label[@]}")
