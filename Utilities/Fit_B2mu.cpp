@@ -275,7 +275,7 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
     // Creare la gaussiana
     RooRealVar mean2("mean2", "Media gaussiana2", (up+down)/2, down, up);
     RooRealVar sigma2("sigma2", "Deviazione standard gaussiana2", 0.05, 0.001, 0.3);
-    RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF2", x, mean, sigma2);
+    RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF2", x, mean2, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 0.25e+07, 1e+05, 1e+07);
