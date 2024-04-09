@@ -176,12 +176,12 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
         return;
     }
     TString s;
-    s.Form(">>h1(100,%f,%f)", down, up);
+    s.Form(">>h1(80,%f,%f)", down, up);
     tree->Draw(var+s, "abs(Ditrk_mass-0.892)<0.075 && abs(Dimu_mass-3.1)<0.1");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
       
     RooRealVar x(var, var, down, up);
-    x.setBins(100);
+    x.setBins(80);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
     x.setRange("R1", 4.9, 5.1);
@@ -218,8 +218,6 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
-    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed+2));
-    model.plotOn(frame, Components(voigt_pdf2), LineStyle(kDashed), LineColor(kRed+2));
     model.plotOn(frame, Components(voigt_pdf, voigt_pdf2), LineStyle(kDashed), LineColor(kRed));
     model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma)), Layout(0.1,0.4,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
