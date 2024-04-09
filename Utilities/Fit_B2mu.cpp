@@ -205,7 +205,7 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     // Creare la gaussiana
     RooRealVar mean2("mean2", "Media gaussiana2", (up+down)/2, down, up);
     RooRealVar sigma2("#sigma_{2}", "Deviazione standard gaussiana2", 0.05, 0.001, 0.3);
-    RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF2", x, mean, sigma2);
+    RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF2", x, mean2, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig_G1", "Numero di segnali", 0.25e+07, 1e+05, 1e+07);
@@ -219,7 +219,7 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(voigt_pdf, voigt_pdf2), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2)), Layout(0.1,0.4,0.9));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2, c1, c2)), Layout(0.1,0.4,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
@@ -290,7 +290,7 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
     RooPlot *frame = x.frame();
     data.plotOn(frame);
     model.plotOn(frame, Components(voigt_pdf, voigt_pdf2), LineStyle(kDashed), LineColor(kRed));
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2)), Layout(0.1,0.4,0.9));
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2, c1, c2)), Layout(0.1,0.4,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
     
