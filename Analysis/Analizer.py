@@ -224,19 +224,25 @@ if __name__ == "__main__":
 
         if(analysis_type!="B4mu"):
             rdf = DiMassVar_control(rdf, branches, analysis_type)
-            
+            """
             branches.append("PhiMassTest2K")
             branches.append("PhiMassTestKpi")
             branches.append("PhiMassTestKpi_test")
             rdf = rdf.Define("PhiMassTest2K", TwoObjMassFit(0.493677, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
             rdf = rdf.Define("PhiMassTestKpi", TwoObjMassFit(0.493677, 0.139570), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
             rdf = rdf.Define("PhiMassTestKpi_test", TwoObjMassFit(0.139570, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
-
+            """
+            
         if(analysis_type=="B2muKpi" and isMC>0):
             branches.append("genMatchB2muKpi")
             rdf = rdf.Define("genMatchB2muKpi","GenMatching2muKpi(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk)")
         if not output_dir.endswith("/"):
             output_dir= output_dir + "/"
+
+        if(analysis_type!="B4mu"):
+            rdf = rdf.Filter("Quadruplet_Mass>4.9 && Quadruplet_Mass<5.9")
+            rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.2")
+            rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
         
         rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_chi_"+str(chi)+"_index_"+str(index)+".root", branches)
         
