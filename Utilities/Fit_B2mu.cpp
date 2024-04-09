@@ -278,9 +278,9 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
     RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF2", x, mean2, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
-    RooRealVar nsig("nsig1", "Numero di segnali", 0.25e+06, 1e+05, 1e+06);
-    RooRealVar nsig2("nsig2", "Numero di segnali2", 0.25e+06, 1e+05, 1e+06);
-    RooRealVar nbkg("nbkg", "Numero di background",0.6e+06, 1e+05, 1e+06);
+    RooRealVar nsig("nsig1", "Numero di segnali", 0.25e+06, 1e+04, 1e+06);
+    RooRealVar nsig2("nsig2", "Numero di segnali2", 0.25e+06, 1e+04, 1e+06);
+    RooRealVar nbkg("nbkg", "Numero di background",0.6e+06, 1e+04, 1e+06);
 
     RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, voigt_pdf2, pol_bkg), RooArgList(nsig, nsig2, nbkg));
 
