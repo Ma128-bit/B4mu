@@ -177,7 +177,7 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     }
     TString s;
     s.Form(">>h1(80,%f,%f)", down, up);
-    tree->Draw(var+s, "abs(Ditrk_mass-0.892)<0.075 && abs(Dimu_mass-3.1)<0.1");
+    tree->Draw(var+s, "abs(Ditrk_mass-0.892)<0.075 && abs(Dimu_mass-3.0969)<0.09");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
       
     RooRealVar x(var, var, down, up);
@@ -248,7 +248,7 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
     }
     TString s;
     s.Form(">>h1(80,%f,%f)", down, up);
-    tree->Draw(var+s, "abs(Ditrk_mass-1.019)<0.075 && abs(Dimu_mass-3.1)<0.1");
+    tree->Draw(var+s, "abs(Ditrk_mass-1.01945)<0.0135 && abs(Dimu_mass-3.0969)<0.09");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
       
     RooRealVar x(var, var, down, up);
