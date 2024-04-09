@@ -160,7 +160,10 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     //file->Close();
 }
 
-void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root", TString var="Quadruplet_Mass", float down=4.9, float up=5.6) {
+void Fit2muKpiM(TString year="2022") {
+    TString var="Quadruplet_Mass";
+    float down=4.9; float up=5.6;
+    TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root";
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(dataFile);
     if (!file || file->IsZombie()) {
@@ -225,13 +228,17 @@ void Fit2muKpiM(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("Fit2muKpiM.png");
+    canvas->SaveAs("Fit2muKpiM_"+year+".png");
 
     // Chiudere il file
     file->Close();
 }
 
-void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root", TString var="Quadruplet_Mass", float down=4.9, float up=5.6) {
+void Fit2mu2KM(TString year="2022") {
+    TString var="Quadruplet_Mass"; 
+    float down=4.9;
+    float up=5.6;
+    TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_"+year+".root";
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(dataFile);
     if (!file || file->IsZombie()) {
@@ -296,7 +303,7 @@ void Fit2mu2KM(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2m
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("Fit2mu2KM.png");
+    canvas->SaveAs("Fit2mu2KM_"+year+".png");
 
     // Chiudere il file
     file->Close();
