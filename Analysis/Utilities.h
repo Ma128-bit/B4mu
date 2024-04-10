@@ -384,8 +384,8 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
             if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
         }
         // Tracks acceptance:
-        if ( abs(Mu3_Eta.at(j)) > 2.4 ||  Mu3_Pt.at(j)<1.2 ) acceptanceCUT=false;
-        if ( abs(Mu4_Eta.at(j)) > 2.4 ||  Mu4_Pt.at(j)<1.2 ) acceptanceCUT=false;
+        if ( abs(Mu3_Eta.at(j)) > 2.4 ||  Mu3_Pt.at(j)<3. ) acceptanceCUT=false;
+        if ( abs(Mu4_Eta.at(j)) > 2.4 ||  Mu4_Pt.at(j)<3. ) acceptanceCUT=false;
         
         if(acceptanceCUT==false) continue;
         if(exit_code<2) exit_code=2;
