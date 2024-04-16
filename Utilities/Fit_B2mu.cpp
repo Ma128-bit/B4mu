@@ -163,7 +163,7 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
 void Fit2muKpiM(TString year="2022") {
     TString var="Quadruplet_Mass";
     float down=4.9; float up=5.6;
-    TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_2022.root";
+    TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2muKpi_"+year+".root";
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(dataFile);
     if (!file || file->IsZombie()) {
