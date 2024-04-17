@@ -312,11 +312,11 @@ void Fit2mu2KM(TString year="2022") {
     file->Close();
 }
 
-void Fit2mu2KMC(TString year="2022") {
+void Fit2mu2KMC(TString year="2022", TString addition="_Kpi_with") {
     TString var="Quadruplet_Mass"; 
     float down=4.9;
     float up=5.6;
-    TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_MC_B2mu2K_"+year+".root";
+    TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_MC"+addition+"_B2mu2K_"+year+".root";
     // Aprire il file root contenente l'albero
     TFile *file = new TFile(dataFile);
     if (!file || file->IsZombie()) {
@@ -381,7 +381,7 @@ void Fit2mu2KMC(TString year="2022") {
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("Fit2mu2KMC_"+year+".png");
+    canvas->SaveAs("Fit2mu2KMC"+addition+"_"+year+".png");
 
     // Chiudere il file
     file->Close();
