@@ -432,12 +432,12 @@ void Fit2muKpiMC(TString year="2022", TString addition="_2K_with") {
     
     // Creare la gaussiana
     RooRealVar mean("mean", "Media gaussiana", (up+down)/2, down, up);
-    RooRealVar sigma("#sigma_{1}", "Deviazione standard gaussiana", 0.02, 0.001, 0.3);
+    RooRealVar sigma("#sigma_{1}", "Deviazione standard gaussiana", 0.02, 0.001, 0.08);
     RooGaussian voigt_pdf("voigt_pdf", "Signal Gaussian PDF", x, mean, sigma);
 
     // Creare la gaussiana
     RooRealVar mean2("mean2", "Media gaussiana2", (up+down)/2, down, up);
-    RooRealVar sigma2("#sigma_{2}", "Deviazione standard gaussiana2", 0.05, 0.001, 0.3);
+    RooRealVar sigma2("#sigma_{2}", "Deviazione standard gaussiana2", 0.05, 0.001, 0.08);
     RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF2", x, mean, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
