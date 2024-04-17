@@ -183,7 +183,7 @@ void Fit2muKpiM(TString year="2022") {
     }
     TString s;
     s.Form(">>h1(80,%f,%f)", down, up);
-    tree->Draw(var+s, "abs(Ditrk_mass-0.892)<0.075 && abs(Dimu_mass-3.0969)<0.09");
+    tree->Draw(var+s, "abs(Ditrk_mass-0.892)<0.06 && abs(Dimu_mass-3.0969)<0.1");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
       
     RooRealVar x(var, var, down, up);
