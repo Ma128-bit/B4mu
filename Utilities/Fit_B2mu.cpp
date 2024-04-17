@@ -123,7 +123,8 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     RooRealVar c2("c2", "c2", -0.2, -10, 10);
     RooRealVar c3("c3", "c3", -0.2, -10, 10);
     
-    RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2,c3));
+    //RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2,c3));
+    RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1);
     pol_bkg.fitTo(data,Range("R1,R3"));
     
     // Creare la gaussiana
@@ -148,7 +149,9 @@ void Fit2muKpi(TString dataFile="../Analysis/FinalFiles_B2muKpi/Analyzed_Data_B2
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
-    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed));
+    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed+2));
+    model.plotOn(frame, Components(voigt_pdf2), LineStyle(kDashed), LineColor(kRed+2));
+    model.plotOn(frame, Components(voigt_pdf, voigt_pdf2), LineStyle(kDashed), LineColor(kRed));
     model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mean, sigma)), Layout(0.5,0.9,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
     model.plotOn(frame);
