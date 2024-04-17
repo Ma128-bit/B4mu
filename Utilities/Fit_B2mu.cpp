@@ -314,7 +314,7 @@ void Fit2mu2KM(TString year="2022") {
 
 void Fit2mu2KMC(TString year="2022", TString addition="_Kpi_with") {
     TString var="Quadruplet_Mass"; 
-    float down=4.9;
+    float down=5.1;
     float up=5.6;
     TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_MC"+addition+"_B2mu2K_"+year+".root";
     // Aprire il file root contenente l'albero
