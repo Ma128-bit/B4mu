@@ -364,8 +364,8 @@ void Fit2mu2KMC(TString year="2022", TString addition="_Kpi_with") {
     RooGaussian voigt_pdf2("voigt_pdf2", "Signal Gaussian PDF2", x, mean, sigma2);
     
     // Creare il modello di fit combinando fondo e gaussiana
-    RooRealVar nsig("nsig_G1", "Numero di segnali", 0.3e+06, 0.5e+03, 1e+07);
-    RooRealVar nsig2("nsig_G2", "Numero di segnali2", 0.3e+06, 0.5e+03, 1e+07);
+    RooRealVar nsig("nsig_G1", "Numero di segnali", 0.3e+06, 0.5e+02, 1e+07);
+    RooRealVar nsig2("nsig_G2", "Numero di segnali2", 0.3e+06, 0.5e+02, 1e+07);
     RooRealVar nbkg("nbkg", "Numero di background",0.6e+03, 1e+01, 1e+06);
 
     RooAddPdf model("model", "Signal + Background", RooArgList(voigt_pdf, voigt_pdf2, pol_bkg), RooArgList(nsig, nsig2, nbkg));
