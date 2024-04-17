@@ -451,8 +451,8 @@ void Fit2muKpiMC(TString year="2022", TString addition="_2K_with") {
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
-    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed+2));
-    model.plotOn(frame, Components(voigt_pdf2), LineStyle(kDashed), LineColor(kRed+2));
+    //model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed+2));
+    //model.plotOn(frame, Components(voigt_pdf2), LineStyle(kDashed), LineColor(kRed+2));
     model.plotOn(frame, Components(voigt_pdf, voigt_pdf2), LineStyle(kDashed), LineColor(kRed));
     model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2, c1, c2)), Layout(0.1,0.4,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
