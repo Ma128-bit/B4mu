@@ -381,7 +381,7 @@ void Fit2mu2KMC(TString year="2022") {
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("Fit2mu2KM_"+year+".png");
+    canvas->SaveAs("Fit2mu2KMC_"+year+".png");
 
     // Chiudere il file
     file->Close();
