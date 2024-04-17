@@ -50,7 +50,7 @@ void Fit2mu2K(TString dataFile="../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu
     RooRealVar c3("c3", "c3", -0.2, -10, 10);
     
     //RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2));
-    RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1;
+    RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1);
     pol_bkg.fitTo(data,Range("R1,R3"));
     
     // Creare la gaussiana
