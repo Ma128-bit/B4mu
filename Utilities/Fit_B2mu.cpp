@@ -349,8 +349,8 @@ void Fit2mu2KMC(TString year="2022", TString addition="_Kpi_with") {
     RooRealVar c2("c2", "c2", -0.2, -10, 10);
     RooRealVar c3("c3", "c3", -0.2, -10, 10);
     
-    //RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1);
-    RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2));
+    RooExponential pol_bkg("pol_bkg", "pol_bkg", x, c1);
+    //RooChebychev pol_bkg("pol_bkg", "pol_bkg", x, RooArgList(c1,c2));
     pol_bkg.fitTo(data,Range("R1,R3"));
     
     // Creare la gaussiana
@@ -374,6 +374,8 @@ void Fit2mu2KMC(TString year="2022", TString addition="_Kpi_with") {
     
     RooPlot *frame = x.frame();
     data.plotOn(frame);
+    model.plotOn(frame, Components(voigt_pdf), LineStyle(kDashed), LineColor(kRed+2));
+    model.plotOn(frame, Components(voigt_pdf2), LineStyle(kDashed), LineColor(kRed+2));
     model.plotOn(frame, Components(voigt_pdf, voigt_pdf2), LineStyle(kDashed), LineColor(kRed));
     model.paramOn(frame, Parameters(RooArgSet(nsig, nsig2, nbkg, mean, sigma, sigma2, c1, c2)), Layout(0.1,0.4,0.9));
     model.plotOn(frame, Components(pol_bkg), LineStyle(kDashed), LineColor(kGreen));
