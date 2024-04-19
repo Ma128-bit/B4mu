@@ -1404,7 +1404,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         dxyErr_mu3.push_back(signed_IP2D_mu3.second.error());
                         dxyErr_mu4.push_back(signed_IP2D_mu4.second.error());
 
-                        std::pair<bool,Measurement1D> signed_IP2D_mu1_BS = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, BSstate);
+                        std::pair<bool,Measurement1D> signed_IP2D_mu1_BS = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, beamSpot);
                         
                         IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99);
                         IsoTrackMu2_Pt.push_back(-99); IsoTrackMu2_Eta.push_back(-99); IsoTrackMu2_Phi.push_back(-99);
