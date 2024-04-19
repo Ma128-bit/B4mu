@@ -200,7 +200,7 @@ private:
     
     std::vector<int>  Muon_simPdgId, Muon_simMotherPdgId, Muon_simFlavour,  Muon_simType, Muon_simBX, Muon_simHeaviestMotherFlavour;
     std::vector<double> Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi, GenMatchMu1_SimPt, GenMatchMu2_SimPt, GenMatchMu3_SimPt, GenMatchMu4_SimPt, GenMatchMu1_SimEta, GenMatchMu2_SimEta, GenMatchMu3_SimEta, GenMatchMu4_SimEta, GenMatchMu1_SimPhi, GenMatchMu2_SimPhi, GenMatchMu3_SimPhi, GenMatchMu4_SimPhi, GenMatchMu1_Pt, GenMatchMu2_Pt, GenMatchMu3_Pt, GenMatchMu4_Pt, GenMatchMu1_Eta, GenMatchMu2_Eta, GenMatchMu3_Eta, GenMatchMu4_Eta, GenMatchMu1_Phi, GenMatchMu2_Phi, GenMatchMu3_Phi, GenMatchMu4_Phi;
-    std::vector<double> mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, vtx_prob, vtx_prob_1;
+    std::vector<double> mu1_pfreliso03, mu2_pfreliso03, mu3_pfreliso03, mu4_pfreliso03, vtx_prob, vtx_ref_prob;
 
     std::vector<double> RefTrack1_Pt, RefTrack1_Eta, RefTrack1_Phi, RefTrack1_QuadrupletIndex;
     std::vector<double> RefTrack2_Pt, RefTrack2_Eta, RefTrack2_Phi, RefTrack2_QuadrupletIndex;
@@ -927,8 +927,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             
                             RefittedSV_Chi2.push_back(SVertex_ref.totalChiSquared());
                             RefittedSV_nDOF.push_back(SVertex_ref.degreesOfFreedom());
-                            vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), SVertex_ref.degreesOfFreedom()));
-                            vtx_prob_1.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), 1));
+                            vtx_ref_prob.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), SVertex_ref.degreesOfFreedom()));
                             RefittedSV_Mass.push_back(LV_B.M());
                             cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
                         } else {
@@ -939,8 +938,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             
                             RefittedSV_Chi2.push_back(-99);
                             RefittedSV_nDOF.push_back(-99);
-                            vtx_prob.push_back(-99);
-                            vtx_prob_1.push_back(-99);
+                            vtx_ref_prob.push_back(-99);
                             RefittedSV_Mass.push_back(-99);
                         }
                         ///////////////Check Trigger Matching///////////////
@@ -1057,7 +1055,9 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         QuadrupletVtx_x.push_back(B_It->vx());
                         QuadrupletVtx_y.push_back(B_It->vy());
                         QuadrupletVtx_z.push_back(B_It->vz());
-                        
+
+                        vtx_prob.push_back(1. - ROOT::Math::chisquared_cdf(B_It->vertexChi2(), (int)B_It->vertexNdof()));
+
                         QuadrupletVtx_Chi2.push_back(B_It->vertexChi2());
                         QuadrupletVtx_NDOF.push_back(B_It->vertexNdof());
                         
@@ -1401,7 +1401,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         QuadrupletVtx_x.push_back(-99);
                         QuadrupletVtx_y.push_back(-99);
                         QuadrupletVtx_z.push_back(-99);
-                        
+
+                        vtx_prob.push_back(-99);
                         QuadrupletVtx_Chi2.push_back(-99);
                         QuadrupletVtx_NDOF.push_back(-99);
                         
@@ -1473,8 +1474,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         RefittedSV_Chi2.push_back(-99);
                         RefittedSV_nDOF.push_back(-99);
                         RefittedSV_Mass.push_back(-99);
-                        vtx_prob.push_back(-99);
-                        vtx_prob_1.push_back(-99);
+                        vtx_ref_prob.push_back(-99);
 
                         IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99);
                         IsoTrackMu2_Pt.push_back(-99); IsoTrackMu2_Eta.push_back(-99); IsoTrackMu2_Phi.push_back(-99);
@@ -2023,7 +2023,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     mu3_pfreliso03.clear();
     mu4_pfreliso03.clear();
     vtx_prob.clear();
-    vtx_prob_1.clear();
+    vtx_ref_prob.clear();
 
     RefTrack1_Pt.clear();
     RefTrack1_Eta.clear();
@@ -2468,7 +2468,7 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("mu3_pfreliso03", &mu3_pfreliso03);
     tree_->Branch("mu4_pfreliso03", &mu4_pfreliso03);
     tree_->Branch("vtx_prob", &vtx_prob);
-    tree_->Branch("vtx_prob_1", &vtx_prob_1);
+    tree_->Branch("vtx_ref_prob", &vtx_ref_prob);
 
     tree_->Branch("GenMatchMu1_SimPt", &GenMatchMu1_SimPt);
     tree_->Branch("GenMatchMu2_SimPt", &GenMatchMu2_SimPt);
