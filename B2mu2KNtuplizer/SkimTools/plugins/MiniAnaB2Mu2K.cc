@@ -225,7 +225,8 @@ private:
     std::vector<std::vector<double>>  QuadrupletVtx_cov;
     
     std::vector<double> dxy_mu1, dxy_mu2, dxy_mu3, dxy_mu4, dxyErr_mu1, dxyErr_mu2, dxyErr_mu3, dxyErr_mu4;
-    
+    std::vector<double> mu1_bs_dxy, mu2_bs_dxy, mu3_bs_dxy, mu4_bs_dxy, mu1_bs_dxy_err, mu2_bs_dxy_err, mu3_bs_dxy_err, mu4_bs_dxy_err, mu1_bs_dxy_sig, mu2_bs_dxy_sig, mu3_bs_dxy_sig, mu4_bs_dxy_sig;
+
     std::vector<double>  RefittedPV_x;
     std::vector<double>  RefittedPV_y;
     std::vector<double>  RefittedPV_z;
@@ -1514,6 +1515,25 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         dxyErr_mu2.push_back(signed_IP2D_mu2.second.error());
                         dxyErr_mu3.push_back(signed_IP2D_mu3.second.error());
                         dxyErr_mu4.push_back(signed_IP2D_mu4.second.error());
+
+                        //Add dxy info wrt BS
+                        reco::Vertex BS_vertex = reco::Vertex(beamSpot.position(), beamSpot.rotatedCovariance3D(), 0., 0., 0);
+                        std::pair<bool,Measurement1D> signed_IP2D_mu1_BS = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, BS_vertex);
+                        std::pair<bool,Measurement1D> signed_IP2D_mu2_BS = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, BS_vertex);
+                        std::pair<bool,Measurement1D> signed_IP2D_mu3_BS = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, BS_vertex);
+                        std::pair<bool,Measurement1D> signed_IP2D_mu4_BS = IPTools::signedTransverseImpactParameter(transientTrack4, dir4, BS_vertex);
+                        mu1_bs_dxy.push_back(signed_IP2D_mu1_BS.second.value());
+                        mu2_bs_dxy.push_back(signed_IP2D_mu2_BS.second.value());
+                        mu3_bs_dxy.push_back(signed_IP2D_mu3_BS.second.value());
+                        mu4_bs_dxy.push_back(signed_IP2D_mu4_BS.second.value());
+                        mu1_bs_dxy_err.push_back(signed_IP2D_mu1_BS.second.error());
+                        mu2_bs_dxy_err.push_back(signed_IP2D_mu2_BS.second.error());
+                        mu3_bs_dxy_err.push_back(signed_IP2D_mu3_BS.second.error());
+                        mu4_bs_dxy_err.push_back(signed_IP2D_mu4_BS.second.error());
+                        mu1_bs_dxy_sig.push_back(signed_IP2D_mu1_BS.second.value()/signed_IP2D_mu1_BS.second.error());
+                        mu2_bs_dxy_sig.push_back(signed_IP2D_mu2_BS.second.value()/signed_IP2D_mu2_BS.second.error());
+                        mu3_bs_dxy_sig.push_back(signed_IP2D_mu3_BS.second.value()/signed_IP2D_mu3_BS.second.error());
+                        mu4_bs_dxy_sig.push_back(signed_IP2D_mu4_BS.second.value()/signed_IP2D_mu4_BS.second.error());   
                         
                         IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99);
                         IsoTrackMu2_Pt.push_back(-99); IsoTrackMu2_Eta.push_back(-99); IsoTrackMu2_Phi.push_back(-99);
@@ -1648,7 +1668,20 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         dxyErr_mu2.push_back(-99);
                         dxyErr_mu3.push_back(-99);
                         dxyErr_mu4.push_back(-99);
-                        
+
+                        mu1_bs_dxy.push_back(-99);
+                        mu2_bs_dxy.push_back(-99);
+                        mu3_bs_dxy.push_back(-99);
+                        mu4_bs_dxy.push_back(-99);
+                        mu1_bs_dxy_err.push_back(-99);
+                        mu2_bs_dxy_err.push_back(-99);
+                        mu3_bs_dxy_err.push_back(-99);
+                        mu4_bs_dxy_err.push_back(-99);
+                        mu1_bs_dxy_sig.push_back(-99);
+                        mu2_bs_dxy_sig.push_back(-99);
+                        mu3_bs_dxy_sig.push_back(-99);
+                        mu4_bs_dxy_sig.push_back(-99);
+
                         GenMatchMu1_SimPt.push_back(-99);
                         GenMatchMu2_SimPt.push_back(-99);
                         GenMatchMu3_SimPt.push_back(-99);
@@ -2284,7 +2317,20 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     dxyErr_mu2.clear();
     dxyErr_mu3.clear();
     dxyErr_mu4.clear();
-    
+
+    mu1_bs_dxy.clear();
+    mu2_bs_dxy.clear();
+    mu3_bs_dxy.clear();
+    mu4_bs_dxy.clear();
+    mu1_bs_dxy_err.clear();
+    mu2_bs_dxy_err.clear();
+    mu3_bs_dxy_err.clear();
+    mu4_bs_dxy_err.clear();
+    mu1_bs_dxy_sig.clear();
+    mu2_bs_dxy_sig.clear();
+    mu3_bs_dxy_sig.clear();
+    mu4_bs_dxy_sig.clear();
+                                 
     RefittedPV_x.clear();
     RefittedPV_y.clear();
     RefittedPV_z.clear();
@@ -2599,7 +2645,20 @@ void MiniAnaB2Mu2K::beginJob() {
     tree_->Branch("dxyErr_mu2", &dxyErr_mu2);
     tree_->Branch("dxyErr_mu3", &dxyErr_mu3);
     tree_->Branch("dxyErr_mu4", &dxyErr_mu4);
-    
+
+    tree_->Branch("mu1_bs_dxy", &mu1_bs_dxy);
+    tree_->Branch("mu2_bs_dxy", &mu2_bs_dxy);
+    tree_->Branch("mu3_bs_dxy", &mu3_bs_dxy);
+    tree_->Branch("mu4_bs_dxy", &mu4_bs_dxy);
+    tree_->Branch("mu1_bs_dxy_err", &mu1_bs_dxy_err);
+    tree_->Branch("mu2_bs_dxy_err", &mu2_bs_dxy_err);
+    tree_->Branch("mu3_bs_dxy_err", &mu3_bs_dxy_err);
+    tree_->Branch("mu4_bs_dxy_err", &mu4_bs_dxy_err);
+    tree_->Branch("mu1_bs_dxy_sig", &mu1_bs_dxy_sig);
+    tree_->Branch("mu2_bs_dxy_sig", &mu2_bs_dxy_sig);
+    tree_->Branch("mu3_bs_dxy_sig", &mu3_bs_dxy_sig);
+    tree_->Branch("mu4_bs_dxy_sig", &mu4_bs_dxy_sig);
+                                 
     tree_->Branch("RefTrack1_Pt",           &RefTrack1_Pt);
     tree_->Branch("RefTrack1_Eta",          &RefTrack1_Eta);
     tree_->Branch("RefTrack1_Phi",          &RefTrack1_Phi);
