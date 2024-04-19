@@ -934,7 +934,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                                 RefCountedKinematicParticle mu3CandMC = SVertex_ref->currentParticle();
     
                                 SVertex_ref->movePointerToTheNextChild();
-                                RefCountedKinematicParticle mu3CandMC = SVertex_ref->currentParticle();
+                                RefCountedKinematicParticle mu4CandMC = SVertex_ref->currentParticle();
     
                                 KinematicParameters Mu1KP = mu1CandMC->currentState().kinematicParameters();
                                 KinematicParameters Mu2KP = mu2CandMC->currentState().kinematicParameters();		   
@@ -1241,6 +1241,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         TLorentzVector LV2=TLorentzVector( mu2->px(), mu2->py(), mu2->pz(), mu2->energy() );
                         TLorentzVector LV3=TLorentzVector( mu3->px(), mu3->py(), mu3->pz(), mu3->energy() );
                         TLorentzVector LV4=TLorentzVector( mu4->px(), mu4->py(), mu4->pz(), mu4->energy() );
+                        TLorentzVector LV_B;
                         LV_B = LV1 + LV2 + LV3 + LV4;
                         cout<<QuadrupletIndex<<" B_CandMass "<<B_It->mass()<<" B_Pt="<<B_It->pt()<<endl;
                         cout<<QuadrupletIndex<<" B_VectMass "<<LV_B.M()<<" B_Pt="<<LV_B.Pt()<<endl;
