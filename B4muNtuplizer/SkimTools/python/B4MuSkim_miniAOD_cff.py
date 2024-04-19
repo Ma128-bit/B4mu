@@ -113,7 +113,7 @@ FourMuonSelSeq = cms.Sequence(InitialPlots *
                                FourMuonsCand *
                                FourMuonsCandFilter *
                                PlotsAfterBCand *
-                               FourMuonsVtxKalmanFit
+                               FourMuonsVtxKinFit
                                #GoodFourMuonsVtxKalmanFit *
                                #PlotsAfterBCandSel
                                )
