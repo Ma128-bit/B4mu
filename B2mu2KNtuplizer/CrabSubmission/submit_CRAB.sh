@@ -158,7 +158,7 @@ if [[ "$era" != *"MC"* ]]; then
         crab submit -c "CRAB_stream_${i}.py"
         cd ..
         echo "Stream $i submitted!"
-        sleep 2
+        sleep 3
     done
 else
     mkdir -p "${year}_${era}"
@@ -180,7 +180,7 @@ else
         cd ..
         echo "${era} - $j submitted!"
         ((j++))
-        sleep 2
+        sleep 3
     done
 
 fi
