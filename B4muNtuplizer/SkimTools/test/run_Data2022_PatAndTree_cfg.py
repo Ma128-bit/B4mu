@@ -51,7 +51,7 @@ process.TreeMakerBkg = cms.EDAnalyzer("MiniAnaB4Mu",
                                       VertexLabel=cms.InputTag("offlineSlimmedPrimaryVertices"),
                                       genParticleLabel=cms.InputTag("prunedGenParticles"),
                                       pileupSummary = cms.InputTag("slimmedAddPileupInfo"),
-                                      Cand4MuLabel=cms.InputTag("FourMuonsVtxKalmanFit"),
+                                      Cand4MuLabel=cms.InputTag("FourMuonsVtxKinFit"),
                                       triggerResults = cms.InputTag("TriggerResults", "", "HLT"),
                                       objects = cms.InputTag("unpackedPatTrigger"),
                                       AlgInputTag = cms.InputTag( "gtStage2Digis" ),
@@ -64,36 +64,3 @@ process.B4MuSkim = cms.Path(process.FourMuonSelSeq*
                               process.unpackedPatTrigger*
                               process.TreeMakerBkg
                      )
-"""
-process.out = cms.OutputModule("PoolOutputModule",
-                               fileName = cms.untracked.string("fileMINIADOSIM.root"),
-                               SelectEvents = cms.untracked.PSet(SelectEvents = cms.vstring('B4MuSkim')),
-                               outputCommands = cms.untracked.vstring(
-        'drop *',
-        'keep *_*_*_Tau3MuSkim', 
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_generator_*_*',
-        'keep *_offlineBeamSpot_*_*',
-        'keep *_slimmedMuons_*_*',
-        'keep *_TriggerResults_*_*',
-        'keep *_gtStage2Digis_*_*',
-        'keep *_gmtStage2Digis_*_*',
-        'keep *_scalersRawToDigi_*_*',
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_patTrigger_*_*',
-        'keep *_slimmedAddPileupInfo_*_*',
-        'keep *_slimmedMETs_*_*',
-        'keep *_slimmedMETsNoHF_*_*',
-        'keep *_slimmedMETsPuppi_*_*',
-        'keep *_packedGenParticles_*_*',
-        'keep *_selectedPatTrigger_*_*',
-        'keep *_offlineSlimmedPrimaryVertices_*_*',
-        'keep *_slimmedSecondaryVertices_*_*',
-        'keep *_bunchSpacingProducer_*_*',
-        )
-)
-
-
-process.outpath = cms.EndPath(process.out) 
-"""
-
