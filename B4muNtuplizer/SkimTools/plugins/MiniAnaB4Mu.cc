@@ -888,48 +888,83 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         Ttracks.push_back(transientTrack2);
                         Ttracks.push_back(transientTrack3);
                         Ttracks.push_back(transientTrack4);
+                        
+                        /* Remove KalmanVertexFitter, include Kinematic fitter
                         KalmanVertexFitter SVfitter (true);
                         TransientVertex SVertex_ref = SVfitter.vertex(Ttracks);
                         vector < TransientTrack > ttrks = SVertex_ref.refittedTracks();
                         //cout<<"ttrks.size() :"<<ttrks.size()<<endl;
+                        */
+
+                        float chi = 0.;
+                        float ndf = 0.;
+                        KinematicParticleFactoryFromTransientTrack pFactory;
+                        ParticleMass JPsi_mass = 3.096916;
+                        ParticleMass muon_mass = 0.1056583;
+                        float muon_sigma = muon_mass*1.e-6;
+                        vector<RefCountedKinematicParticle> ParticlesList;
+                        ParticlesList.push_back(pFactory.particle(transientTrack1,muon_mass,chi,ndf,muon_sigma));
+                        ParticlesList.push_back(pFactory.particle(transientTrack2,muon_mass,chi,ndf,muon_sigma));
+                        ParticlesList.push_back(pFactory.particle(transientTrack3,muon_mass,chi,ndf,muon_sigma));
+                        ParticlesList.push_back(pFactory.particle(transientTrack4,muon_mass,chi,ndf,muon_sigma));
+                        //MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(JPsi_mass);
+                        //KinematicConstrainedVertexFitter kcvFitter;
+                        //RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList, j_psi_c);
+                        RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList);
+
                         
-                        TLorentzVector LV_B;
-                        LV_B.SetPxPyPzE(0, 0, 0, 0);
-                        
-                        if(SVertex_ref.isValid() && SVertex_ref.hasRefittedTracks() && ttrks.size()>2){
-                            //cout<<"VALID ref SV chi2="<<SVertex_ref.totalChiSquared()<<" NDF="<<SVertex_ref.degreesOfFreedom()<<endl;
-                            reco::Track SVTrack1 =ttrks.at(0).track();
-                            reco::Track SVTrack2 =ttrks.at(1).track();
-                            reco::Track SVTrack3 =ttrks.at(2).track();
-                            reco::Track SVTrack4 =ttrks.at(3).track();
-                            
-                            TLorentzVector LV1, LV2, LV3, LV4;
-                            LV1.SetPxPyPzE(SVTrack1.px(), SVTrack1.py(), SVTrack1.pz(), sqrt(pow(SVTrack1.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV2.SetPxPyPzE(SVTrack2.px(), SVTrack2.py(), SVTrack2.pz(), sqrt(pow(SVTrack2.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV3.SetPxPyPzE(SVTrack3.px(), SVTrack3.py(), SVTrack3.pz(), sqrt(pow(SVTrack3.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV4.SetPxPyPzE(SVTrack4.px(), SVTrack4.py(), SVTrack4.pz(), sqrt(pow(SVTrack4.p(), 2.0) + pow(0.10565, 2.0)));
-                            LV_B = LV1 + LV2 + LV3 + LV4;
-                            
-                            //cout<<"SVTrack1.pt() "<<SVTrack1.pt()<<" SVTrack1.eta() "<<SVTrack1.eta()<<" SVTrack1.phi() "<<SVTrack1.phi()<<endl;
-                            //cout<<"Track1.pt() "<<Track1.pt()<<" Track1.eta() "<<Track1.eta()<<" Track1.phi() "<<Track1.phi()<<endl;
-                            //cout<<"SVTrack2.pt() "<<SVTrack2.pt()<<" SVTrack2.eta() "<<SVTrack2.eta()<<" SVTrack2.phi() "<<SVTrack2.phi()<<endl;
-                            //cout<<"Track2.pt() "<<Track2.pt()<<" Track2.eta() "<<Track2.eta()<<" Track2.phi() "<<Track2.phi()<<endl;
-                            //cout<<"SVTrack3.pt() "<<SVTrack3.pt()<<" SVTrack3.eta() "<<SVTrack3.eta()<<" SVTrack3.phi() "<<SVTrack3.phi()<<endl;
-                            //cout<<"Track3.pt() "<<Track3.pt()<<" Track3.eta() "<<Track3.eta()<<" Track3.phi() "<<Track3.phi()<<endl;
-                            //cout<<"SVTrack4.pt() "<<SVTrack4.pt()<<" SVTrack4.eta() "<<SVTrack4.eta()<<" SVTrack4.phi() "<<SVTrack4.phi()<<endl;
-                            //cout<<"Track4.pt() "<<Track4.pt()<<" Track4.eta() "<<Track4.eta()<<" Track4.phi() "<<Track4.phi()<<endl;
-                            //cout<<"mu1->pt() "<<mu1->pt()<<" mu2->pt() "<<mu2->pt()<<" mu3->pt() "<<mu3->pt()<<endl;
-                            
-                            RefTrack1_Pt.push_back(SVTrack1.pt()); RefTrack1_Eta.push_back(SVTrack1.eta()); RefTrack1_Phi.push_back(SVTrack1.phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
-                            RefTrack2_Pt.push_back(SVTrack2.pt()); RefTrack2_Eta.push_back(SVTrack2.eta()); RefTrack2_Phi.push_back(SVTrack2.phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
-                            RefTrack3_Pt.push_back(SVTrack3.pt()); RefTrack3_Eta.push_back(SVTrack3.eta()); RefTrack3_Phi.push_back(SVTrack3.phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
-                            RefTrack4_Pt.push_back(SVTrack4.pt()); RefTrack4_Eta.push_back(SVTrack4.eta()); RefTrack4_Phi.push_back(SVTrack4.phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
-                            
-                            RefittedSV_Chi2.push_back(SVertex_ref.totalChiSquared());
-                            RefittedSV_nDOF.push_back(SVertex_ref.degreesOfFreedom());
-                            vtx_ref_prob.push_back(1. - ROOT::Math::chisquared_cdf(SVertex_ref.totalChiSquared(), SVertex_ref.degreesOfFreedom()));
-                            RefittedSV_Mass.push_back(LV_B.M());
-                            cout<<"Bebug mass LV_B.M()="<<LV_B.M()<<endl;
+                        if(SVertex_ref->isValid()){
+                            SVertex_ref->movePointerToTheTop();
+                            RefCountedKinematicParticle bCandMC = SVertex_ref->currentParticle();
+                            RefCountedKinematicVertex bDecayVertexMC = SVertex_ref->currentDecayVertex();
+                            if(bDecayVertexMC->vertexIsValid()){
+                                RefittedSV_Mass.push_back(bCandMC->currentState().mass());
+                                RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
+                                RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
+                             
+                                vtx_ref_prob.push_back(TMath::Prob(bDecayVertexMC->chiSquared(),(int)bDecayVertexMC->degreesOfFreedom()));
+    
+                                SVertex_ref->movePointerToTheFirstChild();
+                                RefCountedKinematicParticle mu1CandMC = SVertex_ref->currentParticle();
+    
+                                SVertex_ref->movePointerToTheNextChild();
+                                RefCountedKinematicParticle mu2CandMC = SVertex_ref->currentParticle();
+    
+                                SVertex_ref->movePointerToTheNextChild();
+                                RefCountedKinematicParticle mu3CandMC = SVertex_ref->currentParticle();
+    
+                                SVertex_ref->movePointerToTheNextChild();
+                                RefCountedKinematicParticle mu3CandMC = SVertex_ref->currentParticle();
+    
+                                KinematicParameters Mu1KP = mu1CandMC->currentState().kinematicParameters();
+                                KinematicParameters Mu2KP = mu2CandMC->currentState().kinematicParameters();		   
+    
+                                KinematicParameters Mu3KP = mu3CandMC->currentState().kinematicParameters();
+                                KinematicParameters Mu4KP = mu4CandMC->currentState().kinematicParameters();
+                             
+    
+                                TLorentzVector LV1, LV2, LV3, LV4;
+                                LV1.SetPxPyPzE(Mu1KP.momentum().x(), Mu1KP.momentum().y(), Mu1KP.momentum().z(), Mu1KP.energy());
+                                LV2.SetPxPyPzE(Mu2KP.momentum().x(), Mu2KP.momentum().y(), Mu2KP.momentum().z(), Mu2KP.energy());
+                                LV3.SetPxPyPzE(Mu3KP.momentum().x(), Mu3KP.momentum().y(), Mu3KP.momentum().z(), Mu3KP.energy());
+                                LV4.SetPxPyPzE(Mu4KP.momentum().x(), Mu4KP.momentum().y(), Mu4KP.momentum().z(), Mu4KP.energy());
+                                
+                                
+                                RefTrack1_Pt.push_back(LV1.Pt()); RefTrack1_Eta.push_back(LV1.Eta()); RefTrack1_Phi.push_back(LV1.Phi()); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack2_Pt.push_back(LV2.Pt()); RefTrack2_Eta.push_back(LV2.Eta()); RefTrack2_Phi.push_back(LV2.Phi()); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack3_Pt.push_back(LV3.Pt()); RefTrack3_Eta.push_back(LV3.Eta()); RefTrack3_Phi.push_back(LV3.Phi()); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack4_Pt.push_back(LV4.Pt()); RefTrack4_Eta.push_back(LV4.Eta()); RefTrack4_Phi.push_back(LV4.Phi()); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
+                            } else {
+                                RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack3_Pt.push_back(-99); RefTrack3_Eta.push_back(-99); RefTrack3_Phi.push_back(-99); RefTrack3_QuadrupletIndex.push_back(QuadrupletIndex);
+                                RefTrack4_Pt.push_back(-99); RefTrack4_Eta.push_back(-99); RefTrack4_Phi.push_back(-99); RefTrack4_QuadrupletIndex.push_back(QuadrupletIndex);
+                                
+                                RefittedSV_Chi2.push_back(-99);
+                                RefittedSV_nDOF.push_back(-99);
+                                vtx_ref_prob.push_back(-99);
+                                RefittedSV_Mass.push_back(-99);
+                            }
                         } else {
                             RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
                             RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(QuadrupletIndex);
@@ -941,6 +976,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             vtx_ref_prob.push_back(-99);
                             RefittedSV_Mass.push_back(-99);
                         }
+
                         ///////////////Check Trigger Matching///////////////
                         float dR1 = 999., dR2 = 999., dR3 = 999., dR4 = 999.;
                         
