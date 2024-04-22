@@ -66,7 +66,7 @@ double Cos3D_(double QuadrupletVtx_x, double QuadrupletVtx_y, double QuadrupletV
     return cos_ang;
 }
 
-double Cos2D_(double QuadrupletVtx_x, double QuadrupletVtx_y, double QuadrupletVtx_z, double RefittedPV_x, double RefittedPV_y, double RefittedPV_z, double Quadruplet_Pt, double Quadruplet_Eta,double Quadruplet_Phi){
+double Cos2D_(double QuadrupletVtx_x, double QuadrupletVtx_y, double RefittedPV_x, double RefittedPV_y, double Quadruplet_Pt, double Quadruplet_Eta,double Quadruplet_Phi){
     // Computes the angle between the momentum vector of the 4mu quadruplet (b) and the vector from the primary vertex (a)
     double a_x = QuadrupletVtx_x - RefittedPV_x;
     double a_y = QuadrupletVtx_y - RefittedPV_y;
