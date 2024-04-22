@@ -59,7 +59,7 @@ def Flat_MuVar(rdf, branches):
 def QuadMuVar(rdf, branches, analysis_type):
     quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
                               "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", 
-                              "mu4_pfreliso03", "vtx_prob", "RefittedSV_Chi2", "RefittedSV_nDOF", "RefittedSV_Mass"] #FlightDistBS_SV_Significance = lxy_sig
+                              "mu4_pfreliso03", "vtx_prob", "RefittedSV_Chi2", "RefittedSV_nDOF", "RefittedSV_Mass", "BS_x", "BS_y", "BS_z"] #FlightDistBS_SV_Significance = lxy_sig
     for var in quadruplet_related_var:
         branches.append(var)
         
