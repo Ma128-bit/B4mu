@@ -60,7 +60,7 @@ double Cos3D_(double QuadrupletVtx_x, double QuadrupletVtx_y, double QuadrupletV
     double b_x = b.Px();
     double b_y = b.Py();
     double b_z = b.Pz();
-    double a_mod = radq(a_x*a_x + a_y*a_y + a_z*a_z);
+    double a_mod = sqrt(a_x*a_x + a_y*a_y + a_z*a_z);
     double b_mod = abs(b.Mag());
     double cos_ang = ((a_x*b_x)+(a_y*b_y)+(a_z*b_z))/(a_mod*b_mod);
     return cos_ang;
@@ -74,8 +74,8 @@ double Cos2D_(double QuadrupletVtx_x, double QuadrupletVtx_y, double RefittedPV_
     b.SetPtEtaPhi(Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi);
     double b_x = b.Px();
     double b_y = b.Py();
-    double a_mod = radq(a_x*a_x + a_y*a_y);
-    double b_mod = radq(b_x*b_x + b_y*b_y);
+    double a_mod = sqrt(a_x*a_x + a_y*a_y);
+    double b_mod = sqrt(b_x*b_x + b_y*b_y);
     double cos_ang = ((a_x*b_x)+(a_y*b_y))/(a_mod*b_mod);
     return cos_ang;
 }
