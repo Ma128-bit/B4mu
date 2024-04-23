@@ -19,6 +19,8 @@ declare -a MC_name2022=("MC_pre" "MC_post")
 
 if [ "${year}" == "2022" ]; then
   MC_name=("${MC_name2022[@]}")
+elif [ "${year}" == "2023" ]; then
+  MC_name=("${MC_name2022[@]}")
 else
   echo "Error: The year is incorrect."
   return
