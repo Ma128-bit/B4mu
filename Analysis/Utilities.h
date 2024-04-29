@@ -266,7 +266,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
             isPF = isPF + Muon_isPF.at(index.at(k));
         }
         //if(!(isMedium==4)) continue;
-        if(!(isMedium==4 && isGlobal==4)) continue;
+        //if(!(isMedium==4 && isGlobal==4)) continue;
         if(exit_code<4) exit_code=4;
         
         //Cut5 HLT Trigger Matching
