@@ -44,7 +44,7 @@ def MuonIDs(rdf, branches):
     rdf = rdf.Define("isTight", flat1D_int(4), ["Stats"])
     rdf = rdf.Define("isSoft", flat1D_int(5), ["Stats"])
     rdf = rdf.Define("isTracker", flat1D_int(6), ["Stats"])
-    return rdf
+    return rdf, branches
 
 def Flat_MuVar(rdf, branches):
     for i in range(1,5):
@@ -218,7 +218,7 @@ if __name__ == "__main__":
         rdf = rdf.Define("chi2_label", add_int(chi))
         
         if(analysis_type=="B4mu"):
-            rdf = MuonIDs(rdf, branches) #Add muonIDs
+            rdf, branches = MuonIDs(rdf, branches) #Add muonIDs
         rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
         rdf, vertex_chi2 = QuadMuVar(rdf, branches, analysis_type) #Quadruplet variables
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
