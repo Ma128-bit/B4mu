@@ -224,7 +224,7 @@ if __name__ == "__main__":
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
-            rdf = GenVar(rdf, branches, isMC) #Gen-Level variables
+            #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables
 
         if(analysis_type!="B4mu"):
             rdf = DiMassVar_control(rdf, branches, analysis_type)
