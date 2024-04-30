@@ -265,7 +265,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
             isSoft = isSoft + Muon_isSoft.at(index.at(k));
             isPF = isPF + Muon_isPF.at(index.at(k));
         }
-        //if(!(isMedium==4)) continue;
+        if(!(isSoft==4 && isPF==4)) continue;
         //if(!(isMedium==4 && isGlobal==4)) continue;
         if(exit_code<4) exit_code=4;
         
