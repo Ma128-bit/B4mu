@@ -19,7 +19,8 @@ if [ ! -d "FinalFiles_${analysis_type}" ]; then
     mkdir -p "FinalFiles_${analysis_type}"
 fi
 if [ "${analysis_type}" == "B4mu" ]; then
-    hadd FinalFiles_${analysis_type}/Analyzed_MC_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/B*4mu/Analyzed_Data_*.root
+    hadd FinalFiles_${analysis_type}/Analyzed_MC_Bd_4mu_${year}.root ${analysis_type}/${year}_MC_p*/Bd_4mu/Analyzed_Data_*.root
+    hadd FinalFiles_${analysis_type}/Analyzed_MC_Bs_4mu_${year}.root ${analysis_type}/${year}_MC_p*/Bs_4mu/Analyzed_Data_*.root
     hadd FinalFiles_${analysis_type}/Analyzed_MC_BsJPsiPhi_${year}.root ${analysis_type}/${year}_MC_p*/BsJPsiPhi/Analyzed_Data_*.root
 else
     hadd FinalFiles_${analysis_type}/Analyzed_MC_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/${analysis_type}/Analyzed_Data_*.root
