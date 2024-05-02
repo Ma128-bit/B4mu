@@ -203,7 +203,7 @@ private:
     std::vector<double> RefTrack3_Pt, RefTrack3_Eta, RefTrack3_Phi, RefTrack3_QuadrupletIndex;
     std::vector<double> RefTrack4_Pt, RefTrack4_Eta, RefTrack4_Phi, RefTrack4_QuadrupletIndex;
     
-    std::vector<double> RefittedSV_Chi2, RefittedSV_nDOF, RefittedSV_Mass;
+    std::vector<double> RefittedSV_Chi2, RefittedSV_nDOF, RefittedSV_Mass, RefittedSV_Mass_Unc;
     
     std::vector<double> IsoTrackMu1_Pt, IsoTrackMu1_Eta, IsoTrackMu1_Phi;
     std::vector<double> IsoTrackMu2_Pt, IsoTrackMu2_Eta, IsoTrackMu2_Phi;
@@ -991,10 +991,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         ParticlesList.push_back(pFactory.particle(transientTrack3,kaon_mass,chi,ndf,kaon_sigma));
                         if(is2K==true) ParticlesList.push_back(pFactory.particle(transientTrack4,kaon_mass,chi,ndf,kaon_sigma));
                         else ParticlesList.push_back(pFactory.particle(transientTrack4,pion_mass,chi,ndf,pion_sigma));
-                        MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(JPsi_mass);
+                        //MultiTrackKinematicConstraint *  j_psi_c = new  TwoTrackMassKinematicConstraint(JPsi_mass);
                         KinematicConstrainedVertexFitter kcvFitter;
-                        RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList, j_psi_c);
-                        //RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList);
+                        //RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList, j_psi_c);
+                        RefCountedKinematicTree SVertex_ref = kcvFitter.fit(ParticlesList);
 
                         if(SVertex_ref->isValid()){
                             SVertex_ref->movePointerToTheTop();
@@ -1002,6 +1002,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             RefCountedKinematicVertex bDecayVertexMC = SVertex_ref->currentDecayVertex();
                             if(bDecayVertexMC->vertexIsValid()){
                                 RefittedSV_Mass.push_back(bCandMC->currentState().mass());
+                                RefittedSV_Mass_Unc.push_back(bCandMC->currentState().kinematicParametersError().matrix()[6,6]);
                                 RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
                                 RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
                              
