@@ -6,32 +6,38 @@ import ROOT
 df = pd.read_csv("Best_cut/best_pre_sel_2022control.csv")
 
 var = {
-    "vtx_prob": [0.0011+i*0.0002 for i in range(10)],
-    "Cos2d_PV_SV": [0.7+i/31 for i in range(10)],
-    "FlightDistBS_SV_Significance": [1+i/3 for i in range(10)]
+    "vtx_prob": [-1],
+    "Cos2d_PV_SV": [0],
+    "FlightDistBS_SV_Significance": [0, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 5]
 }
 
+
+i, j, k = 1, 1, 10
 histogram = ROOT.TH3F("S/sigma", "S/sigma; vtx_prob; Cos2d_PV_SV; FlightDistBS_SV_Significance",
-                     10, -0.5, 9.5, 10, -0.5, 9.5, 10, -0.5, 9.5)
+                     i, -0.5, float(i)-0.5, j, -0.5, float(j)-0.5, k, -0.5, float(k)-0.5)
 
 histogram2 = ROOT.TH3F("AMS", "AMS; vtx_prob; Cos2d_PV_SV; FlightDistBS_SV_Significance",
-                     10, -0.5, 9.5, 10, -0.5, 9.5, 10, -0.5, 9.5)
+                     i, -0.5, float(i)-0.5, j, -0.5, float(j)-0.5, k, -0.5, float(k)-0.5)
 
 maxim = 0
 x, y, z = 0, 0, 0
 for index, row in df.iterrows():
-    #Ssigma=0
-    #AMS = row["sig3sigma"]/math.sqrt(row["bkg3sigma"])
-    Ssigma = row["mean_nsig"]/row["sigma_nsig"]
+    S = row["sig3sigma"]+row["mean_nsig"]
+    AMS=AMS=math.sqrt(2*((S+row["bkg3sigma"])*math.log(1+S/row["bkg3sigma"]) - S))
+    if(row["bkg3sigma"]!=0):
+        Ssigma = S/math.sqrt(row["bkg3sigma"])
+    else:
+        Ssigma = 0
+    #Ssigma = row["mean_nsig"]/row["sigma_nsig"]
     histogram.SetBinContent(int(row["ID12"])+1, int(row["ID3"])+1, int(row["ID4"])+1, Ssigma)
-    AMS=math.sqrt(2*((row["mean_nsig"]+row["mean_nbkg"])*math.log(1+row["mean_nsig"]/row["mean_nbkg"]) - row["mean_nsig"]))
+    #AMS=math.sqrt(2*((row["mean_nsig"]+row["mean_nbkg"])*math.log(1+row["mean_nsig"]/row["mean_nbkg"]) - row["mean_nsig"]))
     histogram2.SetBinContent(int(row["ID12"])+1, int(row["ID3"])+1, int(row["ID4"])+1, AMS)
-    if(Ssigma>maxim):
-        maxim = Ssigma
+    if(AMS>maxim):
+        maxim = AMS
         x = int(row["ID12"])
         y = int(row["ID3"])
         z = int(row["ID4"])
-        print("MAX:",x,y,z, Ssigma)
+        print("MAX:",x,y,z, AMS, row["sig3sigma"], row["bkg3sigma"])
     
 
 canvas = ROOT.TCanvas("canvas", "Canvas", 800, 600)

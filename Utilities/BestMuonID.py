@@ -82,7 +82,7 @@ def process(args):
             sel = sel + www + "[3]+" # example: isPF[3] + 
         else:
             sel = sel + www + "[3]" # example: isPF[3]
-    sel = "(" + sel + " == " + str(2*len(i)+len(j)+len(k)) + ") && (isJPsiPhi==1) && vtx_prob>0.0001"
+    sel = "(" + sel + " == " + str(2*len(i)+len(j)+len(k)) + ") && (isJPsiPhi==1) && vtx_prob>0 && Cos2d_PV_SV>0.9 && FlightDistBS_SV_Significance>2"
     print(sel)
     #sel = "(" + i + "[0]+" + i + "[1]+" + j + "[2]+" + k + "[3] == 4) && (isJPsiPhi==1)"
     id = str(i_it) +"_"+ str(j_it) +"_"+ str(k_it)

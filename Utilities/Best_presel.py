@@ -15,9 +15,9 @@ var = {
 }
 
 var2 = {
-    "vtx_prob": [0.000+i*0.00002 for i in range(10)],
-    "Cos2d_PV_SV": [0.7+i/50 for i in range(15)],
-    "FlightDistBS_SV_Significance": [0.4+i/5 for i in range(15)]
+    "vtx_prob": [-1],
+    "Cos2d_PV_SV": [0],
+    "FlightDistBS_SV_Significance": [0, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 5]
 }
 
 def ProcessControl(args):
@@ -132,7 +132,8 @@ def ProcessSignal(args):
         'ID4': 0,
     }
 
-    if ((hist_temp1.GetEntries()>0.8*sig1) and (hist_temp2.GetEntries()>0.8*sig2)):
+    #if ((hist_temp1.GetEntries()>0.5*sig1) and (hist_temp2.GetEntries()>0.5*sig2)):
+    if(True):
         dati['sig3sigma'] = hist_temp1.GetEntries()
         dati['mean_nsig'] = hist_temp2.GetEntries()
         dati['bkg3sigma'] = hist_temp0.GetEntries()
@@ -185,8 +186,8 @@ if __name__ == "__main__":
 
     args_list2 = [(i_it, j_it, k_it, chain, chain1, chain2, sig1, sig2) for i_it in range(len(var2["vtx_prob"])) for j_it in range(len(var2["Cos2d_PV_SV"])) for k_it in range(len(var2["FlightDistBS_SV_Significance"]))]
     
-    results = pool.map(ProcessControl, args_list)
-    #results = pool.map(ProcessSignal, args_list2)
+    #results = pool.map(ProcessControl, args_list)
+    results = pool.map(ProcessSignal, args_list2)
     
     pool.close()
     pool.join()
