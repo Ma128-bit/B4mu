@@ -20,12 +20,12 @@ for index, row in df.iterrows():
     histogram.SetBinContent(int(row["ID12"])+1, int(row["ID3"])+1, int(row["ID4"])+1, Ssigma)
     AMS=math.sqrt(2*((row["mean_nsig"]+row["mean_nbkg"])*math.log(1+row["mean_nsig"]/row["mean_nbkg"]) - row["mean_nsig"]))
     histogram2.SetBinContent(int(row["ID12"])+1, int(row["ID3"])+1, int(row["ID4"])+1, AMS)
-    if(AMS>maxim):
-        maxim = AMS
+    if(Ssigma>maxim):
+        maxim = Ssigma
         x = int(row["ID12"])
         y = int(row["ID3"])
         z = int(row["ID4"])
-        print("MAX:",x,y,z, AMS)
+        print("MAX:",x,y,z, Ssigma)
     
 
 canvas = ROOT.TCanvas("canvas", "Canvas", 800, 600)
