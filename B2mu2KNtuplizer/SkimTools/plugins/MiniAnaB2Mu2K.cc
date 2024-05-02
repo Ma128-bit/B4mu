@@ -1002,7 +1002,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             RefCountedKinematicVertex bDecayVertexMC = SVertex_ref->currentDecayVertex();
                             if(bDecayVertexMC->vertexIsValid()){
                                 RefittedSV_Mass.push_back(bCandMC->currentState().mass());
-                                RefittedSV_Mass_Unc.push_back(bCandMC->currentState().kinematicParametersError().matrix()[6,6]);
+                                RefittedSV_Mass_Unc.push_back(bCandMC->currentState().kinematicParametersError().matrix().At(6,6));
                                 RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
                                 RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
                              
