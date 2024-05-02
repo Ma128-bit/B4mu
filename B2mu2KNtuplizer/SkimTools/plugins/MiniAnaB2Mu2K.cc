@@ -1048,6 +1048,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 RefittedSV_nDOF.push_back(-99);
                                 vtx_ref_prob.push_back(-99);
                                 RefittedSV_Mass.push_back(-99);
+                                RefittedSV_Mass_Unc.push_back(-99);
                             }
                         } else {
                             RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
@@ -1059,6 +1060,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             RefittedSV_nDOF.push_back(-99);
                             vtx_ref_prob.push_back(-99);
                             RefittedSV_Mass.push_back(-99);
+                            RefittedSV_Mass_Unc.push_back(-99);
                         }
                         ///////////////Check Trigger Matching///////////////
                         float dR1 = 999., dR2 = 999., dR3 = 999., dR4 = 999.;
@@ -1644,6 +1646,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         RefittedSV_Chi2.push_back(-99);
                         RefittedSV_nDOF.push_back(-99);
                         RefittedSV_Mass.push_back(-99);
+                        RefittedSV_Mass_Unc.push_back(-99);
                         vtx_ref_prob.push_back(-99);
 
                         IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99);
@@ -2241,6 +2244,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     RefittedSV_Chi2.clear();
     RefittedSV_nDOF.clear();
     RefittedSV_Mass.clear();
+    RefittedSV_Mass_Unc.clear();
     
     IsoTrackMu1_Pt.clear();
     IsoTrackMu1_Eta.clear();
@@ -2680,6 +2684,7 @@ void MiniAnaB2Mu2K::beginJob() {
     tree_->Branch("RefittedSV_Chi2", &RefittedSV_Chi2);
     tree_->Branch("RefittedSV_nDOF", &RefittedSV_nDOF);
     tree_->Branch("RefittedSV_Mass", &RefittedSV_Mass);
+    tree_->Branch("RefittedSV_Mass_Unc", &RefittedSV_Mass_Unc);
     
     tree_->Branch("IsoTrackMu1_Pt",         &IsoTrackMu1_Pt);
     tree_->Branch("IsoTrackMu1_Eta",        &IsoTrackMu1_Eta);
