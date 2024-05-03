@@ -1,5 +1,5 @@
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory, TChain, gPad
-from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous, kTRUE, kViolet
+from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous, kTRUE, kViolet, RooFormulaVar
 print("Import Done!")
 
 gROOT.SetBatch(True)
@@ -97,7 +97,8 @@ if __name__ == "__main__":
     bkg_Bs = RooExponential("bkg_Bs", "bkg_Bs", x, c1)
 
     nsig = RooRealVar("nsig", "Numero di segnali", 100000, 50000, 1000000)
-    nsig2 = RooRealVar("nsig2", "nsig2", 1, 1000)
+    #nsig2 = RooRealVar("nsig2", "nsig2", 1, 1000)
+    nsig2 = RooFormulaVar("nsig2", "nsig2", "29.46*@0", ROOT.RooArgList(nsig))
     nbkg = RooRealVar("nbkg", "Numero di background",70000, 10000, 100000)
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, signal_Bd, bkg_Bs), RooArgList(nsig, nsig2, nbkg))
     
