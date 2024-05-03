@@ -71,23 +71,23 @@ if __name__ == "__main__":
     
     x = RooRealVar("x", "x", 5.25, 5.5)
     x.setBins(100);
-    """
+    
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
     combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), RooFit.Import("Bs",hBs), RooFit.Import("B0",hB0))
 
     # Main Model
-    mu = RooRealVar("mu", "mu", 5.366, 5.2, 5.5)
+    mu = RooRealVar("mu", "mu", 5.366, 5.362, 5.370)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
     gamma = RooRealVar("gamma", "gamma", -10, 10)
     delta = RooRealVar("delta", "delta", 0, 20)
     signal_Bs = RooJohnson("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
 
-    mu2 = RooRealVar("mu2", "mu2", 5.366, 5.2, 5.5)
-    lambd2 = RooRealVar("lambd2", "lambd2", 0, 10)
-    gamma2 = RooRealVar("gamma2", "gamma2", -10, 10)
-    delta2 = RooRealVar("delta2", "delta2", 0, 20)
+    mu2 = RooRealVar("mu2", "mu2", 5.45, 5.44, 5.46)
+    lambd2 = RooRealVar("lambd2", "lambd2", 0.11, 0.05, 0.17)
+    gamma2 = RooRealVar("gamma2", "gamma2", 3.01, 2.9, 3.11)
+    delta2 = RooRealVar("delta2", "delta2", 4.56, 4.4, 4.7)
     signal_Bd = RooJohnson("signal_Bd", "signal_Bd", x, mu2, lambd2, gamma2, delta2 )
 
     c1 = RooRealVar("c1", "c1", -0.2, -10, 10)
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     canvas = TCanvas("canvas", "Fit Result", 900, 600)
     frame.Draw();
     canvas.SaveAs("test.png")
-
+    """
     
   
   
