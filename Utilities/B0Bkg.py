@@ -64,7 +64,7 @@ if __name__ == "__main__":
     chain = TChain("FinalTree")
     chain.Add("temp.root")
     chain.Draw("Quadruplet_Mass_KKeq>>hBs(100, 5.05, 5.5)")
-    chain.Draw("Quadruplet_Mass_Kpieq>>hB0(100, 5.05, 5.5)")
+    chain.Draw("B0KpiMass>>hB0(100, 5.05, 5.5)")
     hBs = gDirectory.Get("hBs") 
     hB0 = gDirectory.Get("hB0")    
     print("Histos Done!")
