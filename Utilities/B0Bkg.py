@@ -72,9 +72,9 @@ if __name__ == "__main__":
     
     frame = x.frame()
     data.plotOn(frame)
-    model.plotOn(frame, Components(signal_Bs), LineStyle(kDashed), LineColor(kRed))
-    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mu, lambd, gamma, delta, c1)), Layout(0.5,0.9,0.9))
-    model.plotOn(frame, Components(bkg_Bs), LineStyle(kDashed), LineColor(kGreen))
+    model.plotOn(frame, RooFit.Components(signal_Bs), RooFit.LineStyle(kDashed), RooFit.LineColor(kRed))
+    model.paramOn(frame, RooFit.Parameters(RooArgSet(nsig, nbkg, mu, lambd, gamma, delta, c1)), RooFit.Layout(0.5,0.9,0.9))
+    model.plotOn(frame, RooFit.Components(bkg_Bs), RooFit.LineStyle(kDashed), RooFit.LineColor(kGreen))
     model.plotOn(frame)
     
     
