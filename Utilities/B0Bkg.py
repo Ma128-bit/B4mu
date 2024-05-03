@@ -43,7 +43,7 @@ if __name__ == "__main__":
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
-    combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), RooFit.Import("Bs",hBs), RooFit.Import("B0",hB0))
+    #combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), Import("Bs",hBs), Import("B0",hB0))
 
     data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs, kFALSE)); #Temp
     
