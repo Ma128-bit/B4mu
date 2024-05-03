@@ -151,7 +151,7 @@ if __name__ == "__main__":
     canvas.SaveAs("test.png")
     
     """
-    data = RooDataHist("data", hB0.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
+    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
     
     mu = RooRealVar("mu", "mu", 5.366, 5.3, 5.45)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
