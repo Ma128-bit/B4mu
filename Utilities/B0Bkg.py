@@ -99,7 +99,7 @@ if __name__ == "__main__":
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, signal_Bd, bkg_Bs), RooArgList(nsig, nsig2, nbkg))
     
     # Reflected Model
-    muR = RooRealVar("muR", "muR", 5.366, 5.2, 5.5)
+    muR = RooRealVar("muR", "muR", 5.366, 5.05, 5.5)
     lambdR = RooRealVar("lambdR", "lambdR", 0, 10)
     gammaR = RooRealVar("gammaR", "gammaR", -10, 10)
     deltaR = RooRealVar("deltaR", "deltaR", 0, 20)
