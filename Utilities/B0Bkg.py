@@ -46,8 +46,8 @@ from ROOT import flat0D_double
 
 if __name__ == "__main__":
     treename = "FinalTree"
-    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
-    #file = "../Analysis/FinalFiles_B2muKpi/Analyzed_MC_B2muKpi_2022.root"
+    #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
+    file = "../Analysis/FinalFiles_B2muKpi/Analyzed_MC_B2muKpi_2022.root"
     rdf = RDataFrame(treename, file)
     print("Load RDF Done!")
     rdf = rdf.Define("B0Kpi","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
@@ -63,7 +63,8 @@ if __name__ == "__main__":
     
     chain = TChain("FinalTree")
     chain.Add("temp.root")
-    chain.Draw("Quadruplet_Mass_KKeq>>hBs(100, 5.05, 5.5)")
+    #chain.Draw("Quadruplet_Mass_KKeq>>hBs(100, 5.05, 5.5)")
+    chain.Draw("Quadruplet_Mass>>hBs(100, 5.05, 5.5)")
     chain.Draw("B0KpiMass>>hB0(100, 5.05, 5.5)")
     hBs = gDirectory.Get("hBs") 
     hB0 = gDirectory.Get("hB0")    
@@ -71,7 +72,7 @@ if __name__ == "__main__":
     
     x = RooRealVar("x", "x", 5.05, 5.5)
     x.setBins(100);
-    
+    """
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
@@ -179,7 +180,7 @@ if __name__ == "__main__":
     canvas = TCanvas("canvas", "Fit Result", 900, 600)
     frame.Draw();
     canvas.SaveAs("test.png")
-    """
+    
     
   
   
