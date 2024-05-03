@@ -1,5 +1,6 @@
-from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TString, std, TFile, gDirectory
-from ROOT import RooRealVar, RooExponential, RooGaussian, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas
+from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory
+from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory
+print("Import Done!")
 
 gROOT.SetBatch(True)
 EnableImplicitMT()
@@ -28,13 +29,50 @@ if __name__ == "__main__":
     treename = "FinalTree"
     file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
     rdf = RDataFrame(treename, file)
+    print("Load RDF Done!")
     rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
-  
-    hBs = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0").Histo1D(("Quadruplet_Mass", "Quadruplet_Mass", 100, 5.25, 5.5), "Quadruplet_Mass")
-    hB0 = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0").Histo1D("B0KpiMass")
+
+    rdf = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
+    hBs = rdf.Histo1D(("Quadruplet_Mass", "Quadruplet_Mass", 100, 5.25, 5.5), "Quadruplet_Mass")
+    hB0 = rdf.Histo1D(("B0KpiMass", "B0KpiMass", 100, 5.25, 5.5), "B0KpiMass")
+    print("Histos Done!")
+
+    RooRealVar x("mass", "mass", 5.25, 5.5);
+    x.setBins(100);
+    
+    RooCategory sample("sample","sample")
+    sample.defineType("Bs")
+    sample.defineType("B0")
+    RooDataHist combData("combData","combined data",x,Index(sample),Import("Bs",hBs),Import("B0",hB0))
+
+    RooDataHist data("data", hBs.GetTitle(), RooArgSet(x), Import(hBs, kFALSE)); #Temp
+    
+    RooRealVar mu("mu", "mu", (up+down)/2, down, up)
+    RooRealVar lambd("lambd", "lambd", 0.005, 0.001, 0.02)
+    RooRealVar gamma("gamma", "gamma", 0.005, 0.001, 0.02)
+    RooRealVar delta("delta", "delta", 0.005, 0.001, 0.02)
+    RooJohnson signal_Bs("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
+
+    RooRealVar c1("c1", "c1", -0.2, -10, 10)
+    RooExponential bkg_Bs("bkg_Bs", "bkg_Bs", x, c1)
+    
+    RooRealVar nsig("nsig", "Numero di segnali", 200000, 10000, 400000)
+    RooRealVar nbkg("nbkg", "Numero di background",400000, 100000, 1000000)
+
+    RooAddPdf model("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
+
+    result = model.fitTo(data, Save(true))
+    
+    frame = x.frame()
+    data.plotOn(frame)
+    model.plotOn(frame, Components(signal_Bs), LineStyle(kDashed), LineColor(kRed))
+    model.paramOn(frame, Parameters(RooArgSet(nsig, nbkg, mu, lambd, gamma, delta, c1)), Layout(0.5,0.9,0.9))
+    model.plotOn(frame, Components(bkg_Bs), LineStyle(kDashed), LineColor(kGreen))
+    model.plotOn(frame)
+    
+    
     canvas = TCanvas("canvas", "Fit Result", 900, 600)
-    hBs.Draw()
-    canvas.Draw()
+    frame.Draw();
     canvas.SaveAs("test.png")
   
   
