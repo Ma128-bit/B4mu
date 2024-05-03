@@ -156,7 +156,6 @@ if __name__ == "__main__":
 
     print("N. Signal: ", nsig.getVal())
     print("N. Signal 2: ", nsig2.getVal())
-    print("N. Signal 2: ", nsig2_formula.getVal())
     """
     data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
     
