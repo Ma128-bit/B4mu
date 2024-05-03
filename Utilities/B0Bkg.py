@@ -68,10 +68,10 @@ if __name__ == "__main__":
     hBs = gDirectory.Get("hBs") 
     hB0 = gDirectory.Get("hB0")    
     print("Histos Done!")
-    """
+    
     x = RooRealVar("x", "x", 5.25, 5.5)
     x.setBins(100);
-    
+    """
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
