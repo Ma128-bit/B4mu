@@ -46,9 +46,9 @@ from ROOT import flat0D_double
 
 if __name__ == "__main__":
     treename = "FinalTree"
-    #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
+    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
     #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_B2mu2K_2022.root"
-    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_Kpi_with_B2mu2K_2022.root"
+    #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_Kpi_with_B2mu2K_2022.root"
     rdf = RDataFrame(treename, file)
     print("Load RDF Done!")
     rdf = rdf.Define("B0Kpi","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     
     x = RooRealVar("x", "x", 5.05, 5.5)
     x.setBins(50);
-    """
+    
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
@@ -87,10 +87,10 @@ if __name__ == "__main__":
     delta = RooRealVar("delta", "delta", 1.44, 1.43, 1.45)
     signal_Bs = RooJohnson("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
 
-    mu2 = RooRealVar("mu2", "mu2", 5.45, 5.44, 5.46)
-    lambd2 = RooRealVar("lambd2", "lambd2", 0.11, 0.05, 0.17)
-    gamma2 = RooRealVar("gamma2", "gamma2", 3.01, 2.9, 3.11)
-    delta2 = RooRealVar("delta2", "delta2", 4.56, 4.4, 4.7)
+    mu2 = RooRealVar("mu2", "mu2", 5.357, 5.352, 5.362)
+    lambd2 = RooRealVar("lambd2", "lambd2", 0.028, 0.020, 0.036)
+    gamma2 = RooRealVar("gamma2", "gamma2", -0.34, -0.44, -0.24)
+    delta2 = RooRealVar("delta2", "delta2", 0.852, 0.752, 0.952)
     signal_Bd = RooJohnson("signal_Bd", "signal_Bd", x, mu2, lambd2, gamma2, delta2 )
 
     c1 = RooRealVar("c1", "c1", -0.2, -10, 10)
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     canvas = TCanvas("canvas", "Fit Result", 900, 600)
     frame.Draw();
     canvas.SaveAs("test.png")
-    
+    """
     
   
   
