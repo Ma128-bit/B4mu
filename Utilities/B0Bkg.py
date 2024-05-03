@@ -10,7 +10,12 @@ gInterpreter.Declare("""
         double out = Quadruplet_Mass - Dimu_mass - Ditrk_mass + 1.019 + 3.0969;
         return out;
     }
-    double B0KpiMass(double Mu1pt, double Mu1eta, double Mu1phi, double Mu2pt, double Mu2eta, double Mu2phi, double Trk3pt, double Trk3eta, double Trk3phi, double Trk4pt, double Trk4eta, double Trk4phi){
+    double Mass_eqKpi(double Quadruplet_Mass, double Dimu_mass, double Ditrk_mass_Kpi){
+        double out = Quadruplet_Mass - Dimu_mass - Ditrk_mass_Kpi + 0.892 + 3.0969;
+        return out;
+    }
+    vector<double> B0KpiMass(double Mu1pt, double Mu1eta, double Mu1phi, double Mu2pt, double Mu2eta, double Mu2phi, double Trk3pt, double Trk3eta, double Trk3phi, double Trk4pt, double Trk4eta, double Trk4phi){
+        vector<double> out;
         TLorentzVector M1, M2, T31, T41, T32, T42;
         M1.SetPtEtaPhiM(Mu1pt, Mu1eta, Mu1phi, 0.10566);
         M2.SetPtEtaPhiM(Mu2pt, Mu2eta, Mu2phi, 0.10566);
@@ -22,21 +27,35 @@ gInterpreter.Declare("""
         K1 = T31 + T41;
         K2 = T32 + T42;
         TLorentzVector B0;
-        if( abs(K1.M()-0.892) < abs(K2.M()-0.892)) B0 = M1 + M2 + T31 + T41;
-        else B0 = M1 + M2 + T32 + T42;
-        return B0.M();
+        if( abs(K1.M()-0.892) < abs(K2.M()-0.892)) {B0 = M1 + M2 + T31 + T41; out.push_back(K1.M());
+        else {B0 = M1 + M2 + T32 + T42; out.push_back(K2.M());
+        out.push_back(B0.M());
+        return out;
     }
+    struct flat0D_double{
+    int i;
+    flat0D_double(int ii) : i(ii)  {}
+    double operator()(vector<double> branch) {
+        if(i<branch.size()) return branch[i];
+        else return -99;
+        }
+    };
 """)
 
+from ROOT import flat0D_double
 
 if __name__ == "__main__":
     treename = "FinalTree"
     file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
     rdf = RDataFrame(treename, file)
     print("Load RDF Done!")
-    rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
-
+    rdf = rdf.Define("B0Kpi","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
+    rdf = rdf.Define("Ditrk_mass_Kpi", flat0D_double(0), ["B0Kpi"])
+    rdf = rdf.Define("B0KpiMass", flat0D_double(1), ["B0Kpi"])
+    
     rdf = rdf.Define("Quadruplet_Mass_KKeq", "Mass_eqKK(Quadruplet_Mass, Dimu_mass, Ditrk_mass)")
+    rdf = rdf.Define("Quadruplet_Mass_Kpieq", "Mass_eqKpi(B0KpiMass, Dimu_mass, Ditrk_mass_Kpi)")
+    
     rdf = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
     rdf.Snapshot("FinalTree", "temp.root")
     del rdf
@@ -44,7 +63,7 @@ if __name__ == "__main__":
     chain = TChain("FinalTree")
     chain.Add("temp.root")
     chain.Draw("Quadruplet_Mass_KKeq>>hBs(100, 5.25, 5.5)")
-    chain.Draw("B0KpiMass>>hB0(100, 5.25, 5.5)")
+    chain.Draw("Quadruplet_Mass_Kpieq>>hB0(100, 5.25, 5.5)")
     hBs = gDirectory.Get("hBs") 
     hB0 = gDirectory.Get("hB0")    
     print("Histos Done!")
@@ -55,9 +74,9 @@ if __name__ == "__main__":
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
-    #combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), Import("Bs",hBs), Import("B0",hB0))
+    #combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), RooFit.Import("Bs",hBs), RooFit.Import("B0",hB0))
 
-    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
+    data = RooDataHist("data", hB0.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
     
     mu = RooRealVar("mu", "mu", 5.366, 5.3, 5.45)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
