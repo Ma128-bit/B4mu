@@ -158,11 +158,11 @@ if __name__ == "__main__":
     delta = RooRealVar("delta", "delta", 0, 2000)
     signal_Bs = RooJohnson("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
 
-    c1 = RooRealVar("c1", "c1", -0.2, -10, 10)
+    c1 = RooRealVar("c1", "c1", -1.2, -10, 10)
     bkg_Bs = RooExponential("bkg_Bs", "bkg_Bs", x, c1)
     
-    nsig = RooRealVar("nsig", "Numero di segnali", 750000, 100000, 1250000)
-    nbkg = RooRealVar("nbkg", "Numero di background",10000, 1000, 100000)
+    nsig = RooRealVar("nsig", "Numero di segnali", 750000, 500000, 1250000)
+    nbkg = RooRealVar("nbkg", "Numero di background",20000, 1000, 100000)
 
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
 
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     frame = x.frame()
     data.plotOn(frame)
     model.plotOn(frame, RooFit.Components(signal_Bs), RooFit.LineStyle(kDashed), RooFit.LineColor(kRed))
-    model.paramOn(frame, RooFit.Parameters(RooArgSet(nsig, nbkg, mu, lambd, gamma, delta, c1)), RooFit.Layout(0.5,0.9,0.9))
+    model.paramOn(frame, RooFit.Parameters(RooArgSet(nsig, nbkg, mu, lambd, gamma, delta, c1)), RooFit.Layout(0.6,0.9,0.9))
     model.plotOn(frame, RooFit.Components(bkg_Bs), RooFit.LineStyle(kDashed), RooFit.LineColor(kGreen))
     model.plotOn(frame)
     
