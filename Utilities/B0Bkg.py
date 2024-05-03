@@ -129,14 +129,14 @@ if __name__ == "__main__":
     frame1 = x.frame(RooFit.Title("Bs sample"))
     combData.plotOn(frame1,RooFit.Cut("sample==sample::Bs"))
     simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.ProjWData(sample,combData))
-    simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(bkg_Bs),RooFit.ProjWData(sample,combData),RooFit.LineStyle(kDashed))
+    simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(bkg_Bs),RooFit.ProjWData(sample,combData),RooFit.LineStyle(kDashed), RooFit.LineColor(kRed))
     simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(signal_Bs),RooFit.ProjWData(sample,combData), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
     simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(signal_Bd),RooFit.ProjWData(sample,combData), RooFit.LineColor(kViolet), RooFit.LineStyle(kDashed))
 
     frame2 = x.frame(RooFit.Title("B0 sample"))
     combData.plotOn(frame2, RooFit.Cut("sample==sample::B0"))
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.ProjWData(sample,combData))
-    simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rbkg_Bs), RooFit.ProjWData(sample,combData), RooFit.LineStyle(kDashed))
+    simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rbkg_Bs), RooFit.ProjWData(sample,combData), RooFit.LineStyle(kDashed), RooFit.LineColor(kRed))
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rsignal_Bs), RooFit.ProjWData(sample,combData), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rsignal_Bd), RooFit.ProjWData(sample,combData), RooFit.LineColor(kViolet), RooFit.LineStyle(kDashed))
  
