@@ -154,7 +154,7 @@ if __name__ == "__main__":
     """
     data = RooDataHist("data", hB0.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
     
-    mu = RooRealVar("mu", "mu", 0, 100)
+    mu = RooRealVar("mu", "mu", 5.05, 5.5)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
     gamma = RooRealVar("gamma", "gamma", -10, 10)
     delta = RooRealVar("delta", "delta", 0, 20)
