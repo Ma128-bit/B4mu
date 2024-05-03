@@ -101,10 +101,10 @@ if __name__ == "__main__":
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, signal_Bd, bkg_Bs), RooArgList(nsig, nsig2, nbkg))
     
     # Reflected Model
-    muR = RooRealVar("muR", "muR", 5.303)
-    lambdR = RooRealVar("lambdR", "lambdR", 0.692)
-    gammaR = RooRealVar("gammaR", "gammaR", 0.083)
-    deltaR = RooRealVar("deltaR", "deltaR", 1.871)
+    muR = RooRealVar("muR", "muR", 5.303, 5.29, 5.31)
+    lambdR = RooRealVar("lambdR", "lambdR", 0.692, 0.680, 0.710)
+    gammaR = RooRealVar("gammaR", "gammaR", 0.083, 0.07, 0.09)
+    deltaR = RooRealVar("deltaR", "deltaR", 1.871, 1.86, 1.88)
     Rsignal_Bs = RooJohnson("Rsignal_Bs", "Rsignal_Bs", x, muR, lambdR, gammaR, deltaR )
 
     mu2R = RooRealVar("mu2R", "mu2R", 5.28, 5.23, 5.33)
