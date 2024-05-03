@@ -30,7 +30,7 @@ if __name__ == "__main__":
     rdf = RDataFrame(treename, file)
     rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
   
-    hBs = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0").Histo1D(["Quadruplet_Mass", "Quadruplet_Mass", 100, 5.25, 5.5], "Quadruplet_Mass")
+    hBs = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0").Histo1D(("Quadruplet_Mass", "Quadruplet_Mass", 100, 5.25, 5.5), "Quadruplet_Mass")
     hB0 = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0").Histo1D("B0KpiMass")
     canvas = TCanvas("canvas", "Fit Result", 900, 600)
     hBs.Draw()
