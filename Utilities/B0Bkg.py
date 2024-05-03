@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
     
-    mu = RooRealVar("mu", "mu", (up+down)/2, down, up)
+    mu = RooRealVar("mu", "mu", 5.366, 5.25, 5.5)
     lambd = RooRealVar("lambd", "lambd", 0.005, 0.001, 0.02)
     gamma = RooRealVar("gamma", "gamma", 0.005, 0.001, 0.02)
     delta = RooRealVar("delta", "delta", 0.005, 0.001, 0.02)
