@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
     
-    mu = RooRealVar("mu", "mu", 0, 10)
+    mu = RooRealVar("mu", "mu", 5.366, 5.3, 5.45)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
     gamma = RooRealVar("gamma", "gamma", -10, 10)
     delta = RooRealVar("delta", "delta", 0, 10)
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     c1 = RooRealVar("c1", "c1", -0.2, -10, 10)
     bkg_Bs = RooExponential("bkg_Bs", "bkg_Bs", x, c1)
     
-    nsig = RooRealVar("nsig", "Numero di segnali", 1000000, 10000, 10000000)
+    nsig = RooRealVar("nsig", "Numero di segnali", 150000, 100000, 1000000)
     nbkg = RooRealVar("nbkg", "Numero di background",50000, 10000, 100000)
 
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
