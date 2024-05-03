@@ -153,7 +153,9 @@ if __name__ == "__main__":
     frame2.GetYaxis().SetTitleOffset(1.4)
     frame2.Draw()
     canvas.SaveAs("test.png")
-    
+
+    print("N. Signal: ", nsig.getVal())
+    print("N. Signal 2: ", nsig2.getVal())
     """
     data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
     
