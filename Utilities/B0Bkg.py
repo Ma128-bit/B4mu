@@ -45,7 +45,7 @@ if __name__ == "__main__":
     sample.defineType("B0")
     #combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), Import("Bs",hBs), Import("B0",hB0))
 
-    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs, kFALSE)); #Temp
+    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs, kFALSE))
     
     mu = RooRealVar("mu", "mu", (up+down)/2, down, up)
     lambd = RooRealVar("lambd", "lambd", 0.005, 0.001, 0.02)
