@@ -28,7 +28,7 @@ gInterpreter.Declare("""
         K2 = T32 + T42;
         TLorentzVector B0;
         if( abs(K1.M()-0.892) < abs(K2.M()-0.892)) {B0 = M1 + M2 + T31 + T41; out.push_back(K1.M());}
-        else {B0 = M1 + M2 + T32 + T42; out.push_back(K1.M());}
+        else {B0 = M1 + M2 + T32 + T42; out.push_back(K2.M());}
         out.push_back(B0.M());
         return out;
     }
@@ -47,8 +47,8 @@ from ROOT import flat0D_double
 if __name__ == "__main__":
     treename = "FinalTree"
     #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
-    #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_B2mu2K_2022.root"
-    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_Kpi_with_B2mu2K_2022.root"
+    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_B2mu2K_2022.root"
+    #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_Kpi_with_B2mu2K_2022.root"
     rdf = RDataFrame(treename, file)
     print("Load RDF Done!")
     rdf = rdf.Define("B0Kpi","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
