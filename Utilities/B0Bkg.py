@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     nsig = RooRealVar("nsig", "Numero di segnali", 150000, 100000, 1000000)
     nsig2 = RooRealVar("nsig", "Numero di segnali", 10000, 10000, 100000)
-    nbkg = RooRealVar("nbkg", "Numero di background",50000, 10000, 100000)
+    nbkg = RooRealVar("nbkg", "Numero di background",70000, 10000, 100000)
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, signal_Bd, bkg_Bs), RooArgList(nsig, nsig2, nbkg))
     
     # Reflected Model
