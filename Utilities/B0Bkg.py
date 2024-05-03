@@ -46,7 +46,8 @@ from ROOT import flat0D_double
 
 if __name__ == "__main__":
     treename = "FinalTree"
-    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
+    #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
+    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_B2mu2K_2022.root"
     rdf = RDataFrame(treename, file)
     print("Load RDF Done!")
     rdf = rdf.Define("B0Kpi","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
@@ -67,7 +68,7 @@ if __name__ == "__main__":
     hBs = gDirectory.Get("hBs") 
     hB0 = gDirectory.Get("hB0")    
     print("Histos Done!")
-
+    """
     x = RooRealVar("x", "x", 5.25, 5.5)
     x.setBins(100);
     
@@ -136,7 +137,7 @@ if __name__ == "__main__":
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rsignal_Bs), RooFit.ProjWData(sample,combData), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rsignal_Bd), RooFit.ProjWData(sample,combData), RooFit.LineColor(kRed), RooFit.LineStyle(kDashed))
  
-    canvas = TCanvas("canvas", "Fit Result", 900, 600)
+    canvas = TCanvas("canvas", "Fit Result", 1200, 600)
     canvas.Divide(2)
     canvas.cd(1)
     gPad.SetLeftMargin(0.15)
@@ -149,7 +150,7 @@ if __name__ == "__main__":
     canvas.SaveAs("test.png")
     
     """
-    data = RooDataHist("data", hB0.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
+    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
     
     mu = RooRealVar("mu", "mu", 5.366, 5.3, 5.45)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
@@ -179,7 +180,7 @@ if __name__ == "__main__":
     frame.Draw();
     canvas.SaveAs("test.png")
 
-    """
+    
   
   
 
