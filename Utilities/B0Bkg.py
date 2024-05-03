@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
 
-    result = model.fitTo(data, Save(true))
+    result = model.fitTo(data)
     
     frame = x.frame()
     data.plotOn(frame)
