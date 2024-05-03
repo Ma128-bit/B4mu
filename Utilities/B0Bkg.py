@@ -47,7 +47,7 @@ from ROOT import flat0D_double
 if __name__ == "__main__":
     treename = "FinalTree"
     #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
-    file = "../Analysis/FinalFiles_B2muKpi/Analyzed_MC_B2muKpi_2022.root"
+    file = "../Analysis/FinalFiles_B2muKpi/Analyzed_MC_2K_with_B2muKpi_2022.root"
     rdf = RDataFrame(treename, file)
     print("Load RDF Done!")
     rdf = rdf.Define("B0Kpi","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
@@ -107,10 +107,10 @@ if __name__ == "__main__":
     deltaR = RooRealVar("deltaR", "deltaR", 0.1, 20)
     Rsignal_Bs = RooJohnson("Rsignal_Bs", "Rsignal_Bs", x, muR, lambdR, gammaR, deltaR )
 
-    mu2R = RooRealVar("mu2R", "mu2R", 5.277, 5.23, 5.32)
-    lambd2R = RooRealVar("lambd2R", "lambd2R", 0.1, 10)
-    gamma2R = RooRealVar("gamma2R", "gamma2R", -10, 10)
-    delta2R = RooRealVar("delta2R", "delta2R", 0.1, 20)
+    mu2R = RooRealVar("mu2R", "mu2R", 5.28, 5.23, 5.33)
+    lambd2R = RooRealVar("lambd2R", "lambd2R", 0.062, 0.060, 0.064)
+    gamma2R = RooRealVar("gamma2R", "gamma2R", 0.177, 0.160, 0.190)
+    delta2R = RooRealVar("delta2R", "delta2R", 1.69, 1.59, 1.79)
     Rsignal_Bd = RooJohnson("Rsignal_Bd", "Rsignal_Bd", x, mu2R, lambd2R, gamma2R, delta2R )
 
     Rc1 = RooRealVar("Rc1", "Rc1", -0.2, -10, 10)
