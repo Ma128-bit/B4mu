@@ -28,7 +28,7 @@ gInterpreter.Declare("""
         K2 = T32 + T42;
         TLorentzVector B0;
         if( abs(K1.M()-0.892) < abs(K2.M()-0.892)) {B0 = M1 + M2 + T31 + T41; out.push_back(K1.M());}
-        else {B0 = M1 + M2 + T32 + T42; out.push_back(K2.M());}
+        else {B0 = M1 + M2 + T32 + T42; out.push_back(K1.M());}
         out.push_back(B0.M());
         return out;
     }
