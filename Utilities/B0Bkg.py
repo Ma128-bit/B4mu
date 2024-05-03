@@ -58,7 +58,7 @@ if __name__ == "__main__":
     rdf = rdf.Define("Quadruplet_Mass_KKeq", "Mass_eqKK(Quadruplet_Mass, Dimu_mass, Ditrk_mass)")
     rdf = rdf.Define("Quadruplet_Mass_Kpieq", "Mass_eqKpi(B0KpiMass, Dimu_mass, Ditrk_mass_Kpi)")
     
-    rdf = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0.1")
+    rdf = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0.8")
     #rdf = rdf.Filter("abs(Ditrk_mass-0.892)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
     rdf.Snapshot("FinalTree", "temp.root")
     del rdf
