@@ -54,10 +54,10 @@ if __name__ == "__main__":
 
     data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
     
-    mu = RooRealVar("mu", "mu", -10, 10)
-    lambd = RooRealVar("lambd", "lambd", -10, 10)
+    mu = RooRealVar("mu", "mu", 0, 10)
+    lambd = RooRealVar("lambd", "lambd", 0, 10)
     gamma = RooRealVar("gamma", "gamma", -10, 10)
-    delta = RooRealVar("delta", "delta", -10, 10)
+    delta = RooRealVar("delta", "delta", 0, 10)
     signal_Bs = RooJohnson("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
 
     c1 = RooRealVar("c1", "c1", -0.2, -10, 10)
