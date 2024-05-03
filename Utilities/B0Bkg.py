@@ -37,7 +37,7 @@ if __name__ == "__main__":
     hB0 = rdf.Histo1D(("B0KpiMass", "B0KpiMass", 100, 5.25, 5.5), "B0KpiMass")
     print("Histos Done!")
 
-    RooRealVar x("mass", "mass", 5.25, 5.5);
+    x = RooRealVar("x", "x", 5.25, 5.5)
     x.setBins(100);
     
     RooCategory sample("sample","sample")
@@ -47,19 +47,19 @@ if __name__ == "__main__":
 
     RooDataHist data("data", hBs.GetTitle(), RooArgSet(x), Import(hBs, kFALSE)); #Temp
     
-    RooRealVar mu("mu", "mu", (up+down)/2, down, up)
-    RooRealVar lambd("lambd", "lambd", 0.005, 0.001, 0.02)
-    RooRealVar gamma("gamma", "gamma", 0.005, 0.001, 0.02)
-    RooRealVar delta("delta", "delta", 0.005, 0.001, 0.02)
-    RooJohnson signal_Bs("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
+    mu = RooRealVar("mu", "mu", (up+down)/2, down, up)
+    lambd = RooRealVar("lambd", "lambd", 0.005, 0.001, 0.02)
+    gamma = RooRealVar("gamma", "gamma", 0.005, 0.001, 0.02)
+    delta = RooRealVar("delta", "delta", 0.005, 0.001, 0.02)
+    signal_Bs = RooJohnson("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
 
-    RooRealVar c1("c1", "c1", -0.2, -10, 10)
-    RooExponential bkg_Bs("bkg_Bs", "bkg_Bs", x, c1)
+    c1 = RooRealVar("c1", "c1", -0.2, -10, 10)
+    bkg_Bs = RooExponential("bkg_Bs", "bkg_Bs", x, c1)
     
-    RooRealVar nsig("nsig", "Numero di segnali", 200000, 10000, 400000)
-    RooRealVar nbkg("nbkg", "Numero di background",400000, 100000, 1000000)
+    nsig = RooRealVar("nsig", "Numero di segnali", 200000, 10000, 400000)
+    nbkg = RooRealVar("nbkg", "Numero di background",400000, 100000, 1000000)
 
-    RooAddPdf model("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
+    model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
 
     result = model.fitTo(data, Save(true))
     
