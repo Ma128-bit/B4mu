@@ -1,5 +1,5 @@
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory, TChain, gPad
-from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous, kTRUE
+from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous, kTRUE, kViolet
 print("Import Done!")
 
 gROOT.SetBatch(True)
@@ -46,8 +46,8 @@ from ROOT import flat0D_double
 
 if __name__ == "__main__":
     treename = "FinalTree"
-    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
-    #file = "../Analysis/FinalFiles_B2muKpi/Analyzed_MC_2K_with_B2muKpi_2022.root"
+    #file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
+    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_MC_B2mu2K_2022.root"
     rdf = RDataFrame(treename, file)
     print("Load RDF Done!")
     rdf = rdf.Define("B0Kpi","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     
     x = RooRealVar("x", "x", 5.05, 5.5)
     x.setBins(50);
-    
+    """
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
@@ -130,14 +130,14 @@ if __name__ == "__main__":
     simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.ProjWData(sample,combData))
     simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(bkg_Bs),RooFit.ProjWData(sample,combData),RooFit.LineStyle(kDashed))
     simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(signal_Bs),RooFit.ProjWData(sample,combData), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
-    simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(signal_Bd),RooFit.ProjWData(sample,combData), RooFit.LineColor(kRed), RooFit.LineStyle(kDashed))
+    simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(signal_Bd),RooFit.ProjWData(sample,combData), RooFit.LineColor(kViolet), RooFit.LineStyle(kDashed))
 
     frame2 = x.frame(RooFit.Title("B0 sample"))
     combData.plotOn(frame2, RooFit.Cut("sample==sample::B0"))
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.ProjWData(sample,combData))
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rbkg_Bs), RooFit.ProjWData(sample,combData), RooFit.LineStyle(kDashed))
     simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rsignal_Bs), RooFit.ProjWData(sample,combData), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
-    simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rsignal_Bd), RooFit.ProjWData(sample,combData), RooFit.LineColor(kRed), RooFit.LineStyle(kDashed))
+    simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rsignal_Bd), RooFit.ProjWData(sample,combData), RooFit.LineColor(kViolet), RooFit.LineStyle(kDashed))
  
     canvas = TCanvas("canvas", "Fit Result", 1200, 600)
     canvas.Divide(2)
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     canvas.SaveAs("test.png")
     
     """
-    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
+    data = RooDataHist("data", hB0.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
     
     mu = RooRealVar("mu", "mu", 0, 100)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     canvas = TCanvas("canvas", "Fit Result", 900, 600)
     frame.Draw();
     canvas.SaveAs("test.png")
-    """
+    
     
   
   
