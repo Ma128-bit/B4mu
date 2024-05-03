@@ -35,8 +35,6 @@ if __name__ == "__main__":
     rdf = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
     hBs = rdf.Histo1D(("Quadruplet_Mass", "Quadruplet_Mass", 100, 5.25, 5.5), "Quadruplet_Mass")
     hB0 = rdf.Histo1D(("B0KpiMass", "B0KpiMass", 100, 5.25, 5.5), "B0KpiMass")
-    hBs.Draw()
-    hB0.Draw()
     print("Histos Done!")
 
     x = RooRealVar("x", "x", 5.25, 5.5)
@@ -47,7 +45,7 @@ if __name__ == "__main__":
     sample.defineType("B0")
     #combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), Import("Bs",hBs), Import("B0",hB0))
 
-    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), hBs)
+    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hBs))
     
     mu = RooRealVar("mu", "mu", (up+down)/2, down, up)
     lambd = RooRealVar("lambd", "lambd", 0.005, 0.001, 0.02)
