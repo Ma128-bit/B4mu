@@ -155,10 +155,10 @@ if __name__ == "__main__":
     mu = RooRealVar("mu", "mu", 5.366, 5.3, 5.45)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
     gamma = RooRealVar("gamma", "gamma", -10, 10)
-    delta = RooRealVar("delta", "delta", 0, 2000)
+    delta = RooRealVar("delta", "delta", 0, 20)
     signal_Bs = RooJohnson("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
 
-    c1 = RooRealVar("c1", "c1", -1.2, -10, 10)
+    c1 = RooRealVar("c1", "c1", -1.2, -20, 10)
     bkg_Bs = RooExponential("bkg_Bs", "bkg_Bs", x, c1)
     
     nsig = RooRealVar("nsig", "Numero di segnali", 750000, 500000, 1250000)
