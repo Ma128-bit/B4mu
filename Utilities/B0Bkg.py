@@ -6,6 +6,10 @@ gROOT.SetBatch(True)
 EnableImplicitMT()
 
 gInterpreter.Declare("""
+    double Mass_eqKK(double Quadruplet_Mass, double Dimu_mass, double Ditrk_mass){
+        double out = Quadruplet_Mass - Dimu_mass - Ditrk_mass + 1.019 + 3.0969
+        return out
+    }
     double B0KpiMass(double Mu1pt, double Mu1eta, double Mu1phi, double Mu2pt, double Mu2eta, double Mu2phi, double Trk3pt, double Trk3eta, double Trk3phi, double Trk4pt, double Trk4eta, double Trk4phi){
         TLorentzVector M1, M2, T31, T41, T32, T42;
         M1.SetPtEtaPhiM(Mu1pt, Mu1eta, Mu1phi, 0.10566);
@@ -32,13 +36,14 @@ if __name__ == "__main__":
     print("Load RDF Done!")
     rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
 
+    rdf = rdf.Define("Quadruplet_Mass_KKeq", "Mass_eqKK(Quadruplet_Mass, Dimu_mass, Ditrk_mass)")
     rdf = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
     rdf.Snapshot("FinalTree", "temp.root")
     del rdf
     
     chain = TChain("FinalTree")
     chain.Add("temp.root")
-    chain.Draw("Quadruplet_Mass>>hBs(100, 5.25, 5.5)")
+    chain.Draw("Quadruplet_Mass_KKeq>>hBs(100, 5.25, 5.5)")
     chain.Draw("B0KpiMass>>hB0(100, 5.25, 5.5)")
     hBs = gDirectory.Get("hBs") 
     hB0 = gDirectory.Get("hB0")    
