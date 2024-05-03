@@ -40,12 +40,12 @@ if __name__ == "__main__":
     x = RooRealVar("x", "x", 5.25, 5.5)
     x.setBins(100);
     
-    RooCategory sample("sample","sample")
+    sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
-    RooDataHist combData("combData","combined data",x,Index(sample),Import("Bs",hBs),Import("B0",hB0))
+    combData = RooDataHist("combData","combined data",x,Index(sample),Import("Bs",hBs),Import("B0",hB0))
 
-    RooDataHist data("data", hBs.GetTitle(), RooArgSet(x), Import(hBs, kFALSE)); #Temp
+    data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), Import(hBs, kFALSE)); #Temp
     
     mu = RooRealVar("mu", "mu", (up+down)/2, down, up)
     lambd = RooRealVar("lambd", "lambd", 0.005, 0.001, 0.02)
