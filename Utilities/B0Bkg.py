@@ -65,14 +65,14 @@ if __name__ == "__main__":
     
     chain = TChain("FinalTree")
     chain.Add("temp.root")
-    chain.Draw("Quadruplet_Mass_KKeq>>hBs(100, 5.05, 5.5)")
+    chain.Draw("Quadruplet_Mass_KKeq>>hBs(100, 5.17, 5.5)")
     #chain.Draw("Quadruplet_Mass>>hBs(50, 5.05, 5.5)")
-    chain.Draw("B0KpiMass>>hB0(100, 5.05, 5.5)")
+    chain.Draw("B0KpiMass>>hB0(100, 5.17, 5.5)")
     hBs = gDirectory.Get("hBs") 
     hB0 = gDirectory.Get("hB0")    
     print("Histos Done!")
     
-    x = RooRealVar("x", "x", 5.05, 5.5)
+    x = RooRealVar("x", "x", 5.17, 5.5)
     x.setBins(50);
     
     sample = RooCategory("sample","sample")
