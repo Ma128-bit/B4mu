@@ -1,4 +1,4 @@
-from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory
+from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory, TChain
 from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory
 print("Import Done!")
 
@@ -33,8 +33,15 @@ if __name__ == "__main__":
     rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
 
     rdf = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
-    hBs = rdf.Histo1D(("Quadruplet_Mass", "Quadruplet_Mass", 100, 5.25, 5.5), "Quadruplet_Mass")
-    hB0 = rdf.Histo1D(("B0KpiMass", "B0KpiMass", 100, 5.25, 5.5), "B0KpiMass")
+    rdf.Snapshot("FinalTree", "temp.root")
+    del rdf
+    
+    chain = TChain("FinalTree")
+    chain.Add("temp.root")
+    chain.Draw("Quadruplet_Mass>>hBs(100, 5.25, 5.5)")
+    chain.Draw("B0KpiMass>>hB0(100, 5.25, 5.5)")
+    hBs = gDirectory.Get("hBs") 
+    hB0 = gDirectory.Get("hB0")    
     print("Histos Done!")
 
     x = RooRealVar("x", "x", 5.25, 5.5)
