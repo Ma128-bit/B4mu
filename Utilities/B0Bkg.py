@@ -7,8 +7,8 @@ EnableImplicitMT()
 
 gInterpreter.Declare("""
     double Mass_eqKK(double Quadruplet_Mass, double Dimu_mass, double Ditrk_mass){
-        double out = Quadruplet_Mass - Dimu_mass - Ditrk_mass + 1.019 + 3.0969
-        return out
+        double out = Quadruplet_Mass - Dimu_mass - Ditrk_mass + 1.019 + 3.0969;
+        return out;
     }
     double B0KpiMass(double Mu1pt, double Mu1eta, double Mu1phi, double Mu2pt, double Mu2eta, double Mu2phi, double Trk3pt, double Trk3eta, double Trk3phi, double Trk4pt, double Trk4eta, double Trk4phi){
         TLorentzVector M1, M2, T31, T41, T32, T42;
