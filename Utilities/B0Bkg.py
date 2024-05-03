@@ -25,16 +25,17 @@ gInterpreter.Declare("""
 
 
 if __name__ == "__main__":
-  treename = "FinalTree"
-  file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
-  rdf = RDataFrame(treename, file)
-  rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
+    treename = "FinalTree"
+    file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
+    rdf = RDataFrame(treename, file)
+    rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
   
-  hBs = rdf.Histo1D("Quadruplet_Mass","abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
-  hB0 = rdf.Histo1D("B0KpiMass","abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
-  canvas = TCanvas("canvas", "Fit Result", 900, 600)
-  hBs.Draw()
-  canvas.Draw()
+    hBs = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0").Histo1D("Quadruplet_Mass")
+    hB0 = rdf.Filter("abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0").Histo1D("B0KpiMass")
+    canvas = TCanvas("canvas", "Fit Result", 900, 600)
+    hBs.Draw()
+    canvas.Draw()
+    canvas.SaveAs("test.png")
   
   
 
