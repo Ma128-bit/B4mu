@@ -100,15 +100,15 @@ if __name__ == "__main__":
     
     # Reflected Model
     muR = RooRealVar("muR", "muR", 5.366, 5.05, 5.5)
-    lambdR = RooRealVar("lambdR", "lambdR", 0, 10)
+    lambdR = RooRealVar("lambdR", "lambdR", 0.1, 10)
     gammaR = RooRealVar("gammaR", "gammaR", -10, 10)
-    deltaR = RooRealVar("deltaR", "deltaR", 0, 20)
+    deltaR = RooRealVar("deltaR", "deltaR", 0.1, 20)
     Rsignal_Bs = RooJohnson("Rsignal_Bs", "Rsignal_Bs", x, muR, lambdR, gammaR, deltaR )
 
     mu2R = RooRealVar("mu2R", "mu2R", 5.277, 5.23, 5.32)
-    lambd2R = RooRealVar("lambd2R", "lambd2R", 0, 10)
+    lambd2R = RooRealVar("lambd2R", "lambd2R", 0.1, 10)
     gamma2R = RooRealVar("gamma2R", "gamma2R", -10, 10)
-    delta2R = RooRealVar("delta2R", "delta2R", 0, 20)
+    delta2R = RooRealVar("delta2R", "delta2R", 0.1, 20)
     Rsignal_Bd = RooJohnson("Rsignal_Bd", "Rsignal_Bd", x, mu2R, lambd2R, gamma2R, delta2R )
 
     Rc1 = RooRealVar("Rc1", "Rc1", -0.2, -10, 10)
