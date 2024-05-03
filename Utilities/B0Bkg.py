@@ -26,7 +26,7 @@ gInterpreter.Declare("""
 
 if __name__ == "__main__":
   treename = "FinalTree"
-  file = "../Analysis/Analyzed_Data_B2mu2K_2022.root"
+  file = "../Analysis/FinalFiles_B2mu2K/Analyzed_Data_B2mu2K_2022.root"
   rdf = RDataFrame(treename, file)
   rdf = rdf.Define("B0KpiMass","B0KpiMass(Mu1_Pt, Mu1_Eta, Mu1_Phi, Mu2_Pt, Mu2_Eta, Mu2_Phi, Mu3_Pt, Mu3_Eta, Mu3_Phi, Mu4_Pt, Mu4_Eta, Mu4_Phi)") 
   
