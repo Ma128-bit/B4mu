@@ -1,5 +1,5 @@
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory, TChain, gPad
-from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous
+from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous, kTRUE
 print("Import Done!")
 
 gROOT.SetBatch(True)
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     """
     data = RooDataHist("data", hBs.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
     
-    mu = RooRealVar("mu", "mu", 5.3, 5.1, 5.45)
+    mu = RooRealVar("mu", "mu", 5.3, 5.1, 5.5)
     lambd = RooRealVar("lambd", "lambd", 0, 10)
     gamma = RooRealVar("gamma", "gamma", -10, 10)
     delta = RooRealVar("delta", "delta", 0, 20)
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
 
-    result = model.fitTo(data)
+    result = model.fitTo(data, RooFit.Extended(kTRUE))
     
     frame = x.frame()
     data.plotOn(frame)
