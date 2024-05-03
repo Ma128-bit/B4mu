@@ -163,8 +163,8 @@ if __name__ == "__main__":
     c1 = RooRealVar("c1", "c1", -1.2, -20, 20)
     bkg_Bs = RooExponential("bkg_Bs", "bkg_Bs", x, c1)
     
-    nsig = RooRealVar("nsig", "Numero di segnali", 750000, 100000, 1250000)
-    nbkg = RooRealVar("nbkg", "Numero di background",20000, 100, 100000)
+    nsig = RooRealVar("nsig", "Numero di segnali", 1000, 100, 10000)
+    nbkg = RooRealVar("nbkg", "Numero di background",10, 1, 1000)
 
     model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, bkg_Bs), RooArgList(nsig, nbkg))
 
