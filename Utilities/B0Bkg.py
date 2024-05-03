@@ -1,4 +1,4 @@
-from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory, TChain
+from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory, TChain, gPad
 from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous
 print("Import Done!")
 
