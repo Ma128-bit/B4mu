@@ -1,5 +1,5 @@
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, gDirectory, TChain
-from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory
+from ROOT import RooRealVar, RooExponential, RooJohnson, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooCategory, RooSimultaneous
 print("Import Done!")
 
 gROOT.SetBatch(True)
@@ -74,8 +74,77 @@ if __name__ == "__main__":
     sample = RooCategory("sample","sample")
     sample.defineType("Bs")
     sample.defineType("B0")
-    #combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), RooFit.Import("Bs",hBs), RooFit.Import("B0",hB0))
+    combData = RooDataHist("combData","combined data",x, RooFit.Index(sample), RooFit.Import("Bs",hBs), RooFit.Import("B0",hB0))
 
+    # Main Model
+    mu = RooRealVar("mu", "mu", 5.366, 5.2, 5.5)
+    lambd = RooRealVar("lambd", "lambd", 0, 10)
+    gamma = RooRealVar("gamma", "gamma", -10, 10)
+    delta = RooRealVar("delta", "delta", 0, 20)
+    signal_Bs = RooJohnson("signal_Bs", "signal_Bs", x, mu, lambd, gamma, delta )
+
+    mu2 = RooRealVar("mu2", "mu2", 5.366, 5.2, 5.5)
+    lambd2 = RooRealVar("lambd2", "lambd2", 0, 10)
+    gamma2 = RooRealVar("gamma2", "gamma2", -10, 10)
+    delta2 = RooRealVar("delta2", "delta2", 0, 20)
+    signal_Bd = RooJohnson("signal_Bd", "signal_Bd", x, mu2, lambd2, gamma2, delta2 )
+
+    c1 = RooRealVar("c1", "c1", -0.2, -10, 10)
+    bkg_Bs = RooExponential("bkg_Bs", "bkg_Bs", x, c1)
+
+    nsig = RooRealVar("nsig", "Numero di segnali", 150000, 100000, 1000000)
+    nsig2 = RooRealVar("nsig", "Numero di segnali", 10000, 10000, 100000)
+    nbkg = RooRealVar("nbkg", "Numero di background",50000, 10000, 100000)
+    model = RooAddPdf("model", "Signal + Background", RooArgList(signal_Bs, signal_Bd, bkg_Bs), RooArgList(nsig, nsig2, nbkg))
+    
+    # Reflected Model
+    muR = RooRealVar("muR", "muR", 5.366, 5.2, 5.5)
+    lambdR = RooRealVar("lambdR", "lambdR", 0, 10)
+    gammaR = RooRealVar("gammaR", "gammaR", -10, 10)
+    deltaR = RooRealVar("deltaR", "deltaR", 0, 20)
+    Rsignal_Bs = RooJohnson("Rsignal_Bs", "Rsignal_Bs", x, muR, lambdR, gammaR, deltaR )
+
+    mu2R = RooRealVar("mu2R", "mu2R", 5.366, 5.2, 5.5)
+    lambd2R = RooRealVar("lambd2R", "lambd2R", 0, 10)
+    gamma2R = RooRealVar("gamma2R", "gamma2R", -10, 10)
+    delta2R = RooRealVar("delta2R", "delta2R", 0, 20)
+    Rsignal_Bd = RooJohnson("Rsignal_Bd", "Rsignal_Bd", x, mu2R, lambd2R, gamma2R, delta2R )
+
+    Rc1 = RooRealVar("Rc1", "Rc1", -0.2, -10, 10)
+    Rbkg_Bs = RooExponential("Rbkg_Bs", "Rbkg_Bs", x, Rc1)
+
+    Rmodel = RooAddPdf("Rmodel", "RSignal + RBackground", RooArgList(Rsignal_Bs, Rsignal_Bd, Rbkg_Bs), RooArgList(nsig, nsig2, nbkg))
+
+    simPdf = RooSimultaneous("simPdf","simultaneous pdf", sample)
+ 
+    simPdf.addPdf(model,"Bs")
+    simPdf.addPdf(Rmodel,"B0")
+
+    simPdf.fitTo(combData)
+
+    frame1 = x.frame(RooFit.Title("Bs sample"))
+    combData.plotOn(frame1,RooFit.Cut("sample==sample::Bs"))
+    simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.ProjWData(sample,combData))
+    simPdf.plotOn(frame1,RooFit.Slice(sample,"Bs"),RooFit.Components(bkg_Bs),RooFit.ProjWData(sample,combData),RooFit.LineStyle(kDashed))
+
+    frame2 = x.frame(RooFit.Title("B0 sample"))
+    combData.plotOn(frame2, RooFit.Cut("sample==sample::B0"))
+    simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.ProjWData(sample,combData))
+    simPdf.plotOn(frame2, RooFit.Slice(sample,"B0"), RooFit.Components(Rbkg_Bs), RooFit.ProjWData(sample,combData), RooFit.LineStyle(kDashed))
+ 
+    canvas = TCanvas("canvas", "Fit Result", 900, 600)
+    canvas.Divide(2)
+    canvas.cd(1)
+    gPad.SetLeftMargin(0.15)
+    frame1.GetYaxis().SetTitleOffset(1.4)
+    frame1.Draw()
+    canvas.cd(2)
+    gPad.SetLeftMargin(0.15)
+    frame2.GetYaxis().SetTitleOffset(1.4)
+    frame2.Draw()
+    canvas.SaveAs("test.png")
+    
+    """
     data = RooDataHist("data", hB0.GetTitle(), RooArgSet(x), RooFit.Import(hB0))
     
     mu = RooRealVar("mu", "mu", 5.366, 5.3, 5.45)
@@ -105,6 +174,8 @@ if __name__ == "__main__":
     canvas = TCanvas("canvas", "Fit Result", 900, 600)
     frame.Draw();
     canvas.SaveAs("test.png")
+
+    """
   
   
 
