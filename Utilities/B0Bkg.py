@@ -105,7 +105,7 @@ if __name__ == "__main__":
     deltaR = RooRealVar("deltaR", "deltaR", 0, 20)
     Rsignal_Bs = RooJohnson("Rsignal_Bs", "Rsignal_Bs", x, muR, lambdR, gammaR, deltaR )
 
-    mu2R = RooRealVar("mu2R", "mu2R", 5.277, 5.27, 5.283)
+    mu2R = RooRealVar("mu2R", "mu2R", 5.277, 5.23, 5.32)
     lambd2R = RooRealVar("lambd2R", "lambd2R", 0, 10)
     gamma2R = RooRealVar("gamma2R", "gamma2R", -10, 10)
     delta2R = RooRealVar("delta2R", "delta2R", 0, 20)
