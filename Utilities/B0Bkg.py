@@ -33,8 +33,8 @@ if __name__ == "__main__":
   hBs = rdf.Histo1D("Quadruplet_Mass","abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
   hB0 = rdf.Histo1D("B0KpiMass","abs(Ditrk_mass-1.01945)<0.007 && abs(Dimu_mass-3.0969)<0.1 && vtx_prob>0")
   canvas = TCanvas("canvas", "Fit Result", 900, 600)
-  hBs->Draw()
-  canvas->Draw()
+  hBs.Draw()
+  canvas.Draw()
   
   
 
