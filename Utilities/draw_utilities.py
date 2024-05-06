@@ -451,6 +451,6 @@ class ROOTDrawer:
         del self.Legend
         del self.lines
         del self.dopull
-        del self.pullYRange
+        #del self.pullYRange
         del self
     

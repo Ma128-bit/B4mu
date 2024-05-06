@@ -82,7 +82,7 @@ def process(args):
             sel = sel + www + "[3]+" # example: isPF[3] + 
         else:
             sel = sel + www + "[3]" # example: isPF[3]
-    sel = "(" + sel + " == " + str(2*len(i)+len(j)+len(k)) + ") && (isJPsiPhi==1)"# && vtx_prob>0 && Cos2d_PV_SV>0.9 && FlightDistBS_SV_Significance>2"
+    sel = "(" + sel + " == " + str(2*len(i)+len(j)+len(k)) + ") && (isJPsiPhi==1) && vtx_prob>0"# && Cos2d_PV_SV>0.95 && FlightDistBS_SV_Significance>4"
     print(sel)
     #sel = "(" + i + "[0]+" + i + "[1]+" + j + "[2]+" + k + "[3] == 4) && (isJPsiPhi==1)"
     id = str(i_it) +"_"+ str(j_it) +"_"+ str(k_it)
@@ -169,7 +169,8 @@ if __name__ == "__main__":
     #muon_id = [["isGlobal"], ["isTracker"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isPF"], ["isSoft", "isPF"], ["isTracker", "isPF"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
     #muon_id = [["isGlobal"], ["isTracker"], ["isMedium"], ["isTight"], ["isGlobal", "isPF"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
     #muon_id = [["isGlobal"], ["isTracker"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
-    muon_id = [["isGlobal"], ["isMedium"],  ["isGlobal", "isMedium"]]
+    muon_id = [["isGlobal"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"]]
+    #muon_id = [["isGlobal"], ["isMedium"],  ["isGlobal", "isMedium"]]
     x = RooRealVar("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 5.9)
     x.setRange("R1", 5.0, 5.25)
     x.setRange("R2", 5.55, 5.9)
@@ -209,4 +210,4 @@ if __name__ == "__main__":
     np.savez("MuonID_plots/bestID_2022signal"+type+".npz", results)
     print(merged_dict)
     df = pd.DataFrame(merged_dict)
-    df.to_csv("MuonID_plots/DFbestID_2022signal"+type+".csv", index=False)
+    df.to_csv("MuonID_plots/DFbestID_2022signal"+type+"_v2.csv", index=False)
