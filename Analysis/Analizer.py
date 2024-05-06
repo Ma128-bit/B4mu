@@ -244,7 +244,7 @@ if __name__ == "__main__":
             output_dir= output_dir + "/"
 
         if(analysis_type!="B4mu"):
-            rdf = rdf.Filter("Quadruplet_Mass>4.9 && Quadruplet_Mass<5.9")
+            rdf = rdf.Filter("Quadruplet_Mass>4.5 && Quadruplet_Mass<6.5")
             rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
             rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
         
