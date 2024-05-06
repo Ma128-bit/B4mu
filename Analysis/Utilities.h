@@ -318,7 +318,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
     vector<double> chi2;
     for(int l=0; l<quad_indx.size(); l++){
         double temp_i=quad_indx.at(l);
-        #double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
+        //double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
         double temp_chi2 = Cos2D_(QuadrupletVtx_x.at(temp_i), QuadrupletVtx_y.at(temp_i), RefittedPV_x.at(temp_i), RefittedPV_y.at(temp_i), Quadruplet_Pt.at(temp_i), Quadruplet_Eta.at(temp_i), Quadruplet_Phi.at(temp_i))
         chi2.push_back(temp_chi2);
     }
@@ -374,7 +374,7 @@ vector<int> B2mu2K_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVe
     return quad_indx;
 }
 
-vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> RefTrack1_Pt, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<double> Mu3_Eta, ROOT::VecOps::RVec<double> Mu4_Eta, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> vtx_prob){
+vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> RefTrack1_Pt, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<double> Mu3_Eta, ROOT::VecOps::RVec<double> Mu4_Eta, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> vtx_prob, ROOT::VecOps::RVec<double> QuadrupletVtx_x, ROOT::VecOps::RVec<double> QuadrupletVtx_y, ROOT::VecOps::RVec<double> RefittedPV_x, ROOT::VecOps::RVec<double> RefittedPV_y, ROOT::VecOps::RVec<double> Quadruplet_Pt, ROOT::VecOps::RVec<double> Quadruplet_Eta, ROOT::VecOps::RVec<double> Quadruplet_Phi){
     vector<int> quad_indx;
     int exit_code = -1;
     
@@ -480,7 +480,8 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
     vector<double> chi2;
     for(int l=0; l<quad_indx.size(); l++){
         double temp_i=quad_indx.at(l);
-        double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
+        //double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
+        double temp_chi2 = Cos2D_(QuadrupletVtx_x.at(temp_i), QuadrupletVtx_y.at(temp_i), RefittedPV_x.at(temp_i), RefittedPV_y.at(temp_i), Quadruplet_Pt.at(temp_i), Quadruplet_Eta.at(temp_i), Quadruplet_Phi.at(temp_i))
         chi2.push_back(temp_chi2);
     }
 
@@ -490,8 +491,8 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
     }
     std::sort(v_union.begin(), v_union.end(), 
               [](const std::pair<double, int>& a, const std::pair<double, int>& b) {
-                  return a.first < b.first;
-                  //return a.first > b.first;
+                  //return a.first < b.first;
+                  return a.first > b.first;
               });
 
     for (size_t i = 0; i < v_union.size(); ++i) {
