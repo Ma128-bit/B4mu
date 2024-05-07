@@ -17,7 +17,7 @@ B4MuHLTFilter.HLTPaths = ["HLT_DoubleMu4_3_LowMass*"]
 
 looseMuons = cms.EDFilter("PATMuonSelector",
                           src = cms.InputTag("slimmedMuons"),
-                          cut = cms.string('pt > 2 &&  abs(eta)<2.4 && (innerTrack().isNonnull)'),
+                          cut = cms.string('pt > 1 &&  abs(eta)<2.5 && (innerTrack().isNonnull)'),
                           filter = cms.bool(True)
 )
 
