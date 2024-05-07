@@ -40,7 +40,7 @@ DiMuonCandFilter = cms.EDFilter("CandViewCountFilter",
 
 LooseTrack = cms.EDFilter("PFCandFilter",
                           src = cms.InputTag("packedPFCandidates"),
-                          cut = cms.string("pt > 2 &&  abs(eta)<2.4 &&  (charge!=0) && hasTrackDetails() && trackerLayersWithMeasurement()>5 && pixelLayersWithMeasurement()>=1"),
+                          cut = cms.string("pt > 1.5 &&  abs(eta)<2.5 &&  (charge!=0) && hasTrackDetails() && trackerLayersWithMeasurement()>5 && pixelLayersWithMeasurement()>=1"),
                           filter = cms.bool(True)                                
 )
 
