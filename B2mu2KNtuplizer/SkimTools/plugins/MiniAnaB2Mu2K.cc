@@ -334,7 +334,7 @@ double PFreliso03(pat::Muon imu){
 
 bool isGoodTrack(const reco::Track &track) {
     if(track.pt()>1){
-        if(std::fabs(track.eta())<2.4){
+        if(std::fabs(track.eta())<2.5){
             if(track.hitPattern().trackerLayersWithMeasurement()>5){
                 if(track.hitPattern().pixelLayersWithMeasurement()>1) return true;
             }
@@ -1370,7 +1370,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         
                         //////////////Loop on PF Candidates////////////////////
                         for (std::vector<pat::PackedCandidate>::const_iterator cand = PFCands->begin(); cand != PFCands->end(), kk!= PFCands->size(); ++cand, ++kk) {
-                            if(  (cand->pt()>1) && (fabs(cand->eta())<2.4) && (cand->trackerLayersWithMeasurement()>5) && (cand->pixelLayersWithMeasurement()>1) ){
+                            if(  (cand->pt()>1) && (fabs(cand->eta())<2.5) && (cand->trackerLayersWithMeasurement()>5) && (cand->pixelLayersWithMeasurement()>1) ){
                                 
                                 double dR1 = sqrt( reco::deltaR2(Track1.eta(), Track1.phi(), cand->eta(), cand->phi()) );
                                 double dR2 = sqrt( reco::deltaR2(Track2.eta(), Track2.phi(), cand->eta(), cand->phi()) );
