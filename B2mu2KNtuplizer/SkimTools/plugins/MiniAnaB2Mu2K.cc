@@ -203,7 +203,7 @@ private:
     std::vector<double> RefTrack3_Pt, RefTrack3_Eta, RefTrack3_Phi, RefTrack3_QuadrupletIndex;
     std::vector<double> RefTrack4_Pt, RefTrack4_Eta, RefTrack4_Phi, RefTrack4_QuadrupletIndex;
     
-    std::vector<double> RefittedSV_Chi2, RefittedSV_nDOF, RefittedSV_Mass, RefittedSV_Mass_Unc;
+    std::vector<double> RefittedSV_Chi2, RefittedSV_nDOF, RefittedSV_Mass, RefittedSV_Mass_err;
     
     std::vector<double> IsoTrackMu1_Pt, IsoTrackMu1_Eta, IsoTrackMu1_Phi;
     std::vector<double> IsoTrackMu2_Pt, IsoTrackMu2_Eta, IsoTrackMu2_Phi;
@@ -1002,7 +1002,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             RefCountedKinematicVertex bDecayVertexMC = SVertex_ref->currentDecayVertex();
                             if(bDecayVertexMC->vertexIsValid()){
                                 RefittedSV_Mass.push_back(bCandMC->currentState().mass());
-                                RefittedSV_Mass_Unc.push_back(bCandMC->currentState().kinematicParametersError().matrix().At(6,6));
+                                RefittedSV_Mass_err.push_back(bCandMC->currentState().kinematicParametersError().matrix().At(6,6));
                                 RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
                                 RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
                              
@@ -1048,7 +1048,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                                 RefittedSV_nDOF.push_back(-99);
                                 vtx_ref_prob.push_back(-99);
                                 RefittedSV_Mass.push_back(-99);
-                                RefittedSV_Mass_Unc.push_back(-99);
+                                RefittedSV_Mass_err.push_back(-99);
                             }
                         } else {
                             RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
@@ -1060,7 +1060,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                             RefittedSV_nDOF.push_back(-99);
                             vtx_ref_prob.push_back(-99);
                             RefittedSV_Mass.push_back(-99);
-                            RefittedSV_Mass_Unc.push_back(-99);
+                            RefittedSV_Mass_err.push_back(-99);
                         }
                         ///////////////Check Trigger Matching///////////////
                         float dR1 = 999., dR2 = 999., dR3 = 999., dR4 = 999.;
@@ -1646,7 +1646,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         RefittedSV_Chi2.push_back(-99);
                         RefittedSV_nDOF.push_back(-99);
                         RefittedSV_Mass.push_back(-99);
-                        RefittedSV_Mass_Unc.push_back(-99);
+                        RefittedSV_Mass_err.push_back(-99);
                         vtx_ref_prob.push_back(-99);
 
                         IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99);
@@ -2244,7 +2244,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
     RefittedSV_Chi2.clear();
     RefittedSV_nDOF.clear();
     RefittedSV_Mass.clear();
-    RefittedSV_Mass_Unc.clear();
+    RefittedSV_Mass_err.clear();
     
     IsoTrackMu1_Pt.clear();
     IsoTrackMu1_Eta.clear();
@@ -2684,7 +2684,7 @@ void MiniAnaB2Mu2K::beginJob() {
     tree_->Branch("RefittedSV_Chi2", &RefittedSV_Chi2);
     tree_->Branch("RefittedSV_nDOF", &RefittedSV_nDOF);
     tree_->Branch("RefittedSV_Mass", &RefittedSV_Mass);
-    tree_->Branch("RefittedSV_Mass_Unc", &RefittedSV_Mass_Unc);
+    tree_->Branch("RefittedSV_Mass_err", &RefittedSV_Mass_err);
     
     tree_->Branch("IsoTrackMu1_Pt",         &IsoTrackMu1_Pt);
     tree_->Branch("IsoTrackMu1_Eta",        &IsoTrackMu1_Eta);
