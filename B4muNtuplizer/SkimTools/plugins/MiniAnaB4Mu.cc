@@ -207,7 +207,7 @@ private:
     std::vector<double> RefTrack3_Pt, RefTrack3_Eta, RefTrack3_Phi, RefTrack3_QuadrupletIndex;
     std::vector<double> RefTrack4_Pt, RefTrack4_Eta, RefTrack4_Phi, RefTrack4_QuadrupletIndex;
     
-    std::vector<double> RefittedSV_Chi2, RefittedSV_nDOF, RefittedSV_Mass;
+    std::vector<double> RefittedSV_Chi2, RefittedSV_nDOF, RefittedSV_Mass, RefittedSV_Mass_err;
     
     std::vector<double> IsoTrackMu1_Pt, IsoTrackMu1_Eta, IsoTrackMu1_Phi;
     std::vector<double> IsoTrackMu2_Pt, IsoTrackMu2_Eta, IsoTrackMu2_Phi;
@@ -248,7 +248,8 @@ private:
     std::vector<double> PV_x,  PV_y,  PV_z,  PV_NTracks;
     std::vector<double> BS_x,  BS_y,  BS_z;
     std::vector<double> Vtx12_x, Vtx23_x, Vtx13_x, Vtx14_x, Vtx24_x, Vtx34_x, Vtx12_y, Vtx23_y, Vtx13_y, Vtx14_y, Vtx24_y, Vtx34_y, Vtx12_z, Vtx23_z, Vtx13_z, Vtx14_z, Vtx24_z, Vtx34_z, Vtx12_Chi2, Vtx23_Chi2, Vtx13_Chi2, Vtx14_Chi2, Vtx24_Chi2, Vtx34_Chi2, Vtx12_nDOF, Vtx23_nDOF, Vtx13_nDOF, Vtx14_nDOF, Vtx24_nDOF, Vtx34_nDOF;
-    
+    std::vector<double> Vtx12_mass, Vtx23_mass, Vtx13_mass, Vtx14_mass, Vtx24_mass, Vtx34_mass, Vtx12_mass_err, Vtx23_mass_err, Vtx13_mass_err, Vtx14_mass_err, Vtx24_mass_err, Vtx34_mass_err;
+
     std::vector<int> NGoodQuadruplets;
     uint  evt, run, lumi, puN;
     std::vector<string>  Trigger_l1name;
@@ -920,6 +921,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             RefCountedKinematicVertex bDecayVertexMC = SVertex_ref->currentDecayVertex();
                             if(bDecayVertexMC->vertexIsValid()){
                                 RefittedSV_Mass.push_back(bCandMC->currentState().mass());
+                                RefittedSV_Mass_err.push_back(bCandMC->currentState().kinematicParametersError().matrix().At(6,6));
+
                                 RefittedSV_Chi2.push_back(bDecayVertexMC->chiSquared());
                                 RefittedSV_nDOF.push_back((int)bDecayVertexMC->degreesOfFreedom());
                              
@@ -965,6 +968,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                                 RefittedSV_nDOF.push_back(-99);
                                 vtx_ref_prob.push_back(-99);
                                 RefittedSV_Mass.push_back(-99);
+                                RefittedSV_Mass_err.push_back(-99);
                             }
                         } else {
                             RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(QuadrupletIndex);
@@ -976,6 +980,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             RefittedSV_nDOF.push_back(-99);
                             vtx_ref_prob.push_back(-99);
                             RefittedSV_Mass.push_back(-99);
+                            RefittedSV_Mass_err.push_back(-99);
                         }
 
                         ///////////////Check Trigger Matching///////////////
@@ -1105,34 +1110,41 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         Quadruplet_Charge.push_back(B_It->charge());
                         
                         //////////////Dimu vertices////////////////////
-                        std::vector<reco::TransientTrack> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx, SVTracks14_Vtx, SVTracks24_Vtx, SVTracks34_Vtx;
+                        //std::vector<reco::TransientTrack> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx, SVTracks14_Vtx, SVTracks24_Vtx, SVTracks34_Vtx;
+
+                        vector<RefCountedKinematicParticle> SVTracks12_Vtx, SVTracks23_Vtx, SVTracks13_Vtx, SVTracks14_Vtx, SVTracks24_Vtx, SVTracks34_Vtx;
+                        chi = 0; ndf = 0;
+                        SVTracks12_Vtx.push_back(pFactory.particle(transientTrack1,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks12_Vtx.push_back(pFactory.particle(transientTrack2,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks23_Vtx.push_back(pFactory.particle(transientTrack2,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks23_Vtx.push_back(pFactory.particle(transientTrack3,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks13_Vtx.push_back(pFactory.particle(transientTrack1,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks13_Vtx.push_back(pFactory.particle(transientTrack3,muon_mass,chi,ndf,muon_sigma));
                         
-                        SVTracks12_Vtx.push_back(transientTrack1);
-                        SVTracks12_Vtx.push_back(transientTrack2);
-                        SVTracks23_Vtx.push_back(transientTrack2);
-                        SVTracks23_Vtx.push_back(transientTrack3);
-                        SVTracks13_Vtx.push_back(transientTrack1);
-                        SVTracks13_Vtx.push_back(transientTrack3);
-                        
-                        SVTracks14_Vtx.push_back(transientTrack1);
-                        SVTracks14_Vtx.push_back(transientTrack4);
-                        SVTracks24_Vtx.push_back(transientTrack2);
-                        SVTracks24_Vtx.push_back(transientTrack4);
-                        SVTracks34_Vtx.push_back(transientTrack3);
-                        SVTracks34_Vtx.push_back(transientTrack4);
+                        SVTracks14_Vtx.push_back(pFactory.particle(transientTrack1,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks14_Vtx.push_back(pFactory.particle(transientTrack4,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks24_Vtx.push_back(pFactory.particle(transientTrack2,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks24_Vtx.push_back(pFactory.particle(transientTrack4,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks34_Vtx.push_back(pFactory.particle(transientTrack3,muon_mass,chi,ndf,muon_sigma));
+                        SVTracks34_Vtx.push_back(pFactory.particle(transientTrack4,muon_mass,chi,ndf,muon_sigma));
+
                         ////DiMu12////
-                        KalmanVertexFitter DiMu12_fitter (true);
-                        TransientVertex DiMu12Vtx = DiMu12_fitter.vertex(SVTracks12_Vtx);
-                        if(DiMu12Vtx.isValid()){
-                            Vtx12_Chi2.push_back(DiMu12Vtx.totalChiSquared());
-                            //cout << "Vtx12_Chi2: " << DiMu12Vtx.totalChiSquared() << endl;
-                            Vtx12_nDOF.push_back(DiMu12Vtx.degreesOfFreedom());
-                            GlobalPoint DiMu12Pos (DiMu12Vtx.position());
-                            Vtx12_x.push_back(DiMu12Pos.x());
-                            //cout <<"Vtx12_x: " <<DiMu12Pos.x() << endl;
-                            Vtx12_y.push_back(DiMu12Pos.y());
-                            Vtx12_z.push_back(DiMu12Pos.z());
+                        KinematicConstrainedVertexFitter DiMu12_fitter;
+                        RefCountedKinematicTree DiMu12Vtx = DiMu12_fitter.fit(SVTracks12_Vtx);
+                        if(DiMu12Vtx->isValid()){
+                            DiMu12Vtx->movePointerToTheTop();
+                            Vtx12_mass.push_back(DiMu12Vtx->currentParticle()->currentState().mass());
+                            Vtx12_mass_err.push_back(DiMu12Vtx->currentParticle()->currentState().kinematicParametersError().matrix().At(6,6));
+
+                            Vtx12_Chi2.push_back(DiMu12Vtx->currentDecayVertex()->chiSquared());
+                            Vtx12_nDOF.push_back(DiMu12Vtx->currentDecayVertex()->degreesOfFreedom());
+                         
+                            Vtx12_x.push_back(DiMu12Vtx->currentDecayVertex()->position().x());
+                            Vtx12_y.push_back(DiMu12Vtx->currentDecayVertex()->position().y());
+                            Vtx12_z.push_back(DiMu12Vtx->currentDecayVertex()->position().z());
                         }else{
+                            Vtx12_mass.push_back(-99);
+                            Vtx12_mass_err.push_back(-99);
                             Vtx12_Chi2.push_back(-99);
                             Vtx12_nDOF.push_back(-99);
                             Vtx12_x.push_back(-99);
@@ -1140,18 +1152,22 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             Vtx12_z.push_back(-99);
                         }
                         ////DiMu23///
-                        KalmanVertexFitter DiMu23_fitter (true);
-                        TransientVertex DiMu23Vtx = DiMu23_fitter.vertex(SVTracks23_Vtx);
-                        if(DiMu23Vtx.isValid()){
-                            Vtx23_Chi2.push_back(DiMu23Vtx.totalChiSquared());
-                            //cout << "Vtx23_Chi2: " << DiMu23Vtx.totalChiSquared() << endl;
-                            Vtx23_nDOF.push_back(DiMu23Vtx.degreesOfFreedom());
-                            GlobalPoint DiMu23Pos (DiMu23Vtx.position());
-                            Vtx23_x.push_back(DiMu23Pos.x());
-                            //cout <<"Vtx23_x: " <<DiMu23Pos.x() << endl;
-                            Vtx23_y.push_back(DiMu23Pos.y());
-                            Vtx23_z.push_back(DiMu23Pos.z());
+                        KinematicConstrainedVertexFitter DiMu23_fitter;
+                        RefCountedKinematicTree DiMu23Vtx = DiMu23_fitter.fit(SVTracks23_Vtx);
+                        if(DiMu23Vtx->isValid()){
+                            DiMu23Vtx->movePointerToTheTop();
+                            Vtx23_mass.push_back(DiMu23Vtx->currentParticle()->currentState().mass());
+                            Vtx23_mass_err.push_back(DiMu23Vtx->currentParticle()->currentState().kinematicParametersError().matrix().At(6,6));
+                            
+                            Vtx23_Chi2.push_back(DiMu23Vtx->currentDecayVertex()->chiSquared());
+                            Vtx23_nDOF.push_back((int)DiMu23Vtx->currentDecayVertex()->degreesOfFreedom());
+                         
+                            Vtx23_x.push_back(DiMu23Vtx->currentDecayVertex()->position().x());
+                            Vtx23_y.push_back(DiMu23Vtx->currentDecayVertex()->position().y());
+                            Vtx23_z.push_back(DiMu23Vtx->currentDecayVertex()->position().z());
                         }else{
+                            Vtx23_mass.push_back(-99);
+                            Vtx23_mass_err.push_back(-99);
                             Vtx23_Chi2.push_back(-99);
                             Vtx23_nDOF.push_back(-99);
                             Vtx23_x.push_back(-99);
@@ -1159,18 +1175,22 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             Vtx23_z.push_back(-99);
                         }
                         ////DiMu13///
-                        KalmanVertexFitter DiMu13_fitter (true);
-                        TransientVertex DiMu13Vtx = DiMu13_fitter.vertex(SVTracks13_Vtx);
-                        if(DiMu13Vtx.isValid()){
-                            Vtx13_Chi2.push_back(DiMu13Vtx.totalChiSquared());
-                            //cout << "Vtx13_Chi2: " << DiMu13Vtx.totalChiSquared() << endl;
-                            Vtx13_nDOF.push_back(DiMu13Vtx.degreesOfFreedom());
-                            GlobalPoint DiMu13Pos (DiMu13Vtx.position());
-                            Vtx13_x.push_back(DiMu13Pos.x());
-                            //cout <<"Vtx13_x: " <<DiMu13Pos.x() << endl;
-                            Vtx13_y.push_back(DiMu13Pos.y());
-                            Vtx13_z.push_back(DiMu13Pos.z());
+                        KinematicConstrainedVertexFitter DiMu13_fitter;
+                        RefCountedKinematicTree DiMu13Vtx = DiMu13_fitter.fit(SVTracks13_Vtx);
+                        if(DiMu13Vtx->isValid()){
+                            DiMu13Vtx->movePointerToTheTop();
+                            Vtx13_mass.push_back(DiMu13Vtx->currentParticle()->currentState().mass());
+                            Vtx13_mass_err.push_back(DiMu13Vtx->currentParticle()->currentState().kinematicParametersError().matrix().At(6,6));
+
+                            Vtx13_Chi2.push_back(DiMu13Vtx->currentDecayVertex()->chiSquared());
+                            Vtx13_nDOF.push_back((int)DiMu13Vtx->currentDecayVertex()->degreesOfFreedom());
+
+                            Vtx13_x.push_back(DiMu13Vtx->currentDecayVertex()->position().x());
+                            Vtx13_y.push_back(DiMu13Vtx->currentDecayVertex()->position().y());
+                            Vtx13_z.push_back(DiMu13Vtx->currentDecayVertex()->position().z());
                         }else{
+                            Vtx13_mass.push_back(-99);
+                            Vtx13_mass_err.push_back(-99);
                             Vtx13_Chi2.push_back(-99);
                             Vtx13_nDOF.push_back(-99);
                             Vtx13_x.push_back(-99);
@@ -1178,18 +1198,22 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                             Vtx13_z.push_back(-99);
                         }
                         ////DiMu14///
-                        KalmanVertexFitter DiMu14_fitter(true);
-                        TransientVertex DiMu14Vtx = DiMu14_fitter.vertex(SVTracks14_Vtx);
-                        if (DiMu14Vtx.isValid()) {
-                            Vtx14_Chi2.push_back(DiMu14Vtx.totalChiSquared());
-                            //cout << "Vtx14_Chi2: " << DiMu14Vtx.totalChiSquared() << endl;
-                            Vtx14_nDOF.push_back(DiMu14Vtx.degreesOfFreedom());
-                            GlobalPoint DiMu14Pos(DiMu14Vtx.position());
-                            Vtx14_x.push_back(DiMu14Pos.x());
-                            //cout << "Vtx14_x: " << DiMu14Pos.x() << endl;
-                            Vtx14_y.push_back(DiMu14Pos.y());
-                            Vtx14_z.push_back(DiMu14Pos.z());
+                        KinematicConstrainedVertexFitter DiMu14_fitter;
+                        RefCountedKinematicTree DiMu14Vtx = DiMu14_fitter.fit(SVTracks14_Vtx);
+                        if (DiMu14Vtx->isValid()) {
+                            DiMu14Vtx->movePointerToTheTop();
+                            Vtx14_mass.push_back(DiMu14Vtx->currentParticle()->currentState().mass());
+                            Vtx14_mass_err.push_back(DiMu14Vtx->currentParticle()->currentState().kinematicParametersError().matrix().At(6,6));
+                         
+                            Vtx14_Chi2.push_back(DiMu14Vtx->currentDecayVertex()->chiSquared());
+                            Vtx14_nDOF.push_back((int)DiMu14Vtx->currentDecayVertex()->degreesOfFreedom());
+
+                            Vtx14_x.push_back(DiMu14Vtx->currentDecayVertex()->position().x());
+                            Vtx14_y.push_back(DiMu14Vtx->currentDecayVertex()->position().y());
+                            Vtx14_z.push_back(DiMu14Vtx->currentDecayVertex()->position().z());
                         } else {
+                            Vtx14_mass.push_back(-99);
+                            Vtx14_mass_err.push_back(-99);
                             Vtx14_Chi2.push_back(-99);
                             Vtx14_nDOF.push_back(-99);
                             Vtx14_x.push_back(-99);
@@ -1198,18 +1222,22 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         }
                         
                         ////DiMu24///
-                        KalmanVertexFitter DiMu24_fitter(true);
-                        TransientVertex DiMu24Vtx = DiMu24_fitter.vertex(SVTracks24_Vtx);
-                        if (DiMu24Vtx.isValid()) {
-                            Vtx24_Chi2.push_back(DiMu24Vtx.totalChiSquared());
-                            //cout << "Vtx24_Chi2: " << DiMu24Vtx.totalChiSquared() << endl;
-                            Vtx24_nDOF.push_back(DiMu24Vtx.degreesOfFreedom());
-                            GlobalPoint DiMu24Pos(DiMu24Vtx.position());
-                            Vtx24_x.push_back(DiMu24Pos.x());
-                            //cout << "Vtx24_x: " << DiMu24Pos.x() << endl;
-                            Vtx24_y.push_back(DiMu24Pos.y());
-                            Vtx24_z.push_back(DiMu24Pos.z());
+                        KinematicConstrainedVertexFitter DiMu24_fitter;
+                        RefCountedKinematicTree DiMu24Vtx = DiMu24_fitter.fit(SVTracks24_Vtx);
+                        if (DiMu24Vtx->isValid()) {
+                            DiMu24Vtx->movePointerToTheTop();
+                            Vtx24_mass.push_back(DiMu24Vtx->currentParticle()->currentState().mass());
+                            Vtx24_mass_err.push_back(DiMu24Vtx->currentParticle()->currentState().kinematicParametersError().matrix().At(6,6));
+
+                            Vtx24_Chi2.push_back(DiMu24Vtx->currentDecayVertex()->chiSquared());
+                            Vtx24_nDOF.push_back((int)DiMu24Vtx->currentDecayVertex()->degreesOfFreedom());
+                         
+                            Vtx24_x.push_back(DiMu24Vtx->currentDecayVertex()->position().x());
+                            Vtx24_y.push_back(DiMu24Vtx->currentDecayVertex()->position().y());
+                            Vtx24_z.push_back(DiMu24Vtx->currentDecayVertex()->position().z());
                         } else {
+                            Vtx24_mass.push_back(-99);
+                            Vtx24_mass_err.push_back(-99);
                             Vtx24_Chi2.push_back(-99);
                             Vtx24_nDOF.push_back(-99);
                             Vtx24_x.push_back(-99);
@@ -1218,18 +1246,22 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         }
                         
                         ////DiMu34///
-                        KalmanVertexFitter DiMu34_fitter(true);
-                        TransientVertex DiMu34Vtx = DiMu34_fitter.vertex(SVTracks34_Vtx);
-                        if (DiMu34Vtx.isValid()) {
-                            Vtx34_Chi2.push_back(DiMu34Vtx.totalChiSquared());
-                            //cout << "Vtx34_Chi2: " << DiMu34Vtx.totalChiSquared() << endl;
-                            Vtx34_nDOF.push_back(DiMu34Vtx.degreesOfFreedom());
-                            GlobalPoint DiMu34Pos(DiMu34Vtx.position());
-                            Vtx34_x.push_back(DiMu34Pos.x());
-                            //cout << "Vtx34_x: " << DiMu34Pos.x() << endl;
-                            Vtx34_y.push_back(DiMu34Pos.y());
-                            Vtx34_z.push_back(DiMu34Pos.z());
+                        KinematicConstrainedVertexFitter DiMu34_fitter;
+                        RefCountedKinematicTree DiMu34Vtx = DiMu34_fitter.fit(SVTracks34_Vtx);
+                        if (DiMu34Vtx->isValid()) {
+                            DiMu34Vtx->movePointerToTheTop();
+                            Vtx34_mass.push_back(DiMu34Vtx->currentParticle()->currentState().mass());
+                            Vtx34_mass_err.push_back(DiMu34Vtx->currentParticle()->currentState().kinematicParametersError().matrix().At(6,6));
+                         
+                            Vtx34_Chi2.push_back(DiMu34Vtx->currentDecayVertex()->chiSquared());
+                            Vtx34_nDOF.push_back((int)DiMu34Vtx->currentDecayVertex()->degreesOfFreedom());
+                         
+                            Vtx34_x.push_back(DiMu34Vtx->currentDecayVertex()->position().x());
+                            Vtx34_y.push_back(DiMu34Vtx->currentDecayVertex()->position().y());
+                            Vtx34_z.push_back(DiMu34Vtx->currentDecayVertex()->position().z());
                         } else {
+                            Vtx34_mass.push_back(-99);
+                            Vtx34_mass_err.push_back(-99);
                             Vtx34_Chi2.push_back(-99);
                             Vtx34_nDOF.push_back(-99);
                             Vtx34_x.push_back(-99);
@@ -1531,6 +1563,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         RefittedSV_Chi2.push_back(-99);
                         RefittedSV_nDOF.push_back(-99);
                         RefittedSV_Mass.push_back(-99);
+                        RefittedSV_Mass_err.push_back(-99);
                         vtx_ref_prob.push_back(-99);
 
                         IsoTrackMu1_Pt.push_back(-99); IsoTrackMu1_Eta.push_back(-99); IsoTrackMu1_Phi.push_back(-99);
@@ -2063,7 +2096,20 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     Vtx14_nDOF.clear();
     Vtx24_nDOF.clear();
     Vtx34_nDOF.clear();
-    
+
+    Vtx12_mass.clear();
+    Vtx23_mass.clear();
+    Vtx13_mass.clear();
+    Vtx14_mass.clear();
+    Vtx24_mass.clear();
+    Vtx34_mass.clear();
+    Vtx12_mass_err.clear();
+    Vtx23_mass_err.clear();
+    Vtx13_mass_err.clear();
+    Vtx14_mass_err.clear();
+    Vtx24_mass_err.clear();
+    Vtx34_mass_err.clear();
+                                 
     Mu1_Pt.clear();
     Mu1_Eta.clear();
     Mu1_Phi.clear();
@@ -2118,7 +2164,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     RefittedSV_Chi2.clear();
     RefittedSV_nDOF.clear();
     RefittedSV_Mass.clear();
-    
+    RefittedSV_Mass_err.clear();
+
     IsoTrackMu1_Pt.clear();
     IsoTrackMu1_Eta.clear();
     IsoTrackMu1_Phi.clear();
@@ -2461,8 +2508,20 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("Vtx14_nDOF", &Vtx14_nDOF);
     tree_->Branch("Vtx24_nDOF", &Vtx24_nDOF);
     tree_->Branch("Vtx34_nDOF", &Vtx34_nDOF);
-    
-    
+                                 
+    tree_->Branch("Vtx12_mass", &Vtx12_mass);
+    tree_->Branch("Vtx23_mass", &Vtx23_mass);
+    tree_->Branch("Vtx13_mass", &Vtx13_mass);
+    tree_->Branch("Vtx14_mass", &Vtx14_mass);
+    tree_->Branch("Vtx24_mass", &Vtx24_mass);
+    tree_->Branch("Vtx34_mass", &Vtx34_mass);
+    tree_->Branch("Vtx12_mass_err", &Vtx12_mass_err);
+    tree_->Branch("Vtx23_mass_err", &Vtx23_mass_err);
+    tree_->Branch("Vtx13_mass_err", &Vtx13_mass_err);
+    tree_->Branch("Vtx14_mass_err", &Vtx14_mass_err);
+    tree_->Branch("Vtx24_mass_err", &Vtx24_mass_err);
+    tree_->Branch("Vtx34_mass_err", &Vtx34_mass_err);
+                                 
     tree_->Branch("QuadrupletCollectionSize", &QuadrupletCollectionSize);
     tree_->Branch("Mu1_Pt",&Mu1_Pt);
     tree_->Branch("Mu1_Eta", &Mu1_Eta);
@@ -2544,7 +2603,8 @@ void MiniAnaB4Mu::beginJob() {
     tree_->Branch("RefittedSV_Chi2", &RefittedSV_Chi2);
     tree_->Branch("RefittedSV_nDOF", &RefittedSV_nDOF);
     tree_->Branch("RefittedSV_Mass", &RefittedSV_Mass);
-    
+    tree_->Branch("RefittedSV_Mass_err", &RefittedSV_Mass_err);
+
     tree_->Branch("IsoTrackMu1_Pt",         &IsoTrackMu1_Pt);
     tree_->Branch("IsoTrackMu1_Eta",        &IsoTrackMu1_Eta);
     tree_->Branch("IsoTrackMu1_Phi",        &IsoTrackMu1_Phi);
