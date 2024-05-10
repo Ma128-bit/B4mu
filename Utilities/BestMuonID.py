@@ -1,5 +1,5 @@
 #from ROOT import RDataFrame, gROOT, EnableImplicitMT
-from ROOT import TChain, gROOT, gDirectory, RooRealVar, RooExponential, RooGaussian, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas
+from ROOT import TChain, gROOT, gDirectory, RooRealVar, RooExponential, RooGaussian, RooAddPdf, RooArgList, RooFit, kFALSE, RooDataHist, RooArgSet, kRed, kGreen, kDashed, TCanvas, RooJohnson
 gROOT.SetBatch(True)
 import numpy as np
 import pandas as pd
@@ -68,7 +68,7 @@ def process_2(args):
 
 
 def process(args):
-    i_it, j_it, k_it, muon_id, x, chain = args
+    i_it, j_it, k_it, muon_id, x, chain, out_dir = args
     i = muon_id[i_it]
     j = muon_id[j_it]
     k = muon_id[k_it]
@@ -82,7 +82,7 @@ def process(args):
             sel = sel + www + "[3]+" # example: isPF[3] + 
         else:
             sel = sel + www + "[3]" # example: isPF[3]
-    sel = "(" + sel + " == " + str(2*len(i)+len(j)+len(k)) + ") && (isJPsiPhi==1) && vtx_prob>0"# && Cos2d_PV_SV>0.95 && FlightDistBS_SV_Significance>4"
+    sel = "(" + sel + " == " + str(2*len(i)+len(j)+len(k)) + ") && (isJPsiPhi==1) && vtx_prob>0" # && Cos2d_PV_SV>0.95 && FlightDistBS_SV_Significance>4"
     print(sel)
     #sel = "(" + i + "[0]+" + i + "[1]+" + j + "[2]+" + k + "[3] == 4) && (isJPsiPhi==1)"
     id = str(i_it) +"_"+ str(j_it) +"_"+ str(k_it)
@@ -94,10 +94,14 @@ def process(args):
     gamma = RooRealVar("#Gamma", "Gamma", -0.2, -10, 10);
     exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma);
 
-    mean =RooRealVar("mean", "Media gaussiana", 5.367, 5.33, 5.40);
+    mean =RooRealVar("mean", "Media gaussiana", 5.367, 5., 5.5);
     sigma = RooRealVar("sigma", "Deviazione standard gaussiana", 0.02, 0.01, 0.06);
     gauss_pdf = RooGaussian("gauss_pdf", "Signal Gaussian PDF", x, mean, sigma);
-        
+    #lambd = RooRealVar("lambd", "lambd", 0., 0., 10.)
+    #gamma = RooRealVar("gamma", "gamma", 0., -10., -10.)
+    #delta = RooRealVar("delta", "delta", 1., 0., 10.)
+    #gauss_pdf = RooJohnson("signal_Bs", "signal_Bs", x, mean, lambd, gamma, delta )
+    
     nsig = RooRealVar("nsig", "Numero di segnali", 60, 10, 1000);
     nbkg = RooRealVar("nbkg", "Numero di background", hist_temp.GetEntries(), 40, 2*hist_temp.GetEntries());
 
@@ -106,15 +110,15 @@ def process(args):
     exp_bkg.fitTo(data, RooFit.Range("R1,R2"), RooFit.Verbose(0))
     model.fitTo(data, RooFit.Range("RT"), RooFit.Verbose(0))
 
-    range_up = mean.getVal() + 3*sigma.getVal()
-    range_down = mean.getVal() - 3*sigma.getVal()
-    x.setRange("signal"+id, range_down, range_up)
+    #range_up = mean.getVal() + 3*sigma.getVal()
+    #range_down = mean.getVal() - 3*sigma.getVal()
+    #x.setRange("signal"+id, range_down, range_up)
     #num_sig = nsig.getVal() * gauss_pdf.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"+id))
     #num_bkg = nbkg.getVal() * exp_bkg.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"+id))
 
     xframe = x.frame()
     xframe.SetTitle("Plot of "+ id)
-    model.paramOn(xframe, RooFit.Parameters(RooArgSet(nsig, nbkg, mean, sigma, gamma)), RooFit.Layout(0.6, 0.9, 0.9))
+    model.paramOn(xframe, RooFit.Parameters(RooArgSet(nsig, nbkg, mean, gamma)), RooFit.Layout(0.6, 0.9, 0.9))
     data.plotOn(xframe)
     model.plotOn(xframe, RooFit.Components(RooArgSet(gauss_pdf)), RooFit.LineColor(kRed), RooFit.LineStyle(kDashed))
     model.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
@@ -122,7 +126,7 @@ def process(args):
 
     c1 = TCanvas("c1", "c1", 900, 900)
     xframe.Draw()
-    c1.SaveAs("MuonID_plots/Fit_"+id+".png", "png -dpi 600")
+    c1.SaveAs(out_dir+"/Fit_"+id+".png", "png -dpi 600")
     c1.Clear()
 
     dati = {
@@ -162,14 +166,14 @@ if __name__ == "__main__":
     chain = TChain("FinalTree")
     #chain.Add("../Analysis/FinalFiles/Analyzed_Data_2022and23.root")
     chain.Add("../Analysis/FinalFiles_B4mu/Analyzed_Data_B4mu_2022.root")
-    out_dir="MuonID_plots"
+    out_dir="MuonID_Nopresel"
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
     #muon_id = [["isGlobal"], ["isTracker"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isPF"], ["isSoft", "isPF"], ["isTracker", "isPF"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
     #muon_id = [["isGlobal"], ["isTracker"], ["isMedium"], ["isTight"], ["isGlobal", "isPF"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
     #muon_id = [["isGlobal"], ["isTracker"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
-    muon_id = [["isGlobal"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"]]
+    muon_id = [["isGlobal"], ["isLoose"], ["isLoose", "isPF"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isPF"], ["isPF"]]
     #muon_id = [["isGlobal"], ["isMedium"],  ["isGlobal", "isMedium"]]
     x = RooRealVar("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 5.9)
     x.setRange("R1", 5.0, 5.25)
@@ -184,7 +188,7 @@ if __name__ == "__main__":
 
     pool = Pool(processes=num_cores)
     num_iterations = len(muon_id)
-    args_list = [(i_it, j_it, k_it, muon_id, x, chain) for i_it in range(num_iterations) for j_it in range(num_iterations) for k_it in range(num_iterations)]
+    args_list = [(i_it, j_it, k_it, muon_id, x, chain, out_dir) for i_it in range(num_iterations) for j_it in range(num_iterations) for k_it in range(num_iterations)]
     if(type == "MC_vs_sidebands"):
         results = pool.map(process_2, args_list)
     else:
@@ -207,7 +211,7 @@ if __name__ == "__main__":
         for key, val in dictionary.items():
             merged_dict[key].append(val)
 
-    np.savez("MuonID_plots/bestID_2022signal"+type+".npz", results)
+    np.savez(out_dir+"/bestID_2022signal"+type+".npz", results)
     print(merged_dict)
     df = pd.DataFrame(merged_dict)
-    df.to_csv("MuonID_plots/DFbestID_2022signal"+type+"_v2.csv", index=False)
+    df.to_csv(out_dir+"/DFbestID_2022signal"+type+".csv", index=False)
