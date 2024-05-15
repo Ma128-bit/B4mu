@@ -1,5 +1,9 @@
+universe​ ​=​ ​vanilla
 executable = PATH/launch_analysis.sh
+Requirements = OpSys == "LINUX" && (Arch != "DUMMY")
 arguments = $(Process)
 output  = PATH/log/Job_$(Cluster)_$(Process).out
 error   = PATH/log/Job_$(Cluster)_$(Process).err
 log     = PATH/log/Job_$(Cluster)_$(Process).log
+request_memory = 1000
+request_cpus​ ​=​ ​2
