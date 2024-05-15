@@ -321,7 +321,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
     for(int l=0; l<quad_indx.size(); l++){
         double temp_i=quad_indx.at(l);
         //double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
-        double temp_chi2 = Cos2D_(QuadrupletVtx_x.at(temp_i), QuadrupletVtx_y.at(temp_i), RefittedPV_x.at(temp_i), RefittedPV_y.at(temp_i), Quadruplet_Pt.at(temp_i), Quadruplet_Eta.at(temp_i), Quadruplet_Phi.at(temp_i))
+        double temp_chi2 = Cos2D_(QuadrupletVtx_x.at(temp_i), QuadrupletVtx_y.at(temp_i), RefittedPV_x.at(temp_i), RefittedPV_y.at(temp_i), Quadruplet_Pt.at(temp_i), Quadruplet_Eta.at(temp_i), Quadruplet_Phi.at(temp_i));
         chi2.push_back(temp_chi2);
     }
 
