@@ -142,7 +142,7 @@ def DiMuVar_2(rdf, branches):
     
     branches.append("OS1v1_mass_err")
     rdf = rdf.Define("OS1v1_mass_err","flattering(0, OS_mass_err)")
-    branches.append("OS2v1_mass"_err)
+    branches.append("OS2v1_mass_err")
     rdf = rdf.Define("OS2v1_mass_err","flattering(1, OS_mass_err)")
     branches.append("OS1v2_mass_err")
     rdf = rdf.Define("OS1v2_mass_err","flattering(2, OS_mass_err)")
