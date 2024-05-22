@@ -594,8 +594,8 @@ std::vector<std::pair<int, int>> Dimuon_v2(double Mu1_Pt, double Mu2_Pt, double 
     std::pair<int, int> OS1, OS2, OS1v2, OS2v2;
     OS1.first = 1;
     OS1v2.first = 1;
-    ch1 = charge[0];
-    v_1orv_2 = 0;
+    int ch1 = charge[0];
+    int v_1orv_2 = 0;
     for (int i = 1; i < charge.size(); ++i) {
         if(charge.at(i) + ch1 == 0 && v_1orv_2 = 0){
             OS1.second = i+1;
