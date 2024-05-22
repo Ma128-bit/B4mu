@@ -558,7 +558,7 @@ struct add_double{
     }
 };
 
-double flattening(ROOT::VecOps::RVec<double> var, int Quadruplet_index){
+double flattering(ROOT::VecOps::RVec<double> var, int Quadruplet_index){
     double value = -99;
     try {
         value = var.at(Quadruplet_index);
