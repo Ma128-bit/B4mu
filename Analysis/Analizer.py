@@ -52,8 +52,8 @@ def Flat_MuVar(rdf, branches):
         for s in ["Pt", "Eta", "Phi"]:
             branches.append("Mu"+ind+"_"+s)
             branches.append("RefTrack"+ind+"_"+s)
-            rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattening(Mu"+ind+"_"+s+", Quadruplet_index)")
-            rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattening(RefTrack"+ind+"_"+s+", Quadruplet_index)")
+            rdf = rdf.Redefine("Mu"+ind+"_"+s,"flattering(Mu"+ind+"_"+s+", Quadruplet_index)")
+            rdf = rdf.Redefine("RefTrack"+ind+"_"+s,"flattering(RefTrack"+ind+"_"+s+", Quadruplet_index)")
     return rdf
 
 def QuadMuVar(rdf, branches, analysis_type):
@@ -72,7 +72,7 @@ def QuadMuVar(rdf, branches, analysis_type):
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
     for v in quadruplet_related_var:
-        rdf = rdf.Redefine(v,"flattening("+v+", Quadruplet_index)")
+        rdf = rdf.Redefine(v,"flattering("+v+", Quadruplet_index)")
 
     branches.append("Quadruplet_Mass_no_refit") #Not refitted 4mu mass
     rdf = rdf.Define("Quadruplet_Mass_no_refit", "NoRefitMass"+analysis_type+"(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, MuonEta, MuonPhi, MuonEnergy)")
@@ -125,6 +125,30 @@ def DiMuVar(rdf, branches, vertex_chi2):
     rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
     rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
     rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
+    return rdf
+
+def DiMuVar_2(rdf, branches):
+    rdf = rdf.Define("Dimu_combinations","Dimuon_v2(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonCharge)")
+    rdf = rdf.Define("OS_mass","Vtx_quantity(Dimu_combinations, Vtx12_mass, Vtx23_mass, Vtx13_mass, Vtx14_mass, Vtx24_mass, Vtx34_mass)")
+    rdf = rdf.Define("OS_mass_err","Vtx_quantity(Dimu_combinations, Vtx12_mass_err, Vtx23_mass_err, Vtx13_mass_err, Vtx14_mass_err, Vtx24_mass_err, Vtx34_mass_err)")
+    branches.append("OS1v1_mass")
+    rdf = rdf.Define("OS1v1_mass","flattering(0, OS_mass)")
+    branches.append("OS2v1_mass")
+    rdf = rdf.Define("OS2v1_mass","flattering(1, OS_mass)")
+    branches.append("OS1v2_mass")
+    rdf = rdf.Define("OS1v2_mass","flattering(2, OS_mass)")
+    branches.append("OS2v2_mass")
+    rdf = rdf.Define("OS2v2_mass","flattering(3, OS_mass)")
+    
+    branches.append("OS1v1_mass_err")
+    rdf = rdf.Define("OS1v1_mass_err","flattering(0, OS_mass_err)")
+    branches.append("OS2v1_mass"_err)
+    rdf = rdf.Define("OS2v1_mass_err","flattering(1, OS_mass_err)")
+    branches.append("OS1v2_mass_err")
+    rdf = rdf.Define("OS1v2_mass_err","flattering(2, OS_mass_err)")
+    branches.append("OS2v2_mass_err")
+    rdf = rdf.Define("OS2v2_mass_err","flattering(3, OS_mass_err)")
+
     return rdf
 
 def DiMassVar_control(rdf, branches, analysis_type):
@@ -226,6 +250,7 @@ if __name__ == "__main__":
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
+            rdf = DiMuVar_2(rdf, branches)
             #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables
 
         if(analysis_type!="B4mu"):
