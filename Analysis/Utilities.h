@@ -584,6 +584,83 @@ struct flat2D{
     }
 };
 
+std::vector<std::pair<int, int>> Dimuon_v2(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<double> MuonCharge){
+    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
+    vector<int> charge;
+    for(int i=0; i<index.size();i++){
+        charge.push_back((int)MuonCharge.at(index.at(i)));
+    }
+    std::vector<std::pair<int, int>> muon_combinations;
+    std::pair<int, int> OS1, OS2, OS1v2, OS2v2;
+    OS1.first = 1;
+    OS1v2.first = 1;
+    ch1 = charge[0];
+    v_1orv_2 = 0;
+    for (int i = 1; i < charge.size(); ++i) {
+        if(charge.at(i) + ch1 == 0 && v_1orv_2 = 0){
+            OS1.second = i+1;
+            if(i==1) {OS2.first = 3; OS2.second=4;}
+            if(i==2) {OS2.first = 2; OS2.second=4;}
+            v_1orv_2 ++;
+        }
+        if(charge.at(i) + ch1 == 0 && v_1orv_2 = 1){
+            OS1v2.second = i+1;
+            if(i==2) {OS2v2.first = 2; OS2v2.second=4;}
+            if(i==3) {OS2v2.first = 2; OS2v2.second=3;}
+            v_1orv_2 ++;
+        }
+        if(v_1orv_2>1) break;
+    }
+    muon_combinations.push_back(OS1); muon_combinations.push_back(OS2); muon_combinations.push_back(OS1v2); muon_combinations.push_back(OS2v2); 
+    return muon_combinations;
+}
+
+std::vector<double> Vtx_quantity(std::vector<std::pair<int, int>> muon_combinations, double Vtx12, double Vtx23, double Vtx13, double Vtx14, double Vtx24, double Vtx34){
+    std::vector<double> Vtx_quantity_out;
+    std::vector<double> err = {-1};
+    for (int i = 0; i < muon_combinations.size(); ++i) {
+        switch (muon_combinations.at(i).first) {
+          case 1:
+            switch (muon_combinations.at(i).second) {
+                case 2:
+                    Vtx_quantity_out.push_back(Vtx12);
+                    break;
+                case 3:
+                    Vtx_quantity_out.push_back(Vtx13);
+                    break;
+                case 4:
+                    Vtx_quantity_out.push_back(Vtx14);
+                    break;
+                default:
+                    return err;
+            }
+            break;
+          case 2:
+            switch (muon_combinations.at(i).second) {
+                case 3:
+                    Vtx_quantity_out.push_back(Vtx23);
+                    break;
+                case 4:
+                    Vtx_quantity_out.push_back(Vtx24);
+                    break;
+                default:
+                    return err;
+            }
+            break;
+          case 3:
+                if(muon_combinations.at(i).second == 4) Vtx_quantity_out.push_back(Vtx34);
+                else return err;
+            break;
+          default:
+            return err;
+        }
+    }
+    return Vtx_quantity_out;
+}
+
+
+
+
 std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonCharge){
     vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
     //if(index.at(0)==-1) return 0;
