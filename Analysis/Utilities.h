@@ -613,10 +613,6 @@ std::vector<std::pair<int, int>> Dimuon_v2(double Mu1_Pt, double Mu2_Pt, double 
         if(v_1orv_2>1) break;
     }
     muon_combinations.push_back(OS1); muon_combinations.push_back(OS2); muon_combinations.push_back(OS1v2); muon_combinations.push_back(OS2v2); 
-    cout<<"muon_combinations.at(0): "<<muon_combinations.at(0).first<<" "<<muon_combinations.at(0).second<<endl;
-    cout<<"muon_combinations.at(1): "<<muon_combinations.at(1).first<<" "<<muon_combinations.at(1).second<<endl;
-    cout<<"muon_combinations.at(2): "<<muon_combinations.at(2).first<<" "<<muon_combinations.at(2).second<<endl;
-    cout<<"muon_combinations.at(3): "<<muon_combinations.at(3).first<<" "<<muon_combinations.at(3).second<<endl;
     return muon_combinations;
 }
 
