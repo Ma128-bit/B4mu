@@ -166,14 +166,15 @@ if __name__ == "__main__":
     chain = TChain("FinalTree")
     #chain.Add("../Analysis/FinalFiles/Analyzed_Data_2022and23.root")
     chain.Add("../Analysis/FinalFiles_B4mu/Analyzed_Data_B4mu_2022.root")
-    out_dir="MuonID_Nopresel"
+    out_dir="MuonID_test"
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
     #muon_id = [["isGlobal"], ["isTracker"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isPF"], ["isSoft", "isPF"], ["isTracker", "isPF"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
     #muon_id = [["isGlobal"], ["isTracker"], ["isMedium"], ["isTight"], ["isGlobal", "isPF"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
     #muon_id = [["isGlobal"], ["isTracker"], ["isLoose"], ["isSoft"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isTight"], ["isTracker", "isMedium"]]
-    muon_id = [["isGlobal"], ["isLoose"], ["isLoose", "isPF"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isPF"], ["isPF"]]
+    #muon_id = [["isGlobal"], ["isLoose"], ["isLoose", "isPF"], ["isMedium"], ["isTight"], ["isGlobal", "isMedium"], ["isGlobal", "isPF"], ["isPF"]]
+    muon_id = [["isLoose"], ["isMedium"]]
     #muon_id = [["isGlobal"], ["isMedium"],  ["isGlobal", "isMedium"]]
     x = RooRealVar("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 5.9)
     x.setRange("R1", 5.0, 5.25)
