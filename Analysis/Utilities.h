@@ -597,13 +597,13 @@ std::vector<std::pair<int, int>> Dimuon_v2(double Mu1_Pt, double Mu2_Pt, double 
     int ch1 = charge[0];
     int v_1orv_2 = 0;
     for (int i = 1; i < charge.size(); ++i) {
-        if(charge.at(i) + ch1 == 0 && v_1orv_2 = 0){
+        if(charge.at(i) + ch1 == 0 && v_1orv_2 == 0){
             OS1.second = i+1;
             if(i==1) {OS2.first = 3; OS2.second=4;}
             if(i==2) {OS2.first = 2; OS2.second=4;}
             v_1orv_2 ++;
         }
-        if(charge.at(i) + ch1 == 0 && v_1orv_2 = 1){
+        if(charge.at(i) + ch1 == 0 && v_1orv_2 == 1){
             OS1v2.second = i+1;
             if(i==2) {OS2v2.first = 2; OS2v2.second=4;}
             if(i==3) {OS2v2.first = 2; OS2v2.second=3;}
