@@ -602,6 +602,7 @@ std::vector<std::pair<int, int>> Dimuon_v2(double Mu1_Pt, double Mu2_Pt, double 
             if(i==1) {OS2.first = 3; OS2.second=4;}
             if(i==2) {OS2.first = 2; OS2.second=4;}
             v_1orv_2 ++;
+            continue;
         }
         if(charge.at(i) + ch1 == 0 && v_1orv_2 == 1){
             OS1v2.second = i+1;
