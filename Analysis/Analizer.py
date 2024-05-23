@@ -70,11 +70,11 @@ def QuadMuVar(rdf, branches, analysis_type):
             #quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
 
     branches.append("Vtx23_nDOF")
-    rdf = rdf.Redefine("Vtx23_nDOF","flattering(Vtx23_nDOF, Quadruplet_index, \"FLAT Vtx23_nDOF VAR\")") 
+    rdf = rdf.Redefine("Vtx23_nDOF","flattering(Vtx23_nDOF, Quadruplet_index, \"FLAT nDOF VAR\")") 
     branches.append("Vtx23_mass")
-    rdf = rdf.Redefine("Vtx23_mass","flattering(Vtx23_mass, Quadruplet_index, \"FLAT Vtx23_mass VAR\")") 
+    rdf = rdf.Redefine("Vtx23_mass","flattering(Vtx23_mass, Quadruplet_index, \"FLAT mass VAR\")") 
     branches.append("Vtx23_mass_err")
-    rdf = rdf.Redefine("Vtx23_mass_err","flattering(Vtx23_mass_err, Quadruplet_index, \"FLAT Vtx23_mass_err VAR\")") 
+    rdf = rdf.Redefine("Vtx23_mass_err","flattering(Vtx23_mass_err, Quadruplet_index, \"FLAT massErr VAR\")") 
     
     for var in quadruplet_related_var:
         branches.append(var)
