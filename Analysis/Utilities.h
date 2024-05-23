@@ -559,12 +559,12 @@ struct add_double{
 };
 
 double flattering(ROOT::VecOps::RVec<double> var, int Quadruplet_index, TString control="None"){
-    cout<<"I'm in "<<control<<endl;
     double value = -99;
     try {
         value = var.at(Quadruplet_index);
     } catch (const std::out_of_range& e) {
         std::cout << "Not valid index " << std::endl;
+        std::cout<<"I'm in "<<control<<std::endl;
         return -99;
     }
     return value;
