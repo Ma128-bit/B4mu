@@ -66,7 +66,7 @@ def QuadMuVar(rdf, branches, analysis_type):
             vertex_chi2 = vertex_chi2 + ", Vtx"+str(i)+str(j)+"_Chi2"
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
-            #quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
+            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
             #quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
 
     #branches.append("Vtx23_nDOF")
@@ -78,7 +78,7 @@ def QuadMuVar(rdf, branches, analysis_type):
     
     for var in quadruplet_related_var:
         branches.append(var)
-        rdf = rdf.Redefine(var,"flattering("+var+", Quadruplet_index, \"FLAT VAR in loop\")") 
+        rdf = rdf.Redefine(var,"flattering("+var+", Quadruplet_index, \"FLAT "+var.replace("Vtx","")+" in loop\")") 
 
     branches.append("Quadruplet_Mass_no_refit") #Not refitted 4mu mass
     rdf = rdf.Define("Quadruplet_Mass_no_refit", "NoRefitMass"+analysis_type+"(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, MuonEta, MuonPhi, MuonEnergy)")
