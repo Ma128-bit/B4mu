@@ -62,12 +62,12 @@ if [ "${year}" == "2022" ]; then
       F)
         Data_ID=("${F_2022[@]}")
         globaltag="130X_dataRun3_PromptAnalysis_v1"
-        golden_json="Collisions22/Cert_Collisions2022_355100_362760_Golden.json"
+        golden_json="Collisions22/Cert_Collisions2022_eraF_360390_362167_Golden.json"
         ;;
       G)
         Data_ID=("${G_2022[@]}")
         globaltag="130X_dataRun3_PromptAnalysis_v1"
-        golden_json="Collisions22/Cert_Collisions2022_355100_362760_Golden.json"
+        golden_json="Collisions22/Cert_Collisions2022_eraG_362433_362760_Golden.json"
         ;;
       MC_pre)
         globaltag="130X_mcRun3_2022_realistic_v5"
