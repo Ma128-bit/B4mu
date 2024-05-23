@@ -59,10 +59,7 @@ def Flat_MuVar(rdf, branches):
 def QuadMuVar(rdf, branches, analysis_type):
     quadruplet_related_var = ["Quadruplet_Mass", "FlightDistBS_SV_Significance", "QuadrupletVtx_Chi2", "QuadrupletVtx_NDOF","Quadruplet_Charge", "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z", 
                               "RefittedPV_x", "RefittedPV_y", "RefittedPV_z", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "FlightDistPVSV", "mu1_pfreliso03", "mu2_pfreliso03", "mu3_pfreliso03", "mu4_pfreliso03", 
-                              "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "vtx_prob", "vtx_ref_prob", "RefittedSV_Chi2", "RefittedSV_nDOF", "RefittedSV_Mass", "BS_x", "BS_y", "BS_z"] #FlightDistBS_SV_Significance = lxy_sig
-    for var in quadruplet_related_var:
-        branches.append(var)
-        
+                              "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "vtx_prob", "vtx_ref_prob", "RefittedSV_Chi2", "RefittedSV_nDOF", "RefittedSV_Mass", "BS_x", "BS_y", "BS_z"] #FlightDistBS_SV_Significance = lxy_sig        
     vertex_chi2=""
     for i in range(1, 4):
         for j in range(i+1,5):
@@ -71,8 +68,9 @@ def QuadMuVar(rdf, branches, analysis_type):
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
-    print(quadruplet_related_var)
+
     for v in quadruplet_related_var:
+        branches.append(var)
         rdf = rdf.Redefine(v,"flattering("+v+", Quadruplet_index, \"FLAT "+v+" VAR\")") 
 
     branches.append("Quadruplet_Mass_no_refit") #Not refitted 4mu mass
@@ -251,7 +249,7 @@ if __name__ == "__main__":
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
-            rdf = DiMuVar_2(rdf, branches)
+            #rdf = DiMuVar_2(rdf, branches)
             #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables for control channel
 
         if(analysis_type!="B4mu"):
