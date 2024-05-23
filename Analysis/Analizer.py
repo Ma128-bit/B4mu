@@ -71,6 +71,7 @@ def QuadMuVar(rdf, branches, analysis_type):
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
+    print(quadruplet_related_var)
     for v in quadruplet_related_var:
         rdf = rdf.Redefine(v,"flattering("+v+", Quadruplet_index, \"FLAT "+v+" VAR\")") 
 
