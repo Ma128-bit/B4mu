@@ -558,7 +558,8 @@ struct add_double{
     }
 };
 
-double flattering(ROOT::VecOps::RVec<double> var, int Quadruplet_index){
+double flattering(ROOT::VecOps::RVec<double> var, int Quadruplet_index, TString control){
+    cout<<"I'm in "<<control<<endl;
     double value = -99;
     try {
         value = var.at(Quadruplet_index);
