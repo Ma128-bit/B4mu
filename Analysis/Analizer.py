@@ -250,7 +250,7 @@ if __name__ == "__main__":
         rdf = MVA_inputs(rdf, branches) #Define MVA input variables
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
-            #rdf = DiMuVar_2(rdf, branches)
+            rdf = DiMuVar_2(rdf, branches)
             #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables for control channel
 
         if(analysis_type!="B4mu"):
