@@ -66,9 +66,14 @@ def QuadMuVar(rdf, branches, analysis_type):
             vertex_chi2 = vertex_chi2 + ", Vtx"+str(i)+str(j)+"_Chi2"
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
             #quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
-            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
-            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
+            #quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
+            #quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
 
+    branches.append("Vtx23_nDOF")
+    rdf = rdf.Redefine("Vtx23_nDOF","flattering(Vtx23_nDOF, Quadruplet_index, \"FLAT Vtx23_nDOF VAR\")") 
+    rdf = rdf.Redefine("Vtx23_mass","flattering(Vtx23_mass, Quadruplet_index, \"FLAT Vtx23_mass VAR\")") 
+    rdf = rdf.Redefine("Vtx23_mass_err","flattering(Vtx23_mass_err, Quadruplet_index, \"FLAT Vtx23_mass_err VAR\")") 
+    
     for var in quadruplet_related_var:
         branches.append(var)
         rdf = rdf.Redefine(var,"flattering("+var+", Quadruplet_index, \"FLAT "+var+" VAR\")") 
