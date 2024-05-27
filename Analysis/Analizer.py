@@ -67,7 +67,7 @@ def QuadMuVar(rdf, branches, analysis_type):
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_Chi2")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_nDOF")
             quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass")
-            #quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
+            quadruplet_related_var.append("Vtx"+str(i)+str(j)+"_mass_err")
     
     for var in quadruplet_related_var:
         branches.append(var)
