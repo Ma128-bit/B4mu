@@ -1017,7 +1017,7 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     if(label == "contol4mu") {pdgID1 = 443; pdgID2 = 211;}
     else if(label == "contol2mu") {pdgID1 = 443; pdgID2 = 443;}
     else {pdgID1 = 13; pdgID2 = 13;}
-    for(int i=0; i<GenParticle_Pt.Size(); i++){
+    for(int i=0; i<GenParticle_Pt.size(); i++){
         if(abs(GenParticle_PdgId.at(i))==pdgID1 || abs(GenParticle_PdgId.at(i))==pdgID2){
             double dphi = abs(Mu1_Phi - GenParticle_Phi.at(i));
             double deta = abs(Mu1_Eta - GenParticle_Eta.at(i));
@@ -1063,7 +1063,7 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
         double vtx2z = Z2[minimizerPos2];
         TLorentzVector  Bvtx = Blorentz[minimizerPos2];
 
-        ct = TMath::Sqrt((vtx1x-vtx2x)**2 + (vtx1y-vtx2y)**2 + (vtx1z-vtx2z)**2)/(Bvtx.Beta()*Bvtx.Gamma());
+        double ct = TMath::Sqrt((vtx1x-vtx2x)*(vtx1x-vtx2x) + (vtx1y-vtx2y)*(vtx1y-vtx2y) + (vtx1z-vtx2z)*(vtx1z-vtx2z))/(Bvtx.Beta()*Bvtx.Gamma());
 
         return ct;
     }
