@@ -1049,24 +1049,25 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
                 Blorentz.push_back(temp);
             }
         }
-        if(minimizer.empty()) return -1;
-        if(minimizer2.empty()) return -1;
-        auto minimizerObj1 = std::min_element(minimizer.begin(), minimizer.end());
-        int minimizerPos1 = std::distance(minimizer.begin(), minimizerObj1);
-        double vtx1x = X1[minimizerPos1];
-        double vtx1y = Y1[minimizerPos1];
-        double vtx1z = Z1[minimizerPos1];
-        auto minimizerObj2 = std::min_element(minimizer2.begin(), minimizer2.end());
-        int minimizerPos2 = std::distance(minimizer2.begin(), minimizerObj2);
-        double vtx2x = X2[minimizerPos2];
-        double vtx2y = Y2[minimizerPos2];
-        double vtx2z = Z2[minimizerPos2];
-        TLorentzVector  Bvtx = Blorentz[minimizerPos2];
-
-        double ct = TMath::Sqrt((vtx1x-vtx2x)*(vtx1x-vtx2x) + (vtx1y-vtx2y)*(vtx1y-vtx2y) + (vtx1z-vtx2z)*(vtx1z-vtx2z))/(Bvtx.Beta()*Bvtx.Gamma());
-
-        return ct;
     }
+    if(minimizer.empty()) return -1;
+    if(minimizer2.empty()) return -1;
+    auto minimizerObj1 = std::min_element(minimizer.begin(), minimizer.end());
+    int minimizerPos1 = std::distance(minimizer.begin(), minimizerObj1);
+    double vtx1x = X1[minimizerPos1];
+    double vtx1y = Y1[minimizerPos1];
+    double vtx1z = Z1[minimizerPos1];
+    auto minimizerObj2 = std::min_element(minimizer2.begin(), minimizer2.end());
+    int minimizerPos2 = std::distance(minimizer2.begin(), minimizerObj2);
+    double vtx2x = X2[minimizerPos2];
+    double vtx2y = Y2[minimizerPos2];
+    double vtx2z = Z2[minimizerPos2];
+    TLorentzVector  Bvtx = Blorentz[minimizerPos2];
+
+    double ct = TMath::Sqrt((vtx1x-vtx2x)*(vtx1x-vtx2x) + (vtx1y-vtx2y)*(vtx1y-vtx2y) + (vtx1z-vtx2z)*(vtx1z-vtx2z))/(Bvtx.Beta()*Bvtx.Gamma());
+
+    return ct;
+
 }
 
 
