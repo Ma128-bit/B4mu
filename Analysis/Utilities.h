@@ -25,6 +25,18 @@ double deltaR(float eta1, float eta2, float phi1, float phi2){
     return n;
 }
 
+double Get_ct_2D(TLorentzVector b_p4, TVector3 production_vtx, TVector3 decay_vtx) {
+   TVector3 pv_dv = decay_vtx - production_vtx;
+   TVector3 b_p3  = b_p4.Vect();
+
+   pv_dv.SetZ(0.);
+   b_p3.SetZ(0.);
+   Double_t lxy   = pv_dv.Dot(b_p3)/b_p3.Mag();
+
+   return lxy*b_p4.M()/b_p3.Mag();
+}
+
+
 Bool_t isPairDeltaRGood(ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, vector<int> index, double DeltaRmax){
     // The function returns 'true' if all of the 3 possible pairs of muons have dR<DeltaRmax
     Double_t dR12 = deltaR(MuonEta.at(index.at(0)), MuonEta.at(index.at(1)), MuonPhi.at(index.at(0)), MuonPhi.at(index.at(1)));
@@ -1039,7 +1051,7 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
             double dR = TMath::Sqrt(dphi*dphi + deta*deta);
             double dpt = abs(Quadruplet_Pt - GenParticle_Pt.at(i))/Mu1_Pt;
             double dRpt = TMath::Sqrt(dphi*dphi + deta*deta + dpt*dpt);
-            if(dR<0.03 && dpt<0.08){
+            if(dR<0.05 && dpt<0.1){
                 minimizer2.push_back(dRpt);
                 X2.push_back(GenParticle_vx.at(i));
                 Y2.push_back(GenParticle_vx.at(i));
@@ -1062,9 +1074,13 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     double vtx2x = X2[minimizerPos2];
     double vtx2y = Y2[minimizerPos2];
     double vtx2z = Z2[minimizerPos2];
+    TVector3 vtx1, vtx2;
+    vtx1.SetXYZ(vtx1x, vtx1y, vtx1z);
+    vtx2.SetXYZ(vtx2x, vtx2y, vtx2z);
     TLorentzVector  Bvtx = Blorentz[minimizerPos2];
 
-    double ct = TMath::Sqrt((vtx1x-vtx2x)*(vtx1x-vtx2x) + (vtx1y-vtx2y)*(vtx1y-vtx2y) + (vtx1z-vtx2z)*(vtx1z-vtx2z))/(Bvtx.Beta()*Bvtx.Gamma());
+    double ct = Get_ct_2D(Bvtx, vtx2, vtx1)
+    //double ct = TMath::Sqrt((vtx1x-vtx2x)*(vtx1x-vtx2x) + (vtx1y-vtx2y)*(vtx1y-vtx2y) + (vtx1z-vtx2z)*(vtx1z-vtx2z))/(Bvtx.Beta()*Bvtx.Gamma());
 
     return ct;
 
