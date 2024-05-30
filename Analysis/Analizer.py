@@ -266,7 +266,7 @@ if __name__ == "__main__":
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
             rdf = DiMuVar_2(rdf, branches)
-            rdf = Gen_ct(rdf, branches, analysis_type):
+            rdf = Gen_ct(rdf, branches, analysis_type, isMC)
             #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables for control channel
 
         if(analysis_type!="B4mu"):
