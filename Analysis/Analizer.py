@@ -161,14 +161,17 @@ def DiMassVar_control(rdf, branches, analysis_type):
 
     
 def Gen_ct(rdf, branches, analysis_type, isMC):
+    branches.append("Gen_ct_control")
     if(isMC>0):
         if(analysis_type=="B4mu"):
+            branches.append("Gen_ct_signal")
             rdf = rdf.Define("Gen_ct_control", "Gen_ct(\"contol4mu\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
             rdf = rdf.Define("Gen_ct_signal", "Gen_ct(\"signal\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
         if(analysis_type=="B2mu2K"):
             rdf = rdf.Define("Gen_ct_control", "Gen_ct(\"contol2mu\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
     if(isMC==0):
         if(analysis_type=="B4mu"):
+            branches.append("Gen_ct_signal")
             rdf = rdf.Define("None", "Gen_ct(\"contol4mu\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
             rdf = rdf.Define("None", "Gen_ct(\"signal\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
         if(analysis_type=="B2mu2K"):
