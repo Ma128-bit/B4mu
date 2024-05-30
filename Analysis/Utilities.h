@@ -1001,7 +1001,7 @@ double NoRefitMassB4mu(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
     return mutot.M();
 }
 
-double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  double Quadruplet_Pt, double Quadruplet_Eta, double Quadruplet_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi, ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> GenParticle_vx, ROOT::VecOps::RVec<double> GenParticle_vy, ROOT::VecOps::RVec<double> GenParticle_vz){
+double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu1_Eta, double Mu1_Phi,  double Quadruplet_Pt, double Quadruplet_Eta, double Quadruplet_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi, ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> GenParticle_vx, ROOT::VecOps::RVec<double> GenParticle_vy, ROOT::VecOps::RVec<double> GenParticle_vz){
     int pdgID1 = 0;
     int pdgID2 = 0;
     vector<double> minimizer;
