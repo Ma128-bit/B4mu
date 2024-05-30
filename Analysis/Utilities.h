@@ -1001,6 +1001,75 @@ double NoRefitMassB4mu(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
     return mutot.M();
 }
 
+double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  double Quadruplet_Pt, double Quadruplet_Eta, double Quadruplet_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi, ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> GenParticle_vx, ROOT::VecOps::RVec<double> GenParticle_vy, ROOT::VecOps::RVec<double> GenParticle_vz){
+    int pdgID1 = 0;
+    int pdgID2 = 0;
+    vector<double> minimizer;
+    vector<double> X1;
+    vector<double> Y1;
+    vector<double> Z1;
+    vector<double> minimizer2;
+    vector<double> X2;
+    vector<double> Y2;
+    vector<double> Z2;
+    vector<TLorentzVector> Blorentz;
+    
+    if(label = "contol4mu") {pdgID1 = 443; pdgID2 = 211;}
+    else if(label = "contol2mu") {pdgID1 = 443; pdgID2 = 443;}
+    else {pdgID1 = 13; pdgID2 = 13;}
+    for(int i=0; i<GenParticle_Pt.Size(); i++){
+        if(abs(GenParticle_PdgId.at(i))==pdgID1 || abs(GenParticle_PdgId.at(i))==pdgID2){
+            double dphi = abs(Mu1_Phi - GenParticle_Phi.at(i));
+            double deta = abs(Mu1_Eta - GenParticle_Eta.at(i));
+            if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+            double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+            double dpt = abs(Mu1_Pt - GenParticle_Pt.at(i))/Mu1_Pt;
+            double dRpt = TMath::Sqrt(dphi*dphi + deta*deta + dpt*dpt);
+            if(dR<0.03 && dpt<0.08){
+                minimizer.push_back(dRpt);
+                X1.push_back(GenParticle_vx.at(i));
+                Y1.push_back(GenParticle_vx.at(i));
+                Z1.push_back(GenParticle_vx.at(i));
+            }
+        }
+        if(abs(GenParticle_PdgId.at(i))==531){
+            double dphi = abs(Quadruplet_Phi - GenParticle_Phi.at(i));
+            double deta = abs(Quadruplet_Eta - GenParticle_Eta.at(i));
+            if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+            double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+            double dpt = abs(Quadruplet_Pt - GenParticle_Pt.at(i))/Mu1_Pt;
+            double dRpt = TMath::Sqrt(dphi*dphi + deta*deta + dpt*dpt);
+            if(dR<0.03 && dpt<0.08){
+                minimizer2.push_back(dRpt);
+                X2.push_back(GenParticle_vx.at(i));
+                Y2.push_back(GenParticle_vx.at(i));
+                Z2.push_back(GenParticle_vx.at(i));
+                TLorentzVector temp;
+                temp.SetPtEtaPhiM(GenParticle_Pt.at(i), GenParticle_Eta.at(i), GenParticle_Phi.at(i), 5.366);
+                Blorentz.push_back(temp);
+            }
+        }
+        if(minimizer.empty()) return -1;
+        if(minimizer2.empty()) return -1;
+        auto minimizerObj1 = std::min_element(minimizer.begin(), minimizer.end());
+        int minimizerPos1 = std::distance(minimizer.begin(), minimizerObj1);
+        double vtx1x = X1[minimizerPos1];
+        double vtx1y = Y1[minimizerPos1];
+        double vtx1z = Z1[minimizerPos1];
+        auto minimizerObj2 = std::min_element(minimizer2.begin(), minimizer2.end());
+        int minimizerPos2 = std::distance(minimizer2.begin(), minimizerObj2);
+        double vtx2x = X2[minimizerPos2];
+        double vtx2y = Y2[minimizerPos2];
+        double vtx2z = Z2[minimizerPos2];
+        TLorentzVector  Bvtx = Blorentz[minimizerPos2];
+
+        ct = TMath::Sqrt((vtx1x-vtx2x)**2 + (vtx1y-vtx2y)**2 + (vtx1z-vtx2z)**2)/(Bvtx.Beta()*Bvtx.Gamma());
+
+        return ct;
+    }
+}
+
+
 double NoRefitMassB2mu2K(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2, double pt3, double pt4, double eta3, double eta4, double phi3, double phi4,  ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
     vector<int> index = get_2index(MuonPt, pt1, pt2);
     vector<double> eta, phi, en;
