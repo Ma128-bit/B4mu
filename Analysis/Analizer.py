@@ -160,7 +160,14 @@ def DiMassVar_control(rdf, branches, analysis_type):
     return rdf
 
     
-          
+def Gen_ct(rdf, branches, analysis_type):
+    if(analysis_type=="B4mu"):
+        rdf = rdf.Define("Gen_ct_control", "Gen_ct(\"contol4mu\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
+        rdf = rdf.Define("Gen_ct_control", "Gen_ct(\"signal\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
+    if(analysis_type=="B2mu2K"):
+        rdf = rdf.Define("Gen_ct_control", "Gen_ct(\"contol2mu\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
+    return rdf
+    
 def GenVar(rdf, branches, isMC):
     if isMC != 0:
         rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
@@ -251,6 +258,7 @@ if __name__ == "__main__":
         if(analysis_type=="B4mu"):
             rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
             rdf = DiMuVar_2(rdf, branches)
+            rdf = Gen_ct(rdf, branches, analysis_type):
             #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables for control channel
 
         if(analysis_type!="B4mu"):
