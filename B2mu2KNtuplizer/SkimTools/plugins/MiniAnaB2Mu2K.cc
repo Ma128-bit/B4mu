@@ -1639,39 +1639,55 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         RefittedPV_cov.push_back(cov);
                         QuadrupletVtx_cov.push_back(cov);
                         //RefittedPV_Chi2.push_back(PVertex.);
+                                 
                         Vtx12_Chi2.push_back(-99);
                         Vtx12_nDOF.push_back(-99);
                         Vtx12_x.push_back(-99);
                         Vtx12_y.push_back(-99);
                         Vtx12_z.push_back(-99);
+                        Vtx12_mass.push_back(-99);
+                        Vtx12_mass_err.push_back(-99);
+                                 
                         Vtx23_Chi2.push_back(-99);
                         Vtx23_nDOF.push_back(-99);
                         Vtx23_x.push_back(-99);
                         Vtx23_y.push_back(-99);
                         Vtx23_z.push_back(-99);
+                        Vtx23_mass.push_back(-99);
+                        Vtx23_mass_err.push_back(-99);
+                                 
                         Vtx13_Chi2.push_back(-99);
                         Vtx13_nDOF.push_back(-99);
                         Vtx13_x.push_back(-99);
                         Vtx13_y.push_back(-99);
                         Vtx13_z.push_back(-99);
+                        Vtx13_mass.push_back(-99);
+                        Vtx13_mass_err.push_back(-99);
+
                         Vtx14_Chi2.push_back(-99);
                         Vtx14_nDOF.push_back(-99);
                         Vtx14_x.push_back(-99);
                         Vtx14_y.push_back(-99);
                         Vtx14_z.push_back(-99);
-                        
+                        Vtx14_mass.push_back(-99);
+                        Vtx14_mass_err.push_back(-99);
+
                         Vtx24_Chi2.push_back(-99);
                         Vtx24_nDOF.push_back(-99);
                         Vtx24_x.push_back(-99);
                         Vtx24_y.push_back(-99);
                         Vtx24_z.push_back(-99);
-                        
+                        Vtx24_mass.push_back(-99);
+                        Vtx24_mass_err.push_back(-99);
+
                         Vtx34_Chi2.push_back(-99);
                         Vtx34_nDOF.push_back(-99);
                         Vtx34_x.push_back(-99);
                         Vtx34_y.push_back(-99);
                         Vtx34_z.push_back(-99);
-                        
+                        Vtx34_mass.push_back(-99);
+                        Vtx34_mass_err.push_back(-99);
+
                         RefTrack1_Pt.push_back(-99); RefTrack1_Eta.push_back(-99); RefTrack1_Phi.push_back(-99); RefTrack1_QuadrupletIndex.push_back(-99);
                         RefTrack2_Pt.push_back(-99); RefTrack2_Eta.push_back(-99); RefTrack2_Phi.push_back(-99); RefTrack2_QuadrupletIndex.push_back(-99);
                         RefTrack3_Pt.push_back(-99); RefTrack3_Eta.push_back(-99); RefTrack3_Phi.push_back(-99); RefTrack3_QuadrupletIndex.push_back(-99);
