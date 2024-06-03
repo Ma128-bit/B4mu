@@ -252,11 +252,11 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         //Cut2 CMS muon system acceptance
         bool acceptanceCUT = true;
         for(int c=0; c<index.size(); c++){
-            //if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.0 ) acceptanceCUT=false;
-            //if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<1.5 ) acceptanceCUT=false;
+            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.0 ) acceptanceCUT=false;
+            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<1.5 ) acceptanceCUT=false;
             if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
+            //if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
+            //if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
         }
         if(acceptanceCUT==false) continue;
         if(exit_code<2) exit_code=2;
