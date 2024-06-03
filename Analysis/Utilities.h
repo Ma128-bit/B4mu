@@ -235,10 +235,10 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         //Cut1 "strange" events
         if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99 || RefTrack1_Pt.at(j) == -99){ continue;}
 
-        // Pre-selections
-        if(!(vtx_prob.at(j)>0)){ continue;}
+        // Pre-selections (temp)
+        if(!(vtx_prob.at(j)>0.01)){ continue;}
         if(!(Cos2D_(QuadrupletVtx_x.at(j), QuadrupletVtx_y.at(j), RefittedPV_x.at(j), RefittedPV_y.at(j), Quadruplet_Pt.at(j), Quadruplet_Eta.at(j), Quadruplet_Phi.at(j))>0.95)) { continue;}
-        if(FlightDistBS_SV_Significance.at(j) < 4 ) continue;
+        if(FlightDistBS_SV_Significance.at(j) < 3 ) continue;
         if(exit_code<0) exit_code=0;
         
         vector<int> index = get_4index(MuonPt, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j));
@@ -283,8 +283,8 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
             isLoose = isLoose + Muon_isLoose.at(index.at(k));
             isPF = isPF + Muon_isPF.at(index.at(k));
         }
-        if(!(isLoose==4)) continue;
-        //if(!(isMedium==4 && isGlobal==4)) continue;
+        //if(!(isLoose==4)) continue;
+        if(!(isMedium==4 && isGlobal==4)) continue;
         if(exit_code<4) exit_code=4;
         
         //Cut5 HLT Trigger Matching
