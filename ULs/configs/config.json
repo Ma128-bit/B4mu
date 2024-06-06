@@ -1,0 +1,13 @@
+{
+    "Branches4sel": { 
+                    "bdt_cv_2": [0, 1], 
+                    "vtx_prob": [0, 1]
+    },
+    "TreeName": "FinalTree",
+    "Mass_var": "Quadruplet_Mass",
+    "MC_id": "isMC",
+    "weight": "signal_weight",
+
+    "categories": ["A"],
+    "A": "bdt_cv_2 > 0.98"
+}
