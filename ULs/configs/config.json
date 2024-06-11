@@ -1,4 +1,5 @@
 {
+    "Unblind": false,
     "Branches4sel": { 
                     "bdt_cv_2": [0, 1], 
                     "vtx_prob": [0, 1]
@@ -8,6 +9,7 @@
     "MC_id": "isMC",
     "weight": "signal_weight",
 
-    "categories": ["A"],
-    "A": "bdt_cv_2 > 0.98"
+    "categories": ["A1", "A2"],
+    "A1": "bdt_cv_2 > 0.985",
+    "A2": "bdt_cv_2 > 0.96 && bdt_cv_2 < 0.985"
 }
