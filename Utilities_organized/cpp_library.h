@@ -89,9 +89,9 @@ struct add_new_ctau{
     double old_ctau, new_ctau;
     add_new_ctau(double oldct, double newct) : old_ctau(oldct), new_ctau(newct)  {}
     float operator()(const TString& ID, const double cts, const double ctc) {
-        if (ID.Contains("Bs202") || ID.Contains("Bd202")) {return weight_to_new_ctau(old_ctau, new_ctau, cts);} 
+        if (ID.Contains("Bs202")) {return weight_to_new_ctau(old_ctau, new_ctau, cts);} 
         else if (ID.Contains("BsJPsiPhi202")) {return weight_to_new_ctau(old_ctau, new_ctau, ctc);}
-        else if (ID.Contains("Data")) {return 1;}
+        else if (ID.Contains("Data") || ID.Contains("Bd202")) {return 1;}
         else return 1;
     }
 };

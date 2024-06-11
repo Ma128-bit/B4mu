@@ -81,7 +81,7 @@ if __name__ == "__main__":
     ctau_up = (1.527 + 0.011) * 10 ** (-12) * speed_of_light * 1000.0
     ctau_down = (1.527 - 0.011) * 10 ** (-12) * speed_of_light * 1000.0
 
-    #df = df.Define("ctau_weight", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
+    df = df.Define("ctau_weight", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
     
     #SF_f1 = TFile.Open(single_mu_SF_preE)
     #SF_f2 = TFile.Open(single_mu_SF_postE)

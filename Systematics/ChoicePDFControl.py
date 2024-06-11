@@ -20,7 +20,7 @@ def fit(id, mass, data, out_dir, bkg_pdf, sig_pdf, sig_pdf2=None):
     else:
         model = RooAddPdf("model", "model", RooArgList(sig_pdf, sig_pdf2, bkg_pdf), RooArgList(nsig, nsig2, nbkg))
 
-    #bkg_pdf.fitTo(data, RooFit.Range("left,right"),  RooFit.PrintLevel(-1))
+    bkg_pdf.fitTo(data, RooFit.Range("left,right"),  RooFit.PrintLevel(-1))
     model.fitTo(data, RooFit.Range("all"), RooFit.PrintLevel(-1))
 
     xframe = mass.frame()
@@ -32,7 +32,7 @@ def fit(id, mass, data, out_dir, bkg_pdf, sig_pdf, sig_pdf2=None):
     else:
         model.paramOn(xframe, RooFit.Parameters(RooArgSet(nsig, nsig2, nbkg)), RooFit.Layout(0.6, 0.9, 0.9))
         model.plotOn(xframe, RooFit.Range("all"), RooFit.Components(RooArgSet(sig_pdf, sig_pdf2)), RooFit.LineColor(kRed), RooFit.LineStyle(kDashed))
-    model.plotOn(xframe, RooFit.Components(RooArgSet(bkg_pdf)), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
+    model.plotOn(xframe, RooFit.Range("all"), RooFit.Components(RooArgSet(bkg_pdf)), RooFit.LineColor(kGreen), RooFit.LineStyle(kDashed))
     model.plotOn(xframe)
 
     c1 = TCanvas("c1", "c1", 900, 900)
@@ -57,11 +57,11 @@ if __name__ == "__main__":
     else:
         year=""
 
-    out_dir="ChoicePDFControl_zur"
+    out_dir="ChoicePDFControl_mySel"
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
         
-    filename = "../Utilities_organized/ROOTFiles_zur/AllControl"+year+".root"
+    filename = "../Utilities_organized/ROOTFiles_mySel/AllControl"+year+".root"
     tree_name = "FinalTree"
     weight_name = "weight_pileUp"
     mass_name = "Quadruplet_Mass_eq"
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     rootfile = TFile(filename, 'READ')
     tree = rootfile.Get(tree_name)
     
-    mass = RooRealVar(mass_name, mass_name, 100, 5.0, 6.0, 'GeV')
+    mass = RooRealVar(mass_name, mass_name, 100, 5.1, 5.7, 'GeV')
     roomc = RooRealVar("isMC", "isMC", 0, 1)
     rooweight = RooRealVar(weight_name, weight_name, 0, 100)
         
@@ -80,9 +80,9 @@ if __name__ == "__main__":
     variables.add(roomc)
     variables.add(rooweight)
     
-    mass.setRange('all', 5.0, 6.0)
-    mass.setRange('left', 5.0, 5.25)
-    mass.setRange('right', 5.45, 6.0)
+    mass.setRange('all', 5.1, 5.7)
+    mass.setRange('left', 5.1, 5.25)
+    mass.setRange('right', 5.45, 5.7)
     
     #take rooDataSet from tree
     data = RooDataSet('data', '', tree, variables, "isMC==0", weight_name)
@@ -104,8 +104,8 @@ if __name__ == "__main__":
         bkg_pdfs.factory('Bernstein::Bernstein{}({}, {})'.format(i, mass_name, c_bernstein))
     
     # Chebychev: order n has n coefficients (starts from linear)
-    for i in range(max_order):
-        c_chebychev = '{'+','.join(['c_Chebychev{}{}[.1, 0.0, 10.0]'.format(i+1, j) for j in range(i+1)])+'}'
+    for i in range(max_order-1):
+        c_chebychev = '{'+','.join(['c_Chebychev{}{}[.1, -10.0, 10.0]'.format(i+1, j) for j in range(i+1)])+'}'
         bkg_pdfs.factory('Chebychev::Chebychev{}({}, {})'.format(i+1, mass_name, c_chebychev)) 
     
     # Polynomial: order n has n coefficients (starts from constant)
@@ -133,17 +133,37 @@ if __name__ == "__main__":
     Johnson_pdf = RooJohnson("Johnson_pdf", "Johnson_pdf", mass, mu, lambd, gamm, delta)
     #getattr(sig_pdfs, 'import')(Johnson_pdf)
 
-    meanCB = RooRealVar("meanCB", "meanCB", 5.367, 5.1, 5.5)
-    sigmaCB1 = RooRealVar("sigmaCB1", "sigmaCB1", 0.001, 1.0)
-    alpha1 = RooRealVar("alpha1", "alpha1", 1.5 , 0.8, 4.0) #RooNumber.infinity()
-    nSigma1 = RooRealVar("n1", "n1", 150, 100, 200)
+    meanCB = RooRealVar("meanCB", "meanCB", 5.366, 5.34, 5.38)
+    sigmaCB1 = RooRealVar("sigmaCB1", "sigmaCB1", 0.02, 0.018, 0.03)
+    alpha1 = RooRealVar("alpha1", "alpha1", 1.5 , 0.5, 5.0) #RooNumber.infinity()
+    nSigma1 = RooRealVar("n1", "n1", 150, 1, 400)
     CBShape = RooCBShape("CBShape", "CBShape", mass, meanCB, sigmaCB1, alpha1, nSigma1)
 
+    # Initial values for signal PDFs
+    initial_sig_params = {
+        "mean": (mean, mean.getVal()),
+        "sigma": (sigma, sigma.getVal()),
+        "mu": (mu, mu.getVal()),
+        "lambd": (lambd, lambd.getVal()),
+        "gamm": (gamm, gamm.getVal()),
+        "delta": (delta, delta.getVal()),
+        "meanCB": (meanCB, meanCB.getVal()),
+        "sigmaCB1": (sigmaCB1, sigmaCB1.getVal()),
+        "alpha1": (alpha1, alpha1.getVal()),
+        "nSigma1": (nSigma1, nSigma1.getVal()),
+    }
+
+    # Initial values for background PDFs
+    initial_bkg_params = {}
+    for p in bkgpdfs_list:
+        params = p.getParameters(data)
+        for param in RooArgSet(params):
+            initial_bkg_params[param.GetName()] = (param, param.getVal())
+    
     getattr(sig_pdfs, 'import')(Johnson_pdf)
     getattr(sig_pdfs, 'import')(CBShape)
     getattr(sig_pdfs, 'import')(Gaussian)
     
-
     sigpdfs_list = RooArgList(sig_pdfs.allPdfs())
     sigpdfs_list = [sigpdfs_list.at(j) for j in range(sigpdfs_list.getSize())]
     sigpdfs_names = [p.GetName() for p in sigpdfs_list]
@@ -155,6 +175,14 @@ if __name__ == "__main__":
             n, nerr = fit(bkgpdfs_names[i]+"_"+sigpdfs_names[j], mass, data, out_dir, bkgpdfs_list[i], sigpdfs_list[j])
             signals[i, j]=n
             annotazioni[i, j] = f"{n:.2f} ± {nerr:.2f}"
+
+            # Reset the signal parameters to their initial values
+            for param, val in initial_sig_params.values():
+                param.setVal(val)
+
+            # Reset the background parameters to their initial values
+            for param, val in initial_bkg_params.values():
+                param.setVal(val)
 
     plt.figure(figsize=(6, 15))
     print("Max_sig: ", signals.max())
