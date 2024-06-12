@@ -3,12 +3,13 @@
         "vtx_prob",
         "mu1_pfreliso03",
         "mu2_pfreliso03",
-        "dR_max",
         "Quadruplet_Pt",
         "Quadruplet_Eta",
         "FlightDistBS_SV_Significance",
         "mu1_bs_dxy_sig",
         "mu2_bs_dxy_sig",
+        "mu3_bs_dxy_sig",
+        "mu4_bs_dxy_sig",
         "Cos2d_PV_SV"
     ],
     "spectator_variables": [
