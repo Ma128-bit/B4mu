@@ -26,11 +26,12 @@ branches = [
     "mu2_pfreliso03", "mu3_pfreliso03", "mu4_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig",
     "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "vtx_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", 
     "dR_max", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", 
-    "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "Quadruplet_Mass_eq"
+    "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "Quadruplet_Mass_eq",
+    "RefittedSV_Mass", "RefittedSV_Mass_err"
 ]
 
 
-pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_mySel/"
+pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_mySel2/"
 Files = {
     "B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_Bs_4mu_2022.root", pos+"Analyzed_MC_Bd_4mu_2022.root"],
     "B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_Bs_4mu_2023.root", pos+"Analyzed_MC_Bd_4mu_2023.root"],
@@ -116,9 +117,9 @@ if __name__ == "__main__":
 
     if isB4mu==True:
         #Filters for omega and phi:
-        df = df.Filter("isJPsiPhi==0 & abs(OS1v1_mass-1.019)>0.045 & abs(OS1v1_mass-0.782)>0.045 & abs(OS1v1_mass-3.096)>0.12 & abs(OS2v1_mass-1.019)>0.045 & abs(OS2v1_mass-0.782)>0.045 & abs(OS2v1_mass-3.096)>0.12 & abs(OS1v2_mass-1.019)>0.045 & abs(OS1v2_mass-0.782)>0.045 & abs(OS1v2_mass-3.096)>0.12 & abs(OS2v2_mass-1.019)>0.045 & abs(OS2v2_mass-0.782)>0.045 & abs(OS2v2_mass-3.096)>0.12 & abs(OS1v1_mass-3.686)>0.05 & abs(OS2v1_mass-3.686)>0.05 & abs(OS1v2_mass-3.686)>0.05 & abs(OS2v2_mass-3.686)>0.05")
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight"]#, "ctau_weight"]
-        df = df.Define("signal_weight", "weight * weight_pileUp")
+        df = df.Filter("abs(OS1v1_mass-1.019)>0.07 & abs(OS1v1_mass-0.782)>0.08 & abs(OS1v1_mass-3.096)>0.1 & abs(OS2v1_mass-1.019)>0.07 & abs(OS2v1_mass-0.782)>0.08 & abs(OS2v1_mass-3.096)>0.1 & abs(OS1v2_mass-1.019)>0.07 & abs(OS1v2_mass-0.782)>0.08 & abs(OS1v2_mass-3.096)>0.1 & abs(OS2v2_mass-1.019)>0.07 & abs(OS2v2_mass-0.782)>0.08 & abs(OS2v2_mass-3.096)>0.1 & abs(OS1v1_mass-3.686)>0.1 & abs(OS2v1_mass-3.686)>0.1 & abs(OS1v2_mass-3.686)>0.1 & abs(OS2v2_mass-3.686)>0.1")
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight"]
+        df = df.Define("signal_weight", "weight * weight_pileUp * ctau_weight")
         df.Snapshot("FinalTree", "ROOTFiles/AllData"+str(year)+".root", branches+b_weights)
     else:
         df = df.Filter("isJPsiPhi==1")
