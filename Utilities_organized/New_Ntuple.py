@@ -30,16 +30,7 @@ branches = [
     "RefittedSV_Mass", "RefittedSV_Mass_err"
 ]
 
-
-pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_mySel2/"
-Files = {
-    "B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_Bs_4mu_2022.root", pos+"Analyzed_MC_Bd_4mu_2022.root"],
-    "B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_Bs_4mu_2023.root", pos+"Analyzed_MC_Bd_4mu_2023.root"],
-    "control2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_BsJPsiPhi_2022.root"],
-    "control2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_BsJPsiPhi_2023.root"]
-}
-
-def load_df(isB4mu, year, treename):
+def load_df(isB4mu, year, treename, Files):
     if isB4mu == True:
         files = Files["B4mu"+str(year)]
         br = branches
@@ -52,23 +43,33 @@ def load_df(isB4mu, year, treename):
 def check_type():
     parser = argparse.ArgumentParser(description="Set B4mu202X or control202X")
     parser.add_argument("--type", type=str, help="B4mu202X or control202X")
+    parser.add_argument("--label", type=str, help="")
     args = parser.parse_args()
     type = args.type
+    label = args.label
     if "B4mu" in type:
-        return True, int(type.replace("B4mu", ""))
+        return True, int(type.replace("B4mu", "")), label
     elif "control" in type:
-        return False, int(type.replace("control", ""))
+        return False, int(type.replace("control", "")), label
     else:
         print("ERROR: choose --type between B4mu and control")
         sys.exit()
         
 
 if __name__ == "__main__":
-    isB4mu, year = check_type()
-    
+    isB4mu, year, label = check_type()
+
+    pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_"+label+"/"
+    Files = {
+        "B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_Bs_4mu_2022.root", pos+"Analyzed_MC_Bd_4mu_2022.root"],
+        "B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_Bs_4mu_2023.root", pos+"Analyzed_MC_Bd_4mu_2023.root"],
+        "control2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_BsJPsiPhi_2022.root"],
+        "control2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_BsJPsiPhi_2023.root"]
+    }
+
     print("Starting!")
     start_2 = time.time()
-    df = load_df(isB4mu, year,  "FinalTree")
+    df = load_df(isB4mu, year,  "FinalTree", Files)
     df = df.Define("year", add_index(year))
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("isMC2", "redef_isMC(rdfslot_, rdfsampleinfo_)")
@@ -117,7 +118,10 @@ if __name__ == "__main__":
 
     if isB4mu==True:
         #Filters for omega and phi:
-        df = df.Filter("abs(OS1v1_mass-1.019)>0.07 & abs(OS1v1_mass-0.782)>0.08 & abs(OS1v1_mass-3.096)>0.1 & abs(OS2v1_mass-1.019)>0.07 & abs(OS2v1_mass-0.782)>0.08 & abs(OS2v1_mass-3.096)>0.1 & abs(OS1v2_mass-1.019)>0.07 & abs(OS1v2_mass-0.782)>0.08 & abs(OS1v2_mass-3.096)>0.1 & abs(OS2v2_mass-1.019)>0.07 & abs(OS2v2_mass-0.782)>0.08 & abs(OS2v2_mass-3.096)>0.1 & abs(OS1v1_mass-3.686)>0.1 & abs(OS2v1_mass-3.686)>0.1 & abs(OS1v2_mass-3.686)>0.1 & abs(OS2v2_mass-3.686)>0.1")
+        df = df.Define("JPsicut", "abs(OS1v1_mass-3.096)>0.1 & abs(OS2v1_mass-3.096)>0.1 & abs(OS1v2_mass-3.096)>0.1 & abs(OS2v2_mass-3.096)>0.1")
+        df = df.Define("Phicut", "abs(OS1v1_mass-1.019)>0.07 & abs(OS2v1_mass-1.019)>0.07 & abs(OS1v2_mass-1.019)>0.07 & abs(OS2v2_mass-1.019)>0.07")
+        df = df.Define("Omegacut", "abs(OS1v1_mass-0.782)>0.08 & abs(OS2v1_mass-0.782)>0.08 & abs(OS1v2_mass-0.782)>0.08 & abs(OS2v2_mass-0.782)>0.08")
+        df = df.Define("Psi2scut", "abs(OS1v1_mass-3.686)>0.1 & abs(OS2v1_mass-3.686)>0.1 & abs(OS1v2_mass-3.686)>0.1 & abs(OS2v2_mass-3.686)>0.1")
         b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight"]
         df = df.Define("signal_weight", "weight * weight_pileUp * ctau_weight")
         df.Snapshot("FinalTree", "ROOTFiles/AllData"+str(year)+".root", branches+b_weights)

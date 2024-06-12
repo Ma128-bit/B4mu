@@ -45,8 +45,9 @@
         {"early_stopping_rounds": 500},
         {"eval_metric": "auc"}
     ],
-    "Cat_bkg": "isMC==0 & abs(Quadruplet_Mass-5.366)>0.2 & abs(Quadruplet_Mass-5.277)>0.2",
+    "Cat_bkg": "isMC==0 & abs(Quadruplet_Mass-5.366)>0.2 & abs(Quadruplet_Mass-5.277)>0.2 & JPsicut==1 && Phicut==1 && Omegacut==1 && Psi2scut==1",
     "Cat_sig": "isMC>0",
+    "final_cut": "JPsicut==1 && Phicut==1 && Omegacut==1 && Psi2scut==1",
     "categories": ["Cat"],
     "tree_name": "FinalTree",
     "output_folder": "BDT_results",
