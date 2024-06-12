@@ -1,15 +1,16 @@
 # !/bin/sh
 # Usage:
-#    prepare_and_submit_ALL.sh <Year>
+#    prepare_and_submit_ALL.sh <Year> <Analysis_type> <Label>
 
 helpstring="Usage:
-prepare_and_submit_ALL.sh [Year] [Analysis_type]"
+prepare_and_submit_ALL.sh [Year] [Analysis_type] [Label]"
 
 year=$1
 analysis_type=$2
+label=$3
 
 # Check inputs
-if [ -z ${2+x} ]; then
+if [ -z ${3+x} ]; then
     echo -e ${helpstring}
     return
 fi
@@ -36,7 +37,7 @@ for e in "${eras[@]}"; do
 done
 cd ..
 
-if [ ! -d "FinalFiles_${analysis_type}" ]; then
-    mkdir -p "FinalFiles_${analysis_type}"
+if [ ! -d "FinalFiles_${analysis_type}_${label}" ]; then
+    mkdir -p "FinalFiles_${analysis_type}_${label}"
 fi
-hadd FinalFiles_${analysis_type}/Analyzed_Data_${analysis_type}_${year}.root ${analysis_type}/${year}_era*/Analyzed_Data_${year}_Era_*.root
+hadd FinalFiles_${analysis_type}_${label}/Analyzed_Data_${analysis_type}_${year}.root ${analysis_type}/${year}_era*/Analyzed_Data_${year}_Era_*.root
