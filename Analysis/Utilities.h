@@ -10,11 +10,14 @@
 #include <TCanvas.h>
 #include <TH1F.h>
 #include <TLegend.h>
+#include <TLorentzVector.h>
 #include <TStyle.h>
 #include <TROOT.h>
 #include <TSystem.h>
 #include <TString.h>
 #include <TH2F.h>
+
+using namespace std;
 
 double deltaR(float eta1, float eta2, float phi1, float phi2){
     auto dp = std::abs(phi1 - phi2);
@@ -145,39 +148,30 @@ vector<int> get_2index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2)
     return index;
 }
 
-std::vector<std::vector<int>> get_stat(int quad_indx, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isTrackerMuon, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz){    
-    std::vector<std::vector<int>> out;
-    
-    std::vector<int> isGlobal={0,0,0,0};
-    std::vector<int> isPF={0,0,0,0};
-    std::vector<int> isLoose={0,0,0,0};
-    std::vector<int> isMedium={0,0,0,0};
-    std::vector<int> isTight={0,0,0,0};
-    std::vector<int> isSoft={0,0,0,0};
-    std::vector<int> isTracker={0,0,0,0};
-    
-    vector<int> index = get_4index(MuonPt, Mu1_Pt.at(quad_indx), Mu2_Pt.at(quad_indx), Mu3_Pt.at(quad_indx), Mu4_Pt.at(quad_indx));
+std::vector<std::vector<int>> get_stat(std::vector<int> index, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isTrackerMuon){    
+    //std::vector<std::vector<int>> out;
+    //std::vector<int> isGlobal={0,0,0,0};  |
+    //std::vector<int> isPF={0,0,0,0};      |
+    //std::vector<int> isLoose={0,0,0,0};   |
+    //std::vector<int> isMedium={0,0,0,0};  | --> 7
+    //std::vector<int> isTight={0,0,0,0};   |
+    //std::vector<int> isSoft={0,0,0,0};    |
+    //std::vector<int> isTracker={0,0,0,0}; |
+    std::vector<std::vector<int>> out(7, std::vector<int>(4, 0));
+
     for(int k=0; k<index.size(); k++){
-        isGlobal[k] = Muon_isGlobal.at(index.at(k));
-        isPF[k] = Muon_isPF.at(index.at(k));
-        isTracker[k] = Muon_isTrackerMuon.at(index.at(k));
-        isLoose[k] = Muon_isLoose.at(index.at(k));
-        isMedium[k] = Muon_isMedium.at(index.at(k));
-        isTight[k] = Muon_isTight.at(index.at(k));
-        isSoft[k] = Muon_isSoft.at(index.at(k));
+        out[0][k] = Muon_isGlobal.at(index.at(k));
+        out[1][k] = Muon_isPF.at(index.at(k));
+        out[2][k] = Muon_isLoose.at(index.at(k));
+        out[3][k] = Muon_isMedium.at(index.at(k));
+        out[4][k] = Muon_isTight.at(index.at(k));
+        out[5][k] = Muon_isSoft.at(index.at(k));
+        out[6][k] = Muon_isTrackerMuon.at(index.at(k));
     }
-    out.push_back(isGlobal);
-    out.push_back(isPF);
-    out.push_back(isLoose);
-    out.push_back(isMedium);
-    out.push_back(isTight);
-    out.push_back(isSoft);
-    out.push_back(isTracker);
     return out;
 }
 
-int GenMatching(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
-    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
+int GenMatching(vector<int> index, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     vector<double> pt, eta, phi;
     for(int h=0; h<index.size(); h++){
         double pt_temp=MuonPt.at(index.at(h));
@@ -251,21 +245,20 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         
         //Cut2 CMS muon system acceptance
         bool acceptanceCUT = true;
-        for(int c=0; c<index.size(); c++){
-            //if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.0 ) acceptanceCUT=false;
-            //if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<1.5 ) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
+        for(int c : index) {
+            if(abs(MuonEta[c]) > 2.4 || (abs(MuonEta[c]) < 1.2 && MuonPt[c] < 3.5) || (abs(MuonEta[c]) > 1.2 && MuonPt[c] < 2)) {
+                acceptanceCUT = false;
+                break;
+            }
         }
         if(acceptanceCUT==false) continue;
         if(exit_code<2) exit_code=2;
         
         //if( !(isPairDeltaRGood(MuonEta, MuonPhi, index, 1)) ) continue;
-        double vz1 = Muon_vz.at(index.at(0));
-        double vz2 = Muon_vz.at(index.at(1));
-        double vz3 = Muon_vz.at(index.at(2));
-        double vz4 = Muon_vz.at(index.at(3));
+        //double vz1 = Muon_vz.at(index.at(0));
+        //double vz2 = Muon_vz.at(index.at(1));
+        //double vz3 = Muon_vz.at(index.at(2));
+        //double vz4 = Muon_vz.at(index.at(3));
         //if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
         
         //Cut3 invariant mass
@@ -273,42 +266,35 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         if(exit_code<3) exit_code=3;
         
         //Cut4 isGlobal and isPF
-        int isGlobal=0;
-        int isMedium=0;
-        int isPF=0;
-        int isLoose=0;
-        for(int k=0; k<index.size(); k++){
-            isGlobal = isGlobal + Muon_isGlobal.at(index.at(k));
-            isMedium = isMedium + Muon_isMedium.at(index.at(k));
-            isLoose = isLoose + Muon_isLoose.at(index.at(k));
-            isPF = isPF + Muon_isPF.at(index.at(k));
+        int isGlobal = 0, isMedium = 0, isPF = 0, isLoose = 0;
+        for(int k : index) {
+            isGlobal += Muon_isGlobal[k];
+            isMedium += Muon_isMedium[k];
+            isLoose += Muon_isLoose[k];
+            isPF += Muon_isPF[k];
         }
         //if(!(isLoose==4)) continue;
         //if(!(isMedium==4 && isGlobal==4)) continue;
         if(exit_code<4) exit_code=4;
         
         //Cut5 HLT Trigger Matching
-        vector<double> pt_HLT, eta_HLT, phi_HLT;
-        vector<float> pt, eta, phi;
-        for(int h=0; h<index.size(); h++){
-            float pt_temp=MuonPt.at(index.at(h));
-            float eta_temp=MuonEta.at(index.at(h));
-            float phi_temp=MuonPhi.at(index.at(h));
-            pt.push_back(pt_temp);
-            eta.push_back(eta_temp);
-            phi.push_back(phi_temp);
-        }        
+        vector<float> pt(index.size()), eta(index.size()), phi(index.size());
+        for(size_t h = 0; h < index.size(); ++h) {
+            pt[h] = MuonPt[index[h]];
+            eta[h] = MuonEta[index[h]];
+            phi[h] = MuonPhi[index[h]];
+        }
         int HLT_matching = 0;
-        for(int w=0; w<MuonPt_HLT.size();w++){
-            for(int p=0; p<pt.size();p++){
-                double dphi = abs(phi.at(p) - MuonPhi_HLT.at(w));
-                double deta = abs(eta.at(p) - MuonEta_HLT.at(w));
+        for(size_t w = 0; w < MuonPt_HLT.size(); ++w) {
+            for(size_t p = 0; p < pt.size(); ++p) {
+                double dphi = abs(phi[p] - MuonPhi_HLT[w]);
                 if(dphi > double(M_PI)) dphi -= double(2*M_PI);
-                double dR = TMath::Sqrt(dphi*dphi + deta*deta);
-                double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
+                double deta = abs(eta[p] - MuonEta_HLT[w]);
+                double dR = sqrt(dphi * dphi + deta * deta);
+                //double dpt = abs(pt.at(p) - MuonPt_HLT.at(w))/pt.at(p);
                 //if(dR<0.03 && dpt<0.1){
-                if(dR<0.1){
-                    HLT_matching++;
+                if(dR < 0.1) {
+                    ++HLT_matching;
                     phi.erase(phi.begin() + p);
                     eta.erase(eta.begin() + p);
                     pt.erase(pt.begin() + p);
@@ -321,7 +307,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         
         //CUT 6: Gen Matching only MC
         //if(isMC>0){
-        //    int genmatch = GenMatching(MuonPt, MuonEta, MuonPhi, Mu1_Pt.at(j), Mu2_Pt.at(j), Mu3_Pt.at(j), Mu4_Pt.at(j), GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
+        //    int genmatch = GenMatching(index, MuonPt, MuonEta, MuonPhi, Mu1_Pt[j], Mu2_Pt[j], Mu3_Pt[j], Mu4_Pt[j], GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
         //    if(genmatch!=1) continue;
         //}
         //if(exit_code<6) exit_code=6;
@@ -329,27 +315,25 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
     }
     //cout<<evt<<", "<<exit_code<<endl;
     
-    if(quad_indx.size()==0) {quad_indx.push_back(-99); return quad_indx;}
+    if(quad_indx.empty()) { quad_indx.push_back(-99); return quad_indx;}
 
-    vector<double> chi2;
-    for(int l=0; l<quad_indx.size(); l++){
-        double temp_i=quad_indx.at(l);
-        //double temp_chi2 = QuadrupletVtx_Chi2.at(temp_i);
-        double temp_chi2 = Cos2D_(QuadrupletVtx_x.at(temp_i), QuadrupletVtx_y.at(temp_i), RefittedPV_x.at(temp_i), RefittedPV_y.at(temp_i), Quadruplet_Pt.at(temp_i), Quadruplet_Eta.at(temp_i), Quadruplet_Phi.at(temp_i));
-        chi2.push_back(temp_chi2);
+    vector<double> chi2(quad_indx.size());
+    for (size_t l = 0; l < quad_indx.size(); ++l) {
+        int temp_i = quad_indx[l];
+        chi2[l] = Cos2D_(QuadrupletVtx_x[temp_i], QuadrupletVtx_y[temp_i], RefittedPV_x[temp_i], RefittedPV_y[temp_i], Quadruplet_Pt[temp_i], Quadruplet_Eta[temp_i], Quadruplet_Phi[temp_i]);
     }
 
-    std::vector<std::pair<double, int>> v_union;
+    vector<pair<double, int>> v_union(quad_indx.size());
     for (size_t i = 0; i < quad_indx.size(); ++i) {
-        v_union.push_back(std::make_pair(chi2[i], quad_indx[i]));
+        v_union[i] = make_pair(chi2[i], quad_indx[i]);
     }
-    std::sort(v_union.begin(), v_union.end(), 
+    sort(v_union.begin(), v_union.end(), 
               [](const std::pair<double, int>& a, const std::pair<double, int>& b) {
                   return a.first > b.first;
-              });
+            })
+    ;
 
     for (size_t i = 0; i < v_union.size(); ++i) {
-        chi2[i] = v_union[i].first;
         quad_indx[i] = v_union[i].second;
     }
 
@@ -597,8 +581,7 @@ struct flat2D{
     }
 };
 
-std::vector<std::pair<int, int>> Dimuon_v2(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<double> MuonCharge){
-    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
+std::vector<std::pair<int, int>> Dimuon_v2(vector<int> index, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<double> MuonCharge){
     vector<int> charge;
     for(int i=0; i<index.size();i++){
         charge.push_back((int)MuonCharge.at(index.at(i)));
@@ -679,8 +662,7 @@ std::vector<double> Vtx_quantity(std::vector<std::pair<int, int>> muon_combinati
 
 
 
-std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonCharge){
-    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
+std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon(vector<int> index, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonCharge){
     //if(index.at(0)==-1) return 0;
 
     vector<double> charge;
@@ -867,10 +849,8 @@ double FindDimuChi2(std::vector<int> vec, double Vtx12_Chi2, double Vtx13_Chi2, 
     }
 }
 
-std::pair<std::vector<double>, std::vector<double>> DimuonChi2(std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon_index, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, double Vtx12_Chi2, double Vtx13_Chi2, double Vtx14_Chi2, double Vtx23_Chi2, double Vtx24_Chi2, double Vtx34_Chi2){
-    
-    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
-    
+std::pair<std::vector<double>, std::vector<double>> DimuonChi2(vector<int> index, std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Dimuon_index, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, ROOT::VecOps::RVec<float> MuonPt, double Vtx12_Chi2, double Vtx13_Chi2, double Vtx14_Chi2, double Vtx23_Chi2, double Vtx24_Chi2, double Vtx34_Chi2){
+        
     std::vector<double> chi1;
     std::vector<double> chi2;
     
@@ -1122,8 +1102,7 @@ double NoRefitMassB2muKpi(ROOT::VecOps::RVec<float> MuonPt, double pt1, double p
     return mutot.M();
 }
 
-vector<vector<double>> GenMatching_v2(ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
-    vector<int> index = get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt);
+vector<vector<double>> GenMatching_v2(vector<int> index, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt,  ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
     vector<double> pt, eta, phi;
     for(int h=0; h<index.size(); h++){
         double pt_temp=MuonPt.at(index.at(h));

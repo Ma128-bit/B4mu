@@ -1,20 +1,16 @@
-import sys, os, time
+import os, time
 start = time.time()
 import argparse
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter
 
 gROOT.SetBatch(True)
-EnableImplicitMT()
+EnableImplicitMT(32)
 
 gInterpreter.Declare("""
     #include "Utilities.h"
 """)
 
-from ROOT import flat2D, flat1D_int, flat1D_double, flat0D_int, flat0D_double, add_int, add_double, TwoObjMassFit, FourObjMassFit
-
-def load_df(files, treename):
-    frame = RDataFrame(treename, files)
-    return frame
+from ROOT import flat2D, flat1D_int, flat1D_double, flat0D_int, flat0D_double, add_int, add_double#, TwoObjMassFit, FourObjMassFit
 
 def list_of_root_files(directory):
     file_root = []
@@ -32,10 +28,16 @@ def select_root_files(file_root, i , delta):
         file_ID = int(temp)
         if(file_ID>= i*delta and file_ID < (i+1)*delta):
             selected_files.append(file)
+    selected_files = sorted(selected_files)
+    #print(selected_files)
+    if directory.endswith("/"):
+        selected_files = [directory + s for s in selected_files]
+    else:
+        selected_files = [directory + "/" + s for s in selected_files]
     return(selected_files)
 
 def MuonIDs(rdf, branches):
-    rdf = rdf.Define("Stats","get_stat(Quadruplet_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz)")
+    rdf = rdf.Define("Stats","get_stat(mu_index, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon)")
     branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
     rdf = rdf.Define("isGlobal", flat1D_int(0), ["Stats"])
     rdf = rdf.Define("isPF", flat1D_int(1), ["Stats"])
@@ -95,12 +97,12 @@ def MVA_inputs(rdf, branches):
 
 def DiMuVar(rdf, branches, vertex_chi2):
     #Dimuon masses
-    rdf = rdf.Define("Dimuon_index","Dimuon(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
+    rdf = rdf.Define("Dimuon_index","Dimuon(mu_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
     rdf = rdf.Define("Dimuon_mass","DimuonMass(Dimuon_index, MuonPt, MuonEta, MuonPhi, MuonEnergy)")
     #Dimuon dR
     rdf = rdf.Define("Dimuon_dR","DimuondR(Dimuon_index, MuonEta, MuonPhi)")  
     #Dimuon vertex chi2:
-    rdf = rdf.Define("Dimuon_chi2","DimuonChi2(Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
+    rdf = rdf.Define("Dimuon_chi2","DimuonChi2(mu_index, Dimuon_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt"+ vertex_chi2+")")
     #Flat mass and chi2
     for i in range(2):
         for j in range(2):
@@ -128,26 +130,30 @@ def DiMuVar(rdf, branches, vertex_chi2):
     return rdf
 
 def DiMuVar_2(rdf, branches):
-    rdf = rdf.Define("Dimu_combinations","Dimuon_v2(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonCharge)")
+    rdf = rdf.Define("Dimu_combinations","Dimuon_v2(mu_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonCharge)")
     rdf = rdf.Define("OS_mass","Vtx_quantity(Dimu_combinations, Vtx12_mass, Vtx23_mass, Vtx13_mass, Vtx14_mass, Vtx24_mass, Vtx34_mass)")
     rdf = rdf.Define("OS_mass_err","Vtx_quantity(Dimu_combinations, Vtx12_mass_err, Vtx23_mass_err, Vtx13_mass_err, Vtx14_mass_err, Vtx24_mass_err, Vtx34_mass_err)")
-    branches.append("OS1v1_mass")
-    rdf = rdf.Define("OS1v1_mass","flattering(OS_mass, 0)")
-    branches.append("OS2v1_mass")
-    rdf = rdf.Define("OS2v1_mass","flattering(OS_mass, 1)")
-    branches.append("OS1v2_mass")
-    rdf = rdf.Define("OS1v2_mass","flattering(OS_mass, 2)")
-    branches.append("OS2v2_mass")
-    rdf = rdf.Define("OS2v2_mass","flattering(OS_mass, 3)")
+    rdf = rdf.Define("OS_Chi2","Vtx_quantity(Dimu_combinations, Vtx12_Chi2, Vtx23_Chi2, Vtx13_Chi2, Vtx14_Chi2, Vtx24_Chi2, Vtx34_Chi2)")
+
+    for i in range(1, 3):  # i -> 1 to 2
+        for j in range(1, 3):  # j -> 1 to 2
+            branch_name = f"OS{i}v{j}"
+            branches.append(branch_name+"_mass")
+            rdf = rdf.Define(branch_name+"_mass", f"flattering(OS_mass, {(i-1) + 2*(j-1)})")
+            branches.append(branch_name+"_mass_err")
+            rdf = rdf.Define(branch_name+"_mass_err", f"flattering(OS_mass_err, {(i-1) + 2*(j-1)})")
+            branches.append(branch_name+"_Chi2")
+            rdf = rdf.Define(branch_name+"_Chi2", f"flattering(OS_Chi2, {(i-1) + 2*(j-1)})")
     
-    branches.append("OS1v1_mass_err")
-    rdf = rdf.Define("OS1v1_mass_err","flattering(OS_mass_err, 0)")
-    branches.append("OS2v1_mass_err")
-    rdf = rdf.Define("OS2v1_mass_err","flattering(OS_mass_err, 1)")
-    branches.append("OS1v2_mass_err")
-    rdf = rdf.Define("OS1v2_mass_err","flattering(OS_mass_err, 2)")
-    branches.append("OS2v2_mass_err")
-    rdf = rdf.Define("OS2v2_mass_err","flattering(OS_mass_err, 3)")
+    branches.append("Dimu_OS_max")
+    branches.append("Dimu_OS_min")
+    branches.append("Quadruplet_Mass_eq")
+    branches.append("isJPsiPhi")
+    rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(OS1v1_mass, OS2v1_mass, OS1v2_mass, OS2v2_mass)")
+    rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
+    rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
+    rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
+    rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
 
     return rdf
 
@@ -178,7 +184,7 @@ def Gen_ct(rdf, branches, analysis_type, isMC):
     
 def GenVar(rdf, branches, isMC):
     if isMC != 0:
-        rdf = rdf.Define("gen_info", "GenMatching_v2(MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
+        rdf = rdf.Define("gen_info", "GenMatching_v2(mu_index, MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
         rdf = rdf.Define("GenMu_Pt", flat1D_double(0), ["gen_info"])
         rdf = rdf.Define("GenMu_Eta", flat1D_double(1), ["gen_info"])
         rdf = rdf.Define("GenMu_Phi", flat1D_double(2), ["gen_info"])
@@ -212,91 +218,76 @@ if __name__ == "__main__":
     output_dir = args.directory_OUT
     isMC = args.isMC
     analysis_type = args.analysis_type
-    
+
+    print(time.ctime(time.time()), " -- Starting!")
     file_root = list_of_root_files(directory)
     selected_files = select_root_files(file_root, index , delta)
-    selected_files = sorted(selected_files)
-    print(selected_files)
-    if len(selected_files) == 0:
-        print("The vector is empty. End execution.")
-        exit()
-    if directory.endswith("/"):
-        selected_files = [directory + s for s in selected_files]
-    else:
-        selected_files = [directory + "/" + s for s in selected_files]
+    if not selected_files: print("The vector is empty. End execution."); exit()
 
-    print("Starting!")
-
-    if(analysis_type=="B2mu2K"):
-        tree_dir_name = "TreeB2mu2K"
-    elif(analysis_type=="B2muKpi"):
-        tree_dir_name = "TreeB2muKpi"
-    elif(analysis_type=="B4mu"):
-        tree_dir_name = "TreeMakerBkg"
-    else:
-        print("Wrong analysis type. End execution.")
-        exit()
-        
-    df = load_df(selected_files, tree_dir_name+"/ntuple")
+    tree_dir_name = {
+        "B2mu2K": "TreeB2mu2K",
+        "B2muKpi": "TreeB2muKpi",
+        "B4mu": "TreeMakerBkg"
+    }.get(analysis_type) or (print("Wrong analysis type. End execution.") or exit())
+    
+    start_2 = time.time()
+    rdf = RDataFrame(tree_dir_name+"/ntuple", selected_files) # Load data
+    print(time.ctime(time.time()), " -- Data loaded!")
     
     #Find best Quadruplet
-    df = df.Define("isMC", add_int(isMC))
+    rdf = rdf.Define("isMC", add_int(isMC))
     if(analysis_type=="B4mu"):
-        df = df.Define("Quadruplet_indexs","B4mu_QuadSel(isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
+        rdf = rdf.Define("Quadruplet_indexs","B4mu_QuadSel(isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
     else:
-        df = df.Define("remove_duplicate",analysis_type+"_CombSel(Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, QuadrupletVtx_Chi2)")
-        #df = df.Define("remove_duplicate","B2mu2K_CombSel(Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, QuadrupletVtx_Chi2)")
-        df = df.Define("Quadruplet_indexs","B2muX_QuadSel(remove_duplicate, isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
-    df = df.Filter("Quadruplet_indexs[0]>-1")
+        rdf = rdf.Define("remove_duplicate",analysis_type+"_CombSel(Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, QuadrupletVtx_Chi2)")
+        rdf = rdf.Define("Quadruplet_indexs","B2muX_QuadSel(remove_duplicate, isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
 
-    #for chi in range(5):
-    for chi in range(1):
-        start_2 = time.time()
-        branches=["evt", "isMC", "run", "lumi", "nPileUpInt", "PVCollection_Size"]
-        rdf = df.Define("Quadruplet_index", flat0D_int(chi), ["Quadruplet_indexs"])
-        rdf = rdf.Filter("Quadruplet_index>-1")
-        branches.append("chi2_label")
-        rdf = rdf.Define("chi2_label", add_int(chi))
-        
-        if(analysis_type=="B4mu"):
-            rdf, branches = MuonIDs(rdf, branches) #Add muonIDs
-        rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
-        rdf, vertex_chi2 = QuadMuVar(rdf, branches, analysis_type) #Quadruplet variables
-        rdf = MVA_inputs(rdf, branches) #Define MVA input variables
-        if(analysis_type=="B4mu"):
-            rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
-            rdf = DiMuVar_2(rdf, branches)
-            rdf = Gen_ct(rdf, branches, analysis_type, isMC)
-            #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables for control channel
-
-        if(analysis_type!="B4mu"):
-            rdf = DiMassVar_control(rdf, branches, analysis_type)
-            """
-            branches.append("PhiMassTest2K")
-            branches.append("PhiMassTestKpi")
-            branches.append("PhiMassTestKpi_test")
-            rdf = rdf.Define("PhiMassTest2K", TwoObjMassFit(0.493677, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
-            rdf = rdf.Define("PhiMassTestKpi", TwoObjMassFit(0.493677, 0.139570), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
-            rdf = rdf.Define("PhiMassTestKpi_test", TwoObjMassFit(0.139570, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
-            """
-            
-        if(analysis_type=="B2muKpi" and isMC>0):
-            branches.append("genMatchB2muKpi")
-            rdf = rdf.Define("genMatchB2muKpi","GenMatching2muKpi(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk)")
-        if not output_dir.endswith("/"):
-            output_dir= output_dir + "/"
-
-        if(analysis_type!="B4mu"):
-            rdf = rdf.Filter("Quadruplet_Mass>4.5 && Quadruplet_Mass<6.5")
-            rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
-            rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
-        
-        rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_chi_"+str(chi)+"_index_"+str(index)+".root", branches)
-        
-        print("Performed ",rdf.GetNRuns()," loops")
-        del rdf
-        del branches
-        end = time.time()
-        print('Partial execution time ', end-start_2)
+    branches=["evt", "isMC", "run", "lumi", "nPileUpInt", "PVCollection_Size"]
+    rdf = rdf.Define("Quadruplet_index", flat0D_int(0), ["Quadruplet_indexs"])
+    rdf = rdf.Filter("Quadruplet_index>-1")
     
+    rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
+    rdf = rdf.Define("mu_index", "get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
+    
+    if(analysis_type=="B4mu"):
+        rdf, branches = MuonIDs(rdf, branches) #Add muonIDs
+
+    rdf, vertex_chi2 = QuadMuVar(rdf, branches, analysis_type) #Quadruplet variables
+    rdf = MVA_inputs(rdf, branches) #Define MVA input variables
+    if(analysis_type=="B4mu"):
+        #rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
+        rdf = DiMuVar_2(rdf, branches) #Define Di-Muon variables
+        rdf = Gen_ct(rdf, branches, analysis_type, isMC)
+        #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables for control channel
+
+    if(analysis_type!="B4mu"):
+        rdf = DiMassVar_control(rdf, branches, analysis_type)
+        #branches.append("PhiMassTest2K")
+        #branches.append("PhiMassTestKpi")
+        #branches.append("PhiMassTestKpi_test")
+        #rdf = rdf.Define("PhiMassTest2K", TwoObjMassFit(0.493677, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
+        #rdf = rdf.Define("PhiMassTestKpi", TwoObjMassFit(0.493677, 0.139570), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
+        #rdf = rdf.Define("PhiMassTestKpi_test", TwoObjMassFit(0.139570, 0.493677), ["RefTrack3_Pt", "RefTrack4_Pt", "RefTrack3_Eta", "RefTrack4_Eta","RefTrack3_Phi", "RefTrack4_Phi"])
+        
+            
+    if(analysis_type=="B2muKpi" and isMC>0):
+        branches.append("genMatchB2muKpi")
+        rdf = rdf.Define("genMatchB2muKpi","GenMatching2muKpi(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk)")
+    if not output_dir.endswith("/"):
+        output_dir= output_dir + "/"
+
+    if(analysis_type!="B4mu"):
+        rdf = rdf.Filter("Quadruplet_Mass>4.5 && Quadruplet_Mass<6.5")
+        rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
+        rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
+    
+    
+    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+".root", branches)
+        
+    print(time.ctime(time.time()), " -- Performed ",rdf.GetNRuns()," loops")
+    del rdf
+    del branches
+    end = time.time()
+
+    print('Partial execution time ', end-start_2)
     print('Total execution time ', end-start)
