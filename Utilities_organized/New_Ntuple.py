@@ -16,7 +16,7 @@ gInterpreter.Declare("""
     #include "cpp_library.h"
 """)
 
-from ROOT import SF_WeightsComputer, PV_WeightsComputer, add_index, add_new_ctau
+from ROOT import SF_WeightsComputer, PV_WeightsComputer, add_index, add_new_ctau, loadInfo
 
 branches = [
     "isMC", "lumi", "run", "evt", "nPileUpInt", "PVCollection_Size", "isGlobal", "isPF", "isMedium", 
@@ -58,6 +58,7 @@ def check_type():
 
 if __name__ == "__main__":
     isB4mu, year, label = check_type()
+    loadInfo("config/config_"+label+".txt")
 
     pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_"+label+"/"
     Files = {
@@ -112,24 +113,26 @@ if __name__ == "__main__":
     df = df.Define("weight_pileUp", PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nPileUpInt"])
     df = df.Define("weight_pileUp_err", PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nPileUpInt"])    
 
-    if not os.path.exists("ROOTFiles"):
-        subprocess.run(["mkdir", "ROOTFiles"])
+    if not os.path.exists("ROOTFiles_"+label):
+        subprocess.run(["mkdir", "ROOTFiles_"+label])
 
 
     if isB4mu==True:
         #Filters for omega and phi:
-        df = df.Define("JPsicut", "abs(OS1v1_mass-3.096)>0.1 & abs(OS2v1_mass-3.096)>0.1 & abs(OS1v2_mass-3.096)>0.1 & abs(OS2v2_mass-3.096)>0.1")
-        df = df.Define("Phicut", "abs(OS1v1_mass-1.019)>0.07 & abs(OS2v1_mass-1.019)>0.07 & abs(OS1v2_mass-1.019)>0.07 & abs(OS2v2_mass-1.019)>0.07")
-        df = df.Define("Omegacut", "abs(OS1v1_mass-0.782)>0.08 & abs(OS2v1_mass-0.782)>0.08 & abs(OS1v2_mass-0.782)>0.08 & abs(OS2v2_mass-0.782)>0.08")
+        df = df.Define("JPsicut", "abs(OS1v1_mass-3.096)>0.14 & abs(OS2v1_mass-3.096)>0.12 & abs(OS1v2_mass-3.096)>0.12 & abs(OS2v2_mass-3.096)>0.12")
+        df = df.Define("Phicut", "abs(OS1v1_mass-1.019)>0.04 & abs(OS2v1_mass-1.019)>0.04 & abs(OS1v2_mass-1.019)>0.04 & abs(OS2v2_mass-1.019)>0.04")
+        df = df.Define("Omegacut", "abs(OS1v1_mass-0.782)>0.04 & abs(OS2v1_mass-0.782)>0.04 & abs(OS1v2_mass-0.782)>0.04 & abs(OS2v2_mass-0.782)>0.04")
         df = df.Define("Psi2scut", "abs(OS1v1_mass-3.686)>0.1 & abs(OS2v1_mass-3.686)>0.1 & abs(OS1v2_mass-3.686)>0.1 & abs(OS2v2_mass-3.686)>0.1")
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight"]
+        
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight", "JPsicut", "Phicut", "Omegacut", "Psi2scut"]
+        
         df = df.Define("signal_weight", "weight * weight_pileUp * ctau_weight")
-        df.Snapshot("FinalTree", "ROOTFiles/AllData"+str(year)+".root", branches+b_weights)
+        df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllData"+str(year)+".root", branches+b_weights)
     else:
         df = df.Filter("isJPsiPhi==1")
         b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err"]
         #df = df.Define("control_weight", "weight * weight_nVtx")
-        df.Snapshot("FinalTree", "ROOTFiles/AllControl"+str(year)+".root", branches+b_weights)
+        df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllControl"+str(year)+".root", branches+b_weights)
     
     print("Performed ",df.GetNRuns()," loops")
     end = time.time()

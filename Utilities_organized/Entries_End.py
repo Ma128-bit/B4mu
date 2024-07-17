@@ -17,13 +17,13 @@ def make_sum(print_lable, file_name, csv = False):
     obj = f["FinalTree"]
     data = obj["lumi"].array()
     if csv == True:
-        Run.to_csv(print_lable + ".csv", index=False)
+        data.to_csv(print_lable + ".csv", index=False)
     print(print_lable+"   Events: ", len(data))
     return len(data)
 
 
 if __name__ == "__main__":
-    dir = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu/"
+    dir = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_17_07_24/"
     
     Bd_MC = dir+"Analyzed_MC_Bd_4mu_2022.root"
     Bs_MC = dir+"Analyzed_MC_Bs_4mu_2022.root"

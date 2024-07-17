@@ -1,4 +1,8 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <map>
 #include <ROOT/RDataFrame.hxx>
 #include <ROOT/RVec.hxx>
 #include <ROOT/RDF/RInterface.hxx>
@@ -15,55 +19,90 @@
 #include <TString.h>
 #include <TH2F.h>
 
-double N0_Bd22 = 6015075;
-double N0_Bs22 = 5726775;
-double N0_BsJPsiPhi22 = 6092393;
+std::map<std::string, std::string> readConfigFile(const std::string& filename) {
+    std::map<std::string, std::string> config;
+    std::ifstream file(filename);
+    std::string line;
 
-double N0_Bd23 = 5974440;
-double N0_Bs23 = 5859938;
-double N0_BsJPsiPhi23 = 6114171;
+    if (file.is_open()) {
+        while (std::getline(file, line)) {
+            std::istringstream iss(line);
+            std::string key, value;
 
-double N_Bd22 = 141697;
-double N_Bs22 = 132403;
-double N_BsJPsiPhi22 = 1118915;
+            if (std::getline(iss, key, '=') && std::getline(iss, value)) {
+                config[key] = value;
+            }
+        }
+        file.close();
+    } else {
+        std::cerr << "Unable to open file: " << filename << std::endl;
+    }
 
-double N_Bd23 = 136391;
-double N_Bs23 = 130347;
-double N_BsJPsiPhi23 = 1085347;
+    return config;
+}
 
-double ANAeff_Bd22 = N_Bd22/N0_Bd22;
-double ANAeff_Bs22 = N_Bs22/N0_Bs22;
-double ANAeff_BsJPsiPhi22 = N_BsJPsiPhi22/N0_BsJPsiPhi22;
+std::string config_file;
 
-double ANAeff_Bd23 = N_Bd23/N0_Bd23;
-double ANAeff_Bs23 = N_Bs23/N0_Bs23;
-double ANAeff_BsJPsiPhi23 = N_BsJPsiPhi23/N0_BsJPsiPhi23;
+double N0_Bd22, N0_Bs22, N0_BsJPsiPhi22, N0_Bd23, N0_Bs23, N0_BsJPsiPhi23; 
+double N_Bd22, N_Bs22, N_BsJPsiPhi22, N_Bd23, N_Bs23, N_BsJPsiPhi23;
 
-double lumi22_preEE = 7.9;
-double lumi22_postEE = 26.5;
-double lumi23_preBPix = 18.3;
-double lumi23_postBPix = 9.4;
+double ANAeff_Bd22, ANAeff_Bs22, ANAeff_BsJPsiPhi22, ANAeff_Bd23, ANAeff_Bs23, ANAeff_BsJPsiPhi23;
 
-double GENeff_Bd22 = (0.063851845*lumi22_preEE + 0.064040337*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
-double GENeff_Bs22 = (0.019179115*lumi22_preEE + 0.019273361*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
-double GENeff_BsJPsiPhi22 = (0.002334313*lumi22_preEE + 0.002348375*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
+double lumi22_preEE, lumi22_postEE, lumi23_preBPix, lumi23_postBPix;
+double GENeff_Bd22, GENeff_Bs22, GENeff_BsJPsiPhi22, GENeff_Bd23, GENeff_Bs23, GENeff_BsJPsiPhi23;
 
-double GENeff_Bd23 = (0.064558692*lumi23_preBPix + 0.064323076*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
-double GENeff_Bs23 = (0.018755007*lumi23_preBPix + 0.018755007*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
-double GENeff_BsJPsiPhi23 = (0.002306189*lumi23_preBPix + 0.002376499*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
+double BdBR = 1.0, BsBR = 1.0, BsJPsiPhiBR = 1.738e-8;
+double NData_BsJPsiPhi, NData_err_BsJPsiPhi, NData22_BsJPsiPhi, NData22_err_BsJPsiPhi, NData23_BsJPsiPhi, NData23_err_BsJPsiPhi;
 
-double BdBR = 1.0;
-double BsBR = 1.0;
-double BsJPsiPhiBR = 1.738e-8;
+void loadInfo(const std::string& inputString){
+    config_file = inputString;
+    std::map<std::string, std::string> config = readConfigFile(config_file); 
+    N0_Bd22 = std::stod(config["N0_Bd22"]);
+    N0_Bs22 = std::stod(config["N0_Bs22"]);
+    N0_BsJPsiPhi22 = std::stod(config["N0_BsJPsiPhi22"]);
 
-double NData_BsJPsiPhi = 159;
-double NData_err_BsJPsiPhi = 14;
+    N0_Bd23 = std::stod(config["N0_Bd23"]);
+    N0_Bs23 = std::stod(config["N0_Bs23"]);
+    N0_BsJPsiPhi23 = std::stod(config["N0_BsJPsiPhi23"]);
 
-double NData22_BsJPsiPhi = NData_BsJPsiPhi*(lumi22_preEE+lumi22_postEE)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
-double NData22_err_BsJPsiPhi = NData_err_BsJPsiPhi*(lumi22_preEE+lumi22_postEE)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
+    N_Bd22 = std::stod(config["N_Bd22"]);
+    N_Bs22 = std::stod(config["N_Bs22"]);
+    N_BsJPsiPhi22 = std::stod(config["N_BsJPsiPhi22"]);
 
-double NData23_BsJPsiPhi = NData_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
-double NData23_err_BsJPsiPhi = NData_err_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
+    N_Bd23 = std::stod(config["N_Bd23"]);
+    N_Bs23 = std::stod(config["N_Bs23"]);
+    N_BsJPsiPhi23 = std::stod(config["N_BsJPsiPhi23"]);
+
+    ANAeff_Bd22 = N_Bd22/N0_Bd22;
+    ANAeff_Bs22 = N_Bs22/N0_Bs22;
+    ANAeff_BsJPsiPhi22 = N_BsJPsiPhi22/N0_BsJPsiPhi22;
+
+    ANAeff_Bd23 = N_Bd23/N0_Bd23;
+    ANAeff_Bs23 = N_Bs23/N0_Bs23;
+    ANAeff_BsJPsiPhi23 = N_BsJPsiPhi23/N0_BsJPsiPhi23;
+
+    lumi22_preEE = std::stod(config["lumi22_preEE"]);
+    lumi22_postEE = std::stod(config["lumi22_postEE"]);
+    lumi23_preBPix = std::stod(config["lumi23_preBPix"]);
+    lumi23_postBPix = std::stod(config["lumi23_postBPix"]);
+
+    GENeff_Bd22 = (0.063851845*lumi22_preEE + 0.064040337*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
+    GENeff_Bs22 = (0.019179115*lumi22_preEE + 0.019273361*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
+    GENeff_BsJPsiPhi22 = (0.002334313*lumi22_preEE + 0.002348375*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
+
+    GENeff_Bd23 = (0.064558692*lumi23_preBPix + 0.064323076*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
+    GENeff_Bs23 = (0.018755007*lumi23_preBPix + 0.018755007*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
+    GENeff_BsJPsiPhi23 = (0.002306189*lumi23_preBPix + 0.002376499*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
+
+    NData_BsJPsiPhi = std::stod(config["NData_BsJPsiPhi"]);
+    NData_err_BsJPsiPhi = std::stod(config["NData_err_BsJPsiPhi"]);
+
+    NData22_BsJPsiPhi = NData_BsJPsiPhi*(lumi22_preEE+lumi22_postEE)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
+    NData22_err_BsJPsiPhi = NData_err_BsJPsiPhi*(lumi22_preEE+lumi22_postEE)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
+
+    NData23_BsJPsiPhi = NData_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
+    NData23_err_BsJPsiPhi = NData_err_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
+}
 
 struct add_index{
     int i;
@@ -72,7 +111,6 @@ struct add_index{
         return i;
     }
 };
-
 
 double weight_to_new_ctau(double old_ctau, double new_ctau, double ct){
     /*
@@ -97,6 +135,7 @@ struct add_new_ctau{
 };
 
 TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
+    //std::cout<<"N0_Bd22: "<<N0_Bd22<<std::endl;
     //std::cout<<"id: "<<id.AsString()<<std::endl;
     if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return "Bs2022";
     if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return "Bs2023";
