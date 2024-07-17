@@ -236,17 +236,17 @@ if [[ "$era" != *"MC"* ]]; then
         cp templates/submit.condor "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}"
         ndir=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/" | wc -l)
         tot=$(find "${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}" -type f | wc -l)
-        wtot=$(du -sh "${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}" | awk '{print $1}')
-        w0=$(echo "scale=0; $delta * 0.05" | bc)
-        number_of_splits=$(((${wtot} / ${w0}) + 1))
-        delta=$(((${tot} / ${number_of_splits}) + 1))
+        #wtot=$(du -sBG "${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}" | awk '{print $1}' | sed 's/G//')
+        #w0=$(echo "$delta * 0.05 / 1" | bc)
+        #number_of_splits=$(((${wtot} / ${w0}) + 1))
+        #delta=$(((${tot} / ${number_of_splits}) + 1))
         #tot=0
         #for j in $(seq 0 $((ndir - 1))); do
         #    nfiles=$(ls "${file_directory}/ParkingDoubleMuonLowMass${i}/Skim${Ana_temp}_${year}era${era}_stream${i}_Mini/${datasets[${i}]}/000${j}/" | wc -l)
         #    tot=$((tot + nfiles))
         #done
         #echo "nfiles=${tot}"
-        #number_of_splits=$(((${tot} / ${delta}) + 1))
+        number_of_splits=$(((${tot} / ${delta}) + 1))
         echo "queue ${number_of_splits}" >> "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
         sed -i "s#PATH#${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}#g" "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"
         chmod a+x "${home_directory}/${Analysis_type}/${year}_era${era}/stream_${i}/submit.condor"

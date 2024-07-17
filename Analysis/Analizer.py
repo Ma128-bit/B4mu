@@ -4,7 +4,7 @@ import argparse
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter
 
 gROOT.SetBatch(True)
-EnableImplicitMT(32)
+EnableImplicitMT(16)
 
 gInterpreter.Declare("""
     #include "Utilities.h"
