@@ -46,6 +46,12 @@ def MuonIDs(rdf, branches):
     rdf = rdf.Define("isTight", flat1D_int(4), ["Stats"])
     rdf = rdf.Define("isSoft", flat1D_int(5), ["Stats"])
     rdf = rdf.Define("isTracker", flat1D_int(6), ["Stats"])
+
+    rdf = rdf.Define("SoftMVA", "get_MVASoft(mu_index, Muon_isMVASoft)")
+    for i in range(4):
+        branches.append(f"MVASoft{i+1}")
+        rdf = rdf.Define(f"MVASoft{i+1}",f"flattering(SoftMVA, {i})") 
+
     return rdf, branches
 
 def Flat_MuVar(rdf, branches):

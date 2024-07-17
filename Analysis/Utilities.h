@@ -148,6 +148,15 @@ vector<int> get_2index(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2)
     return index;
 }
 
+std::vector<double> get_MVASoft(std::vector<int> index, ROOT::VecOps::RVec<double> Muon_isMVASoft){    
+    std::vector<double> out={-2.,-2.,-2.,-2.};
+
+    for(int k=0; k<index.size(); k++){
+        out[k] = Muon_isMVASoft.at(index.at(k));
+    }
+    return out;
+}
+
 std::vector<std::vector<int>> get_stat(std::vector<int> index, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> Muon_isTrackerMuon){    
     //std::vector<std::vector<int>> out;
     //std::vector<int> isGlobal={0,0,0,0};  |
