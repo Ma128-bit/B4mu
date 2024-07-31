@@ -59,7 +59,7 @@ FourMuonsCandFilter = cms.EDFilter("CandViewCountFilter",
 )
 
 FourMuonsVtxKinFit = cms.EDProducer("KinematicVertexFitCompositeCandProducer",
-                                     src = cms.InputTag("FourMuonsCand")
+                                     src = cms.InputTag("FourMuonsCand"),
                                      cut = cms.string('(mass < 7) && (mass >4)'), #Restore mass range after fit  
                                      )
 
