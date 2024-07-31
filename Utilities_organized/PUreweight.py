@@ -11,8 +11,10 @@ subprocess.run(['wget', '-O', 'PileUp/PU_MC2023.root', 'https://cms-service-dqmd
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("--year", type=str, required=True, help="2022 or 2023")
+    parser.add_argument("--label", type=str, required=True, help="")
     args = parser.parse_args()
     year = args.year
+    label = args.label
     
     file = TFile.Open("PileUp/PU_MC"+year+".root")
     hist_Data = file.Get("pileup")
@@ -21,11 +23,11 @@ if __name__ == "__main__":
     x_max = hist_Data.GetXaxis().GetXmax()
     
     chain1 = TChain("FinalTree")
-    chain1.Add("../Analysis/FinalFiles_B4mu/Analyzed_MC_Bd_4mu_"+year+".root")
-    chain1.Add("../Analysis/FinalFiles_B4mu/Analyzed_MC_Bs_4mu_"+year+".root")
+    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
+    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
 
     chain2 = TChain("FinalTree")
-    chain2.Add("../Analysis/FinalFiles_B4mu/Analyzed_MC_BsJPsiPhi_"+year+".root")
+    chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
 
     print(f"nPileUpInt>>h_MC({n_bins},{x_min},{x_max})")
     

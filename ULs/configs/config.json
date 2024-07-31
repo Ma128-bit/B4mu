@@ -1,7 +1,7 @@
 {
     "Unblind": false,
     "Branches4sel": { 
-                    "bdt_cv_2": [0, 1], 
+                    "bdt_cv": [0, 1], 
                     "vtx_prob": [0, 1]
     },
     "TreeName": "FinalTree",
@@ -9,7 +9,14 @@
     "MC_id": "isMC",
     "weight": "signal_weight",
 
-    "categories": ["A1", "A2"],
-    "A1": "bdt_cv_2 > 0.985",
-    "A2": "bdt_cv_2 > 0.96 && bdt_cv_2 < 0.985"
+    "categories": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"],
+    "A1": "category==0 & bdt_cv > 0.96",
+    "A2": "category==0 & bdt_cv > 0.93 && bdt_cv < 0.96",
+    "A3": "category==0 & bdt_cv > 0.66 && bdt_cv < 0.93",
+    "B1": "category==1 & bdt_cv > 0.87",
+    "B2": "category==1 & bdt_cv > 0.73 && bdt_cv < 0.87",
+    "B3": "category==1 & bdt_cv > 0.44 && bdt_cv < 0.73",
+    "C1": "category==2 & bdt_cv > 0.96",
+    "C2": "category==2 & bdt_cv > 0.89 && bdt_cv < 0.96",
+    "C3": "category==2 & bdt_cv > 0.59 && bdt_cv < 0.89"
 }

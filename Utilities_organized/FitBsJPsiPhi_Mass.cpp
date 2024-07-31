@@ -15,33 +15,34 @@
 using namespace RooFit;
 namespace fs = std::filesystem;
 
-void FitBsJPsiPhi_Mass(TString year="2022") {
+void FitBsJPsiPhi_Mass(TString year="2022", TString label="") {
     // Aprire il file root contenente l'albero
-    TFile *file = new TFile("ROOTFiles/AllControl"+year+".root");
+    TFile *file = new TFile("ROOTFiles_"+label+"/AllControl"+year+".root");
     if (!file || file->IsZombie()) {
-        std::cerr << "Errore nell'apertura del file" << std::endl;
+        std::cerr << "Error opening the file" << std::endl;
         return;
     }
 
     // Ottenere l'albero dal file
     TTree *tree = (TTree*)file->Get("FinalTree");
     if (!tree) {
-        std::cerr << "Errore nell'apertura dell'albero" << std::endl;
+        std::cerr << "Error opening Tree" << std::endl;
         file->Close();
         return;
     }
 
-    fs::path dir_path = "BsJPsiPhi_MassFit";
+    std::string label_str = label.Data();
+    fs::path dir_path = "BsJPsiPhi_MassFit_"+label_str;
 
     // Creare la directory
     try {
         if (fs::create_directory(dir_path)) {
-            std::cout << "Diretory creata con successo: " << dir_path << std::endl;
+            std::cout << "Directory created successfully: " << dir_path << std::endl;
         } else {
-            std::cout << "La directory esiste già o non è stato possibile crearla." << std::endl;
+            std::cout << "The directory already exists or could not be created." << std::endl;
         }
     } catch (const fs::filesystem_error& e) {
-        std::cerr << "Errore: " << e.what() << std::endl;
+        std::cerr << "Error: " << e.what() << std::endl;
     }
     
     //tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 5.9)","isMC==0 && (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3]==4)");
@@ -92,7 +93,7 @@ void FitBsJPsiPhi_Mass(TString year="2022") {
     
     TCanvas *canvas = new TCanvas("canvas", "Fit Result", 900, 600);
     frame->Draw();
-    canvas->SaveAs("BsJPsiPhi_MassFit/Fit_BsJPsiPhi_"+year+".png");
+    canvas->SaveAs("BsJPsiPhi_MassFit_"+label+"/Fit_BsJPsiPhi_"+year+".png");
 
     canvas->Clear();
     canvas->Delete();

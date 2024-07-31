@@ -27,7 +27,7 @@ branches = [
     "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "vtx_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", 
     "dR_max", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", 
     "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "Quadruplet_Mass_eq",
-    "RefittedSV_Mass", "RefittedSV_Mass_err"
+    "RefittedSV_Mass", "RefittedSV_Mass_err","MVASoft1", "MVASoft2", "MVASoft3", "MVASoft4"
 ]
 
 def load_df(isB4mu, year, treename, Files):
@@ -116,6 +116,9 @@ if __name__ == "__main__":
     if not os.path.exists("ROOTFiles_"+label):
         subprocess.run(["mkdir", "ROOTFiles_"+label])
 
+    #Define eta category
+    branches.append("category")
+    df = df.Define("category", "abs(Quadruplet_Eta) < 0.8 ? 0 : (abs(Quadruplet_Eta) < 1.2 ? 1 : 2)")
 
     if isB4mu==True:
         #Filters for omega and phi:
@@ -131,7 +134,7 @@ if __name__ == "__main__":
     else:
         df = df.Filter("isJPsiPhi==1")
         b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err"]
-        #df = df.Define("control_weight", "weight * weight_nVtx")
+        df = df.Define("control_weight", "weight * weight_pileUp")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllControl"+str(year)+".root", branches+b_weights)
     
     print("Performed ",df.GetNRuns()," loops")

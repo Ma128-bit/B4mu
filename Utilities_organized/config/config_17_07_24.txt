@@ -17,5 +17,5 @@ lumi22_postEE=26.5
 lumi23_preBPix=18.3
 lumi23_postBPix=9.4
 
-NData_BsJPsiPhi=159
-NData_err_BsJPsiPhi=14
+NData_BsJPsiPhi=109
+NData_err_BsJPsiPhi=12
