@@ -52,7 +52,7 @@ fi
 cd CrabSubmission
 for i in "${era[@]}"; do
     echo -e "\nData $i"
-    source submit_CRAB.sh ${i} 
+    source submit_CRAB.sh ${i} ${year}
     sleep 1
 done
 cd ..
