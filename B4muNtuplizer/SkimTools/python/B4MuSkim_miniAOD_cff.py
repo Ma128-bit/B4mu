@@ -33,7 +33,7 @@ PatMuons = patMuons.clone(
 looseMuons = cms.EDFilter("PATMuonSelector",
                           src = cms.InputTag("slimmedMuons"),
                           #cut = cms.string('pt > 2 &&  abs(eta)<2.4 && (innerTrack().isNonnull) && (charge!=0) && (innerTrack().hitPattern().numberOfValidPixelHits()>0)'),
-                          cut = cms.string('pt > 1.5 &&  abs(eta)<2.5 && (innerTrack().isNonnull)'),
+                          cut = cms.string('pt > 0. &&  abs(eta)<2.5 && (innerTrack().isNonnull)'),
                           filter = cms.bool(True)
 )
 
@@ -48,7 +48,7 @@ FourMuonsCand = cms.EDProducer("CandViewShallowCloneCombiner",
                          checkCharge = cms.bool(False),
                          #cut = cms.string('(mass < 10) && (mass >0.5)  && (abs(charge)=1) && (abs(daughter(0).vz - daughter(1).vz) < 1) && (abs(daughter(1).vz - daughter(2).vz) < 1) && (abs(daughter(0).vz - daughter(2).vz) < 1)'),
                          #cut = cms.string('(mass < 7) && (mass >4)  && (charge=0)'),
-                         cut = cms.string('(charge=0)'),
+                         cut = cms.string('(mass < 10) && (mass >0.5)'),
                          decay = cms.string("looseMuons looseMuons looseMuons looseMuons")
 )
 
@@ -60,6 +60,7 @@ FourMuonsCandFilter = cms.EDFilter("CandViewCountFilter",
 
 FourMuonsVtxKinFit = cms.EDProducer("KinematicVertexFitCompositeCandProducer",
                                      src = cms.InputTag("FourMuonsCand")
+                                     cut = cms.string('(mass < 7) && (mass >4)'),
                                      )
 
 FourMuonsVtxKalmanFit = cms.EDProducer("KalmanVertexFitCompositeCandProducer",
