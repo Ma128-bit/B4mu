@@ -260,7 +260,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         bool acceptanceCUT = true;
         for(int c : index) {
             //if(abs(MuonEta[c]) > 2.4 || (abs(MuonEta[c]) < 1.2 && MuonPt[c] < 3.5) || (abs(MuonEta[c]) > 1.2 && MuonPt[c] < 2)) {
-            if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 1)) {
+            if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 1) {
                 acceptanceCUT = false;
                 break;
             }
