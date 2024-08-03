@@ -315,10 +315,10 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         if(exit_code<5) exit_code=5;
         
         //CUT 6: Gen Matching only MC
-        if(isMC>0){
-            int genmatch = GenMatching(index, MuonPt, MuonEta, MuonPhi, Mu1_Pt[j], Mu2_Pt[j], Mu3_Pt[j], Mu4_Pt[j], GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
-            if(genmatch!=1) continue;
-        }
+        //if(isMC>0){
+            //int genmatch = GenMatching(index, MuonPt, MuonEta, MuonPhi, Mu1_Pt[j], Mu2_Pt[j], Mu3_Pt[j], Mu4_Pt[j], GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId);
+            //if(genmatch!=1) continue;
+        //}
         //if(exit_code<6) exit_code=6;
         quad_indx.push_back(j);
     }
