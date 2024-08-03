@@ -218,7 +218,8 @@ int GenMatching(vector<int> index, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOp
         double dRpt_min = *dRpt_min_p;
         double dpt_min = dpt_temp[dRpt_minID];
         double dR_min = dR_temp[dRpt_minID];
-        if(dR_min<0.03 && dpt_min<0.08){
+        //if(dR_min<0.03 && dpt_min<0.08){
+        if(dR_min<0.02){
             Gen_matching++;
             Genpt.erase(Genpt.begin() + dRpt_minID);
             Geneta.erase(Geneta.begin() + dRpt_minID);
