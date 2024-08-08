@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     h_vectors = std.vector(TH1F)()
     h_name = std.vector(TString)()
-    histo_file = TFile.Open("PileUp/ratio_histo_"+str(year)+".root")
+    histo_file = TFile.Open("PileUp/ratio_histo_"+str(year)+"_"+label+".root")
     for name in ["Bd", "Bs", "BsJPsiPhi"]:
         if name!= "BsJPsiPhi":
             n = "signal_"
@@ -131,14 +131,15 @@ if __name__ == "__main__":
         df = df.Define("Omegacut", "abs(OS1v1_mass-0.782)>0.04 & abs(OS2v1_mass-0.782)>0.04 & abs(OS1v2_mass-0.782)>0.04 & abs(OS2v2_mass-0.782)>0.04")
         df = df.Define("Psi2scut", "abs(OS1v1_mass-3.686)>0.1 & abs(OS2v1_mass-3.686)>0.1 & abs(OS1v2_mass-3.686)>0.1 & abs(OS2v2_mass-3.686)>0.1")
         
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight", "JPsicut", "Phicut", "Omegacut", "Psi2scut"]
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight", "JPsicut", "Phicut", "Omegacut", "Psi2scut", "bdt_weight"]
         
         df = df.Define("signal_weight", "weight * weight_pileUp * ctau_weight")
+        df = df.Define("bdt_weight", "weight_pileUp * ctau_weight")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllData"+str(year)+".root", branches+b_weights)
     else:
         df = df.Filter("isJPsiPhi==1")
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err"]
-        df = df.Define("control_weight", "weight * weight_pileUp")
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight"]
+        df = df.Define("control_weight", "weight * weight_pileUp * ctau_weight")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllControl"+str(year)+".root", branches+b_weights)
     
     print("Performed ",df.GetNRuns()," loops")

@@ -53,7 +53,7 @@ if __name__ == "__main__":
     hist_ratio_signal.Divide(hist_Data, hist_MC)
     hist_ratio_control.Divide(hist_Data, hist_MC2)
     
-    fout = TFile.Open("PileUp/ratio_histo_"+year+".root","recreate")
+    fout = TFile.Open("PileUp/ratio_histo_"+year+"_"+label+".root","recreate")
     hist_ratio_signal.Write()
     hist_ratio_control.Write()
     fout.Close()
