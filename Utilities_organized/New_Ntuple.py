@@ -118,10 +118,11 @@ if __name__ == "__main__":
 
     #Define eta category
     branches.append("category")
+    branches.append("eta_category")
     branches.append("RefittedSV_Mass_reso")
-    df = df.Define("RefittedSV_Mass_reso", "RefittedSV_Mass/RefittedSV_Mass_err")
-    df = df.Define("category", "RefittedSV_Mass_reso < 0.027 ? 0 : RefittedSV_Mass_reso < 0.038 ? 1 : 2)")
-    #df = df.Define("category", "abs(Quadruplet_Eta) < 0.8 ? 0 : (abs(Quadruplet_Eta) < 1.2 ? 1 : 2)")
+    df = df.Define("RefittedSV_Mass_reso", "sqrt(RefittedSV_Mass_err)")
+    df = df.Define("category", "RefittedSV_Mass_reso < 0.027 ? 0 : RefittedSV_Mass_reso < 0.038 ? 1 : 2")
+    df = df.Define("eta_category", "abs(Quadruplet_Eta) < 0.8 ? 0 : (abs(Quadruplet_Eta) < 1.2 ? 1 : 2)")
 
     if isB4mu==True:
         #Filters for omega and phi:

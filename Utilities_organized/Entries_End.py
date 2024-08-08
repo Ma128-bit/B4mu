@@ -23,7 +23,7 @@ def make_sum(print_lable, file_name, csv = False):
 
 
 if __name__ == "__main__":
-    dir = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_19_07_24/"
+    dir = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_03_08_24/"
     
     Bd_MC = dir+"Analyzed_MC_Bd_4mu_2022.root"
     Bs_MC = dir+"Analyzed_MC_Bs_4mu_2022.root"
