@@ -1,4 +1,4 @@
-from ROOT import TChain, gROOT, gDirectory, TFile, TCanvas, TH1F, kRed
+from ROOT import TChain, gROOT, gDirectory, TFile, TCanvas, TH1F, kRed, kBlue, TLegend
 gROOT.SetBatch(True)
 import math, os, sys, subprocess, argparse
 """
@@ -45,9 +45,9 @@ if __name__ == "__main__":
     c.cd()
     hist_Data.Draw("Histo")
     hist_MC.Draw("Histo same")
-    hist_Data.SetLineColor(ROOT.kRed)    
-    hist_MC.SetLineColor(ROOT.kBlue)  
-    legend = ROOT.TLegend(0.7, 0.7, 0.9, 0.9) 
+    hist_Data.SetLineColor(kRed)    
+    hist_MC.SetLineColor(kBlue)  
+    legend = TLegend(0.7, 0.7, 0.9, 0.9) 
     legend.AddEntry(hist_Data, "Data", "l")  
     legend.AddEntry(hist_MC, "MC", "l") 
     legend.Draw()
