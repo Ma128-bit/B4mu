@@ -142,7 +142,7 @@ TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return "Bd2022";
     if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return "Bd2023";
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return "BsJPsiPhi2022";
-    if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return "BsJPsiPhi2023";
+    if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return "BsJPsiPhi2023";
     
     if(id.Contains("Analyzed_Data_B4mu_2022")) return "Data22";
     if(id.Contains("Analyzed_Data_B4mu_2023")) return "Data23";
@@ -156,7 +156,7 @@ int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return 2;
     if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return 2;
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 3;
-    if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 3;
+    if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return 3;
     
     if(id.Contains("Analyzed_Data_B4mu_2022")) return 0;
     if(id.Contains("Analyzed_Data_B4mu_2023")) return 0;
