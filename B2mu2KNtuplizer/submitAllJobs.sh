@@ -3,7 +3,7 @@
 #    submitAllJobs.sh
 
 helpstring="Usage:
-submitAllJobs.sh [Year]"
+submitAllJobs.sh [Year] [MCflag]"
 
 year=$1
 MCflag=$2
