@@ -46,13 +46,14 @@ void FitBsJPsiPhi_Mass(TString year="2022", TString label="") {
     }
     
     //tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 5.9)","isMC==0 && (isMedium[0]+isMedium[1]+isMedium[2]+isMedium[3]==4)");
-    tree->Draw("Quadruplet_Mass_eq>>h1(52,5.0, 5.9)","isMC==0");
+    //tree->Draw("Quadruplet_Mass_eq>>h1(52, 4.8, 6.1)","isMC==0 && bdt>0.3");
+    tree->Draw("Quadruplet_Mass_eq>>h1(52, 4.8, 6.1)","isMC==0");
     TH1F *h1 = (TH1F*)gDirectory->Get("h1");
     
-    RooRealVar x("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 5.0, 5.9);
+    RooRealVar x("Quadruplet_Mass_eq", "Quadruplet_Mass_eq", 4.8, 6.1);
     x.setRange("R1", 5.0, 5.25);
     x.setRange("R2", 5.55, 5.9);
-    x.setRange("RT", 5.0, 5.9);
+    x.setRange("RT", 4.8, 6.1);
     x.setBins(52);
     
     RooDataHist data("data", h1->GetTitle(), RooArgSet(x), Import(*h1, kFALSE));
@@ -67,6 +68,11 @@ void FitBsJPsiPhi_Mass(TString year="2022", TString label="") {
     RooRealVar lambd("lambd", "lambd", 3.6, 2.0, 4.5);
     RooRealVar gamm("gamm", "gamm", 4.5, 3.0, 6.0);
     RooRealVar delta("delta", "delta", 175, 100, 300);
+
+    //RooRealVar mu("mu", "mu", 5.46, 5.0, 5.90);
+    //RooRealVar lambd("lambd", "lambd", 0.01, 100);
+    //RooRealVar gamm("gamm", "gamm", 0.01, 100);
+    //RooRealVar delta("delta", "delta", 0.01, 400);
     RooJohnson gauss_pdf("signal_Bs", "signal_Bs", x, mu, lambd, gamm, delta);
          
     // Creare la gaussiana
@@ -76,7 +82,7 @@ void FitBsJPsiPhi_Mass(TString year="2022", TString label="") {
         
     // Creare il modello di fit combinando fondo e gaussiana
     RooRealVar nsig("nsig", "Numero di segnali", 60, 40, 1000);
-    RooRealVar nbkg("nbkg", "Numero di background", h1->GetEntries(), 40, 2*h1->GetEntries());
+    RooRealVar nbkg("nbkg", "Numero di background", h1->GetEntries(), 1, 2*h1->GetEntries());
     
 
     RooAddPdf model("model", "Signal + Background", RooArgList(gauss_pdf,  exp_bkg), RooArgList(nsig, nbkg));

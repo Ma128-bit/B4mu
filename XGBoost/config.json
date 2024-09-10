@@ -16,11 +16,9 @@
         "evt", "run", "lumi",
         "isMC", "year","ID",
         "category", "RefittedSV_Mass", "RefittedSV_Mass_err",
-        "Quadruplet_Mass",
         "OS1v1_mass", "OS2v1_mass",
         "OS1v2_mass", "OS2v2_mass",
-        "weight_pileUp",
-        "weight_pileUp_err",
+        "Quadruplet_Mass", "weight_pileUp", "weight_pileUp_err",
         "weight", "weight_err",
         "signal_weight", "bdt_weight",
         "JPsicut", "Phicut", "Omegacut", "Psi2scut"
@@ -30,10 +28,12 @@
         {"device": "cuda"},
         {"objective": "binary:logistic"},
         {"max_depth": 8},
+        {"seed": 1986},
         {"learning_rate": 0.005},
         {"n_estimators": 1000},
         {"subsample": 0.6},
-        {"min_child_weight": 10},
+        {"min_child_weight": 1.72e-3},
+        {"colsample_bytree": 0.7},
         {"gamma": 10},
         {"reg_alpha": 0.6},
         {"reg_lambda": 1.2},
@@ -48,8 +48,8 @@
     "output_folder": "BDT_results",
     "number_of_splits": 10,
     "weight_column": "bdt_weight",
-    "normalize_samples": true,
+    "normalize_samples": false,
     "index_branch": "evt",
     "out_tree_name": "FinalTree",
-    "input_files": ["../Utilities_organized/ROOTFiles_03_08_24/AllData2022.root", "../Utilities_organized/ROOTFiles_03_08_24/AllData2023.root"]
+    "input_files": ["../Utilities_organized/ROOTFiles_04_09_24/AllData2022.root", "../Utilities_organized/ROOTFiles_04_09_24/AllData2023.root"]
 }

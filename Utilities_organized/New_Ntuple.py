@@ -77,6 +77,7 @@ if __name__ == "__main__":
     df = df.Redefine("isMC", "isMC2")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_err", "add_weight_err(rdfslot_, rdfsampleinfo_)")
+    df = df.DefinePerSample("w_mc", "add_wDMC(rdfslot_, rdfsampleinfo_)")
 
     # Bs LifeTime reweithg: taken from Rebecca: https://gitlab.cern.ch/regartner/b4mu-analysis/-/blob/master/data_MC_correction/bs_lifetime_reweighting.py
     ctau_actual = 4.4129450e-01  # from EvtGen  # in mm -> tau = 1.47e-12
@@ -126,18 +127,20 @@ if __name__ == "__main__":
 
     if isB4mu==True:
         #Filters for omega and phi:
-        df = df.Define("JPsicut", "abs(OS1v1_mass-3.096)>0.14 & abs(OS2v1_mass-3.096)>0.12 & abs(OS1v2_mass-3.096)>0.12 & abs(OS2v2_mass-3.096)>0.12")
-        df = df.Define("Phicut", "abs(OS1v1_mass-1.019)>0.04 & abs(OS2v1_mass-1.019)>0.04 & abs(OS1v2_mass-1.019)>0.04 & abs(OS2v2_mass-1.019)>0.04")
-        df = df.Define("Omegacut", "abs(OS1v1_mass-0.782)>0.04 & abs(OS2v1_mass-0.782)>0.04 & abs(OS1v2_mass-0.782)>0.04 & abs(OS2v2_mass-0.782)>0.04")
-        df = df.Define("Psi2scut", "abs(OS1v1_mass-3.686)>0.1 & abs(OS2v1_mass-3.686)>0.1 & abs(OS1v2_mass-3.686)>0.1 & abs(OS2v2_mass-3.686)>0.1")
+        df = df.Define("JPsicut", "abs(OS1v1_mass-3.0969)>0.1 & abs(OS2v1_mass-3.0969)>0.1 & abs(OS1v2_mass-3.0969)>0.1 & abs(OS2v2_mass-3.0969)>0.1")
+        df = df.Define("Phicut", "abs(OS1v1_mass-1.019455)>0.07 & abs(OS2v1_mass-1.019455)>0.07 & abs(OS1v2_mass-1.019455)>0.07 & abs(OS2v2_mass-1.019455)>0.07")
+        df = df.Define("Omegacut", "abs(OS1v1_mass-0.78265)>0.08 & abs(OS2v1_mass-0.78265)>0.08 & abs(OS1v2_mass-0.78265)>0.08 & abs(OS2v2_mass-0.78265)>0.08")
+        df = df.Define("Psi2scut", "abs(OS1v1_mass-3.686097)>0.1 & abs(OS2v1_mass-3.686097)>0.1 & abs(OS1v2_mass-3.686097)>0.1 & abs(OS2v2_mass-3.686097)>0.1")
         
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight", "JPsicut", "Phicut", "Omegacut", "Psi2scut", "bdt_weight"]
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight", "JPsicut", "Phicut", "Omegacut", "Psi2scut", "bdt_weight", "w_mc"]
         
         df = df.Define("signal_weight", "weight * weight_pileUp * ctau_weight")
-        df = df.Define("bdt_weight", "weight_pileUp * ctau_weight")
+        df = df.Define("bdt_weight", "w_mc * weight_pileUp * ctau_weight")
+        df = df.Filter("JPsicut==1 && Phicut==1 && Omegacut==1 && Psi2scut==1 && FlightDistBS_SV_Significance>0")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllData"+str(year)+".root", branches+b_weights)
     else:
-        df = df.Filter("isJPsiPhi==1")
+        #df = df.Filter("isJPsiPhi==1 && vtx_prob>0")
+        df = df.Filter("std::abs(1.019445-Dimu_OS_min)<0.07 && std::abs(3.0969-Dimu_OS_max)<0.1")
         b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight"]
         df = df.Define("control_weight", "weight * weight_pileUp * ctau_weight")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllControl"+str(year)+".root", branches+b_weights)

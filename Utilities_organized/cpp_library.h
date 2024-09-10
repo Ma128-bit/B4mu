@@ -54,6 +54,11 @@ double GENeff_Bd22, GENeff_Bs22, GENeff_BsJPsiPhi22, GENeff_Bd23, GENeff_Bs23, G
 double BdBR = 1.0, BsBR = 1.0, BsJPsiPhiBR = 1.738e-8;
 double NData_BsJPsiPhi, NData_err_BsJPsiPhi, NData22_BsJPsiPhi, NData22_err_BsJPsiPhi, NData23_BsJPsiPhi, NData23_err_BsJPsiPhi;
 
+double NSidebans, NSignal;
+
+double fs_fd_ratio = 0.222;
+double fs_fd_ratio_unc = 0.009;
+
 void loadInfo(const std::string& inputString){
     config_file = inputString;
     std::map<std::string, std::string> config = readConfigFile(config_file); 
@@ -81,6 +86,9 @@ void loadInfo(const std::string& inputString){
     ANAeff_Bs23 = N_Bs23/N0_Bs23;
     ANAeff_BsJPsiPhi23 = N_BsJPsiPhi23/N0_BsJPsiPhi23;
 
+    cout<<"ANAeff: Bd22: "<<ANAeff_Bd22<<" Bs22: "<<ANAeff_Bs22<<" BsJPsiPhi22: "<<ANAeff_BsJPsiPhi22<<endl;
+    cout<<"ANAeff: Bd23: "<<ANAeff_Bd23<<" Bs23: "<<ANAeff_Bs23<<" BsJPsiPhi23: "<<ANAeff_BsJPsiPhi23<<endl;
+
     lumi22_preEE = std::stod(config["lumi22_preEE"]);
     lumi22_postEE = std::stod(config["lumi22_postEE"]);
     lumi23_preBPix = std::stod(config["lumi23_preBPix"]);
@@ -94,6 +102,17 @@ void loadInfo(const std::string& inputString){
     GENeff_Bs23 = (0.018755007*lumi23_preBPix + 0.018755007*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
     GENeff_BsJPsiPhi23 = (0.002306189*lumi23_preBPix + 0.002376499*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
 
+    //From PYTHIA to real GEN eff (see AN, Sec 6)
+    GENeff_Bd22 = GENeff_Bd22/0.676; 
+    GENeff_Bs22 = GENeff_Bs22/0.189;
+    GENeff_BsJPsiPhi22 = GENeff_BsJPsiPhi22/0.189;
+    GENeff_Bd23 = GENeff_Bd23/0.676; 
+    GENeff_Bs23 = GENeff_Bs23/0.189;
+    GENeff_BsJPsiPhi23 = GENeff_BsJPsiPhi23/0.189;
+
+    cout<<"GENeff: Bd22: "<<GENeff_Bd22<<" Bs22: "<<GENeff_Bs22<<" BsJPsiPhi22: "<<GENeff_BsJPsiPhi22<<endl;
+    cout<<"GENeff: Bd23: "<<GENeff_Bd23<<" Bs23: "<<GENeff_Bs23<<" BsJPsiPhi23: "<<GENeff_BsJPsiPhi23<<endl;
+
     NData_BsJPsiPhi = std::stod(config["NData_BsJPsiPhi"]);
     NData_err_BsJPsiPhi = std::stod(config["NData_err_BsJPsiPhi"]);
 
@@ -102,6 +121,12 @@ void loadInfo(const std::string& inputString){
 
     NData23_BsJPsiPhi = NData_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
     NData23_err_BsJPsiPhi = NData_err_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
+
+    cout<<"NData22_BsJPsiPhi: "<<NData22_BsJPsiPhi<<endl;
+    cout<<"NData23_BsJPsiPhi: "<<NData23_BsJPsiPhi<<endl;
+    
+    NSidebans = std::stod(config["NSidebans"]);
+    NSignal = std::stod(config["NSignal"]);
 }
 
 struct add_index{
@@ -111,6 +136,15 @@ struct add_index{
         return i;
     }
 };
+
+double add_wDMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){//weigth Number ot Data sidebands / Number of MC signal --> to have the seme number of events
+    double out = NSidebans/NSignal;
+    if(id.Contains("Analyzed_MC_Bs_4mu_202")) return out;
+    if(id.Contains("Analyzed_MC_Bd_4mu_202")) return out;
+    if(id.Contains("Analyzed_MC_BsJPsiPhi_202")) return 1;    
+    if(id.Contains("Analyzed_Data_B4mu_202")) return 1;
+    else return -1;
+}
 
 double weight_to_new_ctau(double old_ctau, double new_ctau, double ct){
     /*
@@ -165,12 +199,12 @@ int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 
 
 double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
-    //cout<<((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi<<endl;
+    //cout<<((GENeff_Bs22*ANAeff_Bs22)/(GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))<<endl;
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi<<endl;
     if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi/N_Bs22;
     if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/N_Bs23;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi/N_Bd22;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/N_Bd23;
+    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 1;
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return 1;
         
@@ -183,8 +217,8 @@ double add_weight_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi<<endl;
     if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi/N_Bs22;
     if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/N_Bs23;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi/N_Bd22;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/N_Bd23;
+    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_err_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_err_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 1;
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return 1;
         
