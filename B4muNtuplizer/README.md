@@ -1,5 +1,11 @@
 # Ntuplizer code for the B&rarr;4mu search at Run 3
 
+## Submit all era in a year:
+```
+submitAllJobs.sh [Year] [MCflag]
+```
+* `[year]` = `2022` : `[MCflag]` = `true or false`
+
 ## Run ntuplizer on a full dataset:
 ```
 cd CrabSubmission
