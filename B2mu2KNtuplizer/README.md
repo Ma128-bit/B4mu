@@ -4,7 +4,7 @@
 ```
 submitAllJobs.sh [Year] [MCflag]
 ```
-* `[year]` = `2022` : `[MCflag]` = `true or false`
+* `[year]` = `2022` or  `2023`: `[MCflag]` = `true or false`
 
 ## Run ntuplizer on a full dataset:
 ```
