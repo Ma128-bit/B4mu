@@ -64,6 +64,35 @@ Bool_t isPairDeltaZGood(double vz1, double vz2, double vz3, double vz4, double D
     else return false;
 }
 
+double DeltaZmax(vector<int> index, ROOT::VecOps::RVec<double> Muon_vz){
+    double vz1 = Muon_vz.at(index.at(0));
+    double vz2 = Muon_vz.at(index.at(1));
+    double vz3 = Muon_vz.at(index.at(2));
+    double vz4 = Muon_vz.at(index.at(3));
+    double dZ12 = TMath::Abs(vz2 - vz1);
+    double dZ13 = TMath::Abs(vz3 - vz1);
+    double dZ14 = TMath::Abs(vz4 - vz1);
+    double dZ23 = TMath::Abs(vz3 - vz2);
+    double dZ24 = TMath::Abs(vz4 - vz2);
+    double dZ34 = TMath::Abs(vz4 - vz3);
+
+    return std::max({dZ12, dZ13, dZ14, dZ23, dZ24, dZ34});
+}
+
+int HLT_opposite_charge(ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonCharge){
+    int charge=0;
+    for(int k=0; k<2; k++){
+        for(int w=0; w<MuonPt.size(); w++){
+            if (deltaR(MuonEta_HLT.at(k), MuonEta.at(w), MuonPhi_HLT.at(k), MuonPhi.at(w))<0.1){
+                charge = charge + MuonCharge.at(w);
+                break;
+            }
+        }
+    }
+    
+    return charge;
+}
+
 double Cos3D_(double QuadrupletVtx_x, double QuadrupletVtx_y, double QuadrupletVtx_z, double RefittedPV_x, double RefittedPV_y, double RefittedPV_z, double Quadruplet_Pt, double Quadruplet_Eta,double Quadruplet_Phi){
     // Computes the angle between the momentum vector of the 4mu quadruplet (b) and the vector from the primary vertex (a)
     double a_x = QuadrupletVtx_x - RefittedPV_x;
@@ -284,7 +313,7 @@ int GenMatching_4mu_signal(vector<int> index, ROOT::VecOps::RVec<float> MuonPt, 
     else return 1;
 }
 
-vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> RefTrack1_Pt, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> vtx_prob, ROOT::VecOps::RVec<double> QuadrupletVtx_x, ROOT::VecOps::RVec<double> QuadrupletVtx_y, ROOT::VecOps::RVec<double> RefittedPV_x, ROOT::VecOps::RVec<double> RefittedPV_y, ROOT::VecOps::RVec<double> Quadruplet_Pt, ROOT::VecOps::RVec<double> Quadruplet_Eta, ROOT::VecOps::RVec<double> Quadruplet_Phi, ROOT::VecOps::RVec<double> Quadruplet_Charge){
+vector<int> B4mu_QuadSel(int isMC, uint64_t evt, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> RefTrack1_Pt, ROOT::VecOps::RVec<double> Mu1_Pt, ROOT::VecOps::RVec<double> Mu2_Pt, ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<int> NGoodQuadruplets, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2, ROOT::VecOps::RVec<double> Quadruplet_Mass, ROOT::VecOps::RVec<double> Muon_isGlobal, ROOT::VecOps::RVec<double> Muon_isPF, ROOT::VecOps::RVec<double> Muon_isLoose, ROOT::VecOps::RVec<double> Muon_isMedium, ROOT::VecOps::RVec<double> Muon_isTight, ROOT::VecOps::RVec<double> Muon_isSoft, ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT,  ROOT::VecOps::RVec<double> FlightDistBS_SV_Significance, ROOT::VecOps::RVec<double> Muon_vz, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt_v2, ROOT::VecOps::RVec<double> GenParticle_Eta_v2, ROOT::VecOps::RVec<double> GenParticle_Phi_v2,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> vtx_prob, ROOT::VecOps::RVec<double> QuadrupletVtx_x, ROOT::VecOps::RVec<double> QuadrupletVtx_y, ROOT::VecOps::RVec<double> RefittedPV_x, ROOT::VecOps::RVec<double> RefittedPV_y, ROOT::VecOps::RVec<double> Quadruplet_Pt, ROOT::VecOps::RVec<double> Quadruplet_Eta, ROOT::VecOps::RVec<double> Quadruplet_Phi, ROOT::VecOps::RVec<double> Quadruplet_Charge){
     vector<int> quad_indx;
     int exit_code = -1;
     
@@ -292,7 +321,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         // Pre-selections 
         if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99 || RefTrack1_Pt.at(j) == -99){ continue;}
         if(!((int)Quadruplet_Charge.at(j) == 0)) { continue;}
-        //if(!(vtx_prob.at(j)>0 && FlightDistBS_SV_Significance.at(j)>0)){ continue;} 
+        //if(!(vtx_prob.at(j)>0 && FlightDistBS_SV_Significance.at(j)>4)){ continue;} 
         if(!(vtx_prob.at(j)>0)){ continue;} 
         //if(!(Cos2D_(QuadrupletVtx_x.at(j), QuadrupletVtx_y.at(j), RefittedPV_x.at(j), RefittedPV_y.at(j), Quadruplet_Pt.at(j), Quadruplet_Eta.at(j), Quadruplet_Phi.at(j))>0.95)) { continue;}
         if(exit_code<0) exit_code=0;
@@ -314,7 +343,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         bool acceptanceCUT = true;
         for(int c : index) {
             //if(abs(MuonEta[c]) > 2.4 || (abs(MuonEta[c]) < 1.2 && MuonPt[c] < 3.5) || (abs(MuonEta[c]) > 1.2 && MuonPt[c] < 2)) {
-            if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 1) {
+            if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 2) {
                 acceptanceCUT = false;
                 break;
             }
@@ -323,6 +352,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
         if(exit_code<2) exit_code=2;
         
         //Cut3 invariant mass
+        //if(!(Quadruplet_Mass.at(j)>4 && Quadruplet_Mass.at(j)<7)) continue;
         if(!(Quadruplet_Mass.at(j)>4.5 && Quadruplet_Mass.at(j)<6.5)) continue;
         if(exit_code<3) exit_code=3;
         
@@ -335,6 +365,7 @@ vector<int> B4mu_QuadSel(int isMC, int evt, ROOT::VecOps::RVec<float> MuonPt, RO
             isPF += Muon_isPF[k];
         }
         if(!(isPF==4 && isGlobal==4 && isMedium==4)) continue;
+        //if(!(isLoose==4)) continue;
         if(exit_code<4) exit_code=4;
         
         //Cut5 HLT Trigger Matching
@@ -435,6 +466,7 @@ vector<int> B2muKpi_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RV
     return quad_indx;
 }
 
+
 vector<int> B2mu2K_CombSel( ROOT::VecOps::RVec<double> Mu3_Pt, ROOT::VecOps::RVec<double> Mu4_Pt, ROOT::VecOps::RVec<double> Mu3_Eta, ROOT::VecOps::RVec<double> Mu3_Phi, ROOT::VecOps::RVec<double> Mu4_Phi, ROOT::VecOps::RVec<double> Mu4_Eta, ROOT::VecOps::RVec<double> QuadrupletVtx_Chi2){
     vector<int> quad_indx(QuadrupletVtx_Chi2.size(), 1);
     return quad_indx;
@@ -482,7 +514,7 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
         //if( !(isPairDeltaZGood(vz1, vz2, vz3, vz4, 1) )) continue;
         
         //Cut3 invariant mass
-        if(!(Quadruplet_Mass.at(j)>4.0 && Quadruplet_Mass.at(j)<7.0)) continue;
+        if(!(Quadruplet_Mass.at(j)>4.5 && Quadruplet_Mass.at(j)<6.5)) continue;
         if(exit_code<3) exit_code=3;
         
         //Cut4 isGlobal and isPF

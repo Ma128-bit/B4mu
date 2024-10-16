@@ -59,6 +59,8 @@ double NSidebans, NSignal;
 double fs_fd_ratio = 0.222;
 double fs_fd_ratio_unc = 0.009;
 
+double bdt_eff_contol=1, bdt_eff_sigd=1, bdt_eff_sigs=1;
+
 void loadInfo(const std::string& inputString){
     config_file = inputString;
     std::map<std::string, std::string> config = readConfigFile(config_file); 
@@ -77,6 +79,11 @@ void loadInfo(const std::string& inputString){
     N_Bd23 = std::stod(config["N_Bd23"]);
     N_Bs23 = std::stod(config["N_Bs23"]);
     N_BsJPsiPhi23 = std::stod(config["N_BsJPsiPhi23"]);
+
+    bdt_eff_contol=std::stod(config["bdt_eff_contol"]);
+    
+    bdt_eff_sigd=std::stod(config["bdt_eff_sigd"]);
+    bdt_eff_sigs=std::stod(config["bdt_eff_sigs"]);
 
     ANAeff_Bd22 = N_Bd22/N0_Bd22;
     ANAeff_Bs22 = N_Bs22/N0_Bs22;
@@ -201,10 +208,10 @@ int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((GENeff_Bs22*ANAeff_Bs22)/(GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))<<endl;
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi<<endl;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi/N_Bs22;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/N_Bs23;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
-    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi/N_Bs22;
+    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/N_Bs23;
+    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 1;
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return 1;
         
@@ -215,10 +222,10 @@ double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 double add_weight_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi<<endl;
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi<<endl;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi/N_Bs22;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/N_Bs23;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_err_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
-    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_err_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi/N_Bs22;
+    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/N_Bs23;
+    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_err_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_err_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 1;
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return 1;
         
@@ -277,3 +284,40 @@ struct PV_WeightsComputer{
         }
     }
 };
+
+double NewMassEqation(double OS1v1_mass, double OS2v1_mass, double OS1v2_mass, double OS2v2_mass, int category, double mass){
+    std::map<std::string, std::vector<std::vector<double>>> cuts = {
+        {"Jpsi", {{75., 60.}, {110., 85.}, {140., 110.}}},
+        {"phi", {{30., 30.}, {50., 35.}, {55., 44.}}}
+    };
+    double diff1, diff2, diff1v2, diff2v2;
+
+    if (((1.019461-OS1v1_mass)>-(cuts["phi"][category][1]/1000)) && ((1.019461-OS1v1_mass)<(cuts["phi"][category][0]/1000)) && ((3.0969-OS2v1_mass)<(cuts["Jpsi"][category][0]/1000)) && ((3.0969-OS2v1_mass)>-(cuts["Jpsi"][category][1]/1000))){
+        diff1 = 1.019461-OS1v1_mass + 3.0969-OS2v1_mass;
+    }
+    else {diff1= 99.;}
+    
+    if (((1.019461-OS2v1_mass)>-(cuts["phi"][category][1]/1000)) && ((1.019461-OS2v1_mass)<(cuts["phi"][category][0]/1000)) && ((3.0969-OS1v1_mass)<(cuts["Jpsi"][category][0]/1000)) && ((3.0969-OS1v1_mass)>-(cuts["Jpsi"][category][1]/1000))) {
+        diff2 = 1.019461-OS2v1_mass + 3.0969-OS1v1_mass;
+    }
+    else {diff2= 99.;}
+
+    if (((1.019461-OS1v2_mass)>-(cuts["phi"][category][1]/1000)) && ((1.019461-OS1v2_mass)<(cuts["phi"][category][0]/1000)) && ((3.0969-OS2v2_mass)<(cuts["Jpsi"][category][0]/1000)) && ((3.0969-OS2v2_mass)>-(cuts["Jpsi"][category][1]/1000))){
+        diff1v2 = 1.019461-OS1v2_mass + 3.0969-OS2v2_mass;
+    }
+    else {diff1v2= 99.;}
+    
+    if (((1.019461-OS2v2_mass)>-(cuts["phi"][category][1]/1000)) && ((1.019461-OS2v2_mass)<(cuts["phi"][category][0]/1000)) && ((3.0969-OS1v2_mass)<(cuts["Jpsi"][category][0]/1000)) && ((3.0969-OS1v2_mass)>-(cuts["Jpsi"][category][1]/1000))) {
+        diff2v2 = 1.019461-OS2v2_mass + 3.0969-OS1v2_mass;
+    }
+    else {diff2v2= 99.;}
+
+    double min_ = 120;
+    if(diff1<min_) { min_ = diff1;}
+    if(diff2<min_) { min_ = diff2;}
+    if(diff1v2<min_) { min_ = diff1v2;}
+    if(diff2v2<min_) { min_ = diff2v2;}
+
+    if(min_!=99) { return mass + min_;}
+    else {return -99;}
+}

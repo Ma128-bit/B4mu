@@ -101,6 +101,17 @@ def MVA_inputs(rdf, branches):
     rdf = rdf.Define("dR_max", "dR_Max(Quadruplet_Eta, Quadruplet_Phi, Mu1_Eta, Mu1_Phi, Mu2_Eta, Mu2_Phi, Mu3_Eta, Mu3_Phi, Mu4_Eta, Mu4_Phi)")
     return rdf
 
+def HLT_quantities(rdf, branches):
+    branches = branches + ["HLT_pt_mu1","HLT_pt_mu2","HLT_eta_mu1","HLT_eta_mu2","HLT_phi_mu1","HLT_phi_mu2", "HLT_opposite_charge"]
+    rdf = rdf.Define("HLT_pt_mu1", flat0D_double(0), ["MuonPt_HLT"])
+    rdf = rdf.Define("HLT_pt_mu2", flat0D_double(1), ["MuonPt_HLT"])
+    rdf = rdf.Define("HLT_eta_mu1", flat0D_double(0), ["MuonEta_HLT"])
+    rdf = rdf.Define("HLT_eta_mu2", flat0D_double(1), ["MuonEta_HLT"])
+    rdf = rdf.Define("HLT_phi_mu1", flat0D_double(0), ["MuonPhi_HLT"])
+    rdf = rdf.Define("HLT_phi_mu2", flat0D_double(1), ["MuonPhi_HLT"])
+    rdf = rdf.Define("HLT_opposite_charge", "HLT_opposite_charge(MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, MuonPt, MuonEta, MuonPhi, MuonCharge)")
+    return rdf, branches
+
 def DiMuVar(rdf, branches, vertex_chi2):
     #Dimuon masses
     rdf = rdf.Define("Dimuon_index","Dimuon(mu_index, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, MuonPt, MuonEta, MuonPhi, MuonCharge)")
@@ -131,7 +142,7 @@ def DiMuVar(rdf, branches, vertex_chi2):
     rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(Dimu_OS1_1, Dimu_OS1_2, Dimu_OS2_1, Dimu_OS2_2)")
     rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
     rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
-    rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
+    rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, RefittedSV_Mass)")
     rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
     return rdf
 
@@ -154,11 +165,13 @@ def DiMuVar_2(rdf, branches):
     branches.append("Dimu_OS_max")
     branches.append("Dimu_OS_min")
     branches.append("Quadruplet_Mass_eq")
+    branches.append("Quadruplet_Mass_eq_old")
     branches.append("isJPsiPhi")
     rdf = rdf.Define("DimuonMassfinal","DimuonMassfinal(OS1v1_mass, OS2v1_mass, OS1v2_mass, OS2v2_mass)")
     rdf = rdf.Define("Dimu_OS_max", flat0D_double(0), ["DimuonMassfinal"])
     rdf = rdf.Define("Dimu_OS_min", flat0D_double(1), ["DimuonMassfinal"])
-    rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
+    rdf = rdf.Define("Quadruplet_Mass_eq_old","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, Quadruplet_Mass)")
+    rdf = rdf.Define("Quadruplet_Mass_eq","BsJPsiPhiMass(Dimu_OS_max, Dimu_OS_min, RefittedSV_Mass)")
     rdf = rdf.Define("isJPsiPhi","BsJPsiPhi(Dimu_OS_max, Dimu_OS_min)")
 
     return rdf
@@ -243,17 +256,19 @@ if __name__ == "__main__":
     #Find best Quadruplet
     rdf = rdf.Define("isMC", add_int(isMC))
     if(analysis_type=="B4mu"):
-        rdf = rdf.Define("Quadruplet_indexs","B4mu_QuadSel(isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, Quadruplet_Charge)")
+        rdf = rdf.Define("Quadruplet_indexs","B4mu_QuadSel(isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, RefittedSV_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, Quadruplet_Charge)")
     else:
         rdf = rdf.Define("remove_duplicate",analysis_type+"_CombSel(Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, QuadrupletVtx_Chi2)")
-        rdf = rdf.Define("Quadruplet_indexs","B2muX_QuadSel(remove_duplicate, isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, NGoodQuadruplets, QuadrupletVtx_Chi2, Quadruplet_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
+        rdf = rdf.Define("Quadruplet_indexs","B2muX_QuadSel(remove_duplicate, isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, NGoodQuadruplets, QuadrupletVtx_Chi2, RefittedSV_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
 
-    branches=["evt", "isMC", "run", "lumi", "nPileUpInt", "PVCollection_Size"]
+    branches=["evt", "isMC", "run", "lumi", "nPileUpInt", "PVCollection_Size", "dz_max"]
     rdf = rdf.Define("Quadruplet_index", flat0D_int(0), ["Quadruplet_indexs"])
     rdf = rdf.Filter("Quadruplet_index>-1")
     
     rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
     rdf = rdf.Define("mu_index", "get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
+    rdf = rdf.Define("dz_max", "DeltaZmax(mu_index, Muon_vz)")
+    
     
     if(analysis_type=="B4mu"):
         rdf, branches = MuonIDs(rdf, branches) #Add muonIDs
@@ -263,6 +278,7 @@ if __name__ == "__main__":
     if(analysis_type=="B4mu"):
         #rdf = DiMuVar(rdf, branches, vertex_chi2) #Define Di-Muon variables
         rdf = DiMuVar_2(rdf, branches) #Define Di-Muon variables
+        rdf, branches = HLT_quantities(rdf, branches)
         rdf = Gen_ct(rdf, branches, analysis_type, isMC)
         #rdf = GenVar(rdf, branches, isMC) #Gen-Level variables for control channel
 
@@ -283,17 +299,18 @@ if __name__ == "__main__":
         output_dir= output_dir + "/"
 
     if(analysis_type!="B4mu"):
-        rdf = rdf.Filter("Quadruplet_Mass>4.5 && Quadruplet_Mass<6.5")
+        rdf = rdf.Filter("RefittedSV_Mass>4.5 && RefittedSV_Mass<6.5")
         rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
         rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
     
     
     rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+".root", branches)
-        
+    
     print(time.ctime(time.time()), " -- Performed ",rdf.GetNRuns()," loops")
+    end = time.time()
+
     del rdf
     del branches
-    end = time.time()
 
     print('Partial execution time ', end-start_2)
     print('Total execution time ', end-start)

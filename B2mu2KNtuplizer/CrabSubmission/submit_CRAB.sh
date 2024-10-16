@@ -168,12 +168,15 @@ if [[ "$era" != *"MC"* ]]; then
         sed -i "s#DATASET_ID#${Data_ID[${i}]}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_era${era}/CRAB_stream_${i}.py"
         sed -i "s#GOLDEN_JSON_PATH#${golden_json}#g" "${year}_era${era}/CRAB_stream_${i}.py"
-        cd "${year}_era${era}"
-        crab submit -c "CRAB_stream_${i}.py"
-        cd ..
-        echo "Stream $i submitted!"
-        sleep 3
     done
+    cd "${year}_era${era}"
+    for i in {0..7}; do
+        crab submit -c "CRAB_stream_${i}.py"
+        echo "Stream $i submitted!"
+        sleep 1
+    done
+    cd ..
+
 else
     mkdir -p "${year}_${era}"
     echo "${era} - ${year} is selected"
@@ -189,14 +192,17 @@ else
         sed -i "s#FILE_TO_SUBMIT_PATH#${path}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
         sed -i "s#INPUT_TYPE#${input_type}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
         sed -i "s#B_TYPE#${label[${j}]}#g" "${year}_${era}/CRAB_MC_${label[${j}]}.py"
-        cd "${year}_${era}"
-        crab submit -c "CRAB_MC_${label[${j}]}.py"
-        cd ..
-        echo "${era} - $j submitted!"
         ((j++))
-        sleep 3
     done
-
+    w=0
+    cd "${year}_${era}"
+    for i in "${datasets[@]}"; do
+        crab submit -c "CRAB_MC_${label[${w}]}.py"
+        echo "${era} - $w submitted!"
+        ((w++))
+        sleep 1
+    done
+    cd ..
 fi
 
 
