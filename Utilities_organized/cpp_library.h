@@ -59,8 +59,6 @@ double NSidebans, NSignal;
 double fs_fd_ratio = 0.222;
 double fs_fd_ratio_unc = 0.009;
 
-double bdt_eff_contol=1, bdt_eff_sigd=1, bdt_eff_sigs=1;
-
 void loadInfo(const std::string& inputString){
     config_file = inputString;
     std::map<std::string, std::string> config = readConfigFile(config_file); 
@@ -80,11 +78,6 @@ void loadInfo(const std::string& inputString){
     N_Bs23 = std::stod(config["N_Bs23"]);
     N_BsJPsiPhi23 = std::stod(config["N_BsJPsiPhi23"]);
 
-    bdt_eff_contol=std::stod(config["bdt_eff_contol"]);
-    
-    bdt_eff_sigd=std::stod(config["bdt_eff_sigd"]);
-    bdt_eff_sigs=std::stod(config["bdt_eff_sigs"]);
-
     ANAeff_Bd22 = N_Bd22/N0_Bd22;
     ANAeff_Bs22 = N_Bs22/N0_Bs22;
     ANAeff_BsJPsiPhi22 = N_BsJPsiPhi22/N0_BsJPsiPhi22;
@@ -93,8 +86,8 @@ void loadInfo(const std::string& inputString){
     ANAeff_Bs23 = N_Bs23/N0_Bs23;
     ANAeff_BsJPsiPhi23 = N_BsJPsiPhi23/N0_BsJPsiPhi23;
 
-    cout<<"ANAeff: Bd22: "<<ANAeff_Bd22<<" Bs22: "<<ANAeff_Bs22<<" BsJPsiPhi22: "<<ANAeff_BsJPsiPhi22<<endl;
-    cout<<"ANAeff: Bd23: "<<ANAeff_Bd23<<" Bs23: "<<ANAeff_Bs23<<" BsJPsiPhi23: "<<ANAeff_BsJPsiPhi23<<endl;
+    //cout<<"ANAeff: Bd22: "<<ANAeff_Bd22<<" Bs22: "<<ANAeff_Bs22<<" BsJPsiPhi22: "<<ANAeff_BsJPsiPhi22<<endl;
+    //cout<<"ANAeff: Bd23: "<<ANAeff_Bd23<<" Bs23: "<<ANAeff_Bs23<<" BsJPsiPhi23: "<<ANAeff_BsJPsiPhi23<<endl;
 
     lumi22_preEE = std::stod(config["lumi22_preEE"]);
     lumi22_postEE = std::stod(config["lumi22_postEE"]);
@@ -117,20 +110,17 @@ void loadInfo(const std::string& inputString){
     GENeff_Bs23 = GENeff_Bs23/0.189;
     GENeff_BsJPsiPhi23 = GENeff_BsJPsiPhi23/0.189;
 
-    cout<<"GENeff: Bd22: "<<GENeff_Bd22<<" Bs22: "<<GENeff_Bs22<<" BsJPsiPhi22: "<<GENeff_BsJPsiPhi22<<endl;
-    cout<<"GENeff: Bd23: "<<GENeff_Bd23<<" Bs23: "<<GENeff_Bs23<<" BsJPsiPhi23: "<<GENeff_BsJPsiPhi23<<endl;
+    //cout<<"GENeff: Bd22: "<<GENeff_Bd22<<" Bs22: "<<GENeff_Bs22<<" BsJPsiPhi22: "<<GENeff_BsJPsiPhi22<<endl;
+    //cout<<"GENeff: Bd23: "<<GENeff_Bd23<<" Bs23: "<<GENeff_Bs23<<" BsJPsiPhi23: "<<GENeff_BsJPsiPhi23<<endl;
 
-    NData_BsJPsiPhi = std::stod(config["NData_BsJPsiPhi"]);
-    NData_err_BsJPsiPhi = std::stod(config["NData_err_BsJPsiPhi"]);
+    NData_BsJPsiPhi = 1;
+    NData_err_BsJPsiPhi = 1;
 
     NData22_BsJPsiPhi = NData_BsJPsiPhi*(lumi22_preEE+lumi22_postEE)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
     NData22_err_BsJPsiPhi = NData_err_BsJPsiPhi*(lumi22_preEE+lumi22_postEE)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
 
     NData23_BsJPsiPhi = NData_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
     NData23_err_BsJPsiPhi = NData_err_BsJPsiPhi*(lumi23_preBPix+lumi23_postBPix)/(lumi22_preEE+lumi22_postEE+lumi23_preBPix+lumi23_postBPix);
-
-    cout<<"NData22_BsJPsiPhi: "<<NData22_BsJPsiPhi<<endl;
-    cout<<"NData23_BsJPsiPhi: "<<NData23_BsJPsiPhi<<endl;
     
     NSidebans = std::stod(config["NSidebans"]);
     NSignal = std::stod(config["NSignal"]);
@@ -208,10 +198,10 @@ int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((GENeff_Bs22*ANAeff_Bs22)/(GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))<<endl;
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi<<endl;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi/N_Bs22;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/N_Bs23;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
-    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi/(1.0);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/(1.0);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 1;
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return 1;
         
@@ -222,10 +212,10 @@ double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 double add_weight_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi<<endl;
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi<<endl;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi/N_Bs22;
-    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return (bdt_eff_sigs/bdt_eff_contol)*((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/N_Bs23;
-    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_err_BsJPsiPhi/N_Bd22)*(1/fs_fd_ratio);
-    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return (bdt_eff_sigd/bdt_eff_contol)*((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_err_BsJPsiPhi/N_Bd23)*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi/(1.0);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/(1.0);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_err_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);
+    if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_err_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2022")) return 1;
     if(id.Contains("Analyzed_MC_BsJPsiPhi_2023")) return 1;
         

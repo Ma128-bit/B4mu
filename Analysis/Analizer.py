@@ -93,9 +93,11 @@ def MVA_inputs(rdf, branches):
     branches.append("Cos3d_BS_SV") #cos3d
     rdf = rdf.Define("Cos3d_BS_SV","Cos3D_(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, BS_x, BS_y, BS_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
     
-    branches.append("Cos2d_PV_SV") #cos2d
+    branches.append("Cos2d_PV_SV") 
     rdf = rdf.Define("Cos2d_PV_SV","Cos2D_(QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
-    
+    branches.append("Cos2d_BS_SV") #cos2d
+    rdf = rdf.Define("Cos2d_BS_SV","Cos2D_(QuadrupletVtx_x, QuadrupletVtx_y, BS_x, BS_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
+
     #∆R max (maximum R distance between any of the 4 muons and the direction of the sum of the 4 muons momenta)
     branches.append("dR_max") #dr
     rdf = rdf.Define("dR_max", "dR_Max(Quadruplet_Eta, Quadruplet_Phi, Mu1_Eta, Mu1_Phi, Mu2_Eta, Mu2_Phi, Mu3_Eta, Mu3_Phi, Mu4_Eta, Mu4_Phi)")

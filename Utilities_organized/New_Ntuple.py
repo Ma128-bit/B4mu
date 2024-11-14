@@ -1,13 +1,13 @@
 import sys, os, subprocess, json
 import time
 start = time.time()
-#import ROOT
+
 import pickle
 import argparse
 from tqdm import tqdm
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TString, std, TFile
 from scipy.constants import c as speed_of_light
-#from ROOT import *
+
 
 gROOT.SetBatch(True)
 EnableImplicitMT()
@@ -25,25 +25,18 @@ branches = [
     "QuadrupletVtx_Chi2", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "mu1_pfreliso03",
     "mu2_pfreliso03", "mu3_pfreliso03", "mu4_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig",
     "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "vtx_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", 
-    "dR_max", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", 
+    "Cos2d_BS_SV", "dR_max", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", 
     "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "Quadruplet_Mass_eq",
     "RefittedSV_Mass", "RefittedSV_Mass_err","MVASoft1", "MVASoft2", "MVASoft3", "MVASoft4",
     "OS1v1_Chi2", "OS2v1_Chi2", "OS1v2_Chi2", "OS2v2_Chi2"
 ]
+
 cuts={
     "Jpsi": [[75,60], [110,85], [140,110]],
     "phi":   [[30,30], [50,35], [55,44]],
     "psi2s": [[80,70], [90,80], [110,90]],
     "omega": [[40,35], [45,40], [60,45]]
 }
-
-cuts={
-    "Jpsi": [[105,90], [140,125], [180,150]],
-    "phi":   [[80,80], [90,75], [105,94]],
-    "psi2s": [[80,70], [90,80], [110,90]],
-    "omega": [[40,35], [45,40], [60,45]]
-}
-
 
 def load_df(isB4mu, year, treename, Files):
     if isB4mu == True:
@@ -137,24 +130,13 @@ if __name__ == "__main__":
     # Bs LifeTime reweithg: taken from Rebecca: https://gitlab.cern.ch/regartner/b4mu-analysis/-/blob/master/data_MC_correction/bs_lifetime_reweighting.py
     ctau_actual = 4.4129450e-01  # from EvtGen  # in mm -> tau = 1.47e-12
     ctau_pdg = 1.527e-12 * speed_of_light * 1000.0  # in mm ===> 457 mm
-    ctau_up = (1.527 + 0.011) * 10 ** (-12) * speed_of_light * 1000.0
-    ctau_down = (1.527 - 0.011) * 10 ** (-12) * speed_of_light * 1000.0
+    ctau_heavy = (1.622) * 10 ** (-12) * speed_of_light * 1000.0
+    ctau_light = (1.429) * 10 ** (-12) * speed_of_light * 1000.0
 
-    df = df.Define("ctau_weight", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
+    df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
+    df = df.Define("ctau_weight_heavy", add_new_ctau(ctau_heavy, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
+    df = df.Define("ctau_weight_light", add_new_ctau(ctau_light, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
     
-    #SF_f1 = TFile.Open(single_mu_SF_preE)
-    #SF_f2 = TFile.Open(single_mu_SF_postE)
-    #SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
-    #SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
-
-    #df = df.Define("Muon1_SF", SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
-    #df = df.Define("Muon2_SF", SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
-    #df = df.Define("Muon1_SF_err", SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
-    #df = df.Define("Muon2_SF_err", SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
-    #if isTau3mu==True:
-    #    df = df.Define("Muon3_SF", SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
-    #    df = df.Define("Muon3_SF_err", SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
-
     h_vectors = std.vector(TH1F)()
     h_name = std.vector(TString)()
     histo_file = TFile.Open("PileUp/ratio_histo_"+str(year)+"_"+label+".root")
@@ -182,29 +164,22 @@ if __name__ == "__main__":
 
     if isB4mu==True:
         #Filters for omega and phi:
-        #df = df.Define("JPsicut", "abs(OS1v1_mass-3.0969)>0.1 & abs(OS2v1_mass-3.0969)>0.1 & abs(OS1v2_mass-3.0969)>0.1 & abs(OS2v2_mass-3.0969)>0.1")
-        #df = df.Define("Phicut", "abs(OS1v1_mass-1.019455)>0.07 & abs(OS2v1_mass-1.019455)>0.07 & abs(OS1v2_mass-1.019455)>0.07 & abs(OS2v2_mass-1.019455)>0.07")
-        #df = df.Define("Omegacut", "abs(OS1v1_mass-0.78265)>0.08 & abs(OS2v1_mass-0.78265)>0.08 & abs(OS1v2_mass-0.78265)>0.08 & abs(OS2v2_mass-0.78265)>0.08")
-        #df = df.Define("Psi2scut", "abs(OS1v1_mass-3.686097)>0.1 & abs(OS2v1_mass-3.686097)>0.1 & abs(OS1v2_mass-3.686097)>0.1 & abs(OS2v2_mass-3.686097)>0.1")
         df = two_mu_vetos(df, "Jpsi", cuts)
         df = two_mu_vetos(df, "phi", cuts)
         df = two_mu_vetos(df, "omega", cuts)
         df = two_mu_vetos(df, "psi2s", cuts)
         
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "signal_weight", "ctau_weight", "Jpsicut", "phicut", "omegacut", "psi2scut", "bdt_weight", "w_mc"]
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "Jpsicut", "phicut", "omegacut", "psi2scut", "bdt_weight", "w_mc"]
         
-        df = df.Define("signal_weight", "weight * weight_pileUp * ctau_weight")
-        df = df.Define("bdt_weight", "w_mc * weight_pileUp * ctau_weight")
+        #df = df.Define("signal_weight", "weight * weight_pileUp * ctau_weight_central")
+        df = df.Define("bdt_weight", "w_mc * weight_pileUp * ctau_weight_central")
         df = df.Filter("Jpsicut==1 && phicut==1 && omegacut==1 && psi2scut==1 && FlightDistBS_SV_Significance>0")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllData"+str(year)+".root", branches+b_weights)
     else:
         df = two_mu_cuts(df, cuts)
-        df = df.Define("NewMassEqation","NewMassEqation(OS1v1_mass, OS2v1_mass, OS1v2_mass, OS2v2_mass, category, Quadruplet_Mass)")
-        #df = df.Filter("isJPsiPhi==1")
-        #df = df.Filter("std::abs(1.019461-Dimu_OS_min)<0.044 && std::abs(3.0969-Dimu_OS_max)<0.13")
-        #df = df.Filter("(std::abs(1.019461-OS1v1_mass)<0.07 && std::abs(3.0969-OS2v1_mass)<0.1) || (std::abs(1.019461-OS2v1_mass)<0.07 && std::abs(3.0969-OS1v1_mass)<0.1) || (std::abs(1.019461-OS1v2_mass)<0.07 && std::abs(3.0969-OS2v2_mass)<0.1) || (std::abs(1.019461-OS2v2_mass)<0.07 && std::abs(3.0969-OS1v2_mass)<0.1)")
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight", "NewMassEqation"]
-        df = df.Define("control_weight", "weight * weight_pileUp * ctau_weight")
+        df = df.Define("NewMassEqation","NewMassEqation(OS1v1_mass, OS2v1_mass, OS1v2_mass, OS2v2_mass, category, RefittedSV_Mass)")
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "NewMassEqation"]
+        #df = df.Define("control_weight", "weight * weight_pileUp * ctau_weight_central")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllControl"+str(year)+".root", branches+b_weights)
     
     print("Performed ",df.GetNRuns()," loops")
