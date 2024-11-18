@@ -17,7 +17,7 @@ B4MuHLTFilter.HLTPaths = ["HLT_DoubleMu4_3_LowMass*"]
 
 looseMuons = cms.EDFilter("PATMuonSelector",
                           src = cms.InputTag("slimmedMuons"),
-                          cut = cms.string('pt > 0.5 &&  abs(eta)<3. && (innerTrack().isNonnull) && (charge!=0)'),
+                          cut = cms.string('pt > 1.9 &&  abs(eta)<2.6 && (innerTrack().isNonnull) && (charge!=0)'),
                           filter = cms.bool(True)
 )
 
@@ -40,7 +40,7 @@ DiMuonCandFilter = cms.EDFilter("CandViewCountFilter",
 
 LooseTrack = cms.EDFilter("PFCandFilter",
                           src = cms.InputTag("packedPFCandidates"),
-                          cut = cms.string("pt > 2. &&  abs(eta)<3. &&  (charge!=0) && hasTrackDetails() && trackerLayersWithMeasurement()>5 && pixelLayersWithMeasurement()>=1"),
+                          cut = cms.string("pt > 2.8 &&  abs(eta)<3. &&  (charge!=0) && hasTrackDetails() && trackerLayersWithMeasurement()>5 && pixelLayersWithMeasurement()>=1"),
                           filter = cms.bool(True)                                
 )
 
@@ -77,7 +77,7 @@ TwoMuonsTwoTracksKalmanVtxFit = cms.EDProducer("KalmanVertexFitCompositeCandProd
 
 TwoMuonsTwoTracksKinVtxFit = cms.EDProducer("KinematicVertexFitCompositeCandProducer",
                                               src = cms.InputTag("TwoMuonsTwoTracksCand"),
-                                              cut = cms.string('(mass < 6.5) && (mass >4.5)')
+                                              cut = cms.string('(mass < 7.0) && (mass >4.0)')
                                               #cut = cms.string('mass <5'),                          
 )     
 
@@ -94,7 +94,7 @@ TwoMuonsTwoTracksKalmanVtxFitpi = cms.EDProducer("KalmanVertexFitCompositeCandPr
 
 TwoMuonsTwoTracksKinVtxFitpi = cms.EDProducer("KinematicVertexFitCompositeCandProducer",
                                               src = cms.InputTag("TwoMuonsTwoTracksCandpi"),
-                                              cut = cms.string('(mass < 6.5) && (mass >4.5)')
+                                              cut = cms.string('(mass < 7.0) && (mass >4.0)')
                                               #cut = cms.string('mass <5'),                          
 ) 
 
