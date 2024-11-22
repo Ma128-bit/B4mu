@@ -34,7 +34,7 @@ if [ "$MCflag" == "false" ]; then
         else
             return
         fi
-    if [[ "$current_dir" == *"CMSSW_13_"* ]]; then
+    elif [[ "$current_dir" == *"CMSSW_13_"* ]]; then
         if [[ "$year" == "2022" ]]; then
             era=("${era2022postE[@]}")
         elif [[ "$year" == "2023" ]]; then
