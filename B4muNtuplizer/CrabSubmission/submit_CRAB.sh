@@ -151,6 +151,63 @@ elif [ "${year}" == "2023" ]; then
         return
         ;;
     esac
+elif [ "${year}" == "2024" ]; then
+    case "$era" in
+      B)
+        Data_ID=("${B_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v2"
+        golden_json="Collisions24/2024B_Golden.json"
+        ;;
+      C)
+        Data_ID=("${C_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v2"
+        golden_json="Collisions24/2024C_Golden.json"
+        ;;
+      D)
+        Data_ID=("${D_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v2"
+        golden_json="Collisions24/2024D_Golden.json"
+        ;;
+      E-v1)
+        Data_ID=("${E_v1_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v2"
+        golden_json="Collisions24/2024E_Golden.json"
+        ;;
+      E-v2)
+        Data_ID=("${E_v2_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v2"
+        golden_json="Collisions24/2024E_Golden.json"
+        ;;
+      F)
+        Data_ID=("${F_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v4"
+        golden_json="Collisions24/2024F_Golden.json"
+        ;;
+      G)
+        Data_ID=("${G_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v4"
+        golden_json="Collisions24/2024G_Golden.json"
+        ;;
+      H)
+        Data_ID=("${H_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v4"
+        golden_json="Collisions24/2024H_Golden.json"
+        ;;
+      I-v1)
+        Data_ID=("${I_v1_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v4"
+        golden_json="Collisions24/2024I_Golden.json"
+        ;;
+      I-v2)
+        Data_ID=("${I_v2_2024[@]}")
+        globaltag="140X_dataRun3_Prompt_v4"
+        golden_json="Collisions24/2024I_Golden.json"
+        ;;
+      *)
+        echo "Error: The era is incorrect."
+        return
+        ;;
+    esac
 else
     echo "Error: The year is incorrect."
     return
