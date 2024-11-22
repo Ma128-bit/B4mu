@@ -1,9 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 # Usage:
 #    submitAllJobs.sh
 
-helpstring="Usage:
-submitAllJobs.sh [Year]"
+helpstring="Usage: submitAllJobs.sh [Year] [isMC]"
 
 year=$1
 MCflag=$2
