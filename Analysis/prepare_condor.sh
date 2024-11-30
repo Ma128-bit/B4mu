@@ -66,8 +66,8 @@ declare -a Control_C_v4_2023=("241122_123009" "241122_123016" "241122_123023" "2
 declare -a Control_D_v1_2023=("241122_123107" "241122_123114" "241122_123121" "241122_123128" "241122_123135" "241122_123142" "241122_123149" "241122_123156")
 declare -a Control_D_v2_2023=("241122_123205" "241122_123212" "241122_123220" "241122_123227" "241122_123234" "241122_123241" "241122_123256" "241122_123304")
 
-declare -a MC22_B2mu2trk_pre=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_pre_Bs2mu2K_Mini/240603_193559" "BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_pre_Bd2muKpi_Mini/240603_193615")
-declare -a MC22_B2mu2trk_post=("BstoJpsiPhi_Jpsito2Mu_Phito2K_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bs2mu2K_Mini/240603_193940" "BdtoJpsiKstar_Jpsito2Mu_KstartoKPi_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_B2mu2trk_post_Bd2muKpi_Mini/240603_193955")
+declare -a MC22_B2mu2trk_pre=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_Bs2mu2K_Mini/241122_122443" "BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_Bd2muKpi_Mini/241122_122449")
+declare -a MC22_B2mu2trk_post=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_Bs2mu2K_Mini/241122_122459" "BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_Bd2muKpi_Mini/241122_122505")
 declare -a B2mu2trk_MC_label=("B2mu2K" "B2muKpi")
 
 if [ "${Ana_temp}" == "B4Mu" ]; then
