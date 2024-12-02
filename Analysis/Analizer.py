@@ -263,7 +263,7 @@ if __name__ == "__main__":
     
     #Find best Quadruplet
     rdf = rdf.Define("isMC", add_int(isMC))
-    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+"step0.root", ["isMC", "ect"])
+    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+"step0.root", ["isMC", "evt"])
     if(analysis_type=="B4mu"):
         rdf = rdf.Define("Quadruplet_indexs","B4mu_QuadSel(isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, RefittedSV_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, Quadruplet_Charge)")
     else:
