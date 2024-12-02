@@ -257,7 +257,7 @@ if __name__ == "__main__":
     start_2 = time.time()
     rdf = RDataFrame(tree_dir_name+"/ntuple", selected_files) # Load data
     print(time.ctime(time.time()), " -- Data loaded!")
-    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+"step0.root", branches)
+    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+"step0.root")
     
     #Find best Quadruplet
     rdf = rdf.Define("isMC", add_int(isMC))
@@ -267,7 +267,7 @@ if __name__ == "__main__":
         rdf = rdf.Define("remove_duplicate",analysis_type+"_CombSel(Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, QuadrupletVtx_Chi2)")
         rdf = rdf.Define("Quadruplet_indexs","B2muX_QuadSel(remove_duplicate, isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, NGoodQuadruplets, QuadrupletVtx_Chi2, RefittedSV_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
 
-    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+"step1.root", branches)
+    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+"step1.root")
     
     branches=["evt", "isMC", "run", "lumi", "nPileUpInt", "PVCollection_Size"]
     rdf = rdf.Define("Quadruplet_index", flat0D_int(0), ["Quadruplet_indexs"])
