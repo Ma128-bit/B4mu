@@ -155,6 +155,43 @@ if [ "${Ana_temp}" == "B4Mu" ]; then
             return
             ;;
         esac
+    elif [ "${year}" == "2024" ]; then
+        case "$era" in
+          B)
+            datasets=("${B_2024[@]}")
+            ;;
+          C)
+            datasets=("${C_2024[@]}")
+            ;;
+          D)
+            datasets=("${D_2024[@]}")
+            ;;
+          E-v1)
+            datasets=("${E_v1_2024[@]}")
+            ;;
+          E-v2)
+            datasets=("${E_v2_2024[@]}")
+            ;;
+          F)
+            datasets=("${F_2024[@]}")
+            ;;
+          G)
+            datasets=("${G_2024[@]}")
+            ;;
+          H)
+            datasets=("${H_2024[@]}")
+            ;;
+          I-v1)
+            datasets=("${I_v1_2024[@]}")
+            ;;
+          I-v2)
+            datasets=("${I_v2_2024[@]}")
+            ;;
+          *)
+            echo "Error: The era is incorrect."
+            return
+            ;;
+        esac
     else
         echo "Error: The year is incorrect."
         return
