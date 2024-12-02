@@ -276,7 +276,7 @@ if __name__ == "__main__":
         rdf = rdf.Define("dz_max", "DeltaZmax(mu_index, Muon_vz)")
         branches.append("dz_max")
     else:
-        rdf = rdf.Define("mu_index", "get_2index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
+        rdf = rdf.Define("mu_index", "get_2index(MuonPt, Mu1_Pt, Mu2_Pt)")
     
     if(analysis_type=="B4mu"):
         rdf, branches = MuonIDs(rdf, branches) #Add muonIDs
