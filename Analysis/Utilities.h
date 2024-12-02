@@ -497,9 +497,9 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
         //Cut2 CMS muon system acceptance
         bool acceptanceCUT = true;
         for(int c=0; c<index.size(); c++){
-            #if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
-            #if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
-            #if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
+            //if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
+            //if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
+            //if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
             if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 2) {
                 acceptanceCUT = false;
                 break;
