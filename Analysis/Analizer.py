@@ -36,7 +36,7 @@ def select_root_files(file_root, i , delta):
         selected_files = [directory + "/" + s for s in selected_files]
     return(selected_files)
 
-def MuonIDs(rdf, branches):
+def MuonIDs(rdf, branches, n_muons=4):
     rdf = rdf.Define("Stats","get_stat(mu_index, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, Muon_isTrackerMuon)")
     branches = branches + ["isGlobal", "isPF", "isLoose", "isMedium","isTight", "isSoft", "isTracker"]
     rdf = rdf.Define("isGlobal", flat1D_int(0), ["Stats"])
@@ -48,7 +48,7 @@ def MuonIDs(rdf, branches):
     rdf = rdf.Define("isTracker", flat1D_int(6), ["Stats"])
 
     rdf = rdf.Define("SoftMVA", "get_MVASoft(mu_index, Muon_isMVASoft)")
-    for i in range(4):
+    for i in range(n_muons):
         branches.append(f"MVASoft{i+1}")
         rdf = rdf.Define(f"MVASoft{i+1}",f"flattering(SoftMVA, {i})") 
 
@@ -197,6 +197,9 @@ def Gen_ct(rdf, branches, analysis_type, isMC):
         if(analysis_type=="B2mu2K"):
             rdf = rdf.Define("Gen_ct_signal", "1.0")
             rdf = rdf.Define("Gen_ct_control", "Gen_ct(\"contol2mu\" ,MuonPt, MuonEta, MuonPhi, Mu1_Pt, Mu1_Eta, Mu1_Phi, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, GenParticle_vx, GenParticle_vy, GenParticle_vz)")
+        if(analysis_type=="B2muKpi"):
+            rdf = rdf.Define("Gen_ct_signal", "1.0")
+            rdf = rdf.Define("Gen_ct_control", "1.0")
     if(isMC==0):
         rdf = rdf.Define("Gen_ct_control", "1.0")
         rdf = rdf.Define("Gen_ct_signal", "1.0")
@@ -263,17 +266,22 @@ if __name__ == "__main__":
         rdf = rdf.Define("remove_duplicate",analysis_type+"_CombSel(Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, Mu3_Phi, Mu4_Phi, QuadrupletVtx_Chi2)")
         rdf = rdf.Define("Quadruplet_indexs","B2muX_QuadSel(remove_duplicate, isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu3_Eta, Mu4_Eta, NGoodQuadruplets, QuadrupletVtx_Chi2, RefittedSV_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
 
-    branches=["evt", "isMC", "run", "lumi", "nPileUpInt", "PVCollection_Size", "dz_max"]
+    branches=["evt", "isMC", "run", "lumi", "nPileUpInt", "PVCollection_Size"]
     rdf = rdf.Define("Quadruplet_index", flat0D_int(0), ["Quadruplet_indexs"])
     rdf = rdf.Filter("Quadruplet_index>-1")
     
     rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
-    rdf = rdf.Define("mu_index", "get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
-    rdf = rdf.Define("dz_max", "DeltaZmax(mu_index, Muon_vz)")
-    
+    if(analysis_type=="B4mu"):
+        rdf = rdf.Define("mu_index", "get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
+        rdf = rdf.Define("dz_max", "DeltaZmax(mu_index, Muon_vz)")
+        branches.append("dz_max")
+    else:
+        rdf = rdf.Define("mu_index", "get_2index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
     
     if(analysis_type=="B4mu"):
         rdf, branches = MuonIDs(rdf, branches) #Add muonIDs
+    else:
+        rdf, branches = MuonIDs(rdf, branches, n_muons=2) #Add muonIDs
 
     rdf, vertex_chi2 = QuadMuVar(rdf, branches, analysis_type) #Quadruplet variables
     rdf = MVA_inputs(rdf, branches) #Define MVA input variables
@@ -286,6 +294,8 @@ if __name__ == "__main__":
 
     if(analysis_type!="B4mu"):
         rdf = DiMassVar_control(rdf, branches, analysis_type)
+        rdf, branches = HLT_quantities(rdf, branches)
+        rdf = Gen_ct(rdf, branches, analysis_type, isMC)
         #branches.append("PhiMassTest2K")
         #branches.append("PhiMassTestKpi")
         #branches.append("PhiMassTestKpi_test")

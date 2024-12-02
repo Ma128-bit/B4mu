@@ -194,7 +194,7 @@ std::vector<std::vector<int>> get_stat(std::vector<int> index, ROOT::VecOps::RVe
     //std::vector<int> isTight={0,0,0,0};   |
     //std::vector<int> isSoft={0,0,0,0};    |
     //std::vector<int> isTracker={0,0,0,0}; |
-    std::vector<std::vector<int>> out(7, std::vector<int>(4, 0));
+    std::vector<std::vector<int>> out(7, std::vector<int>(index.size(), 0));
 
     for(int k=0; k<index.size(); k++){
         out[0][k] = Muon_isGlobal.at(index.at(k));
