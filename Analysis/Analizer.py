@@ -243,6 +243,9 @@ if __name__ == "__main__":
     isMC = args.isMC
     analysis_type = args.analysis_type
 
+    if not output_dir.endswith("/"):
+        output_dir= output_dir + "/"
+
     print(time.ctime(time.time()), " -- Starting!")
     file_root = list_of_root_files(directory)
     selected_files = select_root_files(file_root, index , delta)
@@ -260,6 +263,7 @@ if __name__ == "__main__":
     
     #Find best Quadruplet
     rdf = rdf.Define("isMC", add_int(isMC))
+    rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+"step0.root", ["isMC", "ect"])
     if(analysis_type=="B4mu"):
         rdf = rdf.Define("Quadruplet_indexs","B4mu_QuadSel(isMC, evt, MuonPt, MuonEta, MuonPhi, RefTrack1_Pt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, NGoodQuadruplets, QuadrupletVtx_Chi2, RefittedSV_Mass, Muon_isGlobal, Muon_isPF, Muon_isLoose, Muon_isMedium, Muon_isTight, Muon_isSoft, MuonPt_HLT, MuonEta_HLT, MuonPhi_HLT, FlightDistBS_SV_Significance, Muon_vz, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId, vtx_prob, QuadrupletVtx_x, QuadrupletVtx_y, RefittedPV_x, RefittedPV_y, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, Quadruplet_Charge)")
     else:
@@ -312,14 +316,11 @@ if __name__ == "__main__":
     if(analysis_type!="B4mu" and isMC>0):
         branches.append("genMatching2mu2trk")
         rdf = rdf.Define("genMatching2mu2trk","GenMatching2mu2trk(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk)")
-    if not output_dir.endswith("/"):
-        output_dir= output_dir + "/"
 
     if(analysis_type!="B4mu"):
         rdf = rdf.Filter("RefittedSV_Mass>4.5 && RefittedSV_Mass<6.5")
         rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
         rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
-    
     
     #rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+".root", branches)
     
