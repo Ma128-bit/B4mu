@@ -481,7 +481,7 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
         if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99 || RefTrack1_Pt.at(j) == -99){ continue;}
         if(indexPreSel.at(j)==0){ continue;}
         
-        if(!(vtx_prob.at(j)>0)){ continue;}
+        if(!(vtx_prob.at(j)>0.01)){ continue;}
         
         if(exit_code<0) exit_code=0;
         
@@ -491,19 +491,23 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
         if(exit_code<1) exit_code=1;
         
         //Cut2 FlightDistBS_SV_Significance, dR and dz
-        //if(FlightDistBS_SV_Significance.at(j) < 4 ) continue;
-        //if(!(Cos2D_(QuadrupletVtx_x.at(j), QuadrupletVtx_y.at(j), RefittedPV_x.at(j), RefittedPV_y.at(j), Quadruplet_Pt.at(j), Quadruplet_Eta.at(j), Quadruplet_Phi.at(j))>0.95)) { continue;}
+        if(FlightDistBS_SV_Significance.at(j) < 3 ) continue;
+        if(!(Cos2D_(QuadrupletVtx_x.at(j), QuadrupletVtx_y.at(j), RefittedPV_x.at(j), RefittedPV_y.at(j), Quadruplet_Pt.at(j), Quadruplet_Eta.at(j), Quadruplet_Phi.at(j))>0.95)) { continue;}
         
         //Cut2 CMS muon system acceptance
         bool acceptanceCUT = true;
         for(int c=0; c<index.size(); c++){
-            if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
-            if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
+            #if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
+            #if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
+            #if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
+            if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 2) {
+                acceptanceCUT = false;
+                break;
+            }
         }
         // Tracks acceptance:
-        if ( abs(Mu3_Eta.at(j)) > 2.4 ||  Mu3_Pt.at(j)<3. ) acceptanceCUT=false;
-        if ( abs(Mu4_Eta.at(j)) > 2.4 ||  Mu4_Pt.at(j)<3. ) acceptanceCUT=false;
+        if ( abs(Mu3_Eta.at(j)) > 2.5 ||  Mu3_Pt.at(j)<3. ) acceptanceCUT=false;
+        if ( abs(Mu4_Eta.at(j)) > 2.5 ||  Mu4_Pt.at(j)<3. ) acceptanceCUT=false;
         
         if(acceptanceCUT==false) continue;
         if(exit_code<2) exit_code=2;
