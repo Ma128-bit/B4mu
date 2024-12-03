@@ -23,28 +23,28 @@ if __name__ == "__main__":
     x_max = hist_Data.GetXaxis().GetXmax()
     
     chain1 = TChain("FinalTree")
-    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
-    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
+    chain1.Add("../Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
+    chain1.Add("../Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
 
-    chain2 = TChain("FinalTree")
-    chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
+    #chain2 = TChain("FinalTree")
+    #chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
 
     print(f"nPileUpInt>>h_MC({n_bins},{x_min},{x_max})")
     
     chain1.Draw(f"nPileUpInt>>h_MC({n_bins},{x_min},{x_max})")
     hist_MC= gDirectory.Get("h_MC") 
 
-    chain2.Draw(f"nPileUpInt>>h_MC2({n_bins},{x_min},{x_max})")
-    hist_MC2= gDirectory.Get("h_MC2") 
+    #chain2.Draw(f"nPileUpInt>>h_MC2({n_bins},{x_min},{x_max})")
+    #hist_MC2= gDirectory.Get("h_MC2") 
 
     hist_Data.Scale(1/hist_Data.Integral())
     hist_MC.Scale(1/hist_MC.Integral())
-    hist_MC2.Scale(1/hist_MC2.Integral())
+    #hist_MC2.Scale(1/hist_MC2.Integral())
 
-    hist_ratio_signal = TH1F("pileUp_ratio_signal_"+year,"pileUp_ratio_signal_"+year, n_bins,x_min,x_max)
-    hist_ratio_control = TH1F("pileUp_ratio_control_"+year,"pileUp_ratio_control_"+year, n_bins,x_min,x_max)
+    hist_ratio_signal = TH1F("pileUp_ratio_signal_"+year,"pileUp_ratio_B2mu2K_"+year, n_bins,x_min,x_max)
+    #hist_ratio_control = TH1F("pileUp_ratio_control_"+year,"pileUp_ratio_control_"+year, n_bins,x_min,x_max)
     hist_ratio_signal.Divide(hist_Data, hist_MC)
-    hist_ratio_control.Divide(hist_Data, hist_MC2)
+    #hist_ratio_control.Divide(hist_Data, hist_MC2)
 
     c = TCanvas()
     c.cd()
