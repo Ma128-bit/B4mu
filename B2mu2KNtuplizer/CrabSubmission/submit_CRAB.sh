@@ -34,7 +34,15 @@ declare -a MC22_B2mu2trk_post=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_Tune
 declare -a MC23_B2mu2trk_pre=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v3/MINIAODSIM" "/BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v3/MINIAODSIM")
 declare -a MC23_B2mu2trk_post=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM" "/BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM")
 declare -a B2mu2trk_MC_label=("Bs2mu2K" "Bd2muKpi")
-declare -a B2mu2trk_MC_label23=("Bs2mu2K" "Bd2muKpi")
+
+#MC with pt custs
+declare -a MC22_B2mu2K_pre=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
+declare -a MC22_B2mu2K_post=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
+declare -a MC22_B2mu2K_pre_ext=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5_ext1-v2/MINIAODSIM")
+declare -a MC22_B2mu2K_post_ext=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6_ext1-v2/MINIAODSIM")
+declare -a MC23_B2mu2K_pre=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v3/MINIAODSIM")
+declare -a MC23_B2mu2K_post=("/BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM")
+declare -a B2mu2K_MC_label=("Bs2mu2K")
 
 if [ "${year}" == "2022" ]; then
     case "$era" in
@@ -78,6 +86,30 @@ if [ "${year}" == "2022" ]; then
         globaltag="130X_mcRun3_2022_realistic_postEE_v6"
         datasets=("${MC22_B2mu2trk_post[@]}")
         label=("${B2mu2trk_MC_label[@]}")
+        input_type="global"
+        ;;
+      MC_pre_new)
+        globaltag="130X_mcRun3_2022_realistic_v5"
+        datasets=("${MC22_B2mu2K_pre[@]}")
+        label=("${B2mu2K_MC_label[@]}")
+        input_type="global"
+        ;;
+      MC_post_new)
+        globaltag="130X_mcRun3_2022_realistic_postEE_v6"
+        datasets=("${MC22_B2mu2K_post[@]}")
+        label=("${B2mu2K_MC_label[@]}")
+        input_type="global"
+        ;;
+      MC_pre_new_ext)
+        globaltag="130X_mcRun3_2022_realistic_v5"
+        datasets=("${MC22_B2mu2K_pre_ext[@]}")
+        label=("${B2mu2K_MC_label[@]}")
+        input_type="global"
+        ;;
+      MC_post_new_ext)
+        globaltag="130X_mcRun3_2022_realistic_postEE_v6"
+        datasets=("${MC22_B2mu2K_post_ext[@]}")
+        label=("${B2mu2K_MC_label[@]}")
         input_type="global"
         ;;
       *)
@@ -125,13 +157,25 @@ elif [ "${year}" == "2023" ]; then
       MC_pre)
         globaltag="130X_mcRun3_2023_realistic_v14"
         datasets=("${MC23_B2mu2trk_pre[@]}")
-        label=("${B2mu2trk_MC_label23[@]}")
+        label=("${B2mu2trk_MC_label[@]}")
         input_type="global"
         ;;
       MC_post)
         globaltag="130X_mcRun3_2023_realistic_postBPix_v2"
         datasets=("${MC23_B2mu2trk_post[@]}")
-        label=("${B2mu2trk_MC_label23[@]}")
+        label=("${B2mu2trk_MC_label[@]}")
+        input_type="global"
+        ;;
+      MC_pre_new)
+        globaltag="130X_mcRun3_2023_realistic_v14"
+        datasets=("${MC23_B2mu2K_pre[@]}")
+        label=("${B2mu2K_MC_label[@]}")
+        input_type="global"
+        ;;
+      MC_post_new)
+        globaltag="130X_mcRun3_2023_realistic_postBPix_v2"
+        datasets=("${MC23_B2mu2K_post[@]}")
+        label=("${B2mu2K_MC_label[@]}")
         input_type="global"
         ;;
       *)
