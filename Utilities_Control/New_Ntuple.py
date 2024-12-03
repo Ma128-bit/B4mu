@@ -149,13 +149,9 @@ if __name__ == "__main__":
     h_vectors = std.vector(TH1F)()
     h_name = std.vector(TString)()
     histo_file = TFile.Open("PileUp/ratio_histo_"+str(year)+"_"+label+".root")
-    for name in ["Bd", "Bs", "BsJPsiPhi"]:
-        if name!= "BsJPsiPhi":
-            n = "signal_"
-        else:
-            n = "control_"
-        h_vectors.push_back(histo_file.Get("pileUp_ratio_" + n + str(year)))
-        h_name.push_back(name+str(year))
+    for name in ["B2mu2K_"]:
+        h_vectors.push_back(histo_file.Get("pileUp_ratio_" + name + str(year)))
+        h_name.push_back("MC_"+name+str(year))
     
     df = df.Define("weight_pileUp", PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nPileUpInt"])
     #FixME end
