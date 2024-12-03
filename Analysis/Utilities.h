@@ -1400,6 +1400,7 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
         double dR_min = dR_temp[dRpt_minID];
         int pdgID_min = pdgID_temp[dRpt_minID];
         //if(dR_min<0.03 && dpt_min<0.08){
+        cout<<pdgID_min<<endl;
         if(dR_min<0.02){
             if(p<2 && abs(pdgID_min)==13){
                 Gen_matching++;
