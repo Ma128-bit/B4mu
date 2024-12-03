@@ -1375,7 +1375,7 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
         }
     }
     //if(Genpt.size() != 4) cout<<"Genpt.size() == "<<Genpt.size()<<endl;
-    int Gen_matching = 0;
+    int Gen_matching = 0, Gen_matching_p2=0;
     for(int p=0; p<pt.size();p++){
         //cout<<"Genpt: ";
         //for(int kk=0; kk<Genpt.size(); kk++) {cout<<Genpt[kk]<<" ";}
@@ -1408,7 +1408,8 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
                 GenpdgID.erase(GenpdgID.begin() + dRpt_minID);
             }
             if(p>=2 && (abs(pdgID_min)==211 || abs(pdgID_min)==321)){
-                Gen_matching++;
+                if(abs(pdgID_min)==211) Gen_matching_p2++;
+                if(abs(pdgID_min)==321) Gen_matching++;
                 Genpt.erase(Genpt.begin() + dRpt_minID);
                 Geneta.erase(Geneta.begin() + dRpt_minID);
                 Genphi.erase(Genphi.begin() + dRpt_minID);
@@ -1416,6 +1417,7 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
             }
         }
     }
-    if(Gen_matching<4) return 99;
-    else return 1;
+    if(Gen_matching==4) return 1;
+    if(Gen_matching==3 && Gen_matching_p2==1) return 2;
+    else return 99;
 }
