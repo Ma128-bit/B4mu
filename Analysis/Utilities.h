@@ -1374,10 +1374,6 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
             GenpdgID.push_back(GenParticle_PdgId.at(j));
         }
     }
-    for (double pdg : GenpdgID) {
-        cout << pdg << " ";
-    }
-    cout << endl;
     //if(Genpt.size() != 4) cout<<"Genpt.size() == "<<Genpt.size()<<endl;
     int Gen_matching = 0;
     for(int p=0; p<pt.size();p++){
@@ -1403,7 +1399,6 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
         double dR_min = dR_temp[dRpt_minID];
         int pdgID_min = GenpdgID[dRpt_minID];
         //if(dR_min<0.03 && dpt_min<0.08){
-        cout<<pdgID_min<<endl;
         if(dR_min<0.02){
             if(p<2 && abs(pdgID_min)==13){
                 Gen_matching++;
