@@ -1366,7 +1366,7 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
     
     vector<double> Genpt, Geneta, Genphi;  vector<int> GenpdgID;
     for(int j=0; j<GenParticle_Pt.size(); j++){ 
-        if ((fabs(GenParticle_PdgId.at(j)) == 13 &&  fabs(GenParticle_MotherPdgId.at(j)) == 443 ) || (fabs(GenParticle_PdgId.at(j)) == 211 &&  fabs(GenParticle_MotherPdgId.at(j)) == 313 ) || (fabs(GenParticle_PdgId.at(j)) == 321 &&  fabs(GenParticle_MotherPdgId.at(j)) == 313 ) || (fabs(GenParticle_PdgId.at(j)) == 321 &&  fabs(GenParticle_MotherPdgId.at(j)) == 333 )) {
+        if ((fabs(GenParticle_PdgId.at(j)) == 13 &&  fabs(GenParticle_MotherPdgId.at(j)) == 443 ) || (fabs(GenParticle_PdgId.at(j)) == 211 ) || (fabs(GenParticle_PdgId.at(j)) == 321 ) || (fabs(GenParticle_PdgId.at(j)) == 321 &&  fabs(GenParticle_MotherPdgId.at(j)) == 333 )) {
         //if (fabs(GenParticle_PdgId.at(j)) == 13){
             Genpt.push_back(GenParticle_Pt.at(j));
             Geneta.push_back(GenParticle_Eta.at(j));
