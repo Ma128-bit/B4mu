@@ -1384,7 +1384,7 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
         //cout<<"Genpt: ";
         //for(int kk=0; kk<Genpt.size(); kk++) {cout<<Genpt[kk]<<" ";}
         //cout<<endl;
-        vector<double> dR_temp, dpt_temp, dRpt_temp; vector<int> pdgID_temp;
+        vector<double> dR_temp, dpt_temp, dRpt_temp;
         for(int w=0; w<Genpt.size();w++){
             double dphi = abs(phi.at(p) - Genphi.at(w));
             double deta = abs(eta.at(p) - Geneta.at(w));
@@ -1395,15 +1395,15 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
             dR_temp.push_back(dR);
             dpt_temp.push_back(dpt);
             dRpt_temp.push_back(dRpt);
-            pdgID_temp.push_back(GenpdgID.at(w));
         }
         auto dRpt_min_p = std::min_element(dRpt_temp.begin(), dRpt_temp.end());
         int dRpt_minID = std::distance(dRpt_temp.begin(), dRpt_min_p);
         double dRpt_min = *dRpt_min_p;
         double dpt_min = dpt_temp[dRpt_minID];
         double dR_min = dR_temp[dRpt_minID];
-        int pdgID_min = pdgID_temp[dRpt_minID];
+        int pdgID_min = GenpdgID[dRpt_minID];
         //if(dR_min<0.03 && dpt_min<0.08){
+        cout<<pdgID_min<<endl;
         if(dR_min<0.02){
             if(p<2 && abs(pdgID_min)==13){
                 Gen_matching++;
