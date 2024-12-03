@@ -1359,18 +1359,62 @@ int GenMatching2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_P
     else return 6;
 }
 
-/*
-int BsJPsiPhi(double m1, double m2, double chi1, double chi2){
-    std::vector<double> mass = {m1, m2};
-    std::sort(mass.begin(), mass.end());
-    double sigma_phi = 0.015;
-    double sigma_jpsi = 0.035;
-    double mass_phi = 1.019;
-    double mass_jpsi = 3.096;
-    for(int i=2;i<16;i++){
-        if (std::abs(mass_phi-mass[0])<3*sigma_phi && std::abs(mass_jpsi-mass[1])<3*sigma_jpsi && chi1>-1 && chi2>-1 && chi1<10*i && chi2<10*i) return i;
+int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double Mu1_Eta, double Mu2_Eta, double Mu3_Eta, double Mu4_Eta, double Mu1_Phi, double Mu2_Phi, double Mu3_Phi, double Mu4_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
+    vector<double> Genpt={Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt};
+    vector<double> Geneta={Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta};
+    vector<double> Genphi={Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi};
+    
+    vector<double> Genpt, Geneta, Genphi;  vector<int> GenpdgID;
+    for(int j=0; j<GenParticle_Pt.size(); j++){ 
+        if ((fabs(GenParticle_PdgId.at(j)) == 13 &&  fabs(GenParticle_MotherPdgId.at(j)) == 443 ) || (fabs(GenParticle_PdgId.at(j)) == 211 &&  fabs(GenParticle_MotherPdgId.at(j)) == 313 ) || (fabs(GenParticle_PdgId.at(j)) == 321 &&  fabs(GenParticle_MotherPdgId.at(j)) == 313 ) || (fabs(GenParticle_PdgId.at(j)) == 321 &&  fabs(GenParticle_MotherPdgId.at(j)) == 333 )) {
+        //if (fabs(GenParticle_PdgId.at(j)) == 13){
+            Genpt.push_back(GenParticle_Pt.at(j));
+            Geneta.push_back(GenParticle_Eta.at(j));
+            Genphi.push_back(GenParticle_Phi.at(j));
+            GenpdgID.push_back(GenParticle_PdgId.at(j));
+        }
     }
-    if (std::abs(mass_phi-mass[0])<3*sigma_phi && std::abs(mass_jpsi-mass[1])<3*sigma_jpsi && chi1>-1 && chi2>-1) return 1;
-    else return 0;
+    //if(Genpt.size() != 4) cout<<"Genpt.size() == "<<Genpt.size()<<endl;
+    int Gen_matching = 0;
+    for(int p=0; p<pt.size();p++){
+        //cout<<"Genpt: ";
+        //for(int kk=0; kk<Genpt.size(); kk++) {cout<<Genpt[kk]<<" ";}
+        //cout<<endl;
+        vector<double> dR_temp, dpt_temp, dRpt_temp; vector<int> pdgID_temp;
+        for(int w=0; w<Genpt.size();w++){
+            double dphi = abs(phi.at(p) - Genphi.at(w));
+            double deta = abs(eta.at(p) - Geneta.at(w));
+            if(dphi > double(M_PI)) dphi -= double(2*M_PI);
+            double dR = TMath::Sqrt(dphi*dphi + deta*deta);
+            double dpt = abs(pt.at(p) - Genpt.at(w))/pt.at(p);
+            double dRpt = TMath::Sqrt(dphi*dphi + deta*deta + dpt*dpt);
+            dR_temp.push_back(dR);
+            dpt_temp.push_back(dpt);
+            dRpt_temp.push_back(dRpt);
+            pdgID_temp.push_back(GenpdgID.at(w));
+        }
+        auto dRpt_min_p = std::min_element(dRpt_temp.begin(), dRpt_temp.end());
+        int dRpt_minID = std::distance(dRpt_temp.begin(), dRpt_min_p);
+        double dRpt_min = *dRpt_min_p;
+        double dpt_min = dpt_temp[dRpt_minID];
+        double dR_min = dR_temp[dRpt_minID];
+        int pdgID_min = pdgID_temp[dRpt_minID];
+        //if(dR_min<0.03 && dpt_min<0.08){
+        if(dR_min<0.02){
+            if(p<2 && abs(pdgID_min)==13){
+                Gen_matching++;
+                Genpt.erase(Genpt.begin() + dRpt_minID);
+                Geneta.erase(Geneta.begin() + dRpt_minID);
+                Genphi.erase(Genphi.begin() + dRpt_minID);
+            }
+            if(p>=2 && (abs(pdgID_min)==211 || abs(pdgID_min)==321)){
+                Gen_matching++;
+                Genpt.erase(Genpt.begin() + dRpt_minID);
+                Geneta.erase(Geneta.begin() + dRpt_minID);
+                Genphi.erase(Genphi.begin() + dRpt_minID);
+            }
+        }
+    }
+    if(Gen_matching<4) return 99;
+    else return 1;
 }
-*/
