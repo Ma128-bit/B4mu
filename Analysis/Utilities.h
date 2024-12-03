@@ -1410,12 +1410,14 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
                 Genpt.erase(Genpt.begin() + dRpt_minID);
                 Geneta.erase(Geneta.begin() + dRpt_minID);
                 Genphi.erase(Genphi.begin() + dRpt_minID);
+                GenpdgID.erase(GenpdgID.begin() + dRpt_minID);
             }
             if(p>=2 && (abs(pdgID_min)==211 || abs(pdgID_min)==321)){
                 Gen_matching++;
                 Genpt.erase(Genpt.begin() + dRpt_minID);
                 Geneta.erase(Geneta.begin() + dRpt_minID);
                 Genphi.erase(Genphi.begin() + dRpt_minID);
+                GenpdgID.erase(GenpdgID.begin() + dRpt_minID);
             }
         }
     }
