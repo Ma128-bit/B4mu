@@ -309,6 +309,7 @@ if __name__ == "__main__":
     if(analysis_type!="B4mu" and isMC>0):
         branches.append("genMatching2mu2trk")
         rdf = rdf.Define("genMatching2mu2trk", "GenMatching2mu2trk(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt_v2, GenParticle_Eta_v2, GenParticle_Phi_v2, GenParticle_Pt_trk, GenParticle_Eta_trk, GenParticle_Phi_trk, GenParticle_PdgId_trk)")
+        rdf = rdf.Filter("genMatching2mu2trk==2 || genMatching2mu2trk==1")
         branches.append("genMatching2mu2trk_v2")
         rdf = rdf.Define("genMatching2mu2trk_v2", "GenMatching_2mu2trk(Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt, Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta, Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi, GenParticle_Pt, GenParticle_Eta, GenParticle_Phi,  GenParticle_PdgId, GenParticle_MotherPdgId, GenParticle_GrandMotherPdgId)")
     
