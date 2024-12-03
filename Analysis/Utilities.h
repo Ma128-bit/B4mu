@@ -1360,9 +1360,9 @@ int GenMatching2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_P
 }
 
 int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_Pt, double Mu1_Eta, double Mu2_Eta, double Mu3_Eta, double Mu4_Eta, double Mu1_Phi, double Mu2_Phi, double Mu3_Phi, double Mu4_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi,  ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId){
-    vector<double> Genpt={Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt};
-    vector<double> Geneta={Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta};
-    vector<double> Genphi={Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi};
+    vector<double> pt={Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt};
+    vector<double> eta={Mu1_Eta, Mu2_Eta, Mu3_Eta, Mu4_Eta};
+    vector<double> phi={Mu1_Phi, Mu2_Phi, Mu3_Phi, Mu4_Phi};
     
     vector<double> Genpt, Geneta, Genphi;  vector<int> GenpdgID;
     for(int j=0; j<GenParticle_Pt.size(); j++){ 
