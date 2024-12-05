@@ -78,12 +78,17 @@ def control_plots(file_name, year):
         hdata_sig.Draw("samePE1")
 
         dicanvas.cd(2)
+        line1 = TLine(numbers[1], 1, numbers[2], 1) 
+        line1.SetLineColor(kRed)
+        line1.SetLineStyle(kDashed)
         h_x_ratio = hdata_sig.Clone()
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)
         h_x_ratio.SetLineColor(1)
         h_x_ratio.Draw()
         h_x_ratio.Draw("samePE1")
+        line1.Draw("same")
+
         dicanvas.Update()
         dicanvas.SaveAs("Control_Plots/" + varname + "_"+year+"_SPlot"+".png")
         dicanvas.Clear()
