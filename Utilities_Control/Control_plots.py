@@ -12,14 +12,38 @@ class ROOTDrawer(draw_utilities.ROOTDrawer):
 #var = ["Eta_tripl"]
 #var = ["Vx1", "Vy1", "Vz1", "Vx2", "Vy2", "Vz2"]
 
-var = ["vtx_prob", "mu1_pfreliso03"]
+var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_PV_SV", "Quadruplet_Eta","Quadruplet_Pt"]
 invmass_SB = "(RefittedSV_Mass<5.25 || RefittedSV_Mass>5.55)"
 invmass_peak = "(RefittedSV_Mass<5.55 && RefittedSV_Mass>5.25)"
 binning_mass = "(65, 5.0, 6.0)"
 
 binning_dict = {
     "vtx_prob": "(50,0.0,1.0)",
-    "mu1_pfreliso03": "(50, 0, 3)"
+    "mu1_pfreliso03": "(50, 0, 10)",
+    "mu2_pfreliso03": "(50, 0, 10)",
+    "FlightDistBS_SV_Significance": "(50, 0, 400)",
+    "mu1_bs_dxy_sig": "(50, -3, 3)",
+    "mu2_bs_dxy_sig": "(50, -3, 3)",
+    "mu3_bs_dxy_sig": "(50, -3, 3)",
+    "mu4_bs_dxy_sig": "(50, -3, 3)",
+    "Cos2d_PV_SV": "(50, 0, 1)",
+    "Quadruplet_Eta": "(50, -2.5, 1.5)",
+    "Quadruplet_Pt": "(50, 0, 100)"
+}
+
+log_dict = {
+    "vtx_prob": False,
+    "mu1_pfreliso03": True,
+    "mu2_pfreliso03": True,
+    "FlightDistBS_SV_Significance": False,
+    "mu1_bs_dxy_sig": True,
+    "mu2_bs_dxy_sig": True,
+    "mu3_bs_dxy_sig": True,
+    "mu4_bs_dxy_sig": True,
+    "Cos2d_PV_SV": True,
+    "Quadruplet_Eta": False,
+    "Quadruplet_Pt": False
+
 }
 
 def fit_bkg(data):
@@ -57,6 +81,7 @@ def control_plots(file_name, year, type):
     
     for k in range(len(var)):
         varname = var[k]
+        logy = log_dict[varname]
         s = str(k)
         binning = binning_dict[varname]
         legend_label = ""
@@ -86,7 +111,7 @@ def control_plots(file_name, year, type):
         # Rescaling
         hdata_sig.Scale(hMC_sig.Integral() / hdata_sig.Integral())
 
-        canvas = ROOTDrawer(SetGridx = True)
+        canvas = ROOTDrawer(SetGridx = True, SetLogY=logy)
         canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC BsJPsiPhi", FillStyle = 3004)
         
         canvas.HaddTH1(hdata_sig, Color=1, SetXName=varname, SetYName="a.u.", Fill=False, label="data ("+legend_label+")", DrawOpt="PE1")
