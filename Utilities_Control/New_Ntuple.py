@@ -134,7 +134,6 @@ def two_mu_cuts(df, cuts, resonances, B2mu2X):
 
 if __name__ == "__main__":
     B2mu2X, year, label = check_type()
-    loadInfo("config/config_"+label+".txt")
 
     pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_"+B2mu2X+"_"+label+"/"
     Files = {
