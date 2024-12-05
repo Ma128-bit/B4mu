@@ -247,7 +247,8 @@ private:
     std::vector<double> Vtx12_mass, Vtx23_mass, Vtx13_mass, Vtx14_mass, Vtx24_mass, Vtx34_mass, Vtx12_mass_err, Vtx23_mass_err, Vtx13_mass_err, Vtx14_mass_err, Vtx24_mass_err, Vtx34_mass_err;
 
     std::vector<int> NGoodQuadruplets;
-    unsigned long int  evt, run, lumi, puN;
+    unsigned long int  evt, run, lumi; 
+    unsigned int puN;
     std::vector<string>  Trigger_l1name;
     std::vector<int> Trigger_l1Initialdecision, Trigger_l1Finaldecision;
     std::vector<double> Trigger_l1prescale;
