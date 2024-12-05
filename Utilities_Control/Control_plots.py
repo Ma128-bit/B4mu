@@ -1,4 +1,4 @@
-from ROOT import gROOT, TH1F, TChain, gDirectory, RooFit, kFALSE, TLine, kRed, kDashed
+from ROOT import gROOT, TH1F, TChain, gDirectory, RooFit, kFALSE, TLine, kRed, kDashed, gPad
 gROOT.SetBatch(True)
 import sys, os, subprocess, argparse
 import cmsstyle as CMS
@@ -70,6 +70,8 @@ def control_plots(file_name, year):
         dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -6, 6, 'm(#mu^{+}#mu^{-}#K^{+}#K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         dicanvas.SetCanvasSize(1200,1300)
         dicanvas.cd(1)
+        if logy:
+            gPad.SetLogy()
         hMC_sig.SetLineColor(4)
         hMC_sig.SetFillColor(4)
         hMC_sig.SetFillStyle(3004)
@@ -94,7 +96,7 @@ def control_plots(file_name, year):
         h_x_ratio.Draw("samePE1")
         line1.Draw("same")
         line2.Draw("same")
-        line2.Draw("same")
+        line3.Draw("same")
 
         dicanvas.Update()
         dicanvas.SaveAs("Control_Plots/" + varname + "_"+year+"_SPlot"+".png")
