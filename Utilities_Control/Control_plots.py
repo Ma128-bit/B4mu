@@ -84,9 +84,9 @@ def control_plots(file_name, year):
         hdata_sig.SetLineWidth(2)
         hdata_sig.Draw("samePE1")
 
-        legend = TLegend(0.7, 0.7, 0.9, 0.9)
-        legend.AddEntry(hdata_sig, "sPlot data", "lep") 
-        legend.AddEntry(hMC_sig, "MC B^0_sJ/#psi(#mu#mu)#phi(KK)", "f")  
+        legend = TLegend(0.6, 0.6, 0.9, 0.9)
+        legend.AddEntry(hdata_sig, "sPlot Data", "lep") 
+        legend.AddEntry(hMC_sig, "MC B^{0}_{s} #to J/#psi(#mu#mu)#phi(KK)", "f")  
         legend.SetBorderSize(0)       
         legend.SetFillStyle(0)    
         legend.Draw("same")
