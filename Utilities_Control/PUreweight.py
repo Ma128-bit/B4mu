@@ -24,7 +24,7 @@ if __name__ == "__main__":
     
     chain1 = TChain("FinalTree")
     
-    chain1.Add("../Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_Data_B2mu2K_"+year+".root")
+    chain1.Add("../Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_MC_B2mu2K_"+year+".root")
 
     #chain2 = TChain("FinalTree")
     #chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
