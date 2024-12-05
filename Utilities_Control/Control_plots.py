@@ -68,9 +68,9 @@ def control_plots(file_name, year):
         CMS.SetLumi("34.6")
         CMS.SetEnergy(13.6)
         if logy:
-            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.0001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -0.5, 2.5, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.0001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -0.1, 2.1, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         else:
-            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -0.5, 2.5, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -0.1, 2.1, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         dicanvas.SetCanvasSize(1200,1300)
         dicanvas.cd(1)
         if logy:
@@ -83,6 +83,13 @@ def control_plots(file_name, year):
         hdata_sig.SetLineColor(1)
         hdata_sig.SetLineWidth(2)
         hdata_sig.Draw("samePE1")
+
+        legend = TLegend(0.7, 0.7, 0.9, 0.9)
+        legend.AddEntry(hdata_sig, "sPlot data", "lep") 
+        legend.AddEntry(hMC_sig, "MC B^0_sJ/#psi(#mu#mu)#phi(KK)", "f")  
+        legend.SetBorderSize(0)       
+        legend.SetFillStyle(0)    
+        legend.Draw("same")
 
         dicanvas.cd(2)
         line1 = TLine(numbers[1], 1, numbers[2], 1) 
@@ -104,8 +111,6 @@ def control_plots(file_name, year):
         h_x_ratio.SetLineWidth(2)
         h_x_ratio.Draw("samePE1")
         line1.Draw("same")
-        line2.Draw("same")
-        line3.Draw("same")
 
         dicanvas.Update()
         dicanvas.SaveAs("Control_Plots/" + varname + "_"+year+"_SPlot"+".png")
