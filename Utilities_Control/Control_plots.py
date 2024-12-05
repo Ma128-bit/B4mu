@@ -19,7 +19,7 @@ binning_mass = "(65, 5.0, 6.0)"
 
 binning_dict = {
     "vtx_prob": "(50,0.0,1.0)",
-    "mu1_pfreliso03": "(50, 0, 6)"
+    "mu1_pfreliso03": "(50, 0, 3)"
 }
 
 def fit_bkg(data):
@@ -80,7 +80,7 @@ def control_plots(file_name, year, type):
             legend_label = "sWeighted"
             data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0)")
             hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
-            data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*(isMC>0)")
+            data.Draw(varname + ">>hMC_sig" + s + binning, "weight*nsigBs_sw*(isMC>0)")
             hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
             
         # Rescaling
