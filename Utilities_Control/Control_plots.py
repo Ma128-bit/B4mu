@@ -79,7 +79,7 @@ def control_plots(file_name, year):
         h_x_ratio.Divide(hMC_sig)
         h_x_ratio.SetLineColor(1)
         h_x_ratio.Draw("samePE1")
-        dicanvas.SaveAs("Control_Plots/" + varname + "_"+year+"_"+type+".png")
+        dicanvas.SaveAs("Control_Plots/" + varname + "_"+year+"_"+".png")
 
         h_x_ratio.Delete();
         hdata_sig.Delete();
