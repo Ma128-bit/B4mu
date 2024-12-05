@@ -1,4 +1,4 @@
-from ROOT import gROOT, TH1F, TChain, gDirectory, RooFit, kFALSE, TLine, kRed, kDashed, gPad
+from ROOT import gROOT, TH1F, TChain, gDirectory, RooFit, kFALSE, TLine, kRed, kDashed, gPad, TLegend
 gROOT.SetBatch(True)
 import sys, os, subprocess, argparse
 import cmsstyle as CMS
