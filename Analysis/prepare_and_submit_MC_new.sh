@@ -1,0 +1,51 @@
+# !/bin/sh
+# Usage:
+#    prepare_and_submit_MC_new.sh <Year> <Delta>
+
+helpstring="Usage:
+prepare_and_submit_MC.sh [Year] [Delta]"
+
+year=$1
+delta=$2
+analysis_type="B2mu2K"
+
+# Check inputs
+if [ -z ${2+x} ]; then
+    echo -e ${helpstring}
+    return
+fi
+
+declare -a MC_name=("MC_pre_new" "MC_post_new")
+
+declare -a MC_B2mu2K22=("B2mu2K_new" "B2mu2K_new_ext")
+declare -a MC_B2mu2K23=("B2mu2K_new")
+
+if [ "${year}" == "2022" ]; then
+  MC_id=("${MC_B2mu2K22[@]}")
+elif [ "${year}" == "2023" ]; then
+  MC_id=("${MC_B2mu2K23[@]}")
+else
+  echo "Error: The year is incorrect."
+  return
+fi
+
+for e in "${MC_name[@]}"; do
+    source prepare_condor.sh $e $year $analysis_type $delta
+done
+
+echo "End preparation ... beginning submission"
+sleep 1
+
+cd $analysis_type
+for e in "${MC_name[@]}"; do
+    cd "${year}_${e}"
+    for id in "${MC_id[@]}"; do
+        cd "${id}"
+        condor_submit -name ettore submit.condor
+        cd ..
+    done
+    echo ""
+    cd ..
+    sleep 1
+done
+cd ..
