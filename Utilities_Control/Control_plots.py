@@ -13,11 +13,11 @@ binning_dict = {
     "mu1_pfreliso03": "(50,0,10)",
     "mu2_pfreliso03": "(50,0,10)",
     "FlightDistBS_SV_Significance": "(50,0,400)",
-    "mu1_bs_dxy_sig": "(50,-50,50)",
-    "mu2_bs_dxy_sig": "(50,-50,50)",
-    "mu3_bs_dxy_sig": "(50,-50,50)",
-    "mu4_bs_dxy_sig": "(50,-50,50)",
-    "Cos2d_PV_SV": "(50,0.95,1)",
+    "mu1_bs_dxy_sig": "(50,-100,100)",
+    "mu2_bs_dxy_sig": "(50,-100,100)",
+    "mu3_bs_dxy_sig": "(50,-75,75)",
+    "mu4_bs_dxy_sig": "(50,-75,75)",
+    "Cos2d_PV_SV": "(50,0.97,1)",
     "Quadruplet_Eta": "(50,-2.5,2.5)",
     "Quadruplet_Pt": "(50,10,100)"
 }
@@ -68,9 +68,9 @@ def control_plots(file_name, year):
         CMS.SetLumi("34.6")
         CMS.SetEnergy(13.6)
         if logy:
-            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.0001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -6, 6, 'm(#mu^{+}#mu^{-}K^{+}K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.0001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -0.5, 2.5, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         else:
-            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -6, 6, 'm(#mu^{+}#mu^{-}K^{+}K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -0.5, 2.5, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         dicanvas.SetCanvasSize(1200,1300)
         dicanvas.cd(1)
         if logy:
@@ -86,8 +86,8 @@ def control_plots(file_name, year):
 
         dicanvas.cd(2)
         line1 = TLine(numbers[1], 1, numbers[2], 1) 
-        line2 = TLine(numbers[1], -5, numbers[2], -5) 
-        line3 = TLine(numbers[1], 5, numbers[2], 5) 
+        line2 = TLine(numbers[1], 0, numbers[2], 0) 
+        line3 = TLine(numbers[1], 2, numbers[2], 2) 
         line1.SetLineColor(kRed)
         line1.SetLineStyle(kDashed)
         line1.SetLineWidth(2)
