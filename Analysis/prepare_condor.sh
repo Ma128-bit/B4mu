@@ -85,6 +85,13 @@ declare -a MC23_B2mu2trk_post=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_TuneC
 
 declare -a B2mu2trk_MC_label=("B2mu2K" "B2muKpi")
 
+declare -a MC22_B2mu2K_pre_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_new_Bs2mu2K_Mini/241203_142000" "BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_new_ext_Bs2mu2K_Mini/241203_142039")
+declare -a MC22_B2mu2K_post_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_new_Bs2mu2K_Mini/241203_142018" "BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_new_ext_Bs2mu2K_Mini/241203_142052")
+declare -a B2mu2K22_MC_label=("B2mu2K_new" "B2mu2K_new_ext")
+declare -a MC23_B2mu2K_pre_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2023_MC_pre_new_Bs2mu2K_Mini/241203_142109")
+declare -a MC23_B2mu2K_post_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2023_MC_post_new_Bs2mu2K_Mini/241203_142129")
+declare -a B2mu2K23_MC_label=("B2mu2K_new")
+
 if [ "${Ana_temp}" == "B4Mu" ]; then
     if [ "${year}" == "2022" ]; then
         case "$era" in
@@ -225,6 +232,14 @@ elif [ "${Ana_temp}" == "B2Mu2K" ]; then
             datasets=("${MC22_B2mu2trk_post[@]}")
             label=("${B2mu2trk_MC_label[@]}")
             ;;
+          MC_pre_new)
+            datasets=("${MC22_B2mu2K_pre_new[@]}")
+            label=("${B2mu2K22_MC_label[@]}")
+            ;;
+          MC_post_new)
+            datasets=("${MC22_B2mu2K_post_new[@]}")
+            label=("${B2mu2K22_MC_label[@]}")
+            ;;
           *)
             echo "Error: The era is incorrect."
             return
@@ -260,6 +275,14 @@ elif [ "${Ana_temp}" == "B2Mu2K" ]; then
           MC_post)
             datasets=("${MC23_B2mu2trk_post[@]}")
             label=("${B2mu2trk_MC_label[@]}")
+            ;;
+          MC_pre_new)
+            datasets=("${MC23_B2mu2K_pre_new[@]}")
+            label=("${B2mu2K23_MC_label[@]}")
+            ;;
+          MC_post_new)
+            datasets=("${MC23_B2mu2K_post_new[@]}")
+            label=("${B2mu2K23_MC_label[@]}")
             ;;
           *)
             echo "Error: The era is incorrect."
