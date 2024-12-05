@@ -41,7 +41,7 @@ if __name__ == "__main__":
     hist_MC.Scale(1/hist_MC.Integral())
     #hist_MC2.Scale(1/hist_MC2.Integral())
 
-    hist_ratio_signal = TH1F("pileUp_ratio_signal_"+year,"pileUp_ratio_B2mu2K_"+year, n_bins,x_min,x_max)
+    hist_ratio_signal = TH1F("pileUp_ratio_B2mu2K_"+year,"pileUp_ratio_B2mu2K_"+year, n_bins,x_min,x_max)
     #hist_ratio_control = TH1F("pileUp_ratio_control_"+year,"pileUp_ratio_control_"+year, n_bins,x_min,x_max)
     hist_ratio_signal.Divide(hist_Data, hist_MC)
     #hist_ratio_control.Divide(hist_Data, hist_MC2)
