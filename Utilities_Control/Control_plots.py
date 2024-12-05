@@ -73,7 +73,7 @@ def control_plots(file_name, year):
         hMC_sig.SetLineColor(4)
         hMC_sig.SetFillColor(4)
         hMC_sig.SetFillStyle(3004)
-        hMC_sig.Draw("same")
+        hMC_sig.Draw("Hsame")
         hdata_sig.SetLineColor(1)
         hdata_sig.Draw("samePE1")
 
