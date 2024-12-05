@@ -23,12 +23,13 @@ if [ "${analysis_type}" == "B4mu" ]; then
     hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_Bd_4mu_${year}.root ${analysis_type}/${year}_MC_p*/Bd_4mu/Analyzed_Data_*.root
     hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_Bs_4mu_${year}.root ${analysis_type}/${year}_MC_p*/Bs_4mu/Analyzed_Data_*.root
     hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_BsJPsiPhi_${year}.root ${analysis_type}/${year}_MC_p*/BsJPsiPhi/Analyzed_Data_*.root
-else
-    hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/${analysis_type}/Analyzed_Data_*.root
+#else
+    #hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/${analysis_type}/Analyzed_Data_*.root
 fi
 
 if [ "${analysis_type}" == "B2mu2K" ]; then
-    hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_Kpi_with_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/B2muKpi/Analyzed_Data_*.root
+    hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*_new*/${analysis_type}*/Analyzed_Data_*.root
+    #hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_Kpi_with_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/B2muKpi/Analyzed_Data_*.root
 elif [ "${analysis_type}" == "B2muKpi" ]; then
     hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_2K_with_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/B2mu2K/Analyzed_Data_*.root
 fi
