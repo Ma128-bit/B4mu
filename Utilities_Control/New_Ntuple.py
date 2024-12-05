@@ -137,8 +137,8 @@ if __name__ == "__main__":
 
     pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_"+B2mu2X+"_"+label+"/"
     Files = {
-        "B2muKK2022": [pos+"Analyzed_Data_B2mu2K_2022.root", pos+"Analyzed_MC_B2mu2K_2022.root"],
-        "B2muKK2023": [pos+"Analyzed_Data_B2mu2K_2023.root", pos+"Analyzed_MC_B2mu2K_2023.root"],
+        "B2mu2K2022": [pos+"Analyzed_Data_B2mu2K_2022.root", pos+"Analyzed_MC_B2mu2K_2022.root"],
+        "B2mu2K2023": [pos+"Analyzed_Data_B2mu2K_2023.root", pos+"Analyzed_MC_B2mu2K_2023.root"],
         "B2muKpi2022": [pos+"Analyzed_Data_B2muKpi_2022.root"],
         "B2muKpi2023": [pos+"Analyzed_Data_B2muKpi_2022.root"]
     }
