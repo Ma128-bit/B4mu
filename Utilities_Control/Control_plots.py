@@ -91,7 +91,6 @@ def control_plots(file_name, year):
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)
         h_x_ratio.SetLineColor(1)
-        h_x_ratio.Draw()
         h_x_ratio.Draw("samePE1")
         line1.Draw("same")
         line2.Draw("same")
