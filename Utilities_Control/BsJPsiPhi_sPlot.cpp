@@ -25,14 +25,14 @@ using namespace RooFit;
 using namespace RooStats;
 
 void AddModel(RooWorkspace &ws){
-    RooRealVar xMass("Quadruplet_Mass", "M_{inv}", 5.0, 6.0, "GeV");
+    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
-    RooRealVar mBs("mBs", "Bs Mass", 5.366, 5.0, 6.0, "GeV");
+    RooRealVar mBs("mBs", "Bs Mass", 5.366, 5.2, 5.7, "GeV");
     RooRealVar sigmaBs("sigmaBs", "Width of Ds Gaussian", 0.012, 0.0001, 0.4, "GeV");
     RooGaussian mBsModel("mDsModel", "Ds Model", xMass, mBs, sigmaBs);
 
     std::cout << "make bkg model" << std::endl;
-    RooRealVar lambda("lambda", "lambda of Exponential", -1.44, -10, 10);
+    RooRealVar lambda("lambda", "lambda of Exponential", +1.44, -10, 10);
     RooExponential bkgModel("bkgModel", "Exponential", xMass, lambda);
 
     // --------------------------------------
@@ -50,14 +50,14 @@ void AddModel(RooWorkspace &ws){
 }
 
 void AddMC_Model(RooWorkspace &ws){
-    RooRealVar xMass("Quadruplet_Mass", "M_{inv}", 5.2, 5.7, "GeV");
+    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
     RooRealVar mBs("mBs", "Bs Mass", 5.366, 5.2, 5.7, "GeV");
     RooRealVar sigmaBs("sigmaBs", "Width of Ds Gaussian", 0.012, 0.0001, 0.4, "GeV");
     RooGaussian mBsModel("mDsModel", "Ds Model", xMass, mBs, sigmaBs);
 
     std::cout << "make bkg model" << std::endl;
-    RooRealVar lambda("lambda", "lambda of Exponential", -1.44, -10, 10);
+    RooRealVar lambda("lambda", "lambda of Exponential", +1.44, -10, 10);
     RooExponential bkgModel("bkgModel", "Exponential", xMass, lambda);
 
     // --------------------------------------
@@ -73,15 +73,15 @@ void AddMC_Model(RooWorkspace &ws){
 
     ws.import(massModel, RecycleConflictNodes());
 }
-void AddData(RooWorkspace &ws, TString name_file = "AllControl2022.root", TString tree_name = "FinalTree", TString selMC = "isMC==0"){
-    TFile *file = new TFile("../Analysis/FinalFiles_B2mu2K/"+name_file);
+void AddData(RooWorkspace &ws, TString name_file = "AllB2mu2K2022.root", TString tree_name = "FinalTree", TString selMC = "isMC==0"){
+    TFile *file = new TFile("./ROOTFiles_02_12_24/"+name_file);
     TTree *tree = (TTree*)file->Get(tree_name);
     RooAbsPdf *model = ws.pdf("model");
-    RooRealVar *xMass = ws.var("Quadruplet_Mass");
+    RooRealVar *xMass = ws.var("RefittedSV_Mass");
     RooArgSet variables;
     for (const auto& branch : *tree->GetListOfBranches()) {
         TString branchName = branch->GetName();
-        if (!branchName.Contains("__") && branchName!="Quadruplet_Mass") { // Assicurati di non includere le variabili aggiuntive (es: numero di eventi)
+        if (!branchName.Contains("__") && branchName!="RefittedSV_Mass") { // Assicurati di non includere le variabili aggiuntive (es: numero di eventi)
             RooRealVar* var = new RooRealVar(branchName.Data(), branchName.Data(), -9999999999999999999999999999., 9999999999999999999999999999.);
             variables.add(*var);
         }
@@ -192,7 +192,7 @@ void MakePlots(RooWorkspace &ws)
     TCanvas *cdata = new TCanvas("sPlot", "sPlot demo");
     cdata->Divide(1, 2);
     
-    RooRealVar *xMass = ws.var("Quadruplet_Mass");
+    RooRealVar *xMass = ws.var("RefittedSV_Mass");
     auto& data = static_cast<RooDataSet&>(*ws.data("dataWithSWeights"));
 
     // create weighted data sets
@@ -213,7 +213,7 @@ void MakePlots(RooWorkspace &ws)
     cdata->SaveAs("SPlot.png");
 }
 
-void BsJPsiPhi_sPlot(TString name_file = "AllControl2022", TString tree_name = "FinalTree", int isMC = 0){
+void BsJPsiPhi_sPlot(TString name_file = "AllB2mu2K2022", TString tree_name = "FinalTree", int isMC = 0){
     RooWorkspace wspace{"myWS"};
     TString selMC ="";
     if(isMC == 0) selMC = selMC + Form("isMC==%d", isMC); 
@@ -224,7 +224,7 @@ void BsJPsiPhi_sPlot(TString name_file = "AllControl2022", TString tree_name = "
     AddData(wspace, name_file+".root", tree_name, selMC);
     if(isMC == 0) DoSPlot(wspace);
     else DoSPlotMC(wspace);
-    //MakePlots(wspace);
+    MakePlots(wspace);
     const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
 
     std::vector<std::string>  branchNames;
