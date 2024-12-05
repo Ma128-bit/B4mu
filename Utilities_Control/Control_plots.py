@@ -10,16 +10,16 @@ var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Signific
 
 binning_dict = {
     "vtx_prob": "(50,0.0,1.0)",
-    "mu1_pfreliso03": "(50, 0, 10)",
-    "mu2_pfreliso03": "(50, 0, 10)",
-    "FlightDistBS_SV_Significance": "(50, 0, 400)",
-    "mu1_bs_dxy_sig": "(50, -50, 50)",
-    "mu2_bs_dxy_sig": "(50, -50, 50)",
-    "mu3_bs_dxy_sig": "(50, -50, 50)",
-    "mu4_bs_dxy_sig": "(50, -50, 50)",
-    "Cos2d_PV_SV": "(50, 0.95, 1)",
-    "Quadruplet_Eta": "(50, -2.5, 2.5)",
-    "Quadruplet_Pt": "(50, 10, 100)"
+    "mu1_pfreliso03": "(50,0,10)",
+    "mu2_pfreliso03": "(50,0,10)",
+    "FlightDistBS_SV_Significance": "(50,0,400)",
+    "mu1_bs_dxy_sig": "(50,-50,50)",
+    "mu2_bs_dxy_sig": "(50,-50,50)",
+    "mu3_bs_dxy_sig": "(50,-50,50)",
+    "mu4_bs_dxy_sig": "(50,-50,50)",
+    "Cos2d_PV_SV": "(50,0.95,1)",
+    "Quadruplet_Eta": "(50,-2.5,2.5)",
+    "Quadruplet_Pt": "(50,10,100)"
 }
 
 log_dict = {
@@ -51,6 +51,9 @@ def control_plots(file_name, year):
         logy = log_dict[varname]
         s = str(k)
         binning = binning_dict[varname]
+        numbers = binning.strip("()").split(",")
+        numbers = [float(x) if x.isdigit() else float(x) for x in numbers]
+
         legend_label = "sWeighted"
         data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0)")
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
@@ -64,14 +67,14 @@ def control_plots(file_name, year):
         CMS.SetExtraText("Preliminary")
         CMS.SetLumi("34.6")
         CMS.SetEnergy(13.6)
-        dicanvas = CMS.cmsDiCanvas("", 1.65, 2.08, 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -6, 6, 'm(#mu^{+}#mu^{-}#K^{+}#K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+        dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -6, 6, 'm(#mu^{+}#mu^{-}#K^{+}#K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         dicanvas.SetCanvasSize(1200,1300)
         dicanvas.cd(1)
         hMC_sig.SetLineColor(4)
         hMC_sig.SetFillStyle(3004)
         hMC_sig.Draw("same")
         hdata_sig.SetLineColor(1)
-        #hMC_sig.Draw("samePE1")
+        hMC_sig.Draw("samePE1")
 
         dicanvas.cd(2)
         h_x_ratio = hdata_sig.Clone()
@@ -79,8 +82,10 @@ def control_plots(file_name, year):
         h_x_ratio.Divide(hMC_sig)
         h_x_ratio.SetLineColor(1)
         h_x_ratio.Draw()
-        h_x_ratio.Draw("same")
+        h_x_ratio.Draw("samePE1")
+        dicanvas.Update()
         dicanvas.SaveAs("Control_Plots/" + varname + "_"+year+"_SPlot"+".png")
+        dicanvas.Clear()
 
         h_x_ratio.Delete();
         hdata_sig.Delete();
