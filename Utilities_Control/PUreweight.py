@@ -67,7 +67,7 @@ if __name__ == "__main__":
     
     fout = TFile.Open("PileUp/ratio_histo_"+year+"_"+label+".root","recreate")
     hist_ratio_signal.Write()
-    hist_ratio_control.Write()
+    #hist_ratio_control.Write()
     fout.Close()
     
     #c2 = TCanvas()
