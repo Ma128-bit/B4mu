@@ -28,6 +28,17 @@ gInterpreter.Declare("""
         else return "None";
     }
 
+    double weight_to_new_ctau(double old_ctau, double new_ctau, double ct){
+        /*
+        Returns an event weight based on the ratio of the normalised lifetime distributions.
+        old_ctau: ctau used for the sample production
+        new_ctau: target ctau
+        ct      : per-event lifetime
+        */
+        double weight = old_ctau / new_ctau * TMath::Exp((1.0 / old_ctau - 1.0 / new_ctau) * ct);
+        return weight;
+    }
+
     struct add_new_ctau{
         double old_ctau, new_ctau;
         add_new_ctau(double oldct, double newct) : old_ctau(oldct), new_ctau(newct)  {}
