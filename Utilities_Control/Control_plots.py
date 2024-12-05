@@ -22,10 +22,10 @@ binning_dict = {
     "mu1_pfreliso03": "(50, 0, 10)",
     "mu2_pfreliso03": "(50, 0, 10)",
     "FlightDistBS_SV_Significance": "(50, 0, 400)",
-    "mu1_bs_dxy_sig": "(50, -30, 30)",
-    "mu2_bs_dxy_sig": "(50, -30, 30",
-    "mu3_bs_dxy_sig": "(50, -30, 30)",
-    "mu4_bs_dxy_sig": "(50, -30, 30)",
+    "mu1_bs_dxy_sig": "(50, -300, 300)",
+    "mu2_bs_dxy_sig": "(50, -300, 300",
+    "mu3_bs_dxy_sig": "(50, -300, 300)",
+    "mu4_bs_dxy_sig": "(50, -300, 300)",
     "Cos2d_PV_SV": "(50, 0.95, 1)",
     "Quadruplet_Eta": "(50, -2.5, 2.5)",
     "Quadruplet_Pt": "(50, 10, 100)"
@@ -121,9 +121,9 @@ def control_plots(file_name, year, type):
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)
         if logy ==True:
-            maxim=5
+            maxim=max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5
         else:
-            maxim=1.2
+            maxim=max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2
         canvas.HaddTH1(h_x_ratio, Color=1, SetXName=varname, SetYName="ratio data/MC", pull=True, DrawOpt="pe", MarkerStyle=68, YRange = [0.001,maxim])
         canvas.DefTLine(Color=2, Orientation=1, Y=1., pull=True)
         canvas.HaddPull(SetGridx = True, YRange = [0, 2])
