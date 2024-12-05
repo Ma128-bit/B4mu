@@ -71,10 +71,11 @@ def control_plots(file_name, year):
         dicanvas.SetCanvasSize(1200,1300)
         dicanvas.cd(1)
         hMC_sig.SetLineColor(4)
+        hMC_sig.SetFillColor(4)
         hMC_sig.SetFillStyle(3004)
         hMC_sig.Draw("same")
         hdata_sig.SetLineColor(1)
-        hMC_sig.Draw("samePE1")
+        hdata_sig.Draw("samePE1")
 
         dicanvas.cd(2)
         h_x_ratio = hdata_sig.Clone()
