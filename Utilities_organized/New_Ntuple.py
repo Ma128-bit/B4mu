@@ -120,6 +120,7 @@ if __name__ == "__main__":
     start_2 = time.time()
     df = load_df(isB4mu, year,  "FinalTree", Files)
     df = df.Define("year", add_index(year))
+    df = df.Redefine("nPileUpInt", "int(nPileUpInt)")
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("isMC2", "redef_isMC(rdfslot_, rdfsampleinfo_)")
     df = df.Redefine("isMC", "isMC2")
