@@ -11,8 +11,8 @@ class ROOTDrawer(draw_utilities.ROOTDrawer):
 #var = ["Vx1", "Vy1", "Vz1", "Vx2", "Vy2", "Vz2"]
 
 var = ["vtx_prob", "mu1_pfreliso03"]
-invmass_SB = "(Quadruplet_Mass<5.25 || Quadruplet_Mass>5.55)"
-invmass_peak = "(Quadruplet_Mass<5.55 && Quadruplet_Mass>5.25)"
+invmass_SB = "(RefittedSV_Mass<5.25 || RefittedSV_Mass>5.55)"
+invmass_peak = "(RefittedSV_Mass<5.55 && RefittedSV_Mass>5.25)"
 binning_mass = "(65, 5.0, 6.0)"
 
 binning_dict = {
@@ -21,14 +21,14 @@ binning_dict = {
 }
 
 def fit_bkg(data):
-    data.Draw("Quadruplet_Mass>>h1(65, 5.0, 6.0)", "(isMC==0 &&" + invmass_SB+")")
+    data.Draw("RefittedSV_Mass>>h1(65, 5.05, 6.0)", "(isMC==0 &&" + invmass_SB+")")
     h1 = TH1F(gDirectory.Get("h1"))
 
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 5.0, 6.0)
     x.setBins(65)
     datahist = RooDataHist("datahist", h1.GetTitle(), RooArgSet(x), RooFit.Import(h1, kFALSE))
 
-    x.setRange("R1", 5.0, 5.25)
+    x.setRange("R1", 5.05, 5.25)
     x.setRange("R3", 5.55, 6.0)
     x.setRange("R2", 5.25, 5.55)
 
