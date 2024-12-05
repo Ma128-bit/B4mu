@@ -110,7 +110,7 @@ def two_mu_cuts(df, cuts, resonances, B2mu2X):
     sel_out = "("
     for j in range(3):
         sel = "(("
-        sel += f"{resonances[res]}-Ditrk_mass>-{cuts[res][j][1]/1000} && ({resonances[res]}-Ditrk_mass)<{cuts[res][j][0]/1000} && {resonances["Jpsi"]}-Dimu_mass>-{cuts["Jpsi"][j][1]/1000} && ({resonances["Jpsi"]}-Dimu_mass)<{cuts["Jpsi"][j][0]/1000}"
+        sel += f"{resonances[res]}-Ditrk_mass>-{cuts[res][j][1]/1000} && ({resonances[res]}-Ditrk_mass)<{cuts[res][j][0]/1000} && {resonances["Jpsi"]}-Dimu_mass>-{cuts['Jpsi'][j][1]/1000} && ({resonances['Jpsi']}-Dimu_mass)<{cuts['Jpsi'][j][0]/1000}"
         sel += f") && category=={j})"
         sel_out += sel
         if j!=2:
