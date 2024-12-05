@@ -104,6 +104,14 @@ void DoSPlot(RooWorkspace &ws){
     RooDataSet& data = static_cast<RooDataSet&>(*ws.data("data"));
     massModel->fitTo(data, Save(true), PrintLevel(-1));
 
+    RooRealVar* mass = ws.var("mass");
+    RooPlot* frame = mass->frame(Title("Fit dei dati con il modello"));
+    data.plotOn(frame, MarkerStyle(kFullCircle), MarkerColor(kBlack));
+    massModel->plotOn(frame, LineColor(kBlue), LineWidth(2));
+    TCanvas* c = new TCanvas("c", "Fit", 800, 600);
+    frame->Draw();
+    c->SaveAs("fit_result.png");
+
     RooMsgService::instance().setSilentMode(true);
 
     std::cout << "\n\n------------------------------------------\nThe dataset before creating sWeights:\n";
