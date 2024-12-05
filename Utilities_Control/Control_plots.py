@@ -67,7 +67,10 @@ def control_plots(file_name, year):
         CMS.SetExtraText("Preliminary")
         CMS.SetLumi("34.6")
         CMS.SetEnergy(13.6)
-        dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -6, 6, 'm(#mu^{+}#mu^{-}#K^{+}#K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+        if logy:
+            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -6, 6, 'm(#mu^{+}#mu^{-}#K^{+}#K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+        else:
+            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -6, 6, 'm(#mu^{+}#mu^{-}#K^{+}#K^{-}) [GeV/c^{2}]', f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         dicanvas.SetCanvasSize(1200,1300)
         dicanvas.cd(1)
         if logy:
