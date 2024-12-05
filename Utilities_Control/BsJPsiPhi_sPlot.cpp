@@ -25,11 +25,13 @@ using namespace RooFit;
 using namespace RooStats;
 
 void AddModel(RooWorkspace &ws){
-    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.2, 5.7, "GeV");
+    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.0, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
-    RooRealVar mBs("mBs", "Bs Mass", 5.366, 5.2, 5.7, "GeV");
-    RooRealVar sigmaBs("sigmaBs", "Width of Ds Gaussian", 0.012, 0.0001, 0.4, "GeV");
-    RooGaussian mBsModel("mDsModel", "Ds Model", xMass, mBs, sigmaBs);
+    RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
+    RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
+    RooRealVar gamm("gamm", "gamm", 0.14, 0.01, 1.5);
+    RooRealVar delta("delta", "delta", 1.45, 0.1, 10);
+    RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
 
     std::cout << "make bkg model" << std::endl;
     RooRealVar lambda("lambda", "lambda of Exponential", +1.44, -10, 10);
@@ -51,11 +53,13 @@ void AddModel(RooWorkspace &ws){
 }
 
 void AddMC_Model(RooWorkspace &ws){
-    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.2, 5.7, "GeV");
+    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.0, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
-    RooRealVar mBs("mBs", "Bs Mass", 5.366, 5.2, 5.7, "GeV");
-    RooRealVar sigmaBs("sigmaBs", "Width of Ds Gaussian", 0.012, 0.0001, 0.4, "GeV");
-    RooGaussian mBsModel("mDsModel", "Ds Model", xMass, mBs, sigmaBs);
+    RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
+    RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
+    RooRealVar gamm("gamm", "gamm", 0.14, 0.01, 1.5);
+    RooRealVar delta("delta", "delta", 1.45, 0.1, 10);
+    RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
 
     std::cout << "make bkg model" << std::endl;
     RooRealVar lambda("lambda", "lambda of Exponential", +1.44, -10, 10);
@@ -71,7 +75,7 @@ void AddMC_Model(RooWorkspace &ws){
     RooAddPdf massModel("massModel", "invariant mass model", RooArgList(mBsModel, bkgModel), RooArgList(nsigBs, nbkg));
     
     std::cout << "import model" << std::endl;
-
+    ws.import(xMass);
     ws.import(massModel, RecycleConflictNodes());
 }
 void AddData(RooWorkspace &ws, TString name_file = "AllB2mu2K2022.root", TString tree_name = "FinalTree", TString selMC = "isMC==0"){
