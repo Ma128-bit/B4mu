@@ -22,20 +22,20 @@ binning_dict = {
     "mu1_pfreliso03": "(50, 0, 10)",
     "mu2_pfreliso03": "(50, 0, 10)",
     "FlightDistBS_SV_Significance": "(50, 0, 400)",
-    "mu1_bs_dxy_sig": "(50, -3, 3)",
-    "mu2_bs_dxy_sig": "(50, -3, 3)",
-    "mu3_bs_dxy_sig": "(50, -3, 3)",
-    "mu4_bs_dxy_sig": "(50, -3, 3)",
-    "Cos2d_PV_SV": "(50, 0, 1)",
-    "Quadruplet_Eta": "(50, -2.5, 1.5)",
-    "Quadruplet_Pt": "(50, 0, 100)"
+    "mu1_bs_dxy_sig": "(50, -30, 30)",
+    "mu2_bs_dxy_sig": "(50, -30, 30",
+    "mu3_bs_dxy_sig": "(50, -30, 30)",
+    "mu4_bs_dxy_sig": "(50, -30, 30)",
+    "Cos2d_PV_SV": "(50, 0.95, 1)",
+    "Quadruplet_Eta": "(50, -2.5, 2.5)",
+    "Quadruplet_Pt": "(50, 10, 100)"
 }
 
 log_dict = {
     "vtx_prob": False,
     "mu1_pfreliso03": True,
     "mu2_pfreliso03": True,
-    "FlightDistBS_SV_Significance": False,
+    "FlightDistBS_SV_Significance": True,
     "mu1_bs_dxy_sig": True,
     "mu2_bs_dxy_sig": True,
     "mu3_bs_dxy_sig": True,
@@ -109,7 +109,8 @@ def control_plots(file_name, year, type):
             hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
             
         # Rescaling
-        hdata_sig.Scale(hMC_sig.Integral() / hdata_sig.Integral())
+        hMC_sig.Scale(1 / hMC_sig.Integral())
+        hdata_sig.Scale(1 / hdata_sig.Integral())
 
         canvas = ROOTDrawer(SetGridx = True, SetLogY=logy)
         canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC BsJPsiPhi", FillStyle = 3004)
@@ -119,8 +120,11 @@ def control_plots(file_name, year, type):
         h_x_ratio = hdata_sig.Clone()
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)
-
-        canvas.HaddTH1(h_x_ratio, Color=1, SetXName=varname, SetYName="ratio data/MC", pull=True, DrawOpt="pe", MarkerStyle=68)
+        if logy ==True:
+            maxim=5
+        else:
+            maxim=1.2
+        canvas.HaddTH1(h_x_ratio, Color=1, SetXName=varname, SetYName="ratio data/MC", pull=True, DrawOpt="pe", MarkerStyle=68, YRange = [0.001,maxim])
         canvas.DefTLine(Color=2, Orientation=1, Y=1., pull=True)
         canvas.HaddPull(SetGridx = True, YRange = [0, 2])
         canvas.MakeLegend()
