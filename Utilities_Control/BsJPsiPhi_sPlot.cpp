@@ -46,6 +46,7 @@ void AddModel(RooWorkspace &ws){
     
     std::cout << "import model" << std::endl;
 
+    ws.import(xMass);
     ws.import(massModel, RecycleConflictNodes());
 }
 
@@ -104,7 +105,7 @@ void DoSPlot(RooWorkspace &ws){
     RooDataSet& data = static_cast<RooDataSet&>(*ws.data("data"));
     massModel->fitTo(data, Save(true), PrintLevel(-1));
 
-    RooRealVar* mass = ws.var("mass");
+    RooRealVar* mass = ws.var("RefittedSV_Mass");
     RooPlot* frame = mass->frame(Title("Fit dei dati con il modello"));
     data.plotOn(frame, MarkerStyle(kFullCircle), MarkerColor(kBlack));
     massModel->plotOn(frame, LineColor(kBlue), LineWidth(2));
