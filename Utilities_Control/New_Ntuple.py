@@ -168,5 +168,6 @@ if __name__ == "__main__":
         subprocess.run(["mkdir", "ROOTFiles_"+label])
 
     df = two_mu_cuts(df, cuts, resonances, B2mu2X)
-    b_weights = ["ID", "year", "weight_pileUp", "ctau_weight_central"]
+    b_weights = ["ID", "year", "weight_pileUp", "ctau_weight_central","weight"]
+    df=df.Define("weight", "weight_pileUp*ctau_weight_central")
     df.Snapshot("FinalTree", "ROOTFiles_"+label+"/All"+B2mu2X+str(year)+".root", branches+b_weights)
