@@ -23,7 +23,7 @@ if __name__ == "__main__":
     x_max = hist_Data.GetXaxis().GetXmax()
     
     chain1 = TChain("FinalTree")
-    FinalFiles_B2mu2K_02_12_24/Analyzed_Data_B2mu2K_2022.root
+    
     chain1.Add("../Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_Data_B2mu2K_"+year+".root")
 
     #chain2 = TChain("FinalTree")
