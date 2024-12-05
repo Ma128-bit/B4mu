@@ -163,6 +163,7 @@ void DoSPlotMC(RooWorkspace &ws){
     RooRealVar *nsigBs = ws.var("nsigBs");
     RooRealVar *nbkg = ws.var("nbkg");
     RooDataSet& data = static_cast<RooDataSet&>(*ws.data("data"));
+    massModel->fitTo(data, Save(true), PrintLevel(-1));
 
     RooMsgService::instance().setSilentMode(true);
 
