@@ -6,7 +6,7 @@ import cmsstyle as CMS
 import pandas as pd
 
 
-var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_PV_SV", "Quadruplet_Eta","Quadruplet_Pt"]
+var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "bdt", "RefittedSV_Mass"]
 
 binning_dict = {
     "vtx_prob": "(50,0.0,1.0)",
@@ -17,9 +17,11 @@ binning_dict = {
     "mu2_bs_dxy_sig": "(50,-100,100)",
     "mu3_bs_dxy_sig": "(50,-75,75)",
     "mu4_bs_dxy_sig": "(50,-75,75)",
-    "Cos2d_PV_SV": "(50,0.97,1)",
+    "Cos2d_BS_SV": "(50,0.95,1)",
     "Quadruplet_Eta": "(50,-2.5,2.5)",
-    "Quadruplet_Pt": "(50,10,100)"
+    "RefittedSV_Mass": "(50,5.1,5.6)",
+    "Quadruplet_Pt": "(50,10,100)",
+    "bdt": "(50,0,1)"
 }
 
 log_dict = {
@@ -31,12 +33,18 @@ log_dict = {
     "mu2_bs_dxy_sig": True,
     "mu3_bs_dxy_sig": True,
     "mu4_bs_dxy_sig": True,
-    "Cos2d_PV_SV": True,
+    "Cos2d_BS_SV": True,
     "Quadruplet_Eta": False,
-    "Quadruplet_Pt": False
-
+    "RefittedSV_Mass": False,
+    "Quadruplet_Pt": False,
+    "bdt": True
 }
 
+lumi={
+    "2022": 34.6,
+    "2023": 27.8,
+    "2022+23": 62.4
+}
 
 def control_plots(file_name, year):
     if not os.path.exists("Control_Plots"):
@@ -55,17 +63,17 @@ def control_plots(file_name, year):
         numbers = [float(x) if x.isdigit() else float(x) for x in numbers]
 
         legend_label = "sWeighted"
-        data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0)")
+        data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0 && RefittedSV_Mass>5.05 && RefittedSV_Mass<5.7)")
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
-        data.Draw(varname + ">>hMC_sig" + s + binning, "weight*nsigBs_sw*(isMC>0)")
+        data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*weight*(isMC>0)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
-            
+
         # Rescaling
-        hMC_sig.Scale(1 / hMC_sig.Integral())
-        hdata_sig.Scale(1 / hdata_sig.Integral())
+        hMC_sig.Scale(1 / hMC_sig.Integral(1,int(numbers[0])))
+        hdata_sig.Scale(1 / hdata_sig.Integral(1,int(numbers[0])))
 
         CMS.SetExtraText("Preliminary")
-        CMS.SetLumi("34.6")
+        CMS.SetLumi(f"{lumi[year]}")
         CMS.SetEnergy(13.6)
         if logy:
             dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.0001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -0.1, 2.1, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
@@ -89,7 +97,7 @@ def control_plots(file_name, year):
         hdata_sig.Draw("samePE1")
 
         legend = TLegend(0.61, 0.7, 0.9, 0.9)
-        legend.AddEntry(hdata_sig, "sPlot Data", "lep") 
+        legend.AddEntry(hdata_sig, "sWeighted Data", "lep") 
         legend.AddEntry(hMC_sig, "MC B^{0}_{s} J/#psi(#mu#mu)#phi(KK)", "f")  
         legend.SetBorderSize(0)       
         legend.SetFillStyle(0)    

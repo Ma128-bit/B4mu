@@ -112,8 +112,10 @@ if __name__ == "__main__":
     Files = {
         "B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_Bs_4mu_2022.root", pos+"Analyzed_MC_Bd_4mu_2022.root"],
         "B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_Bs_4mu_2023.root", pos+"Analyzed_MC_Bd_4mu_2023.root"],
+        "B4mu2024": [pos+"Analyzed_Data_B4mu_2024.root"],
         "control2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_BsJPsiPhi_2022.root"],
-        "control2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_BsJPsiPhi_2023.root"]
+        "control2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_BsJPsiPhi_2023.root"],
+        "control2024": [pos+"Analyzed_Data_B4mu_2024.root"],
     }
 
     print("Starting!")
@@ -121,6 +123,9 @@ if __name__ == "__main__":
     df = load_df(isB4mu, year,  "FinalTree", Files)
     df = df.Define("year", add_index(year))
     df = df.Redefine("nPileUpInt", "(unsigned int)nPileUpInt")
+    df = df.Redefine("run", "(unsigned int)run")
+    df = df.Redefine("evt", "(unsigned int)evt")
+    df = df.Redefine("lumi", "(unsigned int)lumi")
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("isMC2", "redef_isMC(rdfslot_, rdfsampleinfo_)")
     df = df.Redefine("isMC", "isMC2")

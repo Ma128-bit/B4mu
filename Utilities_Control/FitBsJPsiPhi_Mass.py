@@ -5,7 +5,7 @@ import cmsstyle as CMS
 
 def FitBsJPsiPhi_Mass(year="2022", label=""):
     # Aprire il file ROOT contenente l'albero
-    file_path = f"ROOTFiles_{label}/AllControl{year}.root"
+    file_path = f"ROOTFiles_{label}/AllB2mu2K{year}.root"
     file = ROOT.TFile.Open(file_path)
     if not file or file.IsZombie():
         print("Error opening the file")
@@ -24,14 +24,14 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     os.makedirs(dir_path, exist_ok=True)
 
     # Disegnare l'istogramma dal tree
-    h1 = ROOT.TH1F("h1", "Quadruplet Mass", 80, 4.8, 6.1)
-    tree.Draw("Quadruplet_Mass_eq >> h1", "isMC==0")
+    h1 = ROOT.TH1F("h1", "Quadruplet Mass", 80, 5.05, 5.7)
+    tree.Draw("RefittedSV_Mass_eq >> h1", "isMC==0")
 
     # Definire la variabile di massa
-    x = RooRealVar("Quadruplet_Mass_eq", "Quadruplet Mass", 4.8, 6.1)
-    x.setRange("R1", 5.0, 5.25)
-    x.setRange("R2", 5.55, 5.8)
-    x.setRange("RT", 4.8, 6.1)
+    x = RooRealVar("RefittedSV_Mass_eq", "Quadruplet Mass", 5.05, 5.7)
+    x.setRange("R1", 5.05, 5.25)
+    x.setRange("R2", 5.55, 5.7)
+    x.setRange("RT", 5.05, 5.7)
     x.setBins(80)
 
     # Creare RooDataHist dal TH1F
@@ -43,14 +43,14 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     exp_bkg.fitTo(data, RooFit.Range("R1,R2"))
 
     # Definire il modello di segnale
-    mu = RooRealVar("mu", "mu", 5.46, 5.1, 5.80)
-    lambd = RooRealVar("lambd", "lambd", 1.0, 10.5)
-    gamm = RooRealVar("gamm", "gamm", 1.0, 10.5)
-    delta = RooRealVar("delta", "delta", 175, 100, 600)
+    mu = RooRealVar("mu", "mu", 5.36, 4.50, 6.0)
+    lambd = RooRealVar("lambd", "lambd", 0.02, 0.001, 1.5)
+    gamm = RooRealVar("gamm", "gamm", 0.14, 0.01, 1.5)
+    delta = RooRealVar("delta", "delta", 1.45, 0.1, 10)
     gauss_pdf = ROOT.RooJohnson("signal_Bs", "Signal Bs", x, mu, lambd, gamm, delta)
 
     # Definire i coefficienti di segnale e fondo
-    nsig = RooRealVar("nsig", "Number of signals", 60, 30, 1000)
+    nsig = RooRealVar("nsig", "Number of signals", 12000, 0., 2000000)
     nbkg = RooRealVar("nbkg", "Number of backgrounds", h1.GetEntries(), 1, 2 * h1.GetEntries())
 
     # Combinare segnale e background
@@ -90,8 +90,8 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     #legend.SetTextSize(0.03)  # Dimensione del testo
 
     legend.AddEntry(data, "Data", "p")
-    legend.AddEntry(signal_curve, "Total", "l")  # "l" significa che l'oggetto è una linea
-    legend.AddEntry(signal_curve, "B_{s} /rightarow J/#psi(#mu#mu)#phi(#mu#mu)", "l")  # "l" significa che l'oggetto è una linea
+    legend.AddEntry(signal_curve, "Total", "l")  
+    legend.AddEntry(signal_curve, "B_{s} /rightarow J/#psi(#mu#mu)#phi(#mu#mu)", "l")  
     legend.AddEntry(bkg_curve, "Background", "l")
 
     legend.Draw("same")
@@ -101,4 +101,4 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     file.Close()
 
 if __name__=="__main__":
-    FitBsJPsiPhi_Mass("", "05_10_24")
+    FitBsJPsiPhi_Mass("2022", "02_12_24")

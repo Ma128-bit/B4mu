@@ -177,6 +177,7 @@ TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     
     if(id.Contains("Analyzed_Data_B4mu_2022")) return "Data22";
     if(id.Contains("Analyzed_Data_B4mu_2023")) return "Data23";
+    if(id.Contains("Analyzed_Data_B4mu_2024")) return "Data24";
     else return "None";
 }
 
@@ -191,6 +192,7 @@ int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     
     if(id.Contains("Analyzed_Data_B4mu_2022")) return 0;
     if(id.Contains("Analyzed_Data_B4mu_2023")) return 0;
+    if(id.Contains("Analyzed_Data_B4mu_2024")) return 0;
     else return -1;
 }
 
