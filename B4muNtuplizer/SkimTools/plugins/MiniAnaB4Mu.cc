@@ -1423,8 +1423,8 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         y_bs = beamSpot_new.y0();
                         z_bs = beamSpot_new.z0();
 
-                        cout<<"Old BS: "<<beamSpot.x0()<<" "<<beamSpot.x0()<<" "<<beamSpot.x0()<<endl;
-                        cout<<"New BS: "<<beamSpot_new.x0()<<" "<<beamSpot_new.x0()<<" "<<beamSpot_new.x0()<<endl;
+                        cout<<"Old BS: "<<beamSpot.x0()<<" "<<beamSpot.y0()<<" "<<beamSpot.z0()<<endl;
+                        cout<<"New BS: "<<beamSpot_new.x0()<<" "<<beamSpot_new.y0()<<" "<<beamSpot_new.z0()<<endl;
                         //Beam spot coordinates
                         BS_x.push_back(x_bs);
                         BS_y.push_back(y_bs);
