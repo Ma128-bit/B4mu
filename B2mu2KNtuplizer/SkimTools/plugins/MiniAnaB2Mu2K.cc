@@ -1514,7 +1514,12 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         
                         QuadrupletVtx_cov.push_back(SV_cov);
                         
-                        VertexState BSstate(beamSpot);
+                        reco::Vertex::Point NewBSPos(beamSpot.x(PVertexPos.z()), beamSpot.y(PVertexPos.z()), beamSpot.z0());
+
+                        BeamSpot beamSpot_new(NewBSPos, beamSpot.sigmaZ(), beamSpot.dxdz(), beamSpot.dydz(), beamSpot.BeamWidthX(), beamSpot.covariance(), beamSpot.type());
+
+                        VertexState BSstate(beamSpot_new);
+
                         VertexDistanceXY vertTool2D;
                         double BSdistance2D = vertTool2D.distance(BSstate, QuadrupletVtx).value();
                         double BSdist_err2D = vertTool2D.distance(BSstate, QuadrupletVtx).error();
@@ -1529,6 +1534,10 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         FlightDistBS_SV_Err.push_back(BSdist_err2D);
                         FlightDistBS_SV_Significance.push_back(BSdist_sign2D);
                         
+                        x_bs = beamSpot_new.x0();
+                        y_bs = beamSpot_new.y0();
+                        z_bs = beamSpot_new.z0();
+
                         //Beam spot coordinates
                         BS_x.push_back(x_bs);
                         BS_y.push_back(y_bs);
@@ -1554,7 +1563,7 @@ void MiniAnaB2Mu2K::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
                         dxyErr_mu4.push_back(signed_IP2D_mu4.second.error());
 
                         //Add dxy info wrt BS
-                        reco::Vertex BS_vertex = reco::Vertex(beamSpot.position(), beamSpot.rotatedCovariance3D(), 0., 0., 0);
+                        reco::Vertex BS_vertex = reco::Vertex(beamSpot_new.position(), beamSpot_new.covariance3D(), 0., 0., 0);
                         std::pair<bool,Measurement1D> signed_IP2D_mu1_BS = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, BS_vertex);
                         std::pair<bool,Measurement1D> signed_IP2D_mu2_BS = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, BS_vertex);
                         std::pair<bool,Measurement1D> signed_IP2D_mu3_BS = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, BS_vertex);
