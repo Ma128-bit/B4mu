@@ -1450,7 +1450,7 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                         dxyErr_mu4.push_back(signed_IP2D_mu4.second.error());
 
                         //Add dxy info wrt BS
-                        reco::Vertex BS_vertex = reco::Vertex(beamSpot_new.position(), beamSpot_new.rotatedCovariance3D(), 0., 0., 0);
+                        reco::Vertex BS_vertex = reco::Vertex(beamSpot_new.position(), beamSpot_new.covariance3D(), 0., 0., 0);
                         std::pair<bool,Measurement1D> signed_IP2D_mu1_BS = IPTools::signedTransverseImpactParameter(transientTrack1, dir1, BS_vertex);
                         std::pair<bool,Measurement1D> signed_IP2D_mu2_BS = IPTools::signedTransverseImpactParameter(transientTrack2, dir2, BS_vertex);
                         std::pair<bool,Measurement1D> signed_IP2D_mu3_BS = IPTools::signedTransverseImpactParameter(transientTrack3, dir3, BS_vertex);
