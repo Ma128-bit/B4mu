@@ -25,7 +25,7 @@ using namespace RooFit;
 using namespace RooStats;
 
 void AddModel(RooWorkspace &ws){
-    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.05, 5.7, "GeV");
+    RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.05, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
     RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
     RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
@@ -53,7 +53,7 @@ void AddModel(RooWorkspace &ws){
 }
 
 void AddMC_Model(RooWorkspace &ws){
-    RooRealVar xMass("RefittedSV_Mass", "M_{inv}", 5.05, 5.7, "GeV");
+    RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.05, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
     RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
     RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
@@ -82,11 +82,11 @@ void AddData(RooWorkspace &ws, TString name_file = "AllB2mu2K2022.root", TString
     TFile *file = new TFile("./ROOTFiles_02_12_24/"+name_file);
     TTree *tree = (TTree*)file->Get(tree_name);
     RooAbsPdf *model = ws.pdf("model");
-    RooRealVar *xMass = ws.var("RefittedSV_Mass");
+    RooRealVar *xMass = ws.var("RefittedSV_Mass_eq");
     RooArgSet variables;
     for (const auto& branch : *tree->GetListOfBranches()) {
         TString branchName = branch->GetName();
-        if (!branchName.Contains("__") && branchName!="RefittedSV_Mass") { // Assicurati di non includere le variabili aggiuntive (es: numero di eventi)
+        if (!branchName.Contains("__") && branchName!="") { // Assicurati di non includere le variabili aggiuntive (es: numero di eventi)
             RooRealVar* var = new RooRealVar(branchName.Data(), branchName.Data(), -9999999999999999999999999999., 9999999999999999999999999999.);
             variables.add(*var);
         }
@@ -109,7 +109,7 @@ void DoSPlot(RooWorkspace &ws){
     RooDataSet& data = static_cast<RooDataSet&>(*ws.data("data"));
     massModel->fitTo(data, Save(true), PrintLevel(-1));
 
-    RooRealVar* mass = ws.var("RefittedSV_Mass");
+    RooRealVar* mass = ws.var("RefittedSV_Mass_eq");
     RooPlot* frame = mass->frame(Title("Fit dei dati con il modello"));
     data.plotOn(frame, MarkerStyle(kFullCircle), MarkerColor(kBlack));
     massModel->plotOn(frame, LineColor(kBlue), LineWidth(2));
@@ -207,7 +207,7 @@ void MakePlots(RooWorkspace &ws)
     TCanvas *cdata = new TCanvas("sPlot", "sPlot demo");
     cdata->Divide(1, 2);
     
-    RooRealVar *xMass = ws.var("RefittedSV_Mass");
+    RooRealVar *xMass = ws.var("RefittedSV_Mass_eq");
     auto& data = static_cast<RooDataSet&>(*ws.data("dataWithSWeights"));
 
     // create weighted data sets
