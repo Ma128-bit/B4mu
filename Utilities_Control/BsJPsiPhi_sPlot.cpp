@@ -39,8 +39,8 @@ void AddModel(RooWorkspace &ws){
 
     // --------------------------------------
     // combined model
-    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 12000, 0., 2000000);
-    RooRealVar nbkg("nbkg", "fitted yield for bkg", 154000, 0., 18000000);
+    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 300000, 0., 2000000);
+    RooRealVar nbkg("nbkg", "fitted yield for bkg", 10000, 0., 1000000);
 
     // now make the combined models
     std::cout << "make full model" << std::endl;
@@ -67,8 +67,8 @@ void AddMC_Model(RooWorkspace &ws){
 
     // --------------------------------------
     // combined model
-    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 12000, 0., 2000000);
-    RooRealVar nbkg("nbkg", "fitted yield for bkg", 154000, 0., 18000000);
+    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 300000, 0., 2000000);
+    RooRealVar nbkg("nbkg", "fitted yield for bkg", 10000, 0., 1000000);
 
     // now make the combined models
     std::cout << "make full model" << std::endl;
