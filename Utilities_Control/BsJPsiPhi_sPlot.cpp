@@ -34,7 +34,7 @@ void AddModel(RooWorkspace &ws){
     RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
 
     std::cout << "make bkg model" << std::endl;
-    RooRealVar lambda("lambda", "lambda of Exponential", 0.01, -10, 10);
+    RooRealVar lambda("lambda", "lambda of Exponential", -0.01, -10, 10);
     RooExponential bkgModel("bkgModel", "Exponential", xMass, lambda);
 
     // --------------------------------------
@@ -62,7 +62,7 @@ void AddMC_Model(RooWorkspace &ws){
     RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
 
     std::cout << "make bkg model" << std::endl;
-    RooRealVar lambda("lambda", "lambda of Exponential", +1.44, -10, 10);
+    RooRealVar lambda("lambda", "lambda of Exponential", -0.01, -10, 10);
     RooExponential bkgModel("bkgModel", "Exponential", xMass, lambda);
 
     // --------------------------------------
