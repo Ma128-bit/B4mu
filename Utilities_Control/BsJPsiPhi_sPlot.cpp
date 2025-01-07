@@ -25,7 +25,7 @@ using namespace RooFit;
 using namespace RooStats;
 
 void AddModel(RooWorkspace &ws){
-    RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.05, 5.7, "GeV");
+    RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
     RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
     RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
@@ -34,7 +34,7 @@ void AddModel(RooWorkspace &ws){
     RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
 
     std::cout << "make bkg model" << std::endl;
-    RooRealVar lambda("lambda", "lambda of Exponential", +1.44, -10, 10);
+    RooRealVar lambda("lambda", "lambda of Exponential", 0.01, -10, 10);
     RooExponential bkgModel("bkgModel", "Exponential", xMass, lambda);
 
     // --------------------------------------
@@ -53,7 +53,7 @@ void AddModel(RooWorkspace &ws){
 }
 
 void AddMC_Model(RooWorkspace &ws){
-    RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.05, 5.7, "GeV");
+    RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
     RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
     RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
