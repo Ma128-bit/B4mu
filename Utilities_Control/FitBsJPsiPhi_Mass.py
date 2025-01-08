@@ -51,7 +51,7 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
 
     # Definire i coefficienti di segnale e fondo
     nsig = RooRealVar("nsig", "Number of signals", 12000, 0., 2000000)
-    nbkg = RooRealVar("nbkg", "Number of backgrounds", h1.GetEntries(), 1, 2 * h1.GetEntries())
+    nbkg = RooRealVar("nbkg", "Number of backgrounds",  10000, 1., 1000000);
 
     # Combinare segnale e background
     model = RooAddPdf("model", "Signal + Background", ROOT.RooArgList(gauss_pdf, exp_bkg), ROOT.RooArgList(nsig, nbkg))
