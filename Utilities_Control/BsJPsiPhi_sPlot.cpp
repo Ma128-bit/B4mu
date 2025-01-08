@@ -27,20 +27,20 @@ using namespace RooStats;
 void AddModel(RooWorkspace &ws){
     RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
-    RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
+    RooRealVar mu("mu", "mu", 5.36, 4.50, 6.0, "GeV");
     RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
     RooRealVar gamm("gamm", "gamm", 0.14, 0.01, 1.5);
     RooRealVar delta("delta", "delta", 1.45, 0.1, 10);
     RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
 
     std::cout << "make bkg model" << std::endl;
-    RooRealVar lambda("lambda", "lambda of Exponential", -0.01, -10, 10);
+    RooRealVar lambda("lambda", "lambda of Exponential", -0.9, -10, 10);
     RooExponential bkgModel("bkgModel", "Exponential", xMass, lambda);
 
     // --------------------------------------
     // combined model
-    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 300000, 0., 2000000);
-    RooRealVar nbkg("nbkg", "fitted yield for bkg", 10000, 0., 1000000);
+    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 12000, 0., 2000000);
+    RooRealVar nbkg("nbkg", "fitted yield for bkg", 10000, 1., 1000000);
 
     // now make the combined models
     std::cout << "make full model" << std::endl;
@@ -55,20 +55,20 @@ void AddModel(RooWorkspace &ws){
 void AddMC_Model(RooWorkspace &ws){
     RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
-    RooRealVar mu("mu", "mu", 5.366, 5.2, 5.7, "GeV");
+    RooRealVar mu("mu", "mu", 5.36, 4.50, 6.0, "GeV");
     RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
     RooRealVar gamm("gamm", "gamm", 0.14, 0.01, 1.5);
     RooRealVar delta("delta", "delta", 1.45, 0.1, 10);
     RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
 
     std::cout << "make bkg model" << std::endl;
-    RooRealVar lambda("lambda", "lambda of Exponential", -0.01, -10, 10);
+    RooRealVar lambda("lambda", "lambda of Exponential", -0.9, -10, 10);
     RooExponential bkgModel("bkgModel", "Exponential", xMass, lambda);
 
     // --------------------------------------
     // combined model
-    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 300000, 0., 2000000);
-    RooRealVar nbkg("nbkg", "fitted yield for bkg", 10000, 0., 1000000);
+    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 12000, 0., 2000000);
+    RooRealVar nbkg("nbkg", "fitted yield for bkg", 10000, 1., 1000000);
 
     // now make the combined models
     std::cout << "make full model" << std::endl;
@@ -86,7 +86,7 @@ void AddData(RooWorkspace &ws, TString name_file = "AllB2mu2K2022.root", TString
     RooArgSet variables;
     for (const auto& branch : *tree->GetListOfBranches()) {
         TString branchName = branch->GetName();
-        if (!branchName.Contains("__") && branchName!="") { // Assicurati di non includere le variabili aggiuntive (es: numero di eventi)
+        if (!branchName.Contains("__") && branchName!="RefittedSV_Mass_eq") { // Assicurati di non includere le variabili aggiuntive (es: numero di eventi)
             RooRealVar* var = new RooRealVar(branchName.Data(), branchName.Data(), -9999999999999999999999999999., 9999999999999999999999999999.);
             variables.add(*var);
         }
@@ -107,7 +107,7 @@ void DoSPlot(RooWorkspace &ws){
     RooRealVar *nsigBs = ws.var("nsigBs");
     RooRealVar *nbkg = ws.var("nbkg");
     RooDataSet& data = static_cast<RooDataSet&>(*ws.data("data"));
-    massModel->fitTo(data, Save(true), PrintLevel(-1));
+    massModel->fitTo(data, PrintLevel(-1));
 
     RooRealVar* mass = ws.var("RefittedSV_Mass_eq");
     RooPlot* frame = mass->frame(Title("Fit dei dati con il modello"));

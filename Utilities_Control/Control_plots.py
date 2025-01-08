@@ -6,20 +6,21 @@ import cmsstyle as CMS
 import pandas as pd
 
 
-var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "bdt", "RefittedSV_Mass"]
+var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass", "RefittedSV_Mass_eq", "bdt"]
 
 binning_dict = {
-    "vtx_prob": "(50,0.0,1.0)",
+    "vtx_prob": "(50,0.01,1.0)",
     "mu1_pfreliso03": "(50,0,10)",
     "mu2_pfreliso03": "(50,0,10)",
-    "FlightDistBS_SV_Significance": "(50,0,400)",
+    "FlightDistBS_SV_Significance": "(50,3,400)",
     "mu1_bs_dxy_sig": "(50,-100,100)",
     "mu2_bs_dxy_sig": "(50,-100,100)",
     "mu3_bs_dxy_sig": "(50,-75,75)",
     "mu4_bs_dxy_sig": "(50,-75,75)",
     "Cos2d_BS_SV": "(50,0.95,1)",
     "Quadruplet_Eta": "(50,-2.5,2.5)",
-    "RefittedSV_Mass": "(50,5.1,5.6)",
+    "RefittedSV_Mass_eq": "(50,5.2,5.6)",
+    "RefittedSV_Mass": "(50,5.2,5.6)",
     "Quadruplet_Pt": "(50,10,100)",
     "bdt": "(50,0,1)"
 }
@@ -35,6 +36,7 @@ log_dict = {
     "mu4_bs_dxy_sig": True,
     "Cos2d_BS_SV": True,
     "Quadruplet_Eta": False,
+    "RefittedSV_Mass_eq": False,
     "RefittedSV_Mass": False,
     "Quadruplet_Pt": False,
     "bdt": True
@@ -63,7 +65,7 @@ def control_plots(file_name, year):
         numbers = [float(x) if x.isdigit() else float(x) for x in numbers]
 
         legend_label = "sWeighted"
-        data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0 && RefittedSV_Mass>5.05 && RefittedSV_Mass<5.7)")
+        data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0 && RefittedSV_Mass_eq>5.2 && RefittedSV_Mass_eq<5.7)")
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
         data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*weight*(isMC>0)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
