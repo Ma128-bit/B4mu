@@ -24,14 +24,14 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     os.makedirs(dir_path, exist_ok=True)
 
     # Disegnare l'istogramma dal tree
-    h1 = ROOT.TH1F("h1", "Quadruplet Mass", 80, 5.05, 5.7)
+    h1 = ROOT.TH1F("h1", "Quadruplet Mass", 80, 5.2, 5.7)
     tree.Draw("RefittedSV_Mass_eq >> h1", "isMC==0")
 
     # Definire la variabile di massa
-    x = RooRealVar("RefittedSV_Mass_eq", "Quadruplet Mass", 5.05, 5.7)
-    x.setRange("R1", 5.05, 5.25)
+    x = RooRealVar("RefittedSV_Mass_eq", "Quadruplet Mass", 5.2, 5.7)
+    x.setRange("R1", 5.2, 5.25)
     x.setRange("R2", 5.55, 5.7)
-    x.setRange("RT", 5.05, 5.7)
+    x.setRange("RT", 5.2, 5.7)
     x.setBins(80)
 
     # Creare RooDataHist dal TH1F
@@ -81,7 +81,7 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     CMS.SetExtraText("Preliminary")
     CMS.SetLumi("2022+2023, 62.4", unit="fb")
     CMS.SetEnergy(13.6, unit='TeV')
-    canv = CMS.cmsCanvas("",  5.05, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.01, iPos=0)
+    canv = CMS.cmsCanvas("",  5.2, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.01, iPos=0)
     canv.SetCanvasSize(1000,700)
     frame.Draw("same")
     
