@@ -6,6 +6,7 @@
 #include <ROOT/RDataFrame.hxx>
 #include <ROOT/RVec.hxx>
 #include <ROOT/RDF/RInterface.hxx>
+#include <TLorentzVector.h>
 #include <TFile.h>
 #include <TMath.h>
 #include <TTree.h>
