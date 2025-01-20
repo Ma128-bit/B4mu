@@ -1157,8 +1157,8 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     vtx2.SetXYZ(vtx2x, vtx2y, vtx2z);
     TLorentzVector  Bvtx = Blorentz[minimizerPos2];
 
-    //double ct = Get_ct_2D(Bvtx, vtx2, vtx1);
-    double ct = TMath::Sqrt((vtx1x-vtx2x)*(vtx1x-vtx2x) + (vtx1y-vtx2y)*(vtx1y-vtx2y) + (vtx1z-vtx2z)*(vtx1z-vtx2z))/(Bvtx.Beta()*Bvtx.Gamma());
+    double ct = Get_ct_2D(Bvtx, vtx2, vtx1);
+    //double ct = TMath::Sqrt((vtx1x-vtx2x)*(vtx1x-vtx2x) + (vtx1y-vtx2y)*(vtx1y-vtx2y) + (vtx1z-vtx2z)*(vtx1z-vtx2z))/(Bvtx.Beta()*Bvtx.Gamma());
 
     return ct;
 
