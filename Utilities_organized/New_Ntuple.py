@@ -168,7 +168,7 @@ if __name__ == "__main__":
     df = df.Define("category", "RefittedSV_Mass_reso < 0.027 ? 0 : RefittedSV_Mass_reso < 0.038 ? 1 : 2")
     df = df.Define("eta_category", "abs(Quadruplet_Eta) < 0.8 ? 0 : (abs(Quadruplet_Eta) < 1.2 ? 1 : 2)")
 
-    df = df.Define("new_ct", "new_tau(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
+    #df = df.Define("new_ct", "new_tau(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
 
     if isB4mu==True:
         #Filters for omega and phi:
