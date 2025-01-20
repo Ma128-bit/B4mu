@@ -1108,7 +1108,7 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     if(label == "None") {return -999;}
     for(int i=0; i<GenParticle_Pt.size(); i++){
         if( abs(GenParticle_PdgId.at(i))==pdgID && ( ( (label == "contol4mu" || label == "contol2mu") && abs(GenParticle_GrandMotherPdgId.at(i))==531 ) || ( label != "contol4mu" && label != "contol2mu" && abs(GenParticle_MotherPdgId.at(i))==531 ) ) ){
-            cout<<"AAAAAAA *****"<<endl;
+            //cout<<"AAAAAAA *****"<<endl;
             double dphi = abs(Mu1_Phi - GenParticle_Phi.at(i));
             double deta = abs(Mu1_Eta - GenParticle_Eta.at(i));
             if(dphi > double(M_PI)) dphi -= double(2*M_PI);
