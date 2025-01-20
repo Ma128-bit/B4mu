@@ -196,6 +196,14 @@ int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     else return -1;
 }
 
+double new_tau(double QuadrupletVtx_x, double QuadrupletVtx_y, double QuadrupletVtx_z, double RefittedPV_x, double RefittedPV_y, double RefittedPV_z, double Quadruplet_Pt, double Quadruplet_Eta, double Quadruplet_Phi){
+    TLorentzVector temp;
+    temp.SetPtEtaPhiM(Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, 5.366);
+
+    double ct = TMath::Sqrt((QuadrupletVtx_x-RefittedPV_x)*(QuadrupletVtx_x-RefittedPV_x) + (QuadrupletVtx_y-RefittedPV_y)*(QuadrupletVtx_y-RefittedPV_y) + (QuadrupletVtx_z-RefittedPV_z)*(QuadrupletVtx_z-RefittedPV_z))/(temp.Beta()*temp.Gamma());
+}
+
+
 
 double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((GENeff_Bs22*ANAeff_Bs22)/(GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))<<endl;
