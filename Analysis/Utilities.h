@@ -1108,9 +1108,6 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     vector<TLorentzVector> Blorentz;
     pdgID1 = 13; pdgID2 = 13;
     if(label == "None") {return -999;}
-    if(label == "contol4mu") {pdgID1 = 443; pdgID2 = 211;}
-    else if(label == "contol2mu") {pdgID1 = 443; pdgID2 = 443;}
-    else {}
     for(int i=0; i<GenParticle_Pt.size(); i++){
         if((abs(GenParticle_PdgId.at(i))==pdgID1 || abs(GenParticle_PdgId.at(i))==pdgID2) && ( ( (label == "contol4mu" || label == "contol2mu") && abs(GenParticle_GrandMotherPdgId.at(i))==531 ) || ( label != "contol4mu" && label != "contol2mu" && abs(GenParticle_MotherPdgId.at(i))==531 ) ) ){
             double dphi = abs(Mu1_Phi - GenParticle_Phi.at(i));
