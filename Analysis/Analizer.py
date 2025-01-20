@@ -318,10 +318,10 @@ if __name__ == "__main__":
         rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
         rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
 
-    if(isMC>0):
-        rdf = rdf.Redefine("Gen_ct_control", "new_tau(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
-        rdf = rdf.Redefine("Gen_ct_signal", "new_tau(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
-
+    
+    rdf = rdf.Define("new_ct", "new_tau(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")
+    branches.append("new_ct")
+    
     rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+".root", branches)
     
     print(time.ctime(time.time()), " -- Performed ",rdf.GetNRuns()," loops")
