@@ -9,7 +9,7 @@ from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TStrin
 from scipy.constants import c as speed_of_light
 
 gROOT.SetBatch(True)
-EnableImplicitMT()
+EnableImplicitMT(2)
 
 gInterpreter.Declare("""
     int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
@@ -28,6 +28,17 @@ gInterpreter.Declare("""
         else return "None";
     }
 
+    double add_lumiW(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
+        if(id.Contains("MC_B2mu2K_2022")) return 377423.0/314750.0; //Normalization to the number of events in data
+        if(id.Contains("MC_B2mu2K_2023")) return 330509.0/344742.0; //Normalization to the number of events in data
+        if(id.Contains("MC_B2muKpi_2022")) return 1;
+        if(id.Contains("MC_B2muKpi_2023")) return 1;
+
+        if(id.Contains("Data_B2mu2K_2022")) return 1;
+        if(id.Contains("Data_B2mu2K_2023")) return 1;
+        else return 1;
+    }
+
     double weight_to_new_ctau(double old_ctau, double new_ctau, double ct){
         /*
         Returns an event weight based on the ratio of the normalised lifetime distributions.
@@ -35,7 +46,10 @@ gInterpreter.Declare("""
         new_ctau: target ctau
         ct      : per-event lifetime
         */
-        double weight = old_ctau / new_ctau * TMath::Exp((1.0 / old_ctau - 1.0 / new_ctau) * ct);
+        double weight = 1;
+        if(ct>0){
+            weight = old_ctau / new_ctau * TMath::Exp((1.0 / old_ctau - 1.0 / new_ctau) * ct);
+        }
         return weight;
     }
 
@@ -150,6 +164,7 @@ if __name__ == "__main__":
     df = df.Redefine("run", "(unsigned int)run")
     df = df.Redefine("lumi", "(unsigned int)lumi")
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
+    df = df.DefinePerSample("wnevt", "add_lumiW(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("isMC2", "redef_isMC(rdfslot_, rdfsampleinfo_)")
     df = df.Redefine("isMC", "isMC2")
 
@@ -184,6 +199,6 @@ if __name__ == "__main__":
         subprocess.run(["mkdir", "ROOTFiles_"+label])
 
     df = two_mu_cuts(df, cuts, resonances, B2mu2X)
-    b_weights = ["ID", "year", "weight_pileUp", "ctau_weight_central","weight"]
-    df=df.Define("weight", "weight_pileUp*ctau_weight_central")
+    b_weights = ["ID", "year", "weight_pileUp", "ctau_weight_central","weight","wnevt"]
+    df=df.Define("weight", "wnevt*weight_pileUp*ctau_weight_central")
     df.Snapshot("FinalTree", "ROOTFiles_"+label+"/All"+B2mu2X+str(year)+".root", branches+b_weights)

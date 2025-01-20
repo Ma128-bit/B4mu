@@ -1,10 +1,7 @@
 import sys, os, subprocess, json, pickle, uproot, argparse
 import numpy as np
 import pandas as pd
-from datetime import datetime
-from tqdm import tqdm
 from xgboost import XGBRegressor, plot_importance
-import mplhep as hep
 import awkward as ak
 from matplotlib import pyplot as plt
 from ROOT import RDF
@@ -16,11 +13,11 @@ branches = [
     "QuadrupletVtx_Chi2", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi",
     "vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", 
     "mu1_bs_dxy_sig", "mu2_bs_dxy_sig","mu3_bs_dxy_sig", "mu4_bs_dxy_sig",
-    "Cos2d_BS_SV", "Cos2d_PV_SV", "weight",
+    "Cos2d_BS_SV", "Cos2d_PV_SV", "weight", "RefittedSV_Mass_reso",
     "RefittedSV_Mass", "RefittedSV_Mass_err", "ID", "year", "category"
 ]
 
-controlKK_branches = ["Ditrk_mass", "Dimu_mass", "ID", "year", "weight_pileUp", "ctau_weight_central", "nsigBs_sw"]
+controlKK_branches = ["RefittedSV_Mass_eq", "Ditrk_mass", "Dimu_mass", "ID", "year", "weight_pileUp", "ctau_weight_central", "nsigBs_sw"]
 control_branches = ["mu3_pfreliso03", "mu4_pfreliso03", "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", "Quadruplet_Mass_eq", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "NewMassEqation"]
 signal_branches = ["mu3_pfreliso03", "mu4_pfreliso03", "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", "Quadruplet_Mass_eq",  "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "Jpsicut", "phicut", "omegacut", "psi2scut", "bdt_weight", "w_mc"]
 

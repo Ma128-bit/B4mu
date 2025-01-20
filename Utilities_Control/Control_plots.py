@@ -3,21 +3,21 @@ gROOT.SetBatch(True)
 import sys, os, subprocess, argparse
 import cmsstyle as CMS
 
-import pandas as pd
-
-
-var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass", "RefittedSV_Mass_eq", "bdt"]
+var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass", "RefittedSV_Mass_eq", "bdt", "RefittedSV_Mass_reso"]
 
 binning_dict = {
     "vtx_prob": "(50,0.01,1.0)",
     "mu1_pfreliso03": "(50,0,10)",
     "mu2_pfreliso03": "(50,0,10)",
-    "FlightDistBS_SV_Significance": "(50,3,400)",
+    "MVASoft1": "(50,0.2,0.8)",
+    "MVASoft2": "(50,0.2,0.8)",
+    "FlightDistBS_SV_Significance": "(50,0,400)",
+    "RefittedSV_Mass_reso": "(50,0.01,0.08)",
     "mu1_bs_dxy_sig": "(50,-100,100)",
     "mu2_bs_dxy_sig": "(50,-100,100)",
     "mu3_bs_dxy_sig": "(50,-75,75)",
     "mu4_bs_dxy_sig": "(50,-75,75)",
-    "Cos2d_BS_SV": "(50,0.95,1)",
+    "Cos2d_BS_SV": "(50,0.97,1)",
     "Quadruplet_Eta": "(50,-2.5,2.5)",
     "RefittedSV_Mass_eq": "(50,5.2,5.6)",
     "RefittedSV_Mass": "(50,5.2,5.6)",
@@ -29,7 +29,10 @@ log_dict = {
     "vtx_prob": False,
     "mu1_pfreliso03": True,
     "mu2_pfreliso03": True,
+    "MVASoft1": False,
+    "MVASoft2": False,
     "FlightDistBS_SV_Significance": True,
+    "RefittedSV_Mass_reso": False,
     "mu1_bs_dxy_sig": True,
     "mu2_bs_dxy_sig": True,
     "mu3_bs_dxy_sig": True,
@@ -67,11 +70,15 @@ def control_plots(file_name, year):
         legend_label = "sWeighted"
         data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0 && RefittedSV_Mass_eq>5.2 && RefittedSV_Mass_eq<5.7)")
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
-        data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*weight*(isMC>0)")
+        data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*weight*(isMC>0)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
+
+        data.Draw(varname + ">>hMC_signw" + s + binning, "nsigBs_sw*weight*(isMC>0)")
+        hMC_signw = TH1F(gDirectory.Get("hMC_signw" + s))
 
         # Rescaling
         hMC_sig.Scale(1 / hMC_sig.Integral(1,int(numbers[0])))
+        hMC_signw.Scale(1 / hMC_signw.Integral(1,int(numbers[0])))
         hdata_sig.Scale(1 / hdata_sig.Integral(1,int(numbers[0])))
 
         CMS.SetExtraText("Preliminary")
@@ -94,13 +101,18 @@ def control_plots(file_name, year):
         hMC_sig.SetLineWidth(2)
         hMC_sig.SetFillStyle(3004)
         hMC_sig.Draw("Hsame")
+        hMC_signw.SetFillColor(0)  # Set fill color to 0 for transparency
+        hMC_signw.SetLineWidth(2)
+        hMC_signw.SetLineColor(17)  # Set line color to light gray
+        hMC_signw.Draw("Hsame")
         hdata_sig.SetLineColor(1)
         hdata_sig.SetLineWidth(2)
         hdata_sig.Draw("samePE1")
 
-        legend = TLegend(0.61, 0.7, 0.9, 0.9)
+        legend = TLegend(0.61, 0.65, 0.9, 0.9)
         legend.AddEntry(hdata_sig, "sWeighted Data", "lep") 
-        legend.AddEntry(hMC_sig, "MC B^{0}_{s} J/#psi(#mu#mu)#phi(KK)", "f")  
+        legend.AddEntry(hMC_sig, "reWeighted MC B^{0}_{s} J/#psi(#mu#mu)#phi(KK)", "f")  
+        legend.AddEntry(hMC_signw, "MC B^{0}_{s} J/#psi(#mu#mu)#phi(KK)", "f")  
         legend.SetBorderSize(0)       
         legend.SetFillStyle(0)    
         legend.Draw("same")
@@ -118,6 +130,13 @@ def control_plots(file_name, year):
         line3.SetLineColor(1)
         line3.SetLineWidth(2)
         line3.SetLineStyle(kDashed)
+        h_x_ratio2 = hdata_sig.Clone()
+        h_x_ratio2.Sumw2()
+        h_x_ratio2.Divide(hMC_signw)
+        h_x_ratio2.SetLineColor(17)
+        h_x_ratio2.SetMarkerColor(17)
+        h_x_ratio2.SetLineWidth(2)
+        h_x_ratio2.Draw("samePE1")
         h_x_ratio = hdata_sig.Clone()
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)

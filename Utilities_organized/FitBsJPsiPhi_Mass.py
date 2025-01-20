@@ -105,18 +105,39 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     CMS.SetExtraText("Preliminary")
     CMS.SetLumi("2022+2023+2024, 171.5", unit="fb")
     CMS.SetEnergy(13.6, unit='TeV')
-    canv = CMS.cmsCanvas("",  5.05, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.01, iPos=0)
-    canv.SetCanvasSize(1000,700)
+    canv = CMS.cmsCanvas("",  5.1, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.02, iPos=11)
+    canv.SetCanvasSize(1000,750)
     frame.Draw("same")
     
-    legend = ROOT.TLegend(0.7, 0.7, 0.9, 0.9)  
+    legend = ROOT.TLegend(0.60, 0.65, 0.95, 0.9)
+    legend.SetTextSize(0.03)
     #legend.SetBorderSize(0)  # Rimuove il bordo
     #legend.SetTextSize(0.03)  # Dimensione del testo
+    dummy_graph = ROOT.TGraphErrors(1)  # Create a dummy graph
+    dummy_graph.SetMarkerStyle(20)  # Circle marker
+    dummy_graph.SetMarkerSize(1.0)  # Size of the markers
+    dummy_graph.SetLineColor(ROOT.kBlack)  # Color of the line
+    dummy_graph.SetMarkerColor(ROOT.kBlack)  # Color of the marker
+    dummy_graph.SetPoint(0, 1, 1)  # Dummy point for display
+    dummy_graph.SetPointError(0, 0.1, 0.2)  # Error with caps
+    legend.AddEntry(dummy_graph, "Data", "ep")  
 
-    legend.AddEntry(data, "Data", "p")
-    legend.AddEntry(signal_curve, "Total", "l")  # "l" significa che l'oggetto è una linea
-    legend.AddEntry(signal_curve, "B_{s} /rightarow J/#psi(#mu#mu)#phi(#mu#mu)", "l")  # "l" significa che l'oggetto è una linea
-    legend.AddEntry(bkg_curve, "Background", "l")
+    sum_pdf = ROOT.TGraph()
+    sum_pdf.SetLineColor(ROOT.kBlue)
+    sum_pdf.SetLineWidth(3)     
+    legend.AddEntry(sum_pdf, "Total", "l")
+
+    sig_pdf = ROOT.TGraph()
+    sig_pdf.SetLineColor(ROOT.kRed)
+    sig_pdf.SetLineWidth(3)
+    sig_pdf.SetLineStyle(2)
+    legend.AddEntry(sig_pdf, "B_{s} /rightarow J/#psi(#mu#mu)#phi(#mu#mu)", "l")
+
+    bkg_pdf = ROOT.TGraph()
+    bkg_pdf.SetLineColor(ROOT.kGreen)
+    bkg_pdf.SetLineWidth(3)
+    bkg_pdf.SetLineStyle(2)
+    legend.AddEntry(bkg_pdf, "Background", "l")
 
     legend.Draw("same")
 
@@ -127,14 +148,15 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     return nsig.getVal(), nsig.getError()
 
 if __name__=="__main__":
-    FitBsJPsiPhi_Mass("_bdt", "09_12_24", f"bdt>0.48")
+    
+    FitBsJPsiPhi_Mass("_bdt", "07_01_25", f"bdt>0.56")
     """
     cut = []
     nBs = []
     nBS_err = []
     nBS_ratio = []
     for i in range(25):
-        val, err = FitBsJPsiPhi_Mass("_bdt", "09_12_24", f"bdt>{i/25}")
+        val, err = FitBsJPsiPhi_Mass("_bdt", "07_01_25", f"bdt>{i/25}")
         nBs.append(val)
         nBS_err.append(err)
         nBS_ratio.append(val/err if err!=0 else 0)
