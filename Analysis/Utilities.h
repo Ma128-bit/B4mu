@@ -1106,10 +1106,8 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     vector<double> Y2;
     vector<double> Z2;
     vector<TLorentzVector> Blorentz;
-    if(label == "None") {return -1;}
-    if(label == "contol4mu") {pdgID1 = 443; pdgID2 = 211;}
-    else if(label == "contol2mu") {pdgID1 = 443; pdgID2 = 443;}
-    else {pdgID1 = 13; pdgID2 = 13;}
+    if(label == "None") {return -999;}
+    pdgID1 = 13; pdgID2 = 13;
     for(int i=0; i<GenParticle_Pt.size(); i++){
         if((abs(GenParticle_PdgId.at(i))==pdgID1 || abs(GenParticle_PdgId.at(i))==pdgID2) && abs(GenParticle_MotherPdgId.at(i))==531){
             double dphi = abs(Mu1_Phi - GenParticle_Phi.at(i));
@@ -1143,8 +1141,8 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
             }
         }
     }
-    if(minimizer.empty()) return -1;
-    if(minimizer2.empty()) return -1;
+    if(minimizer.empty()) return -999;
+    if(minimizer2.empty()) return -999;
     auto minimizerObj1 = std::min_element(minimizer.begin(), minimizer.end());
     int minimizerPos1 = std::distance(minimizer.begin(), minimizerObj1);
     double vtx1x = X1[minimizerPos1];
