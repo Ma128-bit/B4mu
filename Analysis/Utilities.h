@@ -1095,8 +1095,7 @@ double NoRefitMassB4mu(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2,
 }
 
 double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, double Mu1_Pt, double Mu1_Eta, double Mu1_Phi,  double Quadruplet_Pt, double Quadruplet_Eta, double Quadruplet_Phi, ROOT::VecOps::RVec<double> GenParticle_Pt, ROOT::VecOps::RVec<double> GenParticle_Eta, ROOT::VecOps::RVec<double> GenParticle_Phi, ROOT::VecOps::RVec<int> GenParticle_PdgId, ROOT::VecOps::RVec<int> GenParticle_MotherPdgId, ROOT::VecOps::RVec<int> GenParticle_GrandMotherPdgId, ROOT::VecOps::RVec<double> GenParticle_vx, ROOT::VecOps::RVec<double> GenParticle_vy, ROOT::VecOps::RVec<double> GenParticle_vz){
-    int pdgID1 = 0;
-    int pdgID2 = 0;
+    int pdgID = 13;
     vector<double> minimizer;
     vector<double> X1;
     vector<double> Y1;
@@ -1106,10 +1105,10 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
     vector<double> Y2;
     vector<double> Z2;
     vector<TLorentzVector> Blorentz;
-    pdgID1 = 13; pdgID2 = 13;
     if(label == "None") {return -999;}
     for(int i=0; i<GenParticle_Pt.size(); i++){
-        if((abs(GenParticle_PdgId.at(i))==pdgID1 || abs(GenParticle_PdgId.at(i))==pdgID2) && ( ( (label == "contol4mu" || label == "contol2mu") && abs(GenParticle_GrandMotherPdgId.at(i))==531 ) || ( label != "contol4mu" && label != "contol2mu" && abs(GenParticle_MotherPdgId.at(i))==531 ) ) ){
+        if( abs(GenParticle_PdgId.at(i))==pdgID && ( ( (label == "contol4mu" || label == "contol2mu") && abs(GenParticle_GrandMotherPdgId.at(i))==531 ) || ( label != "contol4mu" && label != "contol2mu" && abs(GenParticle_MotherPdgId.at(i))==531 ) ) ){
+            cout<<"AAAAAAA *****"<<endl;
             double dphi = abs(Mu1_Phi - GenParticle_Phi.at(i));
             double deta = abs(Mu1_Eta - GenParticle_Eta.at(i));
             if(dphi > double(M_PI)) dphi -= double(2*M_PI);
