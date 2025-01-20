@@ -1141,7 +1141,7 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
         }
     }
     if(minimizer.empty()) return -999;
-    if(minimizer2.empty()) return -999;
+    if(minimizer2.empty()) return -990;
     auto minimizerObj1 = std::min_element(minimizer.begin(), minimizer.end());
     int minimizerPos1 = std::distance(minimizer.begin(), minimizerObj1);
     double vtx1x = X1[minimizerPos1];
