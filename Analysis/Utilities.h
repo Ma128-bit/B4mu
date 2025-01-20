@@ -1164,6 +1164,14 @@ double Gen_ct(TString label, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVe
 
 }
 
+double new_tau(double QuadrupletVtx_x, double QuadrupletVtx_y, double QuadrupletVtx_z, double RefittedPV_x, double RefittedPV_y, double RefittedPV_z, double Quadruplet_Pt, double Quadruplet_Eta, double Quadruplet_Phi){
+    TLorentzVector temp;
+    temp.SetPtEtaPhiM(Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, 5.366);
+
+    double ct = TMath::Sqrt((QuadrupletVtx_x-RefittedPV_x)*(QuadrupletVtx_x-RefittedPV_x) + (QuadrupletVtx_y-RefittedPV_y)*(QuadrupletVtx_y-RefittedPV_y) + (QuadrupletVtx_z-RefittedPV_z)*(QuadrupletVtx_z-RefittedPV_z))/(temp.Beta()*temp.Gamma());
+    return ct;
+}
+
 
 double NoRefitMassB2mu2K(ROOT::VecOps::RVec<float> MuonPt, double pt1, double pt2, double pt3, double pt4, double eta3, double eta4, double phi3, double phi4,  ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonEnergy){
     vector<int> index = get_2index(MuonPt, pt1, pt2);
