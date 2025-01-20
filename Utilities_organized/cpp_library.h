@@ -201,7 +201,7 @@ double new_tau(double QuadrupletVtx_x, double QuadrupletVtx_y, double Quadruplet
     temp.SetPtEtaPhiM(Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi, 5.366);
 
     double ct = TMath::Sqrt((QuadrupletVtx_x-RefittedPV_x)*(QuadrupletVtx_x-RefittedPV_x) + (QuadrupletVtx_y-RefittedPV_y)*(QuadrupletVtx_y-RefittedPV_y) + (QuadrupletVtx_z-RefittedPV_z)*(QuadrupletVtx_z-RefittedPV_z))/(temp.Beta()*temp.Gamma());
-    return ct
+    return ct;
 }
 
 
