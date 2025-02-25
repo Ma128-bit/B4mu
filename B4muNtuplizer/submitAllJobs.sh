@@ -24,6 +24,7 @@ declare -a era2022postE=("F" "G")
 declare -a era2023=("B" "C-v1" "C-v2" "C-v3" "C-v4" "D-v1" "D-v2")
 declare -a era2024=("B" "C" "D" "E-v1" "E-v2" "F" "G" "H" "I-v1" "I-v2")
 declare -a MCeras=("MC_pre" "MC_post")
+declare -a MCeras24=("MC")
 
 current_dir=$(pwd)
 
@@ -52,7 +53,13 @@ if [ "$MCflag" == "false" ]; then
         return
     fi
 else
-    era=("${MCeras[@]}")
+    if [[ "$year" == "2022" ]]; then
+        era=("${MCeras[@]}")
+    elif [[ "$year" == "2023" ]]; then
+        era=("${MCeras[@]}")
+    else
+        era=("${MCeras24[@]}")
+    fi
 fi
 
 cd CrabSubmission
