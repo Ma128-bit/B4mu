@@ -321,6 +321,7 @@ vector<int> B4mu_QuadSel(int isMC, uint64_t evt, ROOT::VecOps::RVec<float> MuonP
         // Pre-selections 
         if(Mu1_Pt.at(j)==-99 || Mu2_Pt.at(j) == -99 || Mu3_Pt.at(j) == -99 || Mu4_Pt.at(j) == -99 || RefTrack1_Pt.at(j) == -99){ continue;}
         if(!((int)Quadruplet_Charge.at(j) == 0)) { continue;}
+        //if(!((int)Quadruplet_Charge.at(j) != 0)) { continue;}
         //if(!(vtx_prob.at(j)>0 && FlightDistBS_SV_Significance.at(j)>4)){ continue;} 
         if(!(vtx_prob.at(j)>0)){ continue;} 
         //if(!(Cos2D_(QuadrupletVtx_x.at(j), QuadrupletVtx_y.at(j), RefittedPV_x.at(j), RefittedPV_y.at(j), Quadruplet_Pt.at(j), Quadruplet_Eta.at(j), Quadruplet_Phi.at(j))>0.95)) { continue;}
@@ -492,7 +493,7 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
         
         //Cut2 FlightDistBS_SV_Significance, dR and dz
         //if(FlightDistBS_SV_Significance.at(j) < 3 ) continue;
-        if(!(Cos2D_(QuadrupletVtx_x.at(j), QuadrupletVtx_y.at(j), RefittedPV_x.at(j), RefittedPV_y.at(j), Quadruplet_Pt.at(j), Quadruplet_Eta.at(j), Quadruplet_Phi.at(j))>0.95)) { continue;}
+        //if(!(Cos2D_(QuadrupletVtx_x.at(j), QuadrupletVtx_y.at(j), RefittedPV_x.at(j), RefittedPV_y.at(j), Quadruplet_Pt.at(j), Quadruplet_Eta.at(j), Quadruplet_Phi.at(j))>0.95)) { continue;}
         
         //Cut2 CMS muon system acceptance
         bool acceptanceCUT = true;
@@ -1425,4 +1426,8 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
     if(Gen_matching==4) return 1;
     if(Gen_matching==3 && Gen_matching_p2==1) return 2;
     else return 99;
+}
+
+int get_size(const std::vector<int>& vec) {
+    return vec.size();
 }

@@ -79,7 +79,7 @@ void AddMC_Model(RooWorkspace &ws){
     ws.import(massModel, RecycleConflictNodes());
 }
 void AddData(RooWorkspace &ws, TString name_file = "AllB2mu2K2022.root", TString tree_name = "FinalTree", TString selMC = "isMC==0"){
-    TFile *file = new TFile("./ROOTFiles_16_01_25/"+name_file);
+    TFile *file = new TFile("./ROOTFiles_24_01_25/"+name_file);
     TTree *tree = (TTree*)file->Get(tree_name);
     RooAbsPdf *model = ws.pdf("model");
     RooRealVar *xMass = ws.var("RefittedSV_Mass_eq");

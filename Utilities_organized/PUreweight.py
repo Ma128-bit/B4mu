@@ -1,6 +1,7 @@
 from ROOT import TChain, gROOT, gDirectory, TFile, TCanvas, TH1F, kRed, kBlue, TLegend, kGreen
 gROOT.SetBatch(True)
 import math, os, sys, subprocess, argparse
+import cmsstyle as CMS
 """
 subprocess.run(["mkdir", "PileUp"])
 subprocess.run(['wget', '-O', 'PileUp/PU_MC2022.root', 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/PileUp/BCDEFG/pileupHistogram-Cert_Collisions2022_355100_362760_GoldenJson-13p6TeV-69200ub-99bins.root'])
@@ -57,21 +58,25 @@ if __name__ == "__main__":
     hist_ratio_signal.Divide(hist_Data, hist_MC)
     hist_ratio_control.Divide(hist_Data, hist_MC2)
 
-    c = TCanvas()
+    CMS.SetExtraText("Preliminary")
+    CMS.SetLumi("2022, 34.6", unit="fb")
+    CMS.SetEnergy(13.6, unit='TeV')
+    c = CMS.cmsCanvas("",  0, 90, 0, 1.2*hist_Data.GetMaximum() , "N. pileup int.", 'a.u.', square=CMS.kSquare, extraSpace=0.04, iPos=11)
+    c.SetCanvasSize(1000,500)
     c.cd()
-    hist_Data.Draw("Histo")
+    hist_Data.Draw("Histo same")
     hist_MC.Draw("Histo same")
     hist_Data.SetLineColor(kRed)    
     hist_MC.SetLineColor(kBlue)  
     hist_MC_rw = hist_MC.Clone("hist_MC_rw")  # Clona hist1 in un nuovo istogramma
     hist_MC_rw.Multiply(hist_ratio_signal)
     #hist_MC_rw.Scale(1/hist_MC_rw.Integral())
-    hist_MC_rw.SetLineColor(kGreen)  
-    hist_MC_rw.Draw("Histo same")
-    legend = TLegend(0.7, 0.7, 0.9, 0.9) 
+    #hist_MC_rw.SetLineColor(kGreen)  
+    #hist_MC_rw.Draw("Histo same")
+    legend = TLegend(0.68, 0.68, 0.95, 0.9) 
     legend.AddEntry(hist_Data, "Data", "l")  
     legend.AddEntry(hist_MC, "MC", "l") 
-    legend.AddEntry(hist_MC_rw, "MC rw", "l") 
+    #legend.AddEntry(hist_MC_rw, "MC rw", "l") 
     legend.Draw()
     #hist_MC2.Draw("Histo same")
     c.SaveAs("PileUp/PUDist"+year+"_"+label+".png")

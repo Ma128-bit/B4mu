@@ -1,15 +1,18 @@
-import sys, os, subprocess, json
+import sys, os, subprocess
 import time
 start = time.time()
 
-import pickle
 import argparse
-from tqdm import tqdm
-from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TString, std, TFile
 from scipy.constants import c as speed_of_light
 
+print("Done imports p1!")
+
+os.environ['PATH'] += ':/lustrehome/mbuonsante/miniconda3/envs/root_env/bin'
+from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TString, std, TFile
+print("Done imports p2!")
+
 gROOT.SetBatch(True)
-EnableImplicitMT(2)
+EnableImplicitMT()
 
 gInterpreter.Declare("""
     int redef_isMC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
@@ -26,6 +29,12 @@ gInterpreter.Declare("""
         if(id.Contains("Data_B2mu2K_2022")) return "Data_B2mu2K_2022";
         if(id.Contains("Data_B2mu2K_2023")) return "Data_B2mu2K_2022";
         else return "None";
+    }
+                     
+    double new_tau2D(double QuadrupletVtx_x, double QuadrupletVtx_y, double BS_x, double BS_y, double Quadruplet_Pt){
+
+        double ct = 5.366*TMath::Sqrt((QuadrupletVtx_x-BS_x)*(QuadrupletVtx_x-BS_x) + (QuadrupletVtx_y-BS_y)*(QuadrupletVtx_y-BS_y))/(Quadruplet_Pt);
+        return ct;
     }
 
     double add_lumiW(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
@@ -94,7 +103,7 @@ branches = [
     "QuadrupletVtx_Chi2", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "mu1_pfreliso03",
     "mu2_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", 
     "vtx_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", "Cos2d_BS_SV", "Gen_ct_signal", "Gen_ct_control",
-    "RefittedSV_Mass", "RefittedSV_Mass_err", "MVASoft1", "MVASoft2", "Ditrk_mass", "Dimu_mass"
+    "RefittedSV_Mass", "RefittedSV_Mass_err", "MVASoft1", "MVASoft2", "Ditrk_mass", "Dimu_mass", "new_ct"
 ]
 cuts={
     "Jpsi": [[75,60], [110,85], [140,110]],
@@ -169,10 +178,11 @@ if __name__ == "__main__":
     df = df.Redefine("isMC", "isMC2")
 
     # Bs LifeTime reweithg: taken from Rebecca: https://gitlab.cern.ch/regartner/b4mu-analysis/-/blob/master/data_MC_correction/bs_lifetime_reweighting.py
-    ctau_actual = 4.4129450e-01  # from EvtGen  # in mm -> tau = 1.47e-12
-    ctau_pdg = 1.527e-12 * speed_of_light * 1000.0  # in mm ===> 457 mm
+    ctau_actual = 4.4129450e-2  # from EvtGen  # in cm -> tau = 1.47e-12
+    ctau_pdg = 1.527e-12 * speed_of_light * 100.0  # in cm
 
-    df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
+    #df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
+    df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "new_ct", "new_ct"])
 
     #FixME start
     h_vectors = std.vector(TH1F)()
@@ -198,7 +208,8 @@ if __name__ == "__main__":
     if not os.path.exists("ROOTFiles_"+label):
         subprocess.run(["mkdir", "ROOTFiles_"+label])
 
+    df = df.Define("new_ct2D", "new_tau2D(QuadrupletVtx_x, QuadrupletVtx_y, BS_x, BS_y, Quadruplet_Pt)")
     df = two_mu_cuts(df, cuts, resonances, B2mu2X)
-    b_weights = ["ID", "year", "weight_pileUp", "ctau_weight_central","weight","wnevt"]
+    b_weights = ["ID", "year", "weight_pileUp", "ctau_weight_central","weight","wnevt","new_ct2D"]
     df=df.Define("weight", "wnevt*weight_pileUp*ctau_weight_central")
     df.Snapshot("FinalTree", "ROOTFiles_"+label+"/All"+B2mu2X+str(year)+".root", branches+b_weights)

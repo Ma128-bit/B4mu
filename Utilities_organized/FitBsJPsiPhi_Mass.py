@@ -1,5 +1,6 @@
 import ROOT
-from ROOT import RooFit, RooRealVar, RooDataHist, RooExponential, RooAddPdf, RooPlot
+from ROOT import RooFit, RooRealVar, RooDataHist, RooExponential, RooAddPdf, RooPlot, gROOT
+gROOT.SetBatch(True)
 import os
 import cmsstyle as CMS
 import matplotlib.pyplot as plt
@@ -62,10 +63,31 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     frame2 = x.frame()
     MC.plotOn(frame2)
     gauss_pdf.plotOn(frame2, RooFit.LineStyle(ROOT.kDashed), RooFit.LineColor(ROOT.kRed))
-    gauss_pdf.paramOn(frame2, RooFit.Parameters(ROOT.RooArgSet(mu, gamm, lambd, delta)), RooFit.Layout(0.6,0.9,0.9))
-    c =  ROOT.TCanvas("canvas2", "Fit Result2", 900, 600)
+    leg = ROOT.TLegend(0.65, 0.65, 0.95, 0.9)
+    leg.SetTextSize(0.03)
+    dummy = ROOT.TGraphErrors(1)  # Create a dummy graph
+    dummy.SetMarkerStyle(20)  # Circle marker
+    dummy.SetMarkerSize(1.0)  # Size of the markers
+    dummy.SetLineColor(ROOT.kBlack)  # Color of the line
+    dummy.SetMarkerColor(ROOT.kBlack)  # Color of the marker
+    dummy.SetPoint(0, 1, 1)  # Dummy point for display
+    dummy.SetPointError(0, 0.1, 0.2)  # Error with caps
+    leg.AddEntry(dummy, "MC B^{0}_{s} #rightarrow J/#psi(#mu#mu)#phi(#mu#mu)", "ep")  
+    pdf = ROOT.TGraph()
+    pdf.SetLineColor(ROOT.kRed)
+    pdf.SetLineWidth(3)
+    pdf.SetLineStyle(2)
+    leg.AddEntry(pdf, "Fit Function", "l")
+
+    CMS.SetExtraText("Preliminary Simulation")
+    CMS.SetLumi("2022+2023+2024, 170.7", unit="fb")
+    CMS.SetEnergy(13.6, unit='TeV')
+    #gauss_pdf.paramOn(frame2, RooFit.Parameters(ROOT.RooArgSet(mu, gamm, lambd, delta)), RooFit.Layout(0.6,0.9,0.9))
+    c = CMS.cmsCanvas("",  5.1, 5.7, 0, 1.2*h2.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.02, iPos=11)
+    c.SetCanvasSize(1000,750)
     c.cd()
-    frame2.Draw()
+    frame2.Draw("same")
+    leg.Draw("same")
     c.SaveAs("BsJPsiPhi_MassFit_"+label+"/Fit_MC_"+year+".png")
     c.Delete()
     del c
@@ -78,6 +100,7 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     lambd.setConstant(ROOT.kTRUE)
     delta.setConstant(ROOT.kTRUE) 
     gamm.setConstant(ROOT.kTRUE) 
+    #mu.setConstant(ROOT.kTRUE) 
     model = RooAddPdf("model", "Signal + Background", ROOT.RooArgList(gauss_pdf, exp_bkg), ROOT.RooArgList(nsig, nbkg))
 
     # Eseguire il fit
@@ -101,15 +124,15 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     model.plotOn(frame, RooFit.LineWidth(4))
 
     print("*****", h1.GetMaximum())
-    # Applicare lo stile CMS
     CMS.SetExtraText("Preliminary")
-    CMS.SetLumi("2022+2023+2024, 171.5", unit="fb")
+    CMS.SetLumi("2022+2023+2024, 170.7", unit="fb")
     CMS.SetEnergy(13.6, unit='TeV')
+    # Applicare lo stile CMS
     canv = CMS.cmsCanvas("",  5.1, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.02, iPos=11)
     canv.SetCanvasSize(1000,750)
     frame.Draw("same")
     
-    legend = ROOT.TLegend(0.60, 0.65, 0.95, 0.9)
+    legend = ROOT.TLegend(0.65, 0.65, 0.95, 0.9)
     legend.SetTextSize(0.03)
     #legend.SetBorderSize(0)  # Rimuove il bordo
     #legend.SetTextSize(0.03)  # Dimensione del testo
@@ -131,7 +154,7 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     sig_pdf.SetLineColor(ROOT.kRed)
     sig_pdf.SetLineWidth(3)
     sig_pdf.SetLineStyle(2)
-    legend.AddEntry(sig_pdf, "B_{s} /rightarow J/#psi(#mu#mu)#phi(#mu#mu)", "l")
+    legend.AddEntry(sig_pdf, "B^{0}_{s} #rightarrow J/#psi(#mu#mu)#phi(#mu#mu)", "l")
 
     bkg_pdf = ROOT.TGraph()
     bkg_pdf.SetLineColor(ROOT.kGreen)
@@ -141,22 +164,23 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
 
     legend.Draw("same")
 
-    CMS.SaveCanvas(canv, f"{dir_path}/Fit_BsJPsiPhi_{year}.png")
+    CMS.SaveCanvas(canv, f"{dir_path}/Fit_BsJPsiPhi_{year}"+f"_{bdt_sel}.png")
     #"""
     file.Close()
     del file 
     return nsig.getVal(), nsig.getError()
 
 if __name__=="__main__":
-    
-    FitBsJPsiPhi_Mass("_bdt", "07_01_25", f"bdt>0.56")
+    """
+    FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.48")
+    # nsig	  = 247.286	 +/-  16.3263
     """
     cut = []
     nBs = []
     nBS_err = []
     nBS_ratio = []
     for i in range(25):
-        val, err = FitBsJPsiPhi_Mass("_bdt", "07_01_25", f"bdt>{i/25}")
+        val, err = FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>{i/25}")
         nBs.append(val)
         nBS_err.append(err)
         nBS_ratio.append(val/err if err!=0 else 0)
@@ -166,7 +190,7 @@ if __name__=="__main__":
 
     hep.style.use("CMS")
     plt.figure(figsize=(8, 6))
-    hep.cms.label("Preliminary", data=True, lumi=171.5, com=13.6, fontsize=18)
+    hep.cms.label("Preliminary", data=True, lumi=170.7, com=13.6, fontsize=18)
     max_y = np.max(nBS_ratio)
     max_x = cut[np.argmax(nBS_ratio)]
     print(max_x)
@@ -178,4 +202,5 @@ if __name__=="__main__":
     plt.ylabel(r'$S/\sigma$')
     plt.tight_layout()
     plt.savefig("scatter_plot.png", dpi=300)
-    """
+    
+    

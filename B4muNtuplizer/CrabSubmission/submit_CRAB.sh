@@ -46,6 +46,8 @@ declare -a MC22_B4mu_post=("/BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtg
 declare -a MC23_B4mu_pre=("/BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v3/MINIAODSIM" "/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v3/MINIAODSIM" "/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v2/MINIAODSIM")
 declare -a MC23_B4mu_post=("/BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM" "/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM" "/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v2/MINIAODSIM")
 
+declare -a MC24_B4mu=("/BdTo4Mu_Fil-FourMuon_TuneCP5_13p6TeV_pythia8-evtgen/RunIII2024Summer24MiniAOD-140X_mcRun3_2024_realistic_v26-v2/MINIAODSIM" "/Bs0To4Mu_Fil-FourMuon_TuneCP5_13p6TeV_pythia8-evtgen/RunIII2024Summer24MiniAOD-140X_mcRun3_2024_realistic_v26-v2/MINIAODSIM" "/BsToJpsiPhi-JMM-PhiMM_Fil-Mu_Par-SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/RunIII2024Summer24MiniAOD-140X_mcRun3_2024_realistic_v26-v2/MINIAODSIM")
+
 declare -a B4mu_MC_label=("Bd" "Bs" "BsJPsiPhi")
 
 if [ "${year}" == "2022" ]; then
@@ -202,6 +204,12 @@ elif [ "${year}" == "2024" ]; then
         Data_ID=("${I_v2_2024[@]}")
         globaltag="140X_dataRun3_Prompt_v4"
         golden_json="Collisions24/2024I_Golden.json"
+        ;;
+      MC)
+        globaltag="140X_mcRun3_2024_realistic_v26"
+        datasets=("${MC24_B4mu[@]}")
+        label=("${B4mu_MC_label[@]}")
+        input_type="global"
         ;;
       *)
         echo "Error: The era is incorrect."

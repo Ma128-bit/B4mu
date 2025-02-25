@@ -3,7 +3,8 @@ gROOT.SetBatch(True)
 import sys, os, subprocess, argparse
 import cmsstyle as CMS
 
-var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass", "RefittedSV_Mass_eq", "bdt", "RefittedSV_Mass_reso"]
+var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass_eq", "Mu1_Eta", "Mu1_Pt", "RefittedSV_Mass_reso"]
+var = ["PVCollection_Size"]
 
 binning_dict = {
     "vtx_prob": "(50,0.01,1.0)",
@@ -13,16 +14,20 @@ binning_dict = {
     "MVASoft2": "(50,0.2,0.8)",
     "FlightDistBS_SV_Significance": "(50,0,400)",
     "RefittedSV_Mass_reso": "(50,0.01,0.08)",
-    "mu1_bs_dxy_sig": "(50,-100,100)",
-    "mu2_bs_dxy_sig": "(50,-100,100)",
+    "mu1_bs_dxy_sig": "(50,-120,150)",
+    "mu2_bs_dxy_sig": "(50,-120,150)",
     "mu3_bs_dxy_sig": "(50,-75,75)",
     "mu4_bs_dxy_sig": "(50,-75,75)",
-    "Cos2d_BS_SV": "(50,0.97,1)",
+    "Cos2d_BS_SV": "(50,0.95,1)",
     "Quadruplet_Eta": "(50,-2.5,2.5)",
-    "RefittedSV_Mass_eq": "(50,5.2,5.6)",
+    "RefittedSV_Mass_eq": "(50,5.25,5.5)",
     "RefittedSV_Mass": "(50,5.2,5.6)",
     "Quadruplet_Pt": "(50,10,100)",
-    "bdt": "(50,0,1)"
+    "bdt": "(50,0,1)",
+    "100*new_ct/2.998": "(50,0,14)",
+    "Mu1_Eta": "(50,-2.5,2.5)",
+    "Mu1_Pt": "(50,4, 50)",
+    "PVCollection_Size": "(70,0,70)"
 }
 
 log_dict = {
@@ -42,16 +47,44 @@ log_dict = {
     "RefittedSV_Mass_eq": False,
     "RefittedSV_Mass": False,
     "Quadruplet_Pt": False,
-    "bdt": True
+    "bdt": True,
+    "100*new_ct/2.998": True,
+    "Mu1_Eta": False,
+    "Mu1_Pt": False,
+    "PVCollection_Size": False
+}
+
+x_name = {
+    "vtx_prob": "Vertex Probability",
+    "mu1_pfreliso03": "#mu_{1} PF relative iso.",
+    "mu2_pfreliso03": "#mu_{2} PF relative iso.",
+    "MVASoft1": "",
+    "MVASoft2": "",
+    "FlightDistBS_SV_Significance": "L_{xy}^{sig}",
+    "RefittedSV_Mass_reso": "",
+    "mu1_bs_dxy_sig": "#mu_{1} dxy_{sig}",
+    "mu2_bs_dxy_sig": "#mu_{2} dxy_{sig}",
+    "mu3_bs_dxy_sig": "#mu_{3} dxy_{sig}",
+    "mu4_bs_dxy_sig": "#mu_{4} dxy_{sig}",
+    "Cos2d_BS_SV": "cos(#theta)",
+    "Quadruplet_Eta": "B |#eta|",
+    "RefittedSV_Mass_eq": "4#mu mass", 
+    "RefittedSV_Mass": "4#mu mass", 
+    "Quadruplet_Pt": "B p_{T}",
+    "bdt": "BDT score",
+    "100*new_ct/2.998": "",
+    "Mu1_Eta": "#mu_{1} |#eta|",
+    "Mu1_Pt": "#mu_{1} p_{T}",
+    "PVCollection_Size": "N. PV"
 }
 
 lumi={
     "2022": 34.6,
     "2023": 27.8,
-    "2022+23": 62.4
+    "2022+2023": 62.4
 }
 
-def control_plots(file_name, year):
+def control_plots(file_name, year, reweight):
     if not os.path.exists("Control_Plots"):
         subprocess.run(["mkdir", "Control_Plots"])
     
@@ -70,29 +103,30 @@ def control_plots(file_name, year):
         legend_label = "sWeighted"
         data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0 && RefittedSV_Mass_eq>5.2 && RefittedSV_Mass_eq<5.7)")
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
-        data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*weight*(isMC>0)")
+        data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*weight*(isMC>0)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
-
-        data.Draw(varname + ">>hMC_signw" + s + binning, "nsigBs_sw*weight*(isMC>0)")
-        hMC_signw = TH1F(gDirectory.Get("hMC_signw" + s))
+        if reweight:
+            data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*weight*(isMC>0)")
+            hMC_sig_wrw = TH1F(gDirectory.Get("hMC_sig_wrw" + s))
 
         # Rescaling
         hMC_sig.Scale(1 / hMC_sig.Integral(1,int(numbers[0])))
-        hMC_signw.Scale(1 / hMC_signw.Integral(1,int(numbers[0])))
+        if reweight:
+            hMC_sig_wrw.Scale(1 / hMC_sig_wrw.Integral(1,int(numbers[0])))
         hdata_sig.Scale(1 / hdata_sig.Integral(1,int(numbers[0])))
 
         CMS.SetExtraText("Preliminary")
-        CMS.SetLumi(f"{lumi[year]}")
+        CMS.SetLumi(f"{year}, {lumi[year]}")
         CMS.SetEnergy(13.6)
         if logy:
-            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.0001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -0.1, 2.1, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+            dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0.0001, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*5, -0.1, 2.1, x_name[varname], f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
         else:
             if varname!="Quadruplet_Eta":
-                dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.2, -0.1, 2.1, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+                dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.5, -0.1, 2.1, x_name[varname], f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
             else:
-                dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.5, -0.1, 2.1, varname, f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
+                dicanvas = CMS.cmsDiCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.5, -0.1, 2.1, x_name[varname], f"a.u.", "ratio data/MC", square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
 
-        dicanvas.SetCanvasSize(1200,1300)
+        dicanvas.SetCanvasSize(1200,900)
         dicanvas.cd(1)
         if logy:
             gPad.SetLogy()
@@ -100,19 +134,29 @@ def control_plots(file_name, year):
         hMC_sig.SetFillColor(4)
         hMC_sig.SetLineWidth(2)
         hMC_sig.SetFillStyle(3004)
+        if reweight:
+            hMC_sig_wrw.SetLineColor(4)
+            hMC_sig_wrw.SetFillColor(4)
+            hMC_sig_wrw.SetLineWidth(2)
+            hMC_sig_wrw.SetFillStyle(3004)
+            hMC_sig.SetFillColor(0) 
+            hMC_sig.SetLineWidth(2)
+            hMC_sig.SetLineColor(17)
         hMC_sig.Draw("Hsame")
-        hMC_signw.SetFillColor(0)  # Set fill color to 0 for transparency
-        hMC_signw.SetLineWidth(2)
-        hMC_signw.SetLineColor(17)  # Set line color to light gray
-        hMC_signw.Draw("Hsame")
+        if reweight:
+            hMC_sig_wrw.Draw("Hsame")
         hdata_sig.SetLineColor(1)
         hdata_sig.SetLineWidth(2)
         hdata_sig.Draw("samePE1")
 
-        legend = TLegend(0.61, 0.65, 0.9, 0.9)
+        if reweight:
+            legend = TLegend(0.55, 0.63, 0.9, 0.9)
+        else:
+            legend = TLegend(0.60, 0.7, 0.9, 0.9)
         legend.AddEntry(hdata_sig, "sWeighted Data", "lep") 
-        legend.AddEntry(hMC_sig, "reWeighted MC B^{0}_{s} J/#psi(#mu#mu)#phi(KK)", "f")  
-        legend.AddEntry(hMC_signw, "MC B^{0}_{s} J/#psi(#mu#mu)#phi(KK)", "f")  
+        legend.AddEntry(hMC_sig, "MC B^{0}_{s} #rightarrow J/#psi(#mu#mu)#phi(KK)", "f")  
+        if reweight:
+            legend.AddEntry(hMC_sig_wrw, "reWeighted MC B^{0}_{s} #rightarrow J/#psi(#mu#mu)#phi(KK)", "f")  
         legend.SetBorderSize(0)       
         legend.SetFillStyle(0)    
         legend.Draw("same")
@@ -130,23 +174,30 @@ def control_plots(file_name, year):
         line3.SetLineColor(1)
         line3.SetLineWidth(2)
         line3.SetLineStyle(kDashed)
-        h_x_ratio2 = hdata_sig.Clone()
-        h_x_ratio2.Sumw2()
-        h_x_ratio2.Divide(hMC_signw)
-        h_x_ratio2.SetLineColor(17)
-        h_x_ratio2.SetMarkerColor(17)
-        h_x_ratio2.SetLineWidth(2)
-        h_x_ratio2.Draw("samePE1")
+
         h_x_ratio = hdata_sig.Clone()
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)
         h_x_ratio.SetLineColor(1)
         h_x_ratio.SetLineWidth(2)
+        if reweight:
+            h_x_ratio2 = hdata_sig.Clone()
+            h_x_ratio2.Sumw2()
+            h_x_ratio2.Divide(hMC_sig_wrw)
+            h_x_ratio2.SetLineColor(1)
+            h_x_ratio2.SetLineWidth(2)
+            h_x_ratio.SetLineColor(17)
+            h_x_ratio.SetMarkerColor(17)
+            h_x_ratio.SetLineWidth(2)
         h_x_ratio.Draw("samePE1")
+        if reweight:
+            h_x_ratio2.Draw("samePE1")
         line1.Draw("same")
 
         dicanvas.Update()
-        dicanvas.SaveAs("Control_Plots/" + varname + "_"+year+"_SPlot"+".png")
+        varname = varname.replace("*", "_")
+        varname = varname.replace("/", "_")
+        dicanvas.SaveAs("Control_Plots/" + varname + "_" + year + "_SPlot" + ("_rw" if reweight else "") + ".pdf")
         dicanvas.Clear()
 
         h_x_ratio.Delete();
@@ -157,7 +208,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="--plots for control plots")
     parser.add_argument("--file", type=str, help="file name")
     parser.add_argument("--year", type=str, help="year (2022 or 2023)")
+    parser.add_argument("--reweight", action="store_true", help="apply reweighting")
     args = parser.parse_args()
     file = args.file
     year = args.year
-    control_plots(file, year)
+    reweight = args.reweight
+    if reweight:
+        var.append("bdt")
+    control_plots(file, year, reweight)

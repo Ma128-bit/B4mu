@@ -28,7 +28,7 @@ branches = [
     "Cos2d_BS_SV", "dR_max", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", 
     "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "Quadruplet_Mass_eq",
     "RefittedSV_Mass", "RefittedSV_Mass_err","MVASoft1", "MVASoft2", "MVASoft3", "MVASoft4",
-    "OS1v1_Chi2", "OS2v1_Chi2", "OS1v2_Chi2", "OS2v2_Chi2", "Gen_ct_signal", "Gen_ct_control"
+    "OS1v1_Chi2", "OS2v1_Chi2", "OS1v2_Chi2", "OS2v2_Chi2", "Gen_ct_signal", "Gen_ct_control", "new_ct"
 ]
 
 cuts={
@@ -134,14 +134,14 @@ if __name__ == "__main__":
     df = df.DefinePerSample("w_mc", "add_wDMC(rdfslot_, rdfsampleinfo_)")
 
     # Bs LifeTime reweithg: taken from Rebecca: https://gitlab.cern.ch/regartner/b4mu-analysis/-/blob/master/data_MC_correction/bs_lifetime_reweighting.py
-    ctau_actual = 4.4129450e-01  # from EvtGen  # in mm -> tau = 1.47e-12
-    ctau_pdg = 1.527e-12 * speed_of_light * 1000.0  # in mm ===> 457 mm
-    ctau_heavy = (1.622) * 10 ** (-12) * speed_of_light * 1000.0
-    ctau_light = (1.429) * 10 ** (-12) * speed_of_light * 1000.0
+    ctau_actual = 4.4129450e-02  # from EvtGen  # in cm -> tau = 1.47e-12
+    ctau_pdg = 1.527e-12 * speed_of_light * 100.0  # in cm 
+    ctau_heavy = (1.622) * 10 ** (-12) * speed_of_light * 100.0
+    ctau_light = (1.429) * 10 ** (-12) * speed_of_light * 100.0
 
-    df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
-    df = df.Define("ctau_weight_heavy", add_new_ctau(ctau_heavy, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
-    df = df.Define("ctau_weight_light", add_new_ctau(ctau_light, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
+    df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_heavy", add_new_ctau(ctau_heavy, ctau_pdg), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_light", add_new_ctau(ctau_light, ctau_pdg), ["ID", "new_ct", "new_ct"])
     
     h_vectors = std.vector(TH1F)()
     h_name = std.vector(TString)()
