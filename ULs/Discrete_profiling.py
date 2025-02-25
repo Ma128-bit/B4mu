@@ -138,19 +138,37 @@ if __name__ == "__main__":
         variables.add(var)
 
     binning = RooFit.Binning(60, 4.5, 6.5)
-    mass.setRange("loSB", 4.5, 5.079 )
-    mass.setRange("hiSB", 5.566, 6.5 )
-    mass.setRange("sig", 5.079 , 5.566 )
-    mass.setRange("sigBd", 5.079 , 5.479 )
-    mass.setRange("sigBs", 5.166 , 5.566 )
+    mass.setRange("loSB", 4.5, 5.090 )
+    mass.setRange("hiSB", 5.529, 6.5 )
+    mass.setRange("sig", 5.090 , 5.529 )
+    mass.setRange("sigBd", 5.090 , 5.438 )
+    mass.setRange("sigBs", 5.180 , 5.529 )
+
+    #Range per cat:
+    mass.setRange("sigBdA", 5.150 , 5.357 )
+    mass.setRange("sigBsA", 5.260 , 5.450 )
+    mass.setRange("sigBdB", 5.120 , 5.396 )
+    mass.setRange("sigBsB", 5.220 , 5.479 )
+    mass.setRange("sigBdC", 5.090 , 5.438 )
+    mass.setRange("sigBsC", 5.180 , 5.529 )
+
+    mass.setRange("loSBA", 4.5, 5.150) 
+    mass.setRange("hiSBA", 5.450, 6.5 )
+
+    mass.setRange("loSBB", 4.5, 5.120) 
+    mass.setRange("hiSBB", 5.479, 6.5 )
+
+    mass.setRange("loSBC", 4.5, 5.090) 
+    mass.setRange("hiSBC", 5.529, 6.5 )
+
     mass.setRange("full", 4.5, 6.5)
-    
-    fit_range = "loSB,hiSB"
     
     categories = category_sel(configfile)
 
     for cat in categories.keys():
         log.write("I'm in %s \n" % cat)
+        cat_val = 0 if "A" in cat else 1 if "B" in cat else 2 if "C" in cat else None
+        fit_range = "loSBA,hiSBA" if cat_val==0 else "loSBB,hiSBB" if cat_val==1 else "loSBC,hiSBC" if cat_val==2 else "loSB,hiSB"
         # Load DataSets
         data = RooDataSet('data', 'data', tree, variables, "isMC==0 && "+categories[cat])
         if isUnblind== False:
@@ -201,7 +219,7 @@ if __name__ == "__main__":
         can = TCanvas()
         leg = TLegend(0.5, 0.6, 0.9, 0.9)
         
-        gofmax  = 0
+        gofmax  = -1
         gofmin = 1000
         bestfit = None
         worstfit = None
@@ -287,7 +305,12 @@ if __name__ == "__main__":
         multipdf = RooMultiPdf("multipdf_bkg_{}".format(cat), "", roocat, envelope)
         #indexing Expo in the multipdf. Change line below to switch to "bestfit"
         #roocat.setIndex([envelope.at(i).GetName() for i in range(envelope.getSize())].index('Exponential_{}'.format(cat)))
-        roocat.setIndex([envelope.at(i).GetName() for i in range(envelope.getSize())].index(bestfit))
+        if bestfit is not None:
+            roocat.setIndex([envelope.at(i).GetName() for i in range(envelope.getSize())].index(bestfit))
+        else:
+            print(len(envelope))
+            exit()
+            roocat.setIndex([envelope.at(i).GetName() for i in range(envelope.getSize())].index(0))
 
         output = TFile.Open("MultiPdfWorkspaces/workspace_"+cat+".root","recreate")
         print("Creating workspace")

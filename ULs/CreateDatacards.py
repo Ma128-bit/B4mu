@@ -7,7 +7,7 @@ from scipy.stats import beta
 import numpy as np 
 import cmsstyle as CMS
 CMS.SetEnergy(13.6, unit='TeV')
-CMS.SetLumi("2022+2023+2024, 171.5", unit='fb', round_lumi=False)
+CMS.SetLumi("2022+2023+2024, 170.7", unit='fb', round_lumi=False)
 CMS.SetExtraText("Preliminary")
 
 gROOT.SetBatch(True)
@@ -79,7 +79,7 @@ def plotData(model, dataset, name="test.png"):
 def plotMC(model, dataset, range="sig", name="test.png"):
     can = TCanvas()
     can.SetCanvasSize(1000,800)
-    plot = mass.frame(5.079 , 5.566, 50)
+    plot = mass.frame(5.090 , 5.529, 50)
     plot.SetTitle("Plot of "+name)
     dataset.plotOn(plot, RooFit.Range(range))
     model.paramOn(plot, RooFit.Layout(0.5, 0.9, 0.9))
@@ -150,6 +150,7 @@ def addweight(rdf, N_control, BDT_eff_Bs, BDT_eff_Bd, best_cut, N_evt_Bs_2022, N
     rdf = rdf.Define("w_down", f"weight * weight_pileUp * ctau_weight_light * bdt_reweight_0 * bdt_reweight_1 * {N_control}") 
     rdf = rdf.Define("weight_down", "new_weight("+mcid_name+",w_down,"+BRBs+","+BRBd+","+str(BDT_eff_Bs)+","+str(BDT_eff_Bd)+")")
     if best_cut==False:
+        os.makedirs("RootFiles", exist_ok=True)
         rdf.Snapshot(tree_name, "RootFiles/Dataset.root")
     else:
         rdf.Snapshot(tree_name, inputfile_loc)
@@ -165,13 +166,15 @@ def fit_temp(DataSet, mass):
     model.fitTo(DataSet, RooFit.SumW2Error(True), RooFit.Extended(True), RooFit.PrintLevel(-1))
     return events.getVal()
 
+
+# Uncertainty for BDT reweighting
 BDT_unc_ = {
-    "A1": 0.8703449895927949,
-    "A2": 1.0023591611133114,
-    "B1": 0.8755222154568661,
-    "B2": 1.0160229340569096,
-    "C1": 0.899432566466893,
-    "C2": 0.9827459754074831,
+    "A1": 0.9507876531709272,
+    "A2": 1.001463323832623,
+    "B1": 0.9443771564605181,
+    "B2": 1.0157799198296846,
+    "C1": 0.9994292455445956,
+    "C2": 0.989618225137451,
 }
 
 # add anticorrelation for combine
@@ -189,6 +192,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="config and root file")
     parser.add_argument("--config", type=str, help="config name")
     parser.add_argument("--best_cut", type=bool, default=False, help="best_cut")
+    parser.add_argument("--BDT_uncBool", type=bool, default=False, help="best_cut")
     parser.add_argument("--index", type=int, default=0, help="index for best_cut")
     parser.add_argument("--inputfile_loc", type=str, default="", help="inputfile_loc")
     parser.add_argument("--Bs", type=str, default="1.0e-9", help="Bs BR")
@@ -200,10 +204,11 @@ if __name__ == "__main__":
     inputfile_loc = args.inputfile_loc
     configfile = args.config
     isMultipdf = args.multipdf
+    BDT_uncBool = args.BDT_uncBool
     BRBs = args.Bs
     BRBd = args.Bd
 
-    if best_cut:
+    if BDT_uncBool:
         for key, value in BDT_unc_.items():
             BDT_unc[key] = 1.0
 
@@ -248,14 +253,30 @@ if __name__ == "__main__":
         variables.add(var)
 
     binning = RooFit.Binning(60, 4.5, 6.5)
-    mass.setRange("loSB", 4.5, 5.079 )
-    mass.setRange("hiSB", 5.566, 6.5 )
-    mass.setRange("sig", 5.079 , 5.566 )
-    mass.setRange("sigBd", 5.079 , 5.479 )
-    mass.setRange("sigBs", 5.166 , 5.566 )
+    mass.setRange("loSB", 4.5, 5.090 )
+    mass.setRange("hiSB", 5.529, 6.5 )
+    mass.setRange("sig", 5.090 , 5.529 )
+    mass.setRange("sigBd", 5.090 , 5.438 )
+    mass.setRange("sigBs", 5.180 , 5.529 )
+
+    #Range per cat:
+    mass.setRange("sigBdA", 5.150 , 5.357 )
+    mass.setRange("sigBsA", 5.260 , 5.450 )
+    mass.setRange("sigBdB", 5.120 , 5.396 )
+    mass.setRange("sigBsB", 5.220 , 5.479 )
+    mass.setRange("sigBdC", 5.090 , 5.438 )
+    mass.setRange("sigBsC", 5.180 , 5.529 )
+
+    mass.setRange("loSBA", 4.5, 5.150) 
+    mass.setRange("hiSBA", 5.450, 6.5 )
+
+    mass.setRange("loSBB", 4.5, 5.120) 
+    mass.setRange("hiSBB", 5.479, 6.5 )
+
+    mass.setRange("loSBC", 4.5, 5.090) 
+    mass.setRange("hiSBC", 5.529, 6.5 )
+
     mass.setRange("full", 4.5, 6.5)
-    
-    fit_range = "loSB,hiSB"
     
     categories = category_sel(configfile)
 
@@ -264,11 +285,16 @@ if __name__ == "__main__":
     if best_cut==True:
         datacard_dir=f"Out_{index}/Datacards"
         plots_dir=f"Out_{index}/Plots"
+    else:
+        os.makedirs(datacard_dir, exist_ok=True)
+        os.makedirs(plots_dir, exist_ok=True)
     command = "cd "+datacard_dir+"; combineCards.py "
 
     for cat in categories.keys():
         # Load DataSets
         cat_val = 0 if "A" in cat else 1 if "B" in cat else 2 if "C" in cat else None
+        fit_range = "loSBA,hiSBA" if cat_val==0 else "loSBB,hiSBB" if cat_val==1 else "loSBC,hiSBC" if cat_val==2 else "loSB,hiSB"
+        cat_id = "A" if cat_val==0 else "B" if cat_val==1 else "C" if cat_val==2 else ""
         data = RooDataSet('data', 'data', tree, variables, "isMC==0 && "+categories[cat])
         data_nobdt = RooDataSet('data_nobdt', 'data_nobdt', tree, variables, f"isMC==0 && category=={cat_val}")
         MCBs = RooDataSet('MCBs', 'MCBs', tree, variables, "isMC==1 &&"+categories[cat], "signal_weight")
@@ -300,8 +326,8 @@ if __name__ == "__main__":
         eventsBs = RooRealVar("eventsBs", "eventsBs", 1.0, 0.0, 10.0)
         model_Bs = RooExtendPdf("model_Bs", "model_Bs", JS_Bs, eventsBs)
         if(BRBs!="0"):
-            model_Bs.fitTo(MCBs, RooFit.Range("sigBs"), RooFit.SumW2Error(True), RooFit.Extended(True), RooFit.PrintLevel(-1))
-            plotMC(model_Bs, MCBs, range="sigBs", name=plots_dir+"/Fit_"+cat+"_MC_Bs.png")
+            model_Bs.fitTo(MCBs, RooFit.Range("sigBs"+cat_id), RooFit.SumW2Error(True), RooFit.Extended(True), RooFit.PrintLevel(-1))
+            plotMC(model_Bs, MCBs, range="sigBs"+cat_id, name=plots_dir+"/Fit_"+cat+"_MC_Bs.png")
         else:
             eventsBs.setVal(0)
             eventsBs.setConstant(True)
@@ -315,8 +341,8 @@ if __name__ == "__main__":
         eventsBd = RooRealVar("eventsBd", "eventsBd", 1.0, 0.0, 10.0)
         model_Bd = RooExtendPdf("model_Bd", "model_Bd", JS_Bd, eventsBd)
         if(BRBd!="0"):
-            model_Bd.fitTo(MCBd, RooFit.Range("sigBd"), RooFit.SumW2Error(True), RooFit.Extended(True), RooFit.PrintLevel(-1))
-            plotMC(model_Bd, MCBd, range="sigBd", name=plots_dir+"/Fit_"+cat+"_MC_Bd.png")
+            model_Bd.fitTo(MCBd, RooFit.Range("sigBd"+cat_id), RooFit.SumW2Error(True), RooFit.Extended(True), RooFit.PrintLevel(-1))
+            plotMC(model_Bd, MCBd, range="sigBd"+cat_id, name=plots_dir+"/Fit_"+cat+"_MC_Bd.png")
         else:
             eventsBd.setVal(0)
             eventsBd.setConstant(True)
@@ -386,6 +412,7 @@ if __name__ == "__main__":
         if best_cut==True:
             output = TFile.Open(f"Out_{index}/Workspaces/workspace_"+cat+".root","recreate")
         else:
+            os.makedirs("Workspaces", exist_ok=True)
             output = TFile.Open("Workspaces/workspace_"+cat+".root","recreate")
         print("Creating workspace")
         w = RooWorkspace('w')
@@ -481,6 +508,7 @@ lumi          lnN                       1.025               -
 MC_q2         lnN                       1.1                 -   
 BDT           lnN                       {BDT_uncV:.4f}       -
 BR_norm       lnN                       {norm_unc}                -
+{not_single_sig}fsfd_or_lifet     lnN                       {fsfd_or_lifet_unc}               -
 norm_fit      gmN                       {N_control}         {alpha_:.8f}         -
 muBs{inclusive}          param                     {muBs:.4f}          {muBs_permille:.8f}
 muBd{inclusive}          param                     {muBd:.4f}          {muBd_permille:.8f}
@@ -492,7 +520,9 @@ muBd{inclusive}          param                     {muBd:.4f}          {muBd_per
 '''.format(
                     multipdf_ = "multipdf_" if isMultipdf else "",
                     ismpdf = "#" if isMultipdf else "",
+                    fsfd_or_lifet_unc = 1.00 if (BRBd!="0" and BRBs!="0") else 1.06 if BRBs!="0" else 1.041,
                     single_sig = "" if (BRBd!="0" and BRBs!="0") else "#", 
+                    not_single_sig = "#" if (BRBd!="0" and BRBs!="0") else "", 
                     inclusive = cat,
                     obs      = data.numEntries() if isUnblind==True else -1, 
                     signal   = bs_nevt + bd_nevt, # number of EXPECTED signal events, INCLUDES the a priori normalisation.
