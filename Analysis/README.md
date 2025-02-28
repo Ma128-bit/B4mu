@@ -4,7 +4,7 @@
 ```
 source prepare_and_submit_ALL.sh [year] [Analysis_type] [delta]
 ```
-*  [year] is the year (`2022` or `2023`);
+*  [year] is the year (`2022`, `2023` or `2024`);
 *  [Analysis_type] `B4mu`, `B2mu2K` or `B2muKpi`;
 *  [Delta] is the number of input files per submission
 
@@ -20,8 +20,8 @@ Example:`source prepare_and_submit_ALL.sh 2022 B4mu 300`
 ```
 source prepare_condor.sh [era] [year] [Analysis_type] [delta]
 ```
-*  [era] is the era (`C, D-v1, D-v2, E, F, G, MC_pre, MC_post` for 2022 `C-v1, C-v2, C-v3, C-v4, D-v1, D-v2` for 2023)
-*  [year] is the year (`2022` or `2023`);
+*  [era] is the era (`C, D-v1, D-v2, E, F, G, MC_pre, MC_post` for 2022 `C-v1, C-v2, C-v3, C-v4, D-v1, D-v2` for 2023 `B, C, D, E-v1, E-v2, F, G, H, I-v1, I-v2` for 2024)
+*  [year] is the year (`2022`, `2023` or `2024`);
 *  [Analysis_type] `B4mu`, `B2mu2K` or `B2muKpi`;
 *  [Delta] is the number of input files per submission
 

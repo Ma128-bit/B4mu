@@ -2,7 +2,7 @@ import ROOT
 
 # Definizione dei dati
 x = [0, 1, 2, 3]  # Indici per le label
-y = [1.883, 1.533, 1.26, 1.487]  # Valori su y
+y = [1.883, 1.533, 1.314, 1.510]  # Valori su y
 ex = [0, 0, 0,0]  # Errori su x (zero)
 ey = [0.25, 0.27, 0.127, 0.105]  # Errori su y
 labels = ["2022", "2023", "2024", "All"]  # Label per l'asse x

@@ -16,11 +16,14 @@ if [ -z ${3+x} ]; then
 fi
 
 declare -a MC_name2022=("MC_pre" "MC_post")
+declare -a MC_name2024=("MC")
 
 if [ "${year}" == "2022" ]; then
   MC_name=("${MC_name2022[@]}")
 elif [ "${year}" == "2023" ]; then
   MC_name=("${MC_name2022[@]}")
+elif [ "${year}" == "2024" ]; then
+  MC_name=("${MC_name2024[@]}")
 else
   echo "Error: The year is incorrect."
   return

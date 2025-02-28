@@ -18,7 +18,7 @@
     "N_evt_Bs_2023": 51479,
     "N_evt_Bd_2022": 54679,
     "N_evt_Bd_2023": 53993,
-    "RootFile": "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Utilities_organized/ROOTFiles_20_01_25/AllData_rw_bdt.root",
+    "RootFile": "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Utilities_organized/ROOTFiles_20_01_25/AllData_rw_new_bdt.root",
 
     "categories": ["A1", "A2", "B1", "B2", "C1", "C2"],
     "A1": "category==0 && bdt_cv > 0.9765",

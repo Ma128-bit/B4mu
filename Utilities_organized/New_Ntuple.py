@@ -112,10 +112,10 @@ if __name__ == "__main__":
     Files = {
         "B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_Bs_4mu_2022.root", pos+"Analyzed_MC_Bd_4mu_2022.root"],
         "B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_Bs_4mu_2023.root", pos+"Analyzed_MC_Bd_4mu_2023.root"],
-        "B4mu2024": [pos+"Analyzed_Data_B4mu_2024.root"],
+        "B4mu2024": [pos+"Analyzed_Data_B4mu_2024.root", pos+"Analyzed_MC_Bs_4mu_2024.root", pos+"Analyzed_MC_Bd_4mu_2024.root"],
         "control2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_BsJPsiPhi_2022.root"],
         "control2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_BsJPsiPhi_2023.root"],
-        "control2024": [pos+"Analyzed_Data_B4mu_2024.root"],
+        "control2024": [pos+"Analyzed_Data_B4mu_2024.root", pos+"Analyzed_MC_BsJPsiPhi_2024.root"],
     }
 
     print("Starting!")

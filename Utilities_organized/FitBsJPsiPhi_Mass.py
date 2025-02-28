@@ -171,8 +171,16 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     return nsig.getVal(), nsig.getError()
 
 if __name__=="__main__":
-    """
-    FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.48")
+    #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"year==2022")
+    #nsig      = 60.3143      +/-  7.83868   (limited)
+    #nsig      = 45.1128      +/-  6.94377   (limited)
+    #nsig      = 137.573      +/-  12.3842   (limited)
+
+    #nsig      = 65.1684      +/-  8.65423   (limited)
+    #nsig      = 42.6421      +/-  7.46291   (limited)
+    #nsig      = 139.717      +/-  13.4737   (limited)
+    #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.48")
+    FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0")
     # nsig	  = 247.286	 +/-  16.3263
     """
     cut = []
@@ -202,5 +210,6 @@ if __name__=="__main__":
     plt.ylabel(r'$S/\sigma$')
     plt.tight_layout()
     plt.savefig("scatter_plot.png", dpi=300)
+    """
     
     
