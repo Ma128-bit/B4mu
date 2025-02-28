@@ -21,12 +21,14 @@ gInterpreter.Declare("""
         if(isMC==2) return BDT_eff_Bd*w_Bd*weight;
         else return 1;
     }
-    double dividebyNevents(ROOT::VecOps::RVec<Char_t> ID, double weight, double N_evt_Bs_2022, double N_evt_Bs_2023, double N_evt_Bd_2022, double N_evt_Bd_2023){
+    double dividebyNevents(ROOT::VecOps::RVec<Char_t> ID, double weight, double N_evt_Bs_2022, double N_evt_Bs_2023, double N_evt_Bs_2024, double N_evt_Bd_2022, double N_evt_Bd_2023, double N_evt_Bd_2024){
         TString id_str(ID.data(), ID.size()-1);
         if(id_str=="Bs2022") return weight/N_evt_Bs_2022;
         if(id_str=="Bs2023") return weight/N_evt_Bs_2023;
+        if(id_str=="Bs2024") return weight/N_evt_Bs_2024;
         if(id_str=="Bd2022") return weight/N_evt_Bd_2022;
         if(id_str=="Bd2023") return weight/N_evt_Bd_2023;
+        if(id_str=="Bd2024") return weight/N_evt_Bd_2024;
         else return weight;
     }
 
@@ -50,7 +52,7 @@ def cp_intervals(Nobs, Ntot, cl=0.99, verbose = False):
 def load_info_from_json(configfile):
     with open(configfile, 'r') as fp:
         json_file = json.loads(fp.read())
-    return json_file["RootFile"], json_file["TreeName"], json_file["Mass_var"], json_file["MC_id"], json_file["Branches4sel"], json_file["Unblind"], json_file["N_control"], json_file["N_control_err"], json_file["BDT_cut"], json_file["BDT_eff_Bs"], json_file["BDT_eff_Bd"], json_file["BDT_eff_BsJpsiphi"], json_file["N_evt_Bs_2022"],json_file["N_evt_Bs_2023"], json_file["N_evt_Bd_2022"], json_file["N_evt_Bd_2023"]
+    return json_file["RootFile"], json_file["TreeName"], json_file["Mass_var"], json_file["MC_id"], json_file["Branches4sel"], json_file["Unblind"], json_file["N_control"], json_file["N_control_err"], json_file["BDT_cut"], json_file["BDT_eff_Bs"], json_file["BDT_eff_Bd"], json_file["BDT_eff_BsJpsiphi"], json_file["N_evt_Bs_2022"],json_file["N_evt_Bs_2023"], json_file["N_evt_Bs_2024"], json_file["N_evt_Bd_2022"], json_file["N_evt_Bd_2023"], json_file["N_evt_Bd_2024"]
 
 def category_sel(configfile):
     with open(configfile, 'r') as fp:
@@ -129,8 +131,8 @@ def plot(modelB, modelS, datasetB, datasetS, name="test.png"):
     del can
     del plot
 
-def addweight(rdf, N_control, BDT_eff_Bs, BDT_eff_Bd, best_cut, N_evt_Bs_2022, N_evt_Bs_2023, N_evt_Bd_2022, N_evt_Bd_2023, inputfile_loc):
-    rdf = rdf.Redefine("weight", f"dividebyNevents(ID, weight, {N_evt_Bs_2022}, {N_evt_Bs_2023}, {N_evt_Bd_2022}, {N_evt_Bd_2023})")
+def addweight(rdf, N_control, BDT_eff_Bs, BDT_eff_Bd, best_cut, N_evt_Bs_2022, N_evt_Bs_2023,  N_evt_Bs_2024, N_evt_Bd_2022, N_evt_Bd_2023, N_evt_Bd_2024, inputfile_loc):
+    rdf = rdf.Redefine("weight", f"dividebyNevents(ID, weight, {N_evt_Bs_2022}, {N_evt_Bs_2023}, {N_evt_Bs_2024}, {N_evt_Bd_2022}, {N_evt_Bd_2023}, {N_evt_Bd_2024})")
     rdf = rdf.Define("w_central", f"weight * weight_pileUp * ctau_weight_central * bdt_reweight_0 * bdt_reweight_1 * {N_control}") 
     rdf = rdf.Define("signal_weight", "new_weight("+mcid_name+",w_central,"+BRBs+","+BRBd+","+str(BDT_eff_Bs)+","+str(BDT_eff_Bd)+")")
 
@@ -215,12 +217,12 @@ if __name__ == "__main__":
 
     print("isMultipdf:", isMultipdf)
 
-    root_file, tree_name, mass_name, mcid_name, branches, isUnblind, N_control, N_control_err, BDT_cut, BDT_eff_Bs, BDT_eff_Bd, BDT_eff_BsJpsiphi, N_evt_Bs_2022, N_evt_Bs_2023, N_evt_Bd_2022, N_evt_Bd_2023 = load_info_from_json(configfile)
+    root_file, tree_name, mass_name, mcid_name, branches, isUnblind, N_control, N_control_err, BDT_cut, BDT_eff_Bs, BDT_eff_Bd, BDT_eff_BsJpsiphi, N_evt_Bs_2022, N_evt_Bs_2023, N_evt_Bs_2024, N_evt_Bd_2022, N_evt_Bd_2023, N_evt_Bd_2024 = load_info_from_json(configfile)
 
     # Add weight in the Tree
     rdf = RDataFrame(tree_name, root_file)
     rdf = rdf.Filter(f"bdt_cv>{BDT_cut}")
-    addweight(rdf, N_control, BDT_eff_Bs/BDT_eff_BsJpsiphi, BDT_eff_Bd/BDT_eff_BsJpsiphi, best_cut, N_evt_Bs_2022, N_evt_Bs_2023, N_evt_Bd_2022, N_evt_Bd_2023, inputfile_loc)
+    addweight(rdf, N_control, BDT_eff_Bs/BDT_eff_BsJpsiphi, BDT_eff_Bd/BDT_eff_BsJpsiphi, best_cut, N_evt_Bs_2022, N_evt_Bs_2023, N_evt_Bs_2024, N_evt_Bd_2022, N_evt_Bd_2023, N_evt_Bd_2024, inputfile_loc)
     del rdf
     
     tree = TChain(tree_name)
@@ -507,7 +509,7 @@ rate                                    {signal:.4f}        {bkg:.4f}
 lumi          lnN                       1.025               -   
 MC_q2         lnN                       1.1                 -   
 BDT           lnN                       {BDT_uncV:.4f}       -
-BR_norm       lnN                       {norm_unc}                -
+BR_norm       lnN                       {BRnorm_unc}                -
 {not_single_sig}fsfd_or_lifet     lnN                       {fsfd_or_lifet_unc}               -
 norm_fit      gmN                       {N_control}         {alpha_:.8f}         -
 muBs{inclusive}          param                     {muBs:.4f}          {muBs_permille:.8f}
@@ -529,7 +531,7 @@ muBd{inclusive}          param                     {muBd:.4f}          {muBd_per
                     bkg      = pdf_norm.getVal(),
                     BDT_uncV  = BDT_unc[cat],
                     alpha_=(bs_nevt + bd_nevt) / N_control,
-                    norm_unc=1+round(N_control_err/N_control, 3),
+                    BRnorm_unc=1.086,
                     N_control=int(N_control),
                     muBs=muBs.getVal(),  # mean from fit to MC!
                     muBd=muBd.getVal(),
