@@ -79,6 +79,17 @@ declare -a Control_C_v4_2023=("241216_143220" "241216_143227" "241216_143235" "2
 declare -a Control_D_v1_2023=("241216_143325" "241216_143333" "241216_143341" "241216_143348" "241216_143356" "241216_143404" "241216_143413" "241216_143421")
 declare -a Control_D_v2_2023=("241216_143432" "241216_143440" "241216_143449" "241216_143457" "241216_143507" "241216_143515" "241216_143524" "241216_143533")
 
+declare -a Control_B_2024=("250227_182458" "250227_182517" "250227_182527" "250227_182537" "250227_182550" "250227_182600" "250227_182608" "250227_182620")
+declare -a Control_C_2024=("250227_182633" "250227_182642" "250227_182656" "250227_182717" "250227_182731" "250227_182742" "250227_182807" "250227_182825")
+declare -a Control_D_2024=("250227_182842" "250227_182906" "250227_182919" "250227_182933" "250227_182944" "250227_182953" "250227_183003" "250227_183016")
+declare -a Control_E_v1_2024=("250227_183035" "250227_183048" "250227_183058" "250227_183111" "250227_183128" "250227_183140" "250227_183157" "250227_183207")
+declare -a Control_E_v2_2024=("250227_183223" "250227_183234" "250227_183246" "250227_183300" "250227_183308" "250227_183318" "250227_183328" "250227_183336")
+declare -a Control_F_2024=("250227_183354" "250227_183403" "250227_183414" "250227_183436" "250227_183445" "250227_183455" "250227_183506" "250227_183518")
+declare -a Control_G_2024=("250227_183540" "250227_183550" "250227_183602" "250227_183616" "250227_183626" "250227_183635" "250227_183646" "250227_183706")
+declare -a Control_H_2024=("250227_183740" "250227_183808" "250227_183820" "250227_183830" "250227_183841" "250227_183904" "250227_183918" "250227_183931")
+declare -a Control_I_v1_2024=("250227_183946" "250227_183958" "250227_184009" "250227_184017" "250227_184027" "250227_184039" "250227_184050" "250227_184101")
+declare -a Control_I_v2_2024=("250227_184124" "250227_184156" "250227_184206" "250227_184220" "250227_184230" "250227_184246" "250227_184300" "250303_183401")
+
 declare -a MC22_B2mu2trk_pre=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_Bs2mu2K_Mini/241122_122443" "BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_Bd2muKpi_Mini/241122_122449")
 declare -a MC22_B2mu2trk_post=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_Bs2mu2K_Mini/241122_122459" "BdToJpsiKstar_BMuonFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_Bd2muKpi_Mini/241122_122505")
 
@@ -90,8 +101,12 @@ declare -a B2mu2trk_MC_label=("B2mu2K" "B2muKpi")
 declare -a MC22_B2mu2K_pre_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_new_Bs2mu2K_Mini/241216_145104" "BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_pre_new_ext_Bs2mu2K_Mini/241216_145915")
 declare -a MC22_B2mu2K_post_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_new_Bs2mu2K_Mini/241216_145130" "BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2022_MC_post_new_ext_Bs2mu2K_Mini/241216_145859")
 declare -a B2mu2K22_MC_label=("B2mu2K_new" "B2mu2K_new_ext")
+
 declare -a MC23_B2mu2K_pre_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2023_MC_pre_new_Bs2mu2K_Mini/241216_144957")
 declare -a MC23_B2mu2K_post_new=("BsToJPsiPhi_JPsiToMuMu_PhiToKK_EtaPtFilter_SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2023_MC_post_new_Bs2mu2K_Mini/241216_145017")
+
+declare -a MC24_B2mu2K_new=("BsToJPsiPhi-JPsiToMuMu-PhiToKK_Fil-EtaPt_Par-SoftQCDnonD_TuneCP5_13p6TeV_pythia8-evtgen/SkimB2Mu2K_2024_MC_Bs2mu2K_Mini/250227_182435")
+
 declare -a B2mu2K23_MC_label=("B2mu2K_new")
 
 if [ "${Ana_temp}" == "B4Mu" ]; then
@@ -288,6 +303,47 @@ elif [ "${Ana_temp}" == "B2Mu2K" ]; then
             ;;
           MC_post_new)
             datasets=("${MC23_B2mu2K_post_new[@]}")
+            label=("${B2mu2K23_MC_label[@]}")
+            ;;
+          *)
+            echo "Error: The era is incorrect."
+            return
+            ;;
+        esac
+    elif [ "${year}" == "2024" ]; then
+        case "$era" in
+          B)
+            datasets=("${Control_B_2024[@]}")
+            ;;
+          C)
+            datasets=("${Control_C_2024[@]}")
+            ;;
+          D)
+            datasets=("${Control_D_2024[@]}")
+            ;;
+          E-v1)
+            datasets=("${Control_E_v1_2024[@]}")
+            ;;
+          E-v2)
+            datasets=("${Control_E_v2_2024[@]}")
+            ;;
+          F)
+            datasets=("${Control_F_2024[@]}")
+            ;;
+          G)
+            datasets=("${Control_G_2024[@]}")
+            ;;
+          H)
+            datasets=("${Control_H_2024[@]}")
+            ;;
+          I-v1)
+            datasets=("${Control_I_v1_2024[@]}")
+            ;;
+          I-v2)
+            datasets=("${Control_I_v2_2024[@]}")
+            ;;
+          MC_new)
+            datasets=("${MC24_B2mu2K_new[@]}")
             label=("${B2mu2K23_MC_label[@]}")
             ;;
           *)

@@ -3,11 +3,9 @@ gROOT.SetBatch(True)
 import math, os, sys, subprocess, argparse
 import cmsstyle as CMS
 """
-subprocess.run(["mkdir", "PileUp"])
-subprocess.run(['wget', '-O', 'PileUp/PU_MC2022.root', 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/PileUp/BCDEFG/pileupHistogram-Cert_Collisions2022_355100_362760_GoldenJson-13p6TeV-69200ub-99bins.root'])
-
-subprocess.run(['wget', '-O', 'PileUp/PU_MC2023.root', 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/PileUp/BCD/pileupHistogram-Cert_Collisions2023_366442_370790_GoldenJson-13p6TeV-69200ub-99bins.root'])
-"""
+subprocess.run(["mkdir", "PileUp"])"
+""""
+# PU_MC202*.root are on my eos
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
@@ -17,10 +15,7 @@ if __name__ == "__main__":
     year = args.year
     label = args.label
     
-    if year=="2024":
-        file = TFile.Open("PileUp/PU_MC"+"2022"+".root")
-    else:
-        file = TFile.Open("PileUp/PU_MC"+year+".root")
+    file = TFile.Open("PileUp/PU_MC"+year+".root")
     
     hist_Data = file.Get("pileup")
     n_bins = hist_Data.GetNbinsX()
@@ -28,18 +23,11 @@ if __name__ == "__main__":
     x_max = hist_Data.GetXaxis().GetXmax()
     
     chain1 = TChain("FinalTree")
-    if year=="2024":
-        chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+"2022"+".root")
-        chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+"2022"+".root")
-    else:
-        chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
-        chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
+    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
+    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
 
     chain2 = TChain("FinalTree")
-    if year=="2024":
-        chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+"2022"+".root")
-    else:
-        chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
+    chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
 
     print(f"nPileUpInt>>h_MC({n_bins},{x_min},{x_max})")
     
@@ -59,7 +47,7 @@ if __name__ == "__main__":
     hist_ratio_control.Divide(hist_Data, hist_MC2)
 
     CMS.SetExtraText("Preliminary")
-    CMS.SetLumi("2022, 34.6", unit="fb")
+    CMS.SetLumi(year+", 34.6", unit="fb")
     CMS.SetEnergy(13.6, unit='TeV')
     c = CMS.cmsCanvas("",  0, 90, 0, 1.2*hist_Data.GetMaximum() , "N. pileup int.", 'a.u.', square=CMS.kSquare, extraSpace=0.04, iPos=11)
     c.SetCanvasSize(1000,500)

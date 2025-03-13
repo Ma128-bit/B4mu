@@ -24,6 +24,8 @@ if [ "${year}" == "2022" ]; then
   MC_id=("${MC_B2mu2K22[@]}")
 elif [ "${year}" == "2023" ]; then
   MC_id=("${MC_B2mu2K23[@]}")
+elif [ "${year}" == "2024" ]; then
+  MC_id=("${MC_B2mu2K23[@]}")
 else
   echo "Error: The year is incorrect."
   return
