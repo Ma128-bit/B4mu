@@ -15,17 +15,21 @@ if [ -z ${2+x} ]; then
     return
 fi
 
-declare -a MC_name=("MC_pre_new" "MC_post_new")
+declare -a MC_=("MC_pre_new" "MC_post_new")
+declare -a MC_24=("MC_new")
 
 declare -a MC_B2mu2K22=("B2mu2K_new" "B2mu2K_new_ext")
 declare -a MC_B2mu2K23=("B2mu2K_new")
 
 if [ "${year}" == "2022" ]; then
   MC_id=("${MC_B2mu2K22[@]}")
+  MC_name=("${MC_[@]}")
 elif [ "${year}" == "2023" ]; then
   MC_id=("${MC_B2mu2K23[@]}")
+  MC_name=("${MC_[@]}")
 elif [ "${year}" == "2024" ]; then
   MC_id=("${MC_B2mu2K23[@]}")
+  MC_name=("${MC_24[@]}")
 else
   echo "Error: The year is incorrect."
   return
