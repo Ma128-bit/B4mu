@@ -485,10 +485,27 @@ void MiniAnaB4Mu::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     cout << "I'm here L1" << endl;
     gtUtil_->retrieveL1(iEvent, iSetup, algTok_);
     cout << "I'm here L1 bis" << endl;
-    const vector<pair<string, bool> > initialDecisions = gtUtil_->decisionsInitial();
-    const vector<pair<string, bool> > finalDecisions = gtUtil_->decisionsFinal();
-    const vector<pair<string, double> > PSValues = gtUtil_->prescales();
+    //const vector<pair<string, bool> > initialDecisions = gtUtil_->decisionsInitial();
+    //const vector<pair<string, bool> > finalDecisions = gtUtil_->decisionsFinal();
+    //const vector<pair<string, double> > PSValues = gtUtil_->prescales();
     
+    vector<pair<string, bool>> initialDecisions;
+    for (const auto& dec : gtUtil_->decisionsInitial()) {
+        
+
+initialDecisions.emplace_back(string(dec.first), dec.second);
+    }
+
+vector<pair<string, bool>> finalDecisions;
+for (const auto& dec : gtUtil_->decisionsFinal()) {
+    finalDecisions.emplace_back(string(dec.first), dec.second);
+}
+
+vector<pair<string, double>> PSValues;
+for (const auto& ps : gtUtil_->prescales()) {
+    PSValues.emplace_back(string(ps.first), ps.second);
+}
+
     if(initialDecisions.size() != finalDecisions.size())
         cout << "L1 initial and final decisions have different size!" << endl;
     if (!iEvent.isRealData())

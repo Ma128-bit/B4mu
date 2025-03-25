@@ -81,7 +81,6 @@ namespace reco {
           throw edm::Exception(edm::errors::Configuration, "failed to parse \"" + decay + "\"");
 
         int lists = labels_.size();
-        std::cout<<"Before if "<<std::endl;
         if (lists != 2 && lists != 3 && lists != 4)
           throw edm::Exception(edm::errors::LogicError, "invalid number of collections");
         bool found;
