@@ -24,7 +24,7 @@ branches = [
     "Mu1_Phi", "Mu2_Phi", "Mu3_Phi", "Mu4_Phi", "Quadruplet_Mass", "FlightDistBS_SV_Significance",
     "QuadrupletVtx_Chi2", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "mu1_pfreliso03",
     "mu2_pfreliso03", "mu3_pfreliso03", "mu4_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig",
-    "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "vtx_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", 
+    "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "vtx_prob", "vtx_ref_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", 
     "Cos2d_BS_SV", "dR_max", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", 
     "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "Quadruplet_Mass_eq",
     "RefittedSV_Mass", "RefittedSV_Mass_err","MVASoft1", "MVASoft2", "MVASoft3", "MVASoft4",
@@ -55,6 +55,8 @@ def check_type():
     args = parser.parse_args()
     type = args.type
     label = args.label
+    if "2024" in type:
+        print("WARNING: 2024 data must be under cmssw14, just make shure to have them in the right folder")
     if "B4mu" in type:
         return True, int(type.replace("B4mu", "")), label
     elif "control" in type:
@@ -109,13 +111,14 @@ if __name__ == "__main__":
     loadInfo("config/config_"+label+".txt")
 
     pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_"+label+"/"
+    pos_24 = "/lustrehome/mbuonsante/B_4mu/CMSSW_14_0_18_patch1/src/Analysis/FinalFiles_B4mu_"+label+"/"
     Files = {
         "B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_Bs_4mu_2022.root", pos+"Analyzed_MC_Bd_4mu_2022.root"],
         "B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_Bs_4mu_2023.root", pos+"Analyzed_MC_Bd_4mu_2023.root"],
-        "B4mu2024": [pos+"Analyzed_Data_B4mu_2024.root", pos+"Analyzed_MC_Bs_4mu_2024.root", pos+"Analyzed_MC_Bd_4mu_2024.root"],
+        "B4mu2024": [pos_24+"Analyzed_Data_B4mu_2024.root", pos_24+"Analyzed_MC_Bs_4mu_2024.root", pos_24+"Analyzed_MC_Bd_4mu_2024.root"],
         "control2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_BsJPsiPhi_2022.root"],
         "control2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_BsJPsiPhi_2023.root"],
-        "control2024": [pos+"Analyzed_Data_B4mu_2024.root", pos+"Analyzed_MC_BsJPsiPhi_2024.root"],
+        "control2024": [pos_24+"Analyzed_Data_B4mu_2024.root", pos_24+"Analyzed_MC_BsJPsiPhi_2024.root"],
     }
 
     print("Starting!")

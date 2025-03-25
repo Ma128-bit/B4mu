@@ -3,10 +3,8 @@ gROOT.SetBatch(True)
 import math, os, sys, subprocess, argparse
 """
 subprocess.run(["mkdir", "PileUp"])
-subprocess.run(['wget', '-O', 'PileUp/PU_MC2022.root', 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/PileUp/BCDEFG/pileupHistogram-Cert_Collisions2022_355100_362760_GoldenJson-13p6TeV-69200ub-99bins.root'])
-
-subprocess.run(['wget', '-O', 'PileUp/PU_MC2023.root', 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/PileUp/BCD/pileupHistogram-Cert_Collisions2023_366442_370790_GoldenJson-13p6TeV-69200ub-99bins.root'])
 """
+# PU_MC202*.root are on my eos
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
@@ -24,7 +22,10 @@ if __name__ == "__main__":
     
     chain1 = TChain("FinalTree")
     
-    chain1.Add("../Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_MC_B2mu2K_"+year+".root")
+    if year == "2024":
+        chain1.Add("../../../CMSSW_14_0_18_patch1/src/Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_MC_B2mu2K_"+year+".root")
+    else:
+        chain1.Add("../Analysis/FinalFiles_B2mu2K_"+label+"/Analyzed_MC_B2mu2K_"+year+".root")
 
     #chain2 = TChain("FinalTree")
     #chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")

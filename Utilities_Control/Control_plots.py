@@ -4,7 +4,7 @@ import sys, os, subprocess, argparse
 import cmsstyle as CMS
 
 var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass_eq", "Mu1_Eta", "Mu1_Pt", "RefittedSV_Mass_reso"]
-var = ["PVCollection_Size"]
+#var = ["vtx_prob"]
 
 binning_dict = {
     "vtx_prob": "(50,0.01,1.0)",
@@ -80,8 +80,10 @@ x_name = {
 
 lumi={
     "2022": 34.6,
-    "2023": 27.8,
-    "2022+2023": 62.4
+    "2023": 27.7,
+    "2024": 108.4,
+    "2022+2023": 62.4,
+    "2022+2023+2024": 170.7
 }
 
 def control_plots(file_name, year, reweight):

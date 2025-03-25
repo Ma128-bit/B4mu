@@ -234,7 +234,7 @@ double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi<<endl;
     if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_BsJPsiPhi/(1.0);
     if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/(1.0);
-    if(id.Contains("Analyzed_MC_Bs_4mu_2024")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_BsJPsiPhi/(1.0);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2024")) return ((BsBR*GENeff_Bs24*ANAeff_Bs24)/(BsJPsiPhiBR*GENeff_BsJPsiPhi24*ANAeff_BsJPsiPhi24))*NData24_BsJPsiPhi/(1.0);
     
     if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);
@@ -253,7 +253,7 @@ double add_weight_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //cout<<((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi<<endl;
     if(id.Contains("Analyzed_MC_Bs_4mu_2022")) return ((BsBR*GENeff_Bs22*ANAeff_Bs22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*NData22_err_BsJPsiPhi/(1.0);
     if(id.Contains("Analyzed_MC_Bs_4mu_2023")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/(1.0);
-    if(id.Contains("Analyzed_MC_Bs_4mu_2024")) return ((BsBR*GENeff_Bs23*ANAeff_Bs23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*NData23_err_BsJPsiPhi/(1.0);
+    if(id.Contains("Analyzed_MC_Bs_4mu_2024")) return ((BsBR*GENeff_Bs24*ANAeff_Bs24)/(BsJPsiPhiBR*GENeff_BsJPsiPhi24*ANAeff_BsJPsiPhi24))*NData24_err_BsJPsiPhi/(1.0);
 
     if(id.Contains("Analyzed_MC_Bd_4mu_2022")) return ((BdBR*GENeff_Bd22*ANAeff_Bd22)/(BsJPsiPhiBR*GENeff_BsJPsiPhi22*ANAeff_BsJPsiPhi22))*(NData22_err_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);
     if(id.Contains("Analyzed_MC_Bd_4mu_2023")) return ((BdBR*GENeff_Bd23*ANAeff_Bd23)/(BsJPsiPhiBR*GENeff_BsJPsiPhi23*ANAeff_BsJPsiPhi23))*(NData23_err_BsJPsiPhi/(1.0))*(1/fs_fd_ratio);

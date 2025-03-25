@@ -180,8 +180,11 @@ if __name__=="__main__":
     #nsig      = 42.6421      +/-  7.46291   (limited)
     #nsig      = 139.717      +/-  13.4737   (limited)
     #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.48")
-    FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0")
-    # nsig	  = 247.286	 +/-  16.3263
+    FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"Quadruplet_Mass_eq>0")
+    # 2022 nsig      = 65.1684      +/-  8.65423   (limited)
+    # 2023 nsig      = 42.6421      +/-  7.46291   (limited)
+    # 2024 nsig      = 139.717      +/-  13.4737   (limited)
+    # All nsig      = 257.681      +/-  18.0491   (limited)
     """
     cut = []
     nBs = []

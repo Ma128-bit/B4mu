@@ -4,7 +4,7 @@ import math, os, sys, subprocess, argparse
 import cmsstyle as CMS
 """
 subprocess.run(["mkdir", "PileUp"])"
-""""
+"""
 # PU_MC202*.root are on my eos
 
 if __name__ == "__main__":
@@ -23,11 +23,19 @@ if __name__ == "__main__":
     x_max = hist_Data.GetXaxis().GetXmax()
     
     chain1 = TChain("FinalTree")
-    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
-    chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
+
+    if year == "2024":
+        chain1.Add("../../../CMSSW_14_0_18_patch1/src/Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
+        chain1.Add("../../../CMSSW_14_0_18_patch1/src/Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
+    else:
+        chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bd_4mu_"+year+".root")
+        chain1.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_Bs_4mu_"+year+".root")
 
     chain2 = TChain("FinalTree")
-    chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
+    if year == "2024":
+        chain2.Add("../../../CMSSW_14_0_18_patch1/src/Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
+    else:
+        chain2.Add("../Analysis/FinalFiles_B4mu_"+label+"/Analyzed_MC_BsJPsiPhi_"+year+".root")
 
     print(f"nPileUpInt>>h_MC({n_bins},{x_min},{x_max})")
     

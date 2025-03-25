@@ -121,4 +121,6 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     file.Close()
 
 if __name__=="__main__":
-    FitBsJPsiPhi_Mass("_sPlot_rw_bdt", "24_01_25")
+    #FitBsJPsiPhi_Mass("_sPlot_rw_bdt", "24_01_25")
+    FitBsJPsiPhi_Mass("2022", "24_01_25")
+    

@@ -23,11 +23,14 @@ gInterpreter.Declare("""
     TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
         if(id.Contains("MC_B2mu2K_2022")) return "MC_B2mu2K_2022";
         if(id.Contains("MC_B2mu2K_2023")) return "MC_B2mu2K_2023";
+        if(id.Contains("MC_B2mu2K_2024")) return "MC_B2mu2K_2024";
         if(id.Contains("MC_B2muKpi_2022")) return "MC_B2muKpi_2022";
         if(id.Contains("MC_B2muKpi_2023")) return "MC_B2muKpi_2023";
-
+        if(id.Contains("MC_B2muKpi_2024")) return "MC_B2muKpi_2024";
+                     
         if(id.Contains("Data_B2mu2K_2022")) return "Data_B2mu2K_2022";
-        if(id.Contains("Data_B2mu2K_2023")) return "Data_B2mu2K_2022";
+        if(id.Contains("Data_B2mu2K_2023")) return "Data_B2mu2K_2023";
+        if(id.Contains("Data_B2mu2K_2024")) return "Data_B2mu2K_2024";
         else return "None";
     }
                      
@@ -38,13 +41,15 @@ gInterpreter.Declare("""
     }
 
     double add_lumiW(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
-        if(id.Contains("MC_B2mu2K_2022")) return 377423.0/314750.0; //Normalization to the number of events in data
-        if(id.Contains("MC_B2mu2K_2023")) return 330509.0/344742.0; //Normalization to the number of events in data
+        if(id.Contains("MC_B2mu2K_2022")) return 142986.0/322522.0; //Normalization to the number of events in data
+        if(id.Contains("MC_B2mu2K_2023")) return 123801.0/353676.0; //Normalization to the number of events in data
+        if(id.Contains("MC_B2mu2K_2024")) return 419844.0/1225395.0; //Normalization to the number of events in data
         if(id.Contains("MC_B2muKpi_2022")) return 1;
         if(id.Contains("MC_B2muKpi_2023")) return 1;
 
         if(id.Contains("Data_B2mu2K_2022")) return 1;
         if(id.Contains("Data_B2mu2K_2023")) return 1;
+        if(id.Contains("Data_B2mu2K_2024")) return 1;
         else return 1;
     }
 
@@ -102,7 +107,7 @@ branches = [
     "Mu1_Phi", "Mu2_Phi", "Mu3_Phi", "Mu4_Phi", "Quadruplet_Mass", "FlightDistBS_SV_Significance",
     "QuadrupletVtx_Chi2", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "mu1_pfreliso03",
     "mu2_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", 
-    "vtx_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", "Cos2d_BS_SV", "Gen_ct_signal", "Gen_ct_control",
+    "vtx_prob", "vtx_ref_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", "Cos2d_BS_SV", "Gen_ct_signal", "Gen_ct_control",
     "RefittedSV_Mass", "RefittedSV_Mass_err", "MVASoft1", "MVASoft2", "Ditrk_mass", "Dimu_mass", "new_ct"
 ]
 cuts={
@@ -128,6 +133,8 @@ def check_type():
     args = parser.parse_args()
     type = args.type
     label = args.label
+    if "2024" in type:
+        print("WARNING: 2024 data must be under cmssw14, just make shure to have them in the right folder")
     if "B2mu2K" in type:
         return "B2mu2K", int(type.replace("B2mu2K", "")), label
     elif "B2muKpi" in type:
@@ -159,11 +166,14 @@ if __name__ == "__main__":
     B2mu2X, year, label = check_type()
 
     pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_"+B2mu2X+"_"+label+"/"
+    pos_24 = "/lustrehome/mbuonsante/B_4mu/CMSSW_14_0_18_patch1/src/Analysis/FinalFiles_"+B2mu2X+"_"+label+"/"
     Files = {
         "B2mu2K2022": [pos+"Analyzed_Data_B2mu2K_2022.root", pos+"Analyzed_MC_B2mu2K_2022.root"],
         "B2mu2K2023": [pos+"Analyzed_Data_B2mu2K_2023.root", pos+"Analyzed_MC_B2mu2K_2023.root"],
+        "B2mu2K2024": [pos_24+"Analyzed_Data_B2mu2K_2024.root", pos_24+"Analyzed_MC_B2mu2K_2024.root"],
         "B2muKpi2022": [pos+"Analyzed_Data_B2muKpi_2022.root"],
-        "B2muKpi2023": [pos+"Analyzed_Data_B2muKpi_2022.root"]
+        "B2muKpi2023": [pos+"Analyzed_Data_B2muKpi_2023.root"],
+        "B2muKpi2024": [pos_24+"Analyzed_Data_B2muKpi_2024.root"]
     }
     print("Starting!")
     start_2 = time.time()
