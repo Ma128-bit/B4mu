@@ -132,6 +132,8 @@ if __name__ == "__main__":
             save_histograms([h_x_ratio, h_x_ratio_2], "Weight/weights_2022.root")
         elif "2023" in file_path:
             save_histograms([h_x_ratio, h_x_ratio_2], "Weight/weights_2023.root")
+        elif "2024" in file_path:
+            save_histograms([h_x_ratio, h_x_ratio_2], "Weight/weights_2024.root")
         else:
             print("Wrong year")
             exit()
@@ -142,7 +144,7 @@ if __name__ == "__main__":
         elif "2023" in file_path:
             file = TFile("Weight/weights_2023.root", "READ")
         elif "2024" in file_path:
-            file = TFile("Weight/weights_2023.root", "READ")
+            file = TFile("Weight/weights_2024.root", "READ")
         else:
             print("No weights found")
             exit()
