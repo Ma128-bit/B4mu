@@ -28,7 +28,7 @@ if [ "${analysis_type}" == "B4mu" ]; then
 fi
 
 if [ "${analysis_type}" == "B2mu2K" ]; then
-    hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*_new*/${analysis_type}*/Analyzed_Data_*.root
+    hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_*new*/${analysis_type}*/Analyzed_Data_*.root
     #hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_Kpi_with_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/B2muKpi/Analyzed_Data_*.root
 elif [ "${analysis_type}" == "B2muKpi" ]; then
     hadd FinalFiles_${analysis_type}_${label}/Analyzed_MC_2K_with_${analysis_type}_${year}.root ${analysis_type}/${year}_MC_p*/B2mu2K/Analyzed_Data_*.root
