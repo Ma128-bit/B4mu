@@ -51,7 +51,7 @@ double ANAeff_Bd22, ANAeff_Bs22, ANAeff_BsJPsiPhi22, ANAeff_Bd23, ANAeff_Bs23, A
 double lumi22_preEE, lumi22_postEE, lumi23_preBPix, lumi23_postBPix, lumi24;
 double GENeff_Bd22, GENeff_Bs22, GENeff_BsJPsiPhi22, GENeff_Bd23, GENeff_Bs23, GENeff_BsJPsiPhi23, GENeff_Bd24, GENeff_Bs24, GENeff_BsJPsiPhi24;
 
-double BdBR = 1.0, BsBR = 1.0, BsJPsiPhiBR = 1.738e-8;
+double BdBR = 1.0, BsBR = 1.0, BsJPsiPhiBR = 1.7668e-8; // old: 1.738e-8 --> new: 1.7668e-8
 double NData_BsJPsiPhi, NData_err_BsJPsiPhi, NData22_BsJPsiPhi, NData22_err_BsJPsiPhi, NData23_BsJPsiPhi, NData23_err_BsJPsiPhi, NData24_BsJPsiPhi, NData24_err_BsJPsiPhi;
 
 double NSidebans, NSignal;
