@@ -17,9 +17,9 @@ current_datetime=$(date "+%a %b %d %H:%M:%S %Y")
 echo "$current_datetime -- Starting Job"
 
 echo "Hostname: $(hostname)"
-#source /cvmfs/sft.cern.ch/lcg/views/dev3/latest/x86_64-centos7-gcc11-opt/setup.sh
+source /cvmfs/sft.cern.ch/lcg/views/LCG_107/x86_64-el9-gcc14-opt/setup.sh
 cd PATH
-source /cvmfs/cms.cern.ch/cmsset_default.sh
-cmsenv
+#source /cvmfs/cms.cern.ch/cmsset_default.sh
+#cmsenv
 
 python3 Analizer.py --index $index --delta DELTAVAL --directory_IN INPUT_DIR --directory_OUT OUTPUT_DIR --isMC TRUEFALSE --analysis_type ANALYSISTYPE
