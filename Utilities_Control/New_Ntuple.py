@@ -66,6 +66,11 @@ gInterpreter.Declare("""
         }
         return weight;
     }
+    
+    double vtx_prob_2obj(double chi2, double ndof){
+        double vtx_p = 1. - ROOT::Math::chisquared_cdf(chi2, (int)ndof);
+        return vtx_p;
+    }
 
     struct add_new_ctau{
         double old_ctau, new_ctau;
@@ -108,7 +113,8 @@ branches = [
     "QuadrupletVtx_Chi2", "Quadruplet_Pt", "Quadruplet_Eta", "Quadruplet_Phi", "mu1_pfreliso03",
     "mu2_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", 
     "vtx_prob", "vtx_ref_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", "Cos2d_BS_SV", "Gen_ct_signal", "Gen_ct_control",
-    "RefittedSV_Mass", "RefittedSV_Mass_err", "MVASoft1", "MVASoft2", "Ditrk_mass", "Dimu_mass", "new_ct"
+    "RefittedSV_Mass", "RefittedSV_Mass_err", "MVASoft1", "MVASoft2", "Ditrk_mass", "Dimu_mass", "new_ct",
+    "Vtx12_mass", "Vtx34_mass", "Vtx12_mass_err", "Vtx34_mass_err", "Vtx12_Chi2", "Vtx34_Chi2", "Vtx12_nDOF", "Vtx34_nDOF" #Add refitted 2obj 
 ]
 cuts={
     "Jpsi": [[75,60], [110,85], [140,110]],
@@ -214,6 +220,11 @@ if __name__ == "__main__":
     df = df.Define("RefittedSV_Mass_reso", "sqrt(RefittedSV_Mass_err)")
     df = df.Define("category", "RefittedSV_Mass_reso < 0.027 ? 0 : RefittedSV_Mass_reso < 0.038 ? 1 : 2")
     df = df.Define("eta_category", "abs(Quadruplet_Eta) < 0.8 ? 0 : (abs(Quadruplet_Eta) < 1.2 ? 1 : 2)")
+    
+    branches.append("vtx_prob_2mu")
+    branches.append("vtx_prob_2K")
+    df = df.Define("vtx_prob_2mu", "vtx_prob_2obj(Vtx12_Chi2, Vtx12_nDOF)")
+    df = df.Define("vtx_prob_2K", "vtx_prob_2obj(Vtx34_Chi2, Vtx34_nDOF)")
 
     if not os.path.exists("ROOTFiles_"+label):
         subprocess.run(["mkdir", "ROOTFiles_"+label])
