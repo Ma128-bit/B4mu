@@ -12,7 +12,7 @@ def fit(x, framein, d, color= ROOT.kRed, isMC=False):
 
     mu = RooRealVar("mu", "mu", 5.36, 4.50, 6.0)
     lambd = RooRealVar("lambd", "lambd", 0.02, 0.001, 1.5)
-    gamm = RooRealVar("gamm", "gamm", 0.0001, 0.0000001, 0.05)
+    gamm = RooRealVar("gamm", "gamm", -0.075, -0.5, 0.5)
     delta = RooRealVar("delta", "delta", 1.45, 0.1, 10)
     
     

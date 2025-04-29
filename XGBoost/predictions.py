@@ -4,6 +4,8 @@ import pandas as pd
 from xgboost import XGBRegressor, plot_importance
 import awkward as ak
 from matplotlib import pyplot as plt
+import warnings
+warnings.filterwarnings("ignore")
 
 branches = [
     "isMC", "lumi", "run", "evt", "nPileUpInt", "PVCollection_Size",
@@ -18,8 +20,8 @@ branches = [
 
 
 controlKK_branches = ["weight", "RefittedSV_Mass_reso", "ID", "year", "category", "new_ct", "RefittedSV_Mass_eq", "Ditrk_mass", "Dimu_mass", "ID", "year", "weight_pileUp", "ctau_weight_central", "nsigBs_sw", "bdt_reweight_0", "bdt_reweight_1"]
-control_branches = ["weight", "RefittedSV_Mass_reso", "ID", "year", "category", "new_ct", "mu3_pfreliso03", "mu4_pfreliso03", "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", "Quadruplet_Mass_eq", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "NewMassEqation", "bdt_reweight_0", "bdt_reweight_1"]
-signal_branches = ["weight", "RefittedSV_Mass_reso", "ID", "year", "category", "new_ct", "mu3_pfreliso03", "mu4_pfreliso03", "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", "Quadruplet_Mass_eq",  "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "Jpsicut", "phicut", "omegacut", "psi2scut", "bdt_weight", "w_mc", "bdt_reweight_0", "bdt_reweight_1"]
+control_branches = ["weight", "RefittedSV_Mass_reso", "ID", "year", "category", "new_ct", "mu3_pfreliso03", "mu4_pfreliso03", "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", "Quadruplet_Mass_eq", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "NewMassEqation", "bdt_reweight_0", "bdt_reweight_1", "bdt_reweight_2"]
+signal_branches = ["weight", "RefittedSV_Mass_reso", "ID", "year", "category", "new_ct", "mu3_pfreliso03", "mu4_pfreliso03", "OS1v1_mass_err", "OS2v1_mass_err", "OS1v2_mass_err", "OS2v2_mass_err", "isJPsiPhi", "OS1v1_mass", "OS2v1_mass", "OS1v2_mass", "OS2v2_mass", "Quadruplet_Mass_eq",  "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "Jpsicut", "phicut", "omegacut", "psi2scut", "bdt_weight", "w_mc", "bdt_reweight_0", "bdt_reweight_1", "bdt_reweight_2"]
 
 def load_config(config_file):
     """Load info from config file"""
@@ -132,6 +134,8 @@ if __name__ == "__main__":
             data = data[list(np.unique(branches+["Quadruplet_Charge"]))]
         elif args.type=="ControlKK":
             data = data[list(np.unique(branches+controlKK_branches+training_variables))]
+        elif args.type=="ControlKK24":
+            data = data[list(np.unique(branches+controlKK_branches+training_variables+["bdt_reweight_2"]))]
         else:
             data = data[list(np.unique(branches+signal_branches+training_variables))]
         

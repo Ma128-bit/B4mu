@@ -3,8 +3,8 @@ gROOT.SetBatch(True)
 import sys, os, subprocess, argparse
 import cmsstyle as CMS
 
-var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass_eq", "Mu1_Eta", "Mu1_Pt", "RefittedSV_Mass_reso"]
-#var = ["vtx_prob"]
+#var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass_eq", "Mu1_Eta", "Mu1_Pt", "RefittedSV_Mass_reso"]
+var = ["PVCollection_Size"]
 
 binning_dict = {
     "vtx_prob": "(50,0.01,1.0)",
@@ -27,7 +27,8 @@ binning_dict = {
     "100*new_ct/2.998": "(50,0,14)",
     "Mu1_Eta": "(50,-2.5,2.5)",
     "Mu1_Pt": "(50,4, 50)",
-    "PVCollection_Size": "(70,0,70)"
+    "PVCollection_Size": "(70,0,70)",
+    "category": "(10,-1,5)"
 }
 
 log_dict = {
@@ -51,7 +52,8 @@ log_dict = {
     "100*new_ct/2.998": True,
     "Mu1_Eta": False,
     "Mu1_Pt": False,
-    "PVCollection_Size": False
+    "PVCollection_Size": False,
+    "category": False
 }
 
 x_name = {
@@ -75,7 +77,8 @@ x_name = {
     "100*new_ct/2.998": "",
     "Mu1_Eta": "#mu_{1} |#eta|",
     "Mu1_Pt": "#mu_{1} p_{T}",
-    "PVCollection_Size": "N. PV"
+    "PVCollection_Size": "N. PV",
+    "category": "category"
 }
 
 lumi={
@@ -87,8 +90,8 @@ lumi={
 }
 
 def control_plots(file_name, year, reweight):
-    if not os.path.exists("Control_Plots"):
-        subprocess.run(["mkdir", "Control_Plots"])
+    if not os.path.exists(f"Control_Plots_{year}"):
+        subprocess.run(["mkdir", f"Control_Plots_{year}"])
     
     # Data ALL
     data = TChain("FinalTree")
@@ -108,7 +111,10 @@ def control_plots(file_name, year, reweight):
         data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*weight*(isMC>0)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
         if reweight:
-            data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*weight*(isMC>0)")
+            if "2024" in year:
+                data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*weight*(isMC>0)")
+            else:
+                data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*weight*(isMC>0)")
             hMC_sig_wrw = TH1F(gDirectory.Get("hMC_sig_wrw" + s))
 
         # Rescaling
@@ -117,7 +123,7 @@ def control_plots(file_name, year, reweight):
             hMC_sig_wrw.Scale(1 / hMC_sig_wrw.Integral(1,int(numbers[0])))
         hdata_sig.Scale(1 / hdata_sig.Integral(1,int(numbers[0])))
 
-        CMS.SetExtraText("Preliminary")
+        
         CMS.SetLumi(f"{year}, {lumi[year]}")
         CMS.SetEnergy(13.6)
         if logy:
@@ -199,7 +205,7 @@ def control_plots(file_name, year, reweight):
         dicanvas.Update()
         varname = varname.replace("*", "_")
         varname = varname.replace("/", "_")
-        dicanvas.SaveAs("Control_Plots/" + varname + "_" + year + "_SPlot" + ("_rw" if reweight else "") + ".pdf")
+        dicanvas.SaveAs(f"Control_Plots_{year}/" + varname + "_" + year + "_SPlot" + ("_rw" if reweight else "") + ".pdf")
         dicanvas.Clear()
 
         h_x_ratio.Delete();

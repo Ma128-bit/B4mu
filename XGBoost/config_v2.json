@@ -50,7 +50,7 @@
     "output_folder": "BDT_results",
     "number_of_splits": 10,
     "weight_column": "bdt_weight2",
-    "normalize_samples": false,
+    "normalize_samples": true,
     "index_branch": "evt",
     "out_tree_name": "FinalTree",
     "input_files": ["../Utilities_organized/ROOTFiles_20_01_25/AllData2022_rw.root", "../Utilities_organized/ROOTFiles_20_01_25/AllData2023_rw.root", "../Utilities_organized/ROOTFiles_20_01_25/AllData2024_rw.root"]

@@ -179,23 +179,24 @@ if __name__=="__main__":
     #nsig      = 65.1684      +/-  8.65423   (limited)
     #nsig      = 42.6421      +/-  7.46291   (limited)
     #nsig      = 139.717      +/-  13.4737   (limited)
-    #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.48")
-    FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"Quadruplet_Mass_eq>0")
+    #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.44")
+    #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"Quadruplet_Mass_eq>0")
     # 2022 nsig      = 65.1684      +/-  8.65423   (limited)
     # 2023 nsig      = 42.6421      +/-  7.46291   (limited)
     # 2024 nsig      = 139.717      +/-  13.4737   (limited)
     # All nsig      = 257.681      +/-  18.0491   (limited)
-    """
+    
     cut = []
     nBs = []
     nBS_err = []
     nBS_ratio = []
-    for i in range(25):
-        val, err = FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>{i/25}")
+    bins=25
+    for i in range(bins):
+        val, err = FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>{i/bins}")
         nBs.append(val)
         nBS_err.append(err)
         nBS_ratio.append(val/err if err!=0 else 0)
-        cut.append(i/25)
+        cut.append(i/bins)
         del val
         del err
 
@@ -213,6 +214,7 @@ if __name__=="__main__":
     plt.ylabel(r'$S/\sigma$')
     plt.tight_layout()
     plt.savefig("scatter_plot.png", dpi=300)
+    """
     """
     
     

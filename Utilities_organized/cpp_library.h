@@ -107,17 +107,17 @@ void loadInfo(const std::string& inputString){
     lumi23_postBPix = std::stod(config["lumi23_postBPix"]);
     lumi24 = std::stod(config["lumi24"]);
 
-    GENeff_Bd22 = (0.063851845*lumi22_preEE + 0.064040337*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
-    GENeff_Bs22 = (0.019179115*lumi22_preEE + 0.019273361*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
-    GENeff_BsJPsiPhi22 = (0.002334313*lumi22_preEE + 0.002348375*lumi22_postEE)/(lumi22_preEE+lumi22_postEE);
+    GENeff_Bd22 = 0.06453;
+    GENeff_Bs22 = 0.01837;
+    GENeff_BsJPsiPhi22 = 0.002412;
 
-    GENeff_Bd23 = (0.064558692*lumi23_preBPix + 0.064323076*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
-    GENeff_Bs23 = (0.018755007*lumi23_preBPix + 0.018755007*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
-    GENeff_BsJPsiPhi23 = (0.002306189*lumi23_preBPix + 0.002376499*lumi23_postBPix)/(lumi23_preBPix+lumi23_postBPix);
+    GENeff_Bd23 = 0.06463;
+    GENeff_Bs23 = 0.01845;
+    GENeff_BsJPsiPhi23 = 0.002409;
 
-    GENeff_Bd24 = 0.0655984919886899;
-    GENeff_Bs24 = 0.0163353367236862;
-    GENeff_BsJPsiPhi24 = 0.00269996625042187;
+    GENeff_Bd24 = 0.06476;
+    GENeff_Bs24 = 0.01840;
+    GENeff_BsJPsiPhi24 = 0.002412;
 
     //From PYTHIA to real GEN eff (see AN, Sec 6)
     GENeff_Bd22 = GENeff_Bd22/0.676; 

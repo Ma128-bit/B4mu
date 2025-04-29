@@ -107,9 +107,9 @@ def plots(file_name, year):
         legend_label = "sWeighted"
         data.Draw(varname + ">>hdata_sig" + s+ binning, "isMC==0 & (RefittedSV_Mass<5.090 | RefittedSV_Mass>5.529)")
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
-        data.Draw(varname + ">>hMC_sig" + s + binning, "bdt_weight*bdt_reweight_0*bdt_reweight_1*(isMC==1)")
+        data.Draw(varname + ">>hMC_sig" + s + binning, "bdt_weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*(isMC==1)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
-        data.Draw(varname + ">>hMC2_sig" + s + binning, "bdt_weight*bdt_reweight_0*bdt_reweight_1*(isMC==2)")
+        data.Draw(varname + ">>hMC2_sig" + s + binning, "bdt_weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_1*(isMC==2)")
         hMC2_sig = TH1F(gDirectory.Get("hMC2_sig" + s))
 
         # Rescaling

@@ -143,8 +143,8 @@ if __name__ == "__main__":
     ctau_light = (1.429) * 10 ** (-12) * speed_of_light * 100.0
 
     df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "new_ct", "new_ct"])
-    df = df.Define("ctau_weight_heavy", add_new_ctau(ctau_heavy, ctau_pdg), ["ID", "new_ct", "new_ct"])
-    df = df.Define("ctau_weight_light", add_new_ctau(ctau_light, ctau_pdg), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_heavy", add_new_ctau(ctau_actual, ctau_heavy), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_light", add_new_ctau(ctau_actual, ctau_light), ["ID", "new_ct", "new_ct"])
     
     h_vectors = std.vector(TH1F)()
     h_name = std.vector(TString)()
@@ -189,7 +189,7 @@ if __name__ == "__main__":
     else:
         df = two_mu_cuts(df, cuts)
         df = df.Define("NewMassEqation","NewMassEqation(OS1v1_mass, OS2v1_mass, OS1v2_mass, OS2v2_mass, category, RefittedSV_Mass)")
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "NewMassEqation"]
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "NewMassEqation"]
         #df = df.Define("control_weight", "weight * weight_pileUp * ctau_weight_central")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllControl"+str(year)+".root", branches+b_weights)
     
