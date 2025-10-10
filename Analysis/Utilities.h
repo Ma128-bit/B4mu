@@ -1431,3 +1431,22 @@ int GenMatching_2mu2trk(double Mu1_Pt, double Mu2_Pt, double Mu3_Pt, double Mu4_
 int get_size(const std::vector<int>& vec) {
     return vec.size();
 }
+
+int get_sizedoub(ROOT::VecOps::RVec<double>& vec, ROOT::VecOps::RVec<double>& vec2) {
+    int count = 0;
+    for (size_t i = 0; i < vec.size(); ++i) {
+        if (vec[i] == 1.0 && vec2[i] == 1.0) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+std::vector<double> get_covariance(const ROOT::VecOps::RVec<ROOT::VecOps::RVec<double>>& QuadrupletVtx_cov, int quadruplet_index) {
+    // Estrai il RVec<double> corrispondente al vertice desiderato
+    const auto& cov_rvec = QuadrupletVtx_cov.at(quadruplet_index);
+
+    cout<<cov_rvec.at(0)<<endl;
+    // Converte RVec<double> in std::vector<double> e lo restituisce
+    return std::vector<double>(cov_rvec.begin(), cov_rvec.end());
+}

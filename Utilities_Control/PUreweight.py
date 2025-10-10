@@ -70,6 +70,8 @@ if __name__ == "__main__":
     hist_ratio_signal.Write()
     #hist_ratio_control.Write()
     fout.Close()
+    print("Done!")
+    exit()
     
     #c2 = TCanvas()
     #c2.cd()

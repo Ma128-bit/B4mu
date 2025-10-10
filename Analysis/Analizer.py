@@ -275,6 +275,11 @@ if __name__ == "__main__":
     rdf = rdf.Define("Quadruplet_index", flat0D_int(0), ["Quadruplet_indexs"])
     rdf = rdf.Filter("Quadruplet_index>-1")
 
+    #rdf = rdf.Define("N_muons", "get_sizedoub(Muon_isGlobal, Muon_isMedium)")
+    #branches.append("N_muons")
+    #rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+".root", branches)
+    #exit()
+
     rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
     if(analysis_type=="B4mu"):
         rdf = rdf.Define("mu_index", "get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
@@ -319,6 +324,11 @@ if __name__ == "__main__":
         rdf = rdf.Filter("RefittedSV_Mass>4.5 && RefittedSV_Mass<6.5")
         rdf = rdf.Filter("Ditrk_mass>0.5 && Ditrk_mass<1.3")
         rdf = rdf.Filter("Dimu_mass>2.6 && Dimu_mass<3.6")
+    
+    if(analysis_type!="B4mu"):
+        branches.append("covariance")
+        rdf = rdf.Define("covariance", "get_covariance(QuadrupletVtx_cov, Quadruplet_index)")
+
 
     
     rdf = rdf.Define("new_ct", "new_tau(QuadrupletVtx_x, QuadrupletVtx_y, QuadrupletVtx_z, RefittedPV_x, RefittedPV_y, RefittedPV_z, Quadruplet_Pt, Quadruplet_Eta, Quadruplet_Phi)")

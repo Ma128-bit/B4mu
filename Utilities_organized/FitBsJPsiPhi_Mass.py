@@ -31,7 +31,7 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     h1 = ROOT.TH1F("h1", "Quadruplet Mass", 30, 5.05, 5.7)
     tree.Draw("NewMassEqation >> h1", "isMC==0 && "+bdt_sel)
     
-    h2 = ROOT.TH1F("h2", "Quadruplet Mass", 80, 5.05, 5.7)
+    h2 = ROOT.TH1F("h2", "Quadruplet Mass", 160, 5.05, 5.7)
     tree.Draw("NewMassEqation >> h2", "isMC!=0 && "+bdt_sel)
 
     # Definire la variabile di massa
@@ -53,18 +53,32 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     exp_bkg.fitTo(data, RooFit.Range("R1,R2"))
 
     # Definire il modello di segnale
-    mu = RooRealVar("mu", "mu", 5.36, 4.50, 6.0)
-    lambd = RooRealVar("lambd", "lambd", 0.02, 0.001, 1.5)
-    gamm = RooRealVar("gamm", "gamm", 0.14, 0.01, 1.5)
-    delta = RooRealVar("delta", "delta", 1.45, 0.1, 10)
+    mu = RooRealVar("mu", "mu", 4.50, 6.0)
+    lambd = RooRealVar("lambd", "lambd", 0.0001, 10.5)
+    gamm = RooRealVar("gamm", "gamm",  0.001, 10.5)
+    delta = RooRealVar("delta", "delta",  0.01, 100)
     gauss_pdf = ROOT.RooJohnson("signal_Bs", "Signal Bs", x, mu, lambd, gamm, delta)
-    gauss_pdf.fitTo(MC, RooFit.Save(True), RooFit.Range("RS"))
+
+    #gauss_pdf.fitTo(MC, RooFit.Save(True), RooFit.Range("RS"))
+    gauss_pdf.fitTo(MC, RooFit.Save(True), RooFit.Range("RS"),
+                RooFit.Strategy(2), RooFit.Extended(False), RooFit.Verbose(False),
+                RooFit.PrintLevel(-1), RooFit.NumCPU(4),
+                RooFit.Hesse(True),RooFit.Minimizer("Minuit2", "migrad"))
 
     frame2 = x.frame()
     MC.plotOn(frame2)
     gauss_pdf.plotOn(frame2, RooFit.LineStyle(ROOT.kDashed), RooFit.LineColor(ROOT.kRed))
-    leg = ROOT.TLegend(0.65, 0.65, 0.95, 0.9)
+    #Pull:
+    pull_hist_mc = frame2.pullHist()
+    pull_frame_mc = x.frame()
+    pull_frame_mc.addPlotable(pull_hist_mc, "P")
+
+    # Calcola il chi²/ndf (ROOT calcola ndf internamente)
+    chi2 = frame2.chiSquare()  # oppure: frame.chiSquare(nFitParams)
+
+    leg = ROOT.TLegend(0.65, 0.65, 0.9, 0.9)
     leg.SetTextSize(0.03)
+    leg.SetBorderSize(0)  # Rimuove il bordo
     dummy = ROOT.TGraphErrors(1)  # Create a dummy graph
     dummy.SetMarkerStyle(20)  # Circle marker
     dummy.SetMarkerSize(1.0)  # Size of the markers
@@ -83,11 +97,28 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     CMS.SetLumi("2022+2023+2024, 170.7", unit="fb")
     CMS.SetEnergy(13.6, unit='TeV')
     #gauss_pdf.paramOn(frame2, RooFit.Parameters(ROOT.RooArgSet(mu, gamm, lambd, delta)), RooFit.Layout(0.6,0.9,0.9))
-    c = CMS.cmsCanvas("",  5.1, 5.7, 0, 1.2*h2.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.02, iPos=11)
+    c = CMS.cmsDiCanvas("",  5.23, 5.5, 0, 1.2*h2.GetMaximum(), -30, 30, "m_{J/#psi#phi}(GeV)", 'Entries', "Pull", square=CMS.kSquare, extraSpace=0.02, iPos=11)
     c.SetCanvasSize(1000,750)
-    c.cd()
+    c.cd(1)
     frame2.Draw("same")
     leg.Draw("same")
+
+    # Crea un box di testo
+    chi2_label = ROOT.TPaveText(0.65, 0.5, 0.9, 0.6, "NDC")  # NDC = Normalized Device Coordinates
+    chi2_label.SetFillColor(0)
+    chi2_label.SetTextAlign(12)
+    chi2_label.SetTextFont(42)
+    chi2_label.SetTextSize(0.05)
+    chi2_label.AddText(f"#chi^{{2}}/ndf = {chi2:.2f}")
+    chi2_label.Draw("same")
+
+    c.cd(2)  # Lower pad
+    zero_line = ROOT.TLine(5.23, 0, 5.5, 0)
+    zero_line.SetLineStyle(ROOT.kDashed)
+    zero_line.SetLineColor(ROOT.kRed)
+    zero_line.SetLineWidth(2)
+    zero_line.Draw("same")
+    pull_frame_mc.Draw("P same")
     c.SaveAs("BsJPsiPhi_MassFit_"+label+"/Fit_MC_"+year+".png")
     c.Delete()
     del c
@@ -109,6 +140,17 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     # Creare il frame per il fit
     frame = x.frame()
     data.plotOn(frame)
+
+    model.plotOn(frame, RooFit.LineWidth(4))
+
+    #Pull:
+    pull_hist = frame.pullHist()
+    pull_frame = x.frame()
+    pull_frame.addPlotable(pull_hist, "P")
+
+    # Calcola il chi²/ndf (ROOT calcola ndf internamente)
+    chi2 = frame.chiSquare()  # oppure: frame.chiSquare(nFitParams)
+
     signal_curve = model.plotOn(frame, 
                             RooFit.Components("signal_Bs"), 
                             RooFit.LineStyle(ROOT.kDashed), 
@@ -120,21 +162,20 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
                              RooFit.LineStyle(ROOT.kDashed), 
                              RooFit.LineColor(ROOT.kGreen), 
                              RooFit.LineWidth(3))  # Aumenta la larghezza della linea a 3
-    
-    model.plotOn(frame, RooFit.LineWidth(4))
 
     print("*****", h1.GetMaximum())
     CMS.SetExtraText("Preliminary")
     CMS.SetLumi("2022+2023+2024, 170.7", unit="fb")
     CMS.SetEnergy(13.6, unit='TeV')
     # Applicare lo stile CMS
-    canv = CMS.cmsCanvas("",  5.1, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.02, iPos=11)
+    canv = CMS.cmsDiCanvas("",  5.1, 5.7, 0, 1.2*h1.GetMaximum() , -5, 5, "m_{J/#psi#phi}(GeV)", 'Entries', "Pull", square=CMS.kSquare, extraSpace=0.02, iPos=11)
+    canv.cd(1)  # Upper pad
     canv.SetCanvasSize(1000,750)
     frame.Draw("same")
     
-    legend = ROOT.TLegend(0.65, 0.65, 0.95, 0.9)
+    legend = ROOT.TLegend(0.65, 0.6, 0.9, 0.85)
     legend.SetTextSize(0.03)
-    #legend.SetBorderSize(0)  # Rimuove il bordo
+    legend.SetBorderSize(0)  # Rimuove il bordo
     #legend.SetTextSize(0.03)  # Dimensione del testo
     dummy_graph = ROOT.TGraphErrors(1)  # Create a dummy graph
     dummy_graph.SetMarkerStyle(20)  # Circle marker
@@ -163,8 +204,16 @@ def FitBsJPsiPhi_Mass(year="2022", label="", bdt_sel="bdt>0"):
     legend.AddEntry(bkg_pdf, "Background", "l")
 
     legend.Draw("same")
+    
+    canv.cd(2)  # Lower pad
+    pull_frame.Draw("P same")
+    zero_line2 = ROOT.TLine(5.1, 0, 5.7, 0)
+    zero_line2.SetLineStyle(ROOT.kDashed)
+    zero_line2.SetLineColor(ROOT.kRed)
+    zero_line2.SetLineWidth(2)
+    zero_line2.Draw("same")
 
-    CMS.SaveCanvas(canv, f"{dir_path}/Fit_BsJPsiPhi_{year}"+f"_{bdt_sel}.png")
+    CMS.SaveCanvas(canv, f"{dir_path}/Fit_BsJPsiPhi_{year}"+f"_{bdt_sel}.pdf")
     #"""
     file.Close()
     del file 
@@ -179,13 +228,13 @@ if __name__=="__main__":
     #nsig      = 65.1684      +/-  8.65423   (limited)
     #nsig      = 42.6421      +/-  7.46291   (limited)
     #nsig      = 139.717      +/-  13.4737   (limited)
-    #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.44")
+    FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"bdt>0.52")
     #FitBsJPsiPhi_Mass("_rw_bdt", "20_01_25", f"Quadruplet_Mass_eq>0")
     # 2022 nsig      = 65.1684      +/-  8.65423   (limited)
     # 2023 nsig      = 42.6421      +/-  7.46291   (limited)
     # 2024 nsig      = 139.717      +/-  13.4737   (limited)
     # All nsig      = 257.681      +/-  18.0491   (limited)
-    
+    """
     cut = []
     nBs = []
     nBS_err = []
@@ -215,6 +264,6 @@ if __name__=="__main__":
     plt.tight_layout()
     plt.savefig("scatter_plot.png", dpi=300)
     """
-    """
+    
     
     

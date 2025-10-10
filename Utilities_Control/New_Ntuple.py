@@ -114,6 +114,8 @@ branches = [
     "mu2_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", 
     "vtx_prob", "vtx_ref_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", "Cos2d_BS_SV", "Gen_ct_signal", "Gen_ct_control",
     "RefittedSV_Mass", "RefittedSV_Mass_err", "MVASoft1", "MVASoft2", "Ditrk_mass", "Dimu_mass", "new_ct",
+    "QuadrupletVtx_sigmax2", "QuadrupletVtx_sigmaxy", "QuadrupletVtx_sigmaxz", "QuadrupletVtx_sigmay2", "QuadrupletVtx_sigmayz", "QuadrupletVtx_sigmaz2",
+    "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z",
     "Vtx12_mass", "Vtx34_mass", "Vtx12_mass_err", "Vtx34_mass_err", "Vtx12_Chi2", "Vtx34_Chi2", "Vtx12_nDOF", "Vtx34_nDOF" #Add refitted 2obj 
 ]
 cuts={

@@ -4,10 +4,12 @@ import sys, os, subprocess, argparse
 import cmsstyle as CMS
 
 #var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass_eq", "Mu1_Eta", "Mu1_Pt", "RefittedSV_Mass_reso"]
-var = ["PVCollection_Size"]
-
+var = ["vtx_prob", "vtx_prob_2mu", "vtx_prob_2K", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig"]
+var = ["Mu2_Eta", "Mu3_Eta", "Mu4_Eta", "Mu2_Pt", "Mu3_Pt", "Mu4_Pt"]
 binning_dict = {
     "vtx_prob": "(50,0.01,1.0)",
+    "vtx_prob_2mu": "(50,0.,1.0)",
+    "vtx_prob_2K": "(50,0.,1.0)",
     "mu1_pfreliso03": "(50,0,10)",
     "mu2_pfreliso03": "(50,0,10)",
     "MVASoft1": "(50,0.2,0.8)",
@@ -27,12 +29,20 @@ binning_dict = {
     "100*new_ct/2.998": "(50,0,14)",
     "Mu1_Eta": "(50,-2.5,2.5)",
     "Mu1_Pt": "(50,4, 50)",
+    "Mu2_Eta": "(50,-2.5,2.5)",
+    "Mu2_Pt": "(50,4, 50)",
+    "Mu3_Eta": "(50,-2.5,2.5)",
+    "Mu3_Pt": "(50,4, 50)",
+    "Mu4_Eta": "(50,-2.5,2.5)",
+    "Mu4_Pt": "(50,4, 50)",
     "PVCollection_Size": "(70,0,70)",
     "category": "(10,-1,5)"
 }
 
 log_dict = {
     "vtx_prob": False,
+    "vtx_prob_2mu": False,
+    "vtx_prob_2K": False,
     "mu1_pfreliso03": True,
     "mu2_pfreliso03": True,
     "MVASoft1": False,
@@ -52,12 +62,20 @@ log_dict = {
     "100*new_ct/2.998": True,
     "Mu1_Eta": False,
     "Mu1_Pt": False,
+    "Mu2_Eta": False,
+    "Mu2_Pt": False,
+    "Mu3_Eta": False,
+    "Mu3_Pt": False,
+    "Mu4_Eta": False,
+    "Mu4_Pt": False,
     "PVCollection_Size": False,
     "category": False
 }
 
 x_name = {
     "vtx_prob": "Vertex Probability",
+    "vtx_prob_2mu": "Vertex Probability 2mu",
+    "vtx_prob_2K": "Vertex Probability 2K",
     "mu1_pfreliso03": "#mu_{1} PF relative iso.",
     "mu2_pfreliso03": "#mu_{2} PF relative iso.",
     "MVASoft1": "",
@@ -77,6 +95,12 @@ x_name = {
     "100*new_ct/2.998": "",
     "Mu1_Eta": "#mu_{1} |#eta|",
     "Mu1_Pt": "#mu_{1} p_{T}",
+    "Mu2_Eta": "#mu_{2} |#eta|",
+    "Mu2_Pt": "#mu_{3} p_{T}",
+    "Mu3_Eta": "K_{1} |#eta|",
+    "Mu3_Pt": "K_{1} p_{T}",
+    "Mu4_Eta": "K_{2} |#eta|",
+    "Mu4_Pt": "K_{2} p_{T}",
     "PVCollection_Size": "N. PV",
     "category": "category"
 }

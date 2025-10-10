@@ -109,7 +109,7 @@ def plots(file_name, year):
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
         data.Draw(varname + ">>hMC_sig" + s + binning, "bdt_weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*(isMC==1)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
-        data.Draw(varname + ">>hMC2_sig" + s + binning, "bdt_weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_1*(isMC==2)")
+        data.Draw(varname + ">>hMC2_sig" + s + binning, "bdt_weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*(isMC==2)")
         hMC2_sig = TH1F(gDirectory.Get("hMC2_sig" + s))
 
         # Rescaling
@@ -128,7 +128,7 @@ def plots(file_name, year):
             else:
                 canvas = CMS.cmsCanvas("", numbers[1], numbers[2], 0, max(hdata_sig.GetMaximum(),hMC_sig.GetMaximum())*1.5, x_name[varname], f"a.u.",  square=CMS.kSquare, iPos=11, extraSpace=0, scaleLumi=None)
 
-        canvas.SetCanvasSize(1200,1200)
+        canvas.SetCanvasSize(1200,700)
         canvas.cd(1)
         if logy:
             gPad.SetLogy()
@@ -174,14 +174,25 @@ def plot_roc_curve(root_file, year, fold=6):
         y_true_test = tree[tree["evt"]%10 == fold]["isMC"].values
         y_true_test[y_true_test > 0] = 1
         scores_test = tree[tree["evt"]%10 == fold]["bdt_fold1"].values
+        weight_test = tree[tree["evt"]%10 == fold]["weight_pileUp"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["ctau_weight_central"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["bdt_reweight_0"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["bdt_reweight_1"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["bdt_reweight_2"].values
+
         y_true_train = tree[tree["evt"]%10 != fold]["isMC"].values
         y_true_train[y_true_train > 0] = 1
         scores_train = tree[tree["evt"]%10 != fold]["bdt_fold1"].values
+        weight_train = tree[tree["evt"]%10 != fold]["weight_pileUp"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["ctau_weight_central"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["bdt_reweight_0"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["bdt_reweight_1"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["bdt_reweight_2"].values
 
         
     # Calcola la curva ROC
-    fpr, tpr, _ = roc_curve(y_true_test, scores_test)
-    fpr2, tpr2, _ = roc_curve(y_true_train, scores_train)
+    fpr, tpr, _ = roc_curve(y_true_test, scores_test, sample_weight=weight_test)
+    fpr2, tpr2, _ = roc_curve(y_true_train, scores_train, sample_weight=weight_train)
     roc_auc = auc(fpr, tpr)
     roc_auc2 = auc(fpr2, tpr2)
     
@@ -212,9 +223,24 @@ def plot_bdt_score_fold(root_file, year, fold=6):
         y_true_train = tree[tree["evt"]%10 != fold]["isMC"].values
         y_true_train[y_true_train > 0] = 1
         scores_train = tree[tree["evt"]%10 != fold]["bdt_fold1"].values
+        
+        weight_test = tree[tree["evt"]%10 == fold]["weight_pileUp"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["ctau_weight_central"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["bdt_reweight_0"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["bdt_reweight_1"].values
+        weight_test *= tree[tree["evt"]%10 == fold]["bdt_reweight_2"].values
+
+        weight_train = tree[tree["evt"]%10 != fold]["weight_pileUp"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["ctau_weight_central"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["bdt_reweight_0"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["bdt_reweight_1"].values
+        weight_train *= tree[tree["evt"]%10 != fold]["bdt_reweight_2"].values
+
         sig_bdt_score_test = scores_test[y_true_test == 1]
+        sig_bdt_w_test = weight_test[y_true_test == 1]
         bkg_bdt_score_test = scores_test[y_true_test == 0]
         sig_bdt_score_train = scores_train[y_true_train == 1]
+        sig_bdt_w_train = weight_train[y_true_train == 1]
         bkg_bdt_score_train = scores_train[y_true_train == 0]
 
     ks_signal = ks_2samp(sig_bdt_score_train ,sig_bdt_score_test)
@@ -224,7 +250,7 @@ def plot_bdt_score_fold(root_file, year, fold=6):
     print("KS test (bkg):", ks_bkg)
 
     # Plot della distribuzione della probabilità della classe positiva
-    counts_sig_test, bin_edges_sig_test = np.histogram(sig_bdt_score_test, bins=25, density=True)
+    counts_sig_test, bin_edges_sig_test = np.histogram(sig_bdt_score_test, bins=25, weights=sig_bdt_w_test, density=True)
     bin_widths_sig_test = np.diff(bin_edges_sig_test)
     yerr_sig_test = np.sum(counts_sig_test)*np.sqrt(counts_sig_test)/np.sum(sig_bdt_score_test)  
     #yerr_sig_test = np.sqrt(counts_sig_test)  # Fluttuazione di Poisson
@@ -239,7 +265,7 @@ def plot_bdt_score_fold(root_file, year, fold=6):
 
     plt.figure(figsize=(12, 8))
     hep.style.use("CMS")
-    plt.hist(sig_bdt_score_train, bins=25, histtype='stepfilled', color = 'blue', alpha=0.5, edgecolor='blue', label='Signal Train', density=True)
+    plt.hist(sig_bdt_score_train, weights=sig_bdt_w_train, bins=25, histtype='stepfilled', color = 'blue', alpha=0.5, edgecolor='blue', label='Signal Train', density=True)
     plt.hist(bkg_bdt_score_train, bins=25, histtype='step', color = 'red', edgecolor='red', hatch='/', label='Bkg Train', density=True)
     plt.errorbar(bin_centers_sig_test, counts_sig_test, xerr=xerr_sig_test, yerr=yerr_sig_test, fmt='o', color='blue', label='Signal Test')
     plt.errorbar(bin_centers_bkg_test, counts_bkg_test, xerr=xerr_bkg_test, yerr=yerr_bkg_test, fmt='o', color='red', label='Bkg Test')
@@ -264,6 +290,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     file = args.file
     year = args.year
-    plot_roc_curve(file, year, fold=6)
+    #for i in range(9):
+    #    plot_roc_curve(file, year, fold=i)
+    plot_roc_curve(file, year, fold=0)
     plot_bdt_score_fold(file, year, fold=6)
-    #plots(file, year)
+    plots(file, year)

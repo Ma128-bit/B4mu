@@ -1,5 +1,5 @@
 from ROOT import RooFit, RooRealVar, RooDataHist, RooExponential, RooAddPdf, TGraph, TH1F, gStyle
-from ROOT import RooArgSet, TFile, RooJohnson, RooArgList, kDashed, kRed, kGreen, kBlack, TLegend, TGraphErrors, kBlue
+from ROOT import RooArgSet, TFile, RooJohnson, RooArgList, kDashed, kRed, kGreen, kBlack, TLegend, TGraphErrors, kBlue, TLine
 import os
 import cmsstyle as CMS
 
@@ -76,13 +76,19 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     
     model.plotOn(frame, RooFit.LineWidth(4))
 
+    pull_hist = frame.pullHist()
+    pull_frame = x.frame()
+    pull_frame.addPlotable(pull_hist, "P")
+
     print("*****", h1.GetMaximum())
     # Applicare lo stile CMS
     CMS.SetExtraText("Preliminary")
-    CMS.SetLumi("2022+2023, 62.4", unit="fb")
+    CMS.SetLumi("2022+2023+2024, 170.7", unit="fb")
     CMS.SetEnergy(13.6, unit='TeV')
-    canv = CMS.cmsCanvas("",  5.2, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.05, iPos=11, yTitOffset=1.5)
-    canv.SetCanvasSize(1000,800)
+    #canv = CMS.cmsCanvas("",  5.2, 5.7, 0, 1.2*h1.GetMaximum() , "m_{J/#psi#phi}(GeV)", 'Entries', square=CMS.kSquare, extraSpace=0.05, iPos=11, yTitOffset=1.5)
+    canv = CMS.cmsDiCanvas("",  5.2, 5.7, 0, 1.2*h1.GetMaximum() , -5, 5, "m_{J/#psi#phi}(GeV)", 'Entries', "Pull", square=CMS.kSquare, extraSpace=0.05, iPos=11)
+    canv.cd(1)
+    canv.SetCanvasSize(1000,750)
     frame.Draw("same")
 
     legend = TLegend(0.65, 0.65, 0.95, 0.9)
@@ -107,7 +113,7 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     sig_pdf.SetLineColor(kRed)
     sig_pdf.SetLineWidth(3)
     sig_pdf.SetLineStyle(2)
-    legend.AddEntry(sig_pdf, "B_{s} #rightarrow J/#psi(#mu#mu)#phi(KK)", "l")
+    legend.AddEntry(sig_pdf, "B_{s}^{0} #rightarrow J/#psi(#mu#mu)#phi(KK)", "l")
 
     bkg_pdf = TGraph()
     bkg_pdf.SetLineColor(kGreen)
@@ -116,11 +122,19 @@ def FitBsJPsiPhi_Mass(year="2022", label=""):
     legend.AddEntry(bkg_pdf, "Background", "l")
 
     legend.Draw("same")
+
+    canv.cd(2)  # Lower pad
+    pull_frame.Draw("P same")
+    zero_line2 = TLine(5.2, 0, 5.7, 0)
+    zero_line2.SetLineStyle(kDashed)
+    zero_line2.SetLineColor(kRed)
+    zero_line2.SetLineWidth(2)
+    zero_line2.Draw("same")
     
     CMS.SaveCanvas(canv, f"{dir_path}/Fit_BsJPsiPhi_{year}.pdf")
     file.Close()
 
 if __name__=="__main__":
-    #FitBsJPsiPhi_Mass("_sPlot_rw_bdt", "24_01_25")
-    FitBsJPsiPhi_Mass("2022", "24_01_25")
+    FitBsJPsiPhi_Mass("_sPlot_rw_bdt", "24_01_25")
+    #FitBsJPsiPhi_Mass("2022", "24_01_25")
     

@@ -24,20 +24,20 @@ for c in categories.keys():
 
     if "A" in c:
         tree.Draw("RefittedSV_Mass>>data_hist", "nsigBs_sw*(isMC==0 && category==0 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
-        tree.Draw("RefittedSV_Mass>>mc_hist", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*(isMC>0 && category==0 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
+        tree.Draw("RefittedSV_Mass>>mc_hist", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*(isMC>0 && category==0 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
     elif "B" in c:
         tree.Draw("RefittedSV_Mass>>data_hist", "nsigBs_sw*(isMC==0 && category==1 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
-        tree.Draw("RefittedSV_Mass>>mc_hist", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*(isMC>0 && category==1 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
+        tree.Draw("RefittedSV_Mass>>mc_hist", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*(isMC>0 && category==1 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
     else:
         tree.Draw("RefittedSV_Mass>>data_hist", "nsigBs_sw*(isMC==0 && category==2 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
-        tree.Draw("RefittedSV_Mass>>mc_hist", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*(isMC>0 && category==2 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
+        tree.Draw("RefittedSV_Mass>>mc_hist", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*(isMC>0 && category==2 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
     
     data_events_0 = data_hist.Integral()
     mc_events_0 = mc_hist.Integral()
     
     cat = categories[c].replace("bdt_cv","bdt")
     tree.Draw("RefittedSV_Mass>>data_histpost", "nsigBs_sw*(isMC==0 && (" + cat + ") && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7)")
-    tree.Draw("RefittedSV_Mass>>mc_histpost", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*(isMC>0 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7 && (" + cat + "))")
+    tree.Draw("RefittedSV_Mass>>mc_histpost", "nsigBs_sw*weight*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*(isMC>0 && RefittedSV_Mass>5.2 && RefittedSV_Mass<5.7 && (" + cat + "))")
     
     data_events = data_histpost.Integral()
     mc_events = mc_histpost.Integral()
