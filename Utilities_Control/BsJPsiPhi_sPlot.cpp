@@ -27,11 +27,29 @@ using namespace RooStats;
 void AddModel(RooWorkspace &ws){
     RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
-    RooRealVar mu("mu", "mu", 5.36, 4.50, 6.0, "GeV");
     RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
     RooRealVar gamm("gamm", "gamm", 0.14, 0.01, 1.5);
     RooRealVar delta("delta", "delta", 1.45, 0.1, 10);
-    RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
+
+    RooRealVar mean("mean", "mean of x", 5.366, 5.00, 5.70);
+    RooRealVar sigma_t("sigma_t", "width Student-t", 0.1, 0.01, 1);
+    RooRealVar nu("nu", "degrees of freedom", 3, 0.01, 20);
+
+    RooJohnson johnson("mDsModel", "Ds Model", xMass, mean, lambd, gamm, delta);
+    RooGenericPdf studentT(
+        "studentT",
+        "Student-t PDF",
+        "TMath::Power(1 + TMath::Power((RefittedSV_Mass_eq-mean)/sigma_t,2)/nu, -0.5*(nu+1))",
+        RooArgList(xMass, mean, sigma_t, nu)
+    );
+    
+    RooRealVar frac_t("frac_t", "fraction of Student-t", 0.5, 0.02, 0.98);
+    RooAddPdf mBsModel(
+        "signal_Bs",
+        "Student-t + Johnson",
+        RooArgList(studentT, johnson),
+        RooArgList(frac_t)
+    );
 
     std::cout << "make bkg model" << std::endl;
     RooRealVar lambda("lambda", "lambda of Exponential", -0.9, -10, 10);
@@ -55,11 +73,29 @@ void AddModel(RooWorkspace &ws){
 void AddMC_Model(RooWorkspace &ws){
     RooRealVar xMass("RefittedSV_Mass_eq", "M_{inv}", 5.2, 5.7, "GeV");
     std::cout << "make Bs model" << std::endl;
-    RooRealVar mu("mu", "mu", 5.36, 4.50, 6.0, "GeV");
-    RooRealVar lambd("lambd", "lambd", 0.02, 0.001, 1.5);
-    RooRealVar gamm("gamm", "gamm", 0.14, 0.01, 1.5);
-    RooRealVar delta("delta", "delta", 1.45, 0.1, 10);
-    RooJohnson mBsModel("mDsModel", "Ds Model", xMass, mu, lambd, gamm, delta);
+    RooRealVar lambd("lambd", "lambd", 0.02, 0.005, 1.0);
+    RooRealVar gamm("gamm", "gamm", -1.5, 1.5);
+    RooRealVar delta("delta", "delta", 1.5, 0.1, 10);
+
+    RooRealVar mean("mean", "mean of x", 5.366, 5.00, 5.70);
+    RooRealVar sigma_t("sigma_t", "width Student-t", 0.15, 0.05, 1);
+    RooRealVar nu("nu", "degrees of freedom", 5, 0.5, 20);
+
+    RooJohnson johnson("mDsModel", "Ds Model", xMass, mean, lambd, gamm, delta);
+    RooGenericPdf studentT(
+        "studentT",
+        "Student-t PDF",
+        "TMath::Power(1 + TMath::Power((RefittedSV_Mass_eq-mean)/sigma_t,2)/nu, -0.5*(nu+1))",
+        RooArgList(xMass, mean, sigma_t, nu)
+    );
+    
+    RooRealVar frac_t("frac_t", "fraction of Student-t", 0.5, 0.02, 0.98);
+    RooAddPdf mBsModel(
+        "signal_Bs",
+        "Student-t + Johnson",
+        RooArgList(studentT, johnson),
+        RooArgList(frac_t)
+    );
 
     std::cout << "make bkg model" << std::endl;
     RooRealVar lambda("lambda", "lambda of Exponential", -0.9, -10, 10);
@@ -67,8 +103,8 @@ void AddMC_Model(RooWorkspace &ws){
 
     // --------------------------------------
     // combined model
-    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 12000, 0., 2000000);
-    RooRealVar nbkg("nbkg", "fitted yield for bkg", 10000, 1., 1000000);
+    RooRealVar nsigBs("nsigBs", "fitted yield for Bs", 170000, 0., 2000000);
+    RooRealVar nbkg("nbkg", "fitted yield for bkg", 50000, 1., 1000000);
 
     // now make the combined models
     std::cout << "make full model" << std::endl;
@@ -79,7 +115,7 @@ void AddMC_Model(RooWorkspace &ws){
     ws.import(massModel, RecycleConflictNodes());
 }
 void AddData(RooWorkspace &ws, TString name_file = "AllB2mu2K2022.root", TString tree_name = "FinalTree", TString selMC = "isMC==0"){
-    TFile *file = new TFile("./ROOTFiles_24_06_25/"+name_file);
+    TFile *file = new TFile("./ROOTFiles_18_11_25/"+name_file);
     TTree *tree = (TTree*)file->Get(tree_name);
     RooAbsPdf *model = ws.pdf("model");
     RooRealVar *xMass = ws.var("RefittedSV_Mass_eq");
@@ -240,10 +276,11 @@ void BsJPsiPhi_sPlot(TString name_file = "AllB2mu2K2022", TString tree_name = "F
     if(isMC == 0) DoSPlot(wspace);
     else DoSPlotMC(wspace);
     MakePlots(wspace);
+    TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
     const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
 
     std::vector<std::string>  branchNames;
-    TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
+    
     tree->Write(tree_name, TObject::kOverwrite);
     for (const auto& branch : *const_cast<TTree*>(tree)->GetListOfBranches()) {
         std::string branchName = branch->GetName();

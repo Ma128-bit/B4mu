@@ -8,7 +8,7 @@ binning_dict = {
     "FlightDistBS_SV_Significance": "(1200,0,600)",
     "mu2_bs_dxy_sig": "(100,-100,100)",
     "Quadruplet_Eta": "(200,-2.5,2.5)",
-    "vtx_prob": "(200, 0.01, 1)",
+    "vtx_prob": "(200, 0.0, 1)",
     "bdt": "(50,0,1)"
 }
 
@@ -45,17 +45,20 @@ def reweight(file_name, varname, name):
     if name == "1":
         wadd_ = "*bdt_reweight_0"
         hname = "h_ratio_1"
+        vtx_prob_cut = "vtx_prob>0.01"
     elif name == "2":
         wadd_ = "*bdt_reweight_0*bdt_reweight_1"
         hname = "h_ratio_2"
+        vtx_prob_cut = "vtx_prob>0.0"
     else:
         wadd_ = ""
         hname = "h_ratio_0"
+        vtx_prob_cut = "vtx_prob>0.01"
 
     print(hname)
-    data.Draw(varname + ">>hdata_sig" + binning, "nsigBs_sw"+wadd_+"*(isMC==0 && RefittedSV_Mass_eq>5.2 && RefittedSV_Mass_eq<5.7)")
+    data.Draw(varname + ">>hdata_sig" + binning, "nsigBs_sw"+wadd_+"*(isMC==0 && RefittedSV_Mass_eq>5.2 && RefittedSV_Mass_eq<5.7 && "+vtx_prob_cut+")")
     hdata_sig = TH1F(gDirectory.Get("hdata_sig" ))
-    data.Draw(varname + ">>hMC_sig" + binning, "nsigBs_sw"+wadd_+"*weight_pileUp*ctau_weight_central*(isMC>0)")
+    data.Draw(varname + ">>hMC_sig" + binning, "nsigBs_sw"+wadd_+"*weight_pileUp*ctau_weight_central*(isMC>0 && "+vtx_prob_cut+")")
     hMC_sig = TH1F(gDirectory.Get("hMC_sig"))
 
     hMC_sig.Scale(1 / hMC_sig.Integral(1,int(numbers[0])))
@@ -86,7 +89,10 @@ def addw(file_name, varname, h_x_ratio, name):
             new_branch.Fill()
         else:
             bin_number = h_x_ratio.FindBin(x_value)
-            weight[0] = h_x_ratio.GetBinContent(bin_number)
+            if h_x_ratio.GetBinContent(bin_number) >= 0:
+                weight[0] = h_x_ratio.GetBinContent(bin_number)
+            else:
+                weight[0] = (h_x_ratio.GetBinContent(bin_number-1)+h_x_ratio.GetBinContent(bin_number+1))/2
             new_branch.Fill()
 
     # Write the updated TTree to the file

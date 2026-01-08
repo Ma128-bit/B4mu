@@ -14,8 +14,8 @@ with open(input_file, 'r') as f:
 #range1 = np.linspace(0.91, 0.99, 40)
 #range2 = np.linspace(0.80, 0.99, 50)
 
-range1 = np.linspace(0.95, 0.99, 60)
-range2 = np.linspace(0.84, 0.99, 40)
+range1 = np.linspace(0.94, 0.995, 40)
+range2 = np.linspace(0.85, 0.995, 30)
 
 bdt_cv_1 = []
 bdt_cv_2 = []
@@ -25,8 +25,9 @@ for a in range1:
             bdt_cv_1.append(a)
             bdt_cv_2.append(b)
 
-
 for index in range(len(bdt_cv_1)):
+#    if index not in [176, 294, 378, 503, 579, 663, 745, 788, 861, 938, 202, 296, 390, 526, 588, 700, 771, 820, 897, 955, 252, 312, 398, 52, 616, 724, 777, 833, 927, 957, 270, 353, 410, 55, 643, 735, 778, 846, 932, 996]:
+#        continue
     file.write(f"{index} {bdt_cv_1[index]} {bdt_cv_2[index]}\n")
     bdt_cv_values = [bdt_cv_1[index], bdt_cv_2[index],bdt_cv_1[index], bdt_cv_2[index],bdt_cv_1[index], bdt_cv_2[index]]
 
@@ -62,9 +63,9 @@ for index in range(len(bdt_cv_1)):
         "output": current_directory+f"/Out_{index}/job_output.txt", 
         "error": current_directory+f"/Out_{index}/job_error.txt",
         "log": current_directory+f"/Out_{index}/job_log.txt", 
-        "request_cpus": 1, 
-        "request_memory": "2GB",  
-        "request_disk": "2GB",  
+        "request_cpus": 2, 
+        "request_memory": "4GB",  
+        "request_disk": "4GB",  
     }
 
     job = htcondor.Submit(job_config)

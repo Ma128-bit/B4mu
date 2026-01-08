@@ -14,7 +14,7 @@ def category_sel(configfile):
 file = TFile.Open("../Utilities_Control/ROOTFiles_24_01_25/AllB2mu2K_sPlot_rw_bdt.root")
 tree = file.Get("FinalTree")
 
-categories = category_sel("/lustrehome/mbuonsante/B_4mu/Combine/CMSSW_14_1_0_pre4/src/B4muLimits/configs/config_20_01_25_10%.json")
+categories = category_sel("/lustrehome/mbuonsante/B_4mu/Combine/CMSSW_14_1_0_pre4/src/B4muLimits/configs/config_20_01_25_v0.json")
 
 for c in categories.keys():
     data_hist = TH1F("data_hist", "Data Histogram", 100, 0, 10)

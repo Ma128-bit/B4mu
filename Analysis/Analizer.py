@@ -283,6 +283,11 @@ if __name__ == "__main__":
     rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
     if(analysis_type=="B4mu"):
         rdf = rdf.Define("mu_index", "get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
+        rdf = rdf.Define("mu_charge_vec", "get_MVASoft(mu_index, MuonCharge)")
+        for i in range(1,5):
+            ind=str(i)
+            branches.append("Mu"+ind+"_Charge")
+            rdf = rdf.Define("Mu"+ind+"_Charge",f"flattering(mu_charge_vec, {i-1}, \"FLAT MU Charge\")") 
         rdf = rdf.Define("dz_max", "DeltaZmax(mu_index, Muon_vz)")
         branches.append("dz_max")
     else:

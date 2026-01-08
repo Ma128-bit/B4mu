@@ -19,6 +19,7 @@ def read_expected_limit(filename):
                 # Split the line and extract the number after 'r <'
                 limit = line.split('r <')[-1].strip()
                 return float(limit)  # Return the number as a float
+        print("No limit for: ", filename)
 
 def read_as_dataframe(filename):
     # Read the file as a DataFrame, assuming space as the delimiter
@@ -31,7 +32,8 @@ def log_significance(S, B):
         significance = math.sqrt(2 * ((S + B) * math.log(1 + S / B) - S))
     return significance
 
-dir = "submission_out"
+#dir = "submission_out_ws"
+dir = "submission_out_ws"
 filename = dir+'/scan_info.txt'  
 df = read_as_dataframe(filename)
 df['expected_limitA'] = df[0].apply(lambda x: read_expected_limit(dir+f'/Out_{x}/output_combineA.txt'))
@@ -42,23 +44,34 @@ df['expected_limitC'] = df[0].apply(lambda x: read_expected_limit(dir+f'/Out_{x}
 #print(df.isna().sum())
 
 after_10={
-    'A': [0.9765, 0.9562],
-    'B': [0.9863, 0.9133],
-    'C': [0.9847, 0.8465]
+    'A': [0.9764, 0.9082],
+    'B': [0.9779, 0.9166],
+    'C': [0.9834, 0.8480]
 }
 for c in ["A", "B", "C"]:
     max_row = df.loc[df['expected_limit'+c].idxmin()] 
-    print(max_row[1], max_row[2], np.nanmin(df['expected_limit'+c]))
-    
+    print(c, ": ", max_row[1], max_row[2], np.nanmin(df['expected_limit'+c]))
     
     x = df[1]
     y = df[2]
     z = df['expected_limit'+c]
-    x_bins = 60  
-    y_bins = 40 
+    x_bins = 40  
+    y_bins = 30 
     
+    x_min, x_max = 0.94, 0.995
+    y_min, y_max = 0.85, 0.995
+
+    # Calcola larghezza dei bin
+    dx = (x_max - x_min) / x_bins
+    dy = (y_max - y_min) / y_bins
+
+    # Range esteso di mezzo bin ai bordi
+    x_range = (x_min - dx/2, x_max + dx/2)
+    y_range = (y_min - dy/2, y_max + dy/2)
+
+
     #hist, x_edges, y_edges = np.histogram2d(x, y, bins=[x_bins, y_bins], weights=z, range=[(0.85, 0.99), (0.50, 0.95)])
-    hist, x_edges, y_edges = np.histogram2d(x, y, bins=[x_bins, y_bins], weights=z, range=[(0.95, 0.99), (0.84, 0.99)])
+    hist, x_edges, y_edges = np.histogram2d(x, y, bins=[x_bins, y_bins], weights=z, range=(x_range, y_range))
 
     # Calcola i centri delle celle per i grafici
     x_centers = (x_edges[:-1] + x_edges[1:]) / 2
@@ -71,12 +84,13 @@ for c in ["A", "B", "C"]:
     plt.figure(figsize=(10, 8))  # Modifica le dimensioni come desiderato
 
     # Crea il grafico con pcolormesh
-    plt.pcolormesh(X, Y, hist.T, shading='auto', cmap='viridis', norm=LogNorm())
+    plt.pcolormesh(X, Y, hist.T, shading='nearest', cmap='viridis', norm=LogNorm())
+    
     hep.cms.text(text="Preliminary")
     hep.cms.lumitext(text=r"170.7 fb$^{-1}$ (13.6 TeV)")
     plt.colorbar(label='r')
     plt.scatter(max_row[1], max_row[2], color='red', label=f'Best wp', zorder=3, s=30)
-    plt.scatter(after_10[c][0], after_10[c][1], color='orange', label=f'Selected wp', zorder=3, s=25)
+    #plt.scatter(after_10[c][0], after_10[c][1], color='orange', label=f'Selected wp', zorder=3, s=25)
 
     #if c=="B":
         #plt.xlim(0.95, 0.982)
@@ -109,9 +123,11 @@ for c in ["A", "B", "C"]:
     # Filtra il DataFrame per mantenere solo le righe con valori di z minori di z_min - 10%
     z_threshold = z_min * 1.1
     df_filtered = df_interpolated[df_interpolated['z'] < z_threshold]
+    df_filtered = df_filtered[df_filtered['x'] < max_row[1]]
+    df_filtered = df_filtered[df_filtered['y'] < max_row[2]]
     random_row = df_filtered.sample(n=1)
     print(random_row)
-    """ 
+    """  
     """
     max_index = np.unravel_index(np.nanargmin(z_interpolated), z_interpolated.shape)
 

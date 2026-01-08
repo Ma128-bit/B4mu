@@ -47,7 +47,7 @@ for e in "${MC_name[@]}"; do
     cd "${year}_${e}"
     for id in "${MC_id[@]}"; do
         cd "${id}"
-        condor_submit -name ettore submit.condor
+        condor_submit -name tmp submit.condor
         cd ..
     done
     echo ""

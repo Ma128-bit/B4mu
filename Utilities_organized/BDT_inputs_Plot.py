@@ -208,7 +208,7 @@ def plot_roc_curve(root_file, year, fold=6):
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.legend(loc='lower right')
-    hep.cms.label("Preliminary", data=True, lumi=lumi[year], year=year)
+    hep.cms.label("Preliminary", data=True, lumi=lumi[year], year=year, com=13.6)
     plt.grid()
     plt.savefig(f"BDT_Plots/roc{fold}.pdf")
 
@@ -250,14 +250,14 @@ def plot_bdt_score_fold(root_file, year, fold=6):
     print("KS test (bkg):", ks_bkg)
 
     # Plot della distribuzione della probabilità della classe positiva
-    counts_sig_test, bin_edges_sig_test = np.histogram(sig_bdt_score_test, bins=25, weights=sig_bdt_w_test, density=True)
+    counts_sig_test, bin_edges_sig_test = np.histogram(sig_bdt_score_test, range=(0,1), bins=25, weights=sig_bdt_w_test, density=True)
     bin_widths_sig_test = np.diff(bin_edges_sig_test)
     yerr_sig_test = np.sum(counts_sig_test)*np.sqrt(counts_sig_test)/np.sum(sig_bdt_score_test)  
     #yerr_sig_test = np.sqrt(counts_sig_test)  # Fluttuazione di Poisson
     xerr_sig_test = np.diff(bin_edges_sig_test) / 2  # Mezzo della larghezza del bin
     bin_centers_sig_test = (bin_edges_sig_test[:-1] + bin_edges_sig_test[1:]) / 2
 
-    counts_bkg_test, bin_edges_bkg_test = np.histogram(bkg_bdt_score_test, bins=25, density=True)
+    counts_bkg_test, bin_edges_bkg_test = np.histogram(bkg_bdt_score_test, bins=25, range=(0,1), density=True)
     bin_widths_bkg_test = np.diff(bin_edges_bkg_test)
     yerr_bkg_test = np.sum(counts_bkg_test)*np.sqrt(counts_bkg_test)/np.sum(bkg_bdt_score_test)   # Fluttuazione di Poisson
     xerr_bkg_test = np.diff(bin_edges_bkg_test) / 2  # Mezzo della larghezza del bin
@@ -265,8 +265,8 @@ def plot_bdt_score_fold(root_file, year, fold=6):
 
     plt.figure(figsize=(12, 8))
     hep.style.use("CMS")
-    plt.hist(sig_bdt_score_train, weights=sig_bdt_w_train, bins=25, histtype='stepfilled', color = 'blue', alpha=0.5, edgecolor='blue', label='Signal Train', density=True)
-    plt.hist(bkg_bdt_score_train, bins=25, histtype='step', color = 'red', edgecolor='red', hatch='/', label='Bkg Train', density=True)
+    plt.hist(sig_bdt_score_train, weights=sig_bdt_w_train, range=(0,1), bins=25, histtype='stepfilled', color = 'blue', alpha=0.5, edgecolor='blue', label='Signal Train', density=True)
+    plt.hist(bkg_bdt_score_train, bins=25, range=(0,1), histtype='step', color = 'red', edgecolor='red', hatch='/', label='Bkg Train', density=True)
     plt.errorbar(bin_centers_sig_test, counts_sig_test, xerr=xerr_sig_test, yerr=yerr_sig_test, fmt='o', color='blue', label='Signal Test')
     plt.errorbar(bin_centers_bkg_test, counts_bkg_test, xerr=xerr_bkg_test, yerr=yerr_bkg_test, fmt='o', color='red', label='Bkg Test')
     plt.xlabel('BDT score')
@@ -277,7 +277,7 @@ def plot_bdt_score_fold(root_file, year, fold=6):
         bbox=dict(facecolor='white'))
     plt.grid(True)
     plt.yscale('log')
-    hep.cms.label("Preliminary", data=True, lumi=lumi[year], year=year)
+    hep.cms.label("Preliminary", data=True, lumi=lumi[year], year=year, com=13.6)
 
     plt.savefig(f'BDT_Plots/kolmogorov_test_fold{fold}.pdf', dpi = 500)
 
@@ -290,8 +290,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     file = args.file
     year = args.year
-    #for i in range(9):
+    for i in range(9):
     #    plot_roc_curve(file, year, fold=i)
+    #    plot_bdt_score_fold(file, year, fold=i)
     plot_roc_curve(file, year, fold=0)
-    plot_bdt_score_fold(file, year, fold=6)
-    plots(file, year)
+    plot_bdt_score_fold(file, year, fold=4)
+    #plots(file, year)

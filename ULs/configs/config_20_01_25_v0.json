@@ -1,0 +1,40 @@
+{
+    "Unblind": true,
+    "Branches4sel": { 
+                    "bdt_cv": [0, 1], 
+                    "vtx_prob": [0, 1],
+                    "category": [-1,4]
+    },
+    "TreeName": "FinalTree",
+    "Mass_var": "RefittedSV_Mass",
+    "MC_id": "isMC",
+    "N_control": 250.583,
+    "N_control_err": 16.396,
+    "BDT_cut": 0.48,
+    "Nota": "Le efficienze i il numero di eventi includono ctau_weight_central*weight_pileUp bdt_rw (quest ultimo solo numeratore)",
+    "BDT_eff_BsJpsiphi": 0.88107768,
+    "BDT_eff_Bs": 0.88862080,
+    "BDT_eff_Bd": 0.88975374,
+    "N_evt_Bs_2022": 48374,
+    "N_evt_Bs_2023": 49500,
+    "N_evt_Bs_2024": 222451,
+    "N_evt_Bd_2022": 52448,
+    "N_evt_Bd_2023": 52100,
+    "N_evt_Bd_2024": 198465,
+    "RootFile": "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Utilities_organized/ROOTFiles_20_01_25/AllData_rw_bdt_v0.root",
+
+    "categories": ["A1", "A2", "B1", "B2", "C1", "C2"],
+    "A1": "category==0 && bdt_cv >= 0.9921",
+    "A2": "category==0 && bdt_cv >= 0.9600 && bdt_cv < 0.9921",
+    "B1": "category==1 && bdt_cv >= 0.9879",
+    "B2": "category==1 && bdt_cv >= 0.9200 && bdt_cv < 0.9879",
+    "C1": "category==2 && bdt_cv >= 0.9921",
+    "C2": "category==2 && bdt_cv >= 0.9750 && bdt_cv < 0.9921",
+
+    "Bs_lambda" : [0.07, 0.08, 0.14],
+    "Bs_gamma" : [0.87, 0.63, 0.35],
+    "Bs_delta" : [2.71, 2.32, 2.75],
+    "B0_lambda" : [0.05, 0.08, 0.15],
+    "B0_gamma" : [0.65, 0.65, 0.52],
+    "B0_delta" : [1.9, 2.3, 3.01]
+}

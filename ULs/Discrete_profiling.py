@@ -260,7 +260,7 @@ if __name__ == "__main__":
                 log.write(">>> fis_prob: %f \n" % fis_prob)
                 log.write(">>> gof_prob: %f \n" % gof_prob)
 
-                if (gof_prob > 0.01 and fis_prob < 0.1 and results.covQual()==3) or ("Exponential" in pdf.GetName()):
+                if (gof_prob > 0.01 and fis_prob < 0.1 and results.covQual()==3) or ("Exponential" in pdf.GetName()) or ("PowerLaw" in pdf.GetName()):
                 #if (fis_prob < 0.1) or ("Exponential" in pdf.GetName()):
                     if gof_prob > gofmax:
                         gofmax = gof_prob

@@ -100,7 +100,7 @@ def two_mu_vetos(df, resoname, cuts):
                     sel[i] += " && "
         i+=1
     for i in range(3):
-        sel[i] = "(("+sel[i]+") && eta_category=="+str(i)+")"
+        sel[i] = "(("+sel[i]+") && category=="+str(i)+")"
     sel2 = "(" + sel[0] + "||" + sel[1] + "||" +sel[2] + ")"
     
     df = df.Define(resoname+"cut", sel2)
@@ -113,6 +113,10 @@ if __name__ == "__main__":
     pos = "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Analysis/FinalFiles_B4mu_"+label+"/"
     pos_24 = "/lustrehome/mbuonsante/B_4mu/CMSSW_14_0_18_patch1/src/Analysis/FinalFiles_B4mu_"+label+"/"
     Files = {
+        #"B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root"],
+        #"B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root"],
+        #"B4mu2024": [pos+"Analyzed_Data_B4mu_2024.root"],
+
         "B4mu2022": [pos+"Analyzed_Data_B4mu_2022.root", pos+"Analyzed_MC_Bs_4mu_2022.root", pos+"Analyzed_MC_Bd_4mu_2022.root"],
         "B4mu2023": [pos+"Analyzed_Data_B4mu_2023.root", pos+"Analyzed_MC_Bs_4mu_2023.root", pos+"Analyzed_MC_Bd_4mu_2023.root"],
         "B4mu2024": [pos_24+"Analyzed_Data_B4mu_2024.root", pos_24+"Analyzed_MC_Bs_4mu_2024.root", pos_24+"Analyzed_MC_Bd_4mu_2024.root"],
@@ -143,6 +147,11 @@ if __name__ == "__main__":
     ctau_light = (1.429) * 10 ** (-12) * speed_of_light * 100.0
 
     df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_central_norm", add_new_ctau(ctau_actual, 1.512e-12* speed_of_light * 100.0), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_norm_p1s", add_new_ctau(ctau_actual, 1.519e-12* speed_of_light * 100.0), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_norm_m1s", add_new_ctau(ctau_actual, 1.505e-12* speed_of_light * 100.0), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_norm_p3s", add_new_ctau(ctau_actual, 1.534e-12* speed_of_light * 100.0), ["ID", "new_ct", "new_ct"])
+    df = df.Define("ctau_weight_norm_m3s", add_new_ctau(ctau_actual, 1.490e-12* speed_of_light * 100.0), ["ID", "new_ct", "new_ct"])
     df = df.Define("ctau_weight_heavy", add_new_ctau(ctau_actual, ctau_heavy), ["ID", "new_ct", "new_ct"])
     df = df.Define("ctau_weight_light", add_new_ctau(ctau_actual, ctau_light), ["ID", "new_ct", "new_ct"])
     
@@ -189,7 +198,8 @@ if __name__ == "__main__":
     else:
         df = two_mu_cuts(df, cuts)
         df = df.Define("NewMassEqation","NewMassEqation(OS1v1_mass, OS2v1_mass, OS1v2_mass, OS2v2_mass, category, RefittedSV_Mass)")
-        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "NewMassEqation"]
+        df = df.Redefine("ctau_weight_central", "ctau_weight_central_norm")
+        b_weights = ["ID", "year", "weight", "weight_err", "weight_pileUp", "weight_pileUp_err", "ctau_weight_central", "ctau_weight_heavy", "ctau_weight_light", "NewMassEqation", "ctau_weight_norm_p1s", "ctau_weight_norm_m1s", "ctau_weight_norm_p3s", "ctau_weight_norm_m3s"]
         #df = df.Define("control_weight", "weight * weight_pileUp * ctau_weight_central")
         df.Snapshot("FinalTree", "ROOTFiles_"+label+"/AllControl"+str(year)+".root", branches+b_weights)
     

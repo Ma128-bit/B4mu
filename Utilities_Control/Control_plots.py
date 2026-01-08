@@ -3,9 +3,9 @@ gROOT.SetBatch(True)
 import sys, os, subprocess, argparse
 import cmsstyle as CMS
 
-#var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass_eq", "Mu1_Eta", "Mu1_Pt", "RefittedSV_Mass_reso"]
-var = ["vtx_prob", "vtx_prob_2mu", "vtx_prob_2K", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig"]
-var = ["Mu2_Eta", "Mu3_Eta", "Mu4_Eta", "Mu2_Pt", "Mu3_Pt", "Mu4_Pt"]
+var = ["vtx_prob", "mu1_pfreliso03", "mu2_pfreliso03", "FlightDistBS_SV_Significance", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", "Cos2d_BS_SV", "Quadruplet_Eta","Quadruplet_Pt", "RefittedSV_Mass_eq", "Mu1_Eta", "Mu1_Pt", "RefittedSV_Mass_reso"]
+#var = ["vtx_prob", "vtx_prob_2mu", "vtx_prob_2K", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig"]
+#var = ["Mu2_Eta", "Mu3_Eta", "Mu4_Eta", "Mu2_Pt", "Mu3_Pt", "Mu4_Pt"]
 binning_dict = {
     "vtx_prob": "(50,0.01,1.0)",
     "vtx_prob_2mu": "(50,0.,1.0)",
@@ -25,7 +25,7 @@ binning_dict = {
     "RefittedSV_Mass_eq": "(50,5.25,5.5)",
     "RefittedSV_Mass": "(50,5.2,5.6)",
     "Quadruplet_Pt": "(50,10,100)",
-    "bdt": "(50,0,1)",
+    "bdt": "(20,0.9,1)",
     "100*new_ct/2.998": "(50,0,14)",
     "Mu1_Eta": "(50,-2.5,2.5)",
     "Mu1_Pt": "(50,4, 50)",
@@ -96,7 +96,7 @@ x_name = {
     "Mu1_Eta": "#mu_{1} |#eta|",
     "Mu1_Pt": "#mu_{1} p_{T}",
     "Mu2_Eta": "#mu_{2} |#eta|",
-    "Mu2_Pt": "#mu_{3} p_{T}",
+    "Mu2_Pt": "#mu_{2} p_{T}",
     "Mu3_Eta": "K_{1} |#eta|",
     "Mu3_Pt": "K_{1} p_{T}",
     "Mu4_Eta": "K_{2} |#eta|",
@@ -130,15 +130,15 @@ def control_plots(file_name, year, reweight):
         numbers = [float(x) if x.isdigit() else float(x) for x in numbers]
 
         legend_label = "sWeighted"
-        data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0 && RefittedSV_Mass_eq>5.2 && RefittedSV_Mass_eq<5.7)")
+        data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigBs_sw*(isMC==0 && RefittedSV_Mass_eq>5.2 && RefittedSV_Mass_eq<5.7 && vtx_prob>0.01)")
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
-        data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*weight*(isMC>0)")
+        data.Draw(varname + ">>hMC_sig" + s + binning, "nsigBs_sw*weight*(isMC>0 && vtx_prob>0.01)")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
         if reweight:
             if "2024" in year:
-                data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*weight*(isMC>0)")
+                data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*bdt_reweight_2*weight*(isMC>0 && vtx_prob>0.01)")
             else:
-                data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*weight*(isMC>0)")
+                data.Draw(varname + ">>hMC_sig_wrw" + s + binning, "nsigBs_sw*bdt_reweight_0*bdt_reweight_1*weight*(isMC>0 && vtx_prob>0.01)")
             hMC_sig_wrw = TH1F(gDirectory.Get("hMC_sig_wrw" + s))
 
         # Rescaling
@@ -229,7 +229,7 @@ def control_plots(file_name, year, reweight):
         dicanvas.Update()
         varname = varname.replace("*", "_")
         varname = varname.replace("/", "_")
-        dicanvas.SaveAs(f"Control_Plots_{year}/" + varname + "_" + year + "_SPlot" + ("_rw" if reweight else "") + ".pdf")
+        dicanvas.SaveAs(f"Control_Plots_{year}/" + varname + "_" + year + "_SPlot" + ("_rw" if reweight else "") + ".png")
         dicanvas.Clear()
 
         h_x_ratio.Delete();

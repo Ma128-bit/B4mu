@@ -1,0 +1,22 @@
+{
+    "Unblind": false,
+    "Branches4sel": { 
+                    "bdt_cv": [0, 1], 
+                    "vtx_prob": [0, 1],
+                    "category": [-1,4]
+    },
+    "TreeName": "FinalTree",
+    "Mass_var": "RefittedSV_Mass",
+    "MC_id": "isMC",
+    "N_control": 248.24,
+    "N_control_err": 16.32,
+    "BDT_cut": 0.48,
+    "BDT_eff_BsJpsiphi": 0.92709297,
+    "BDT_eff_Bs": 0.92963436,
+    "BDT_eff_Bd": 0.93005535,
+    "N_evt_Bs_2022": 50399,
+    "N_evt_Bs_2023": 51554,
+    "N_evt_Bd_2022": 54791,
+    "N_evt_Bd_2023": 54085,
+    "RootFile": "/lustrehome/mbuonsante/B_4mu/CMSSW_13_0_13/src/Utilities_organized/ROOTFiles_20_01_25/AllData_rw_bdt.root"
+}

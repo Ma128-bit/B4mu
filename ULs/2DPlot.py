@@ -2,8 +2,11 @@ import json, htcondor, os, shutil
 import numpy as np
 import time
 
+#BsBRs = ["9e-11", "1e-10", "3e-10", "4e-10", "5e-10", "6e-10", "7e-10", "1e-9"]
+#BdBRs = ["4e-13", "9e-13", "4e-12", "1e-11", "1.5e-11", "2e-11", "5e-11", "8e-11"]
+
 BsBRs = ["9e-11", "1e-10", "3e-10", "4e-10", "5e-10", "6e-10", "7e-10", "1e-9"]
-BdBRs = ["4e-13", "9e-13", "4e-12", "1e-11", "1.5e-11", "2e-11", "5e-11", "8e-11"]
+BdBRs = ["1e-10", "3e-10", "7e-10", "1e-9"]
 
 BsBRs_mix = []
 BdBRs_mix = []
@@ -13,9 +16,9 @@ for a in BsBRs:
         BdBRs_mix.append(b)
 
 
-for index in range(len(BsBRs_mix)):
+for index in range(len(BsBRs_mix)):    
     if not os.path.exists(f"Out_{index}/Datacards/toys"):
-        os.makedirs(f"Out_{index}/Datacards/toys")
+           os.makedirs(f"Out_{index}/Datacards/toys")
     else:
         shutil.rmtree(f"Out_{index}/Datacards/toys")
         os.makedirs(f"Out_{index}/Datacards/toys")
@@ -34,7 +37,7 @@ job_config = {
     "log": current_directory+f"/Out_$(ProcId)/job_log.txt", 
     "request_cpus": 1, 
     "request_memory": "2GB",  
-    "request_disk": "2GB",  
+    "request_disk": "4GB",  
 }
 
 job = htcondor.Submit(job_config)

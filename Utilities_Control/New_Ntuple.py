@@ -114,7 +114,7 @@ branches = [
     "mu2_pfreliso03", "mu1_bs_dxy_sig", "mu2_bs_dxy_sig", "mu3_bs_dxy_sig", "mu4_bs_dxy_sig", 
     "vtx_prob", "vtx_ref_prob", "Cos3d_PV_SV", "Cos3d_BS_SV", "Cos2d_PV_SV", "Cos2d_BS_SV", "Gen_ct_signal", "Gen_ct_control",
     "RefittedSV_Mass", "RefittedSV_Mass_err", "MVASoft1", "MVASoft2", "Ditrk_mass", "Dimu_mass", "new_ct",
-    "QuadrupletVtx_sigmax2", "QuadrupletVtx_sigmaxy", "QuadrupletVtx_sigmaxz", "QuadrupletVtx_sigmay2", "QuadrupletVtx_sigmayz", "QuadrupletVtx_sigmaz2",
+    #"QuadrupletVtx_sigmax2", "QuadrupletVtx_sigmaxy", "QuadrupletVtx_sigmaxz", "QuadrupletVtx_sigmay2", "QuadrupletVtx_sigmayz", "QuadrupletVtx_sigmaz2",
     "QuadrupletVtx_x", "QuadrupletVtx_y", "QuadrupletVtx_z",
     "Vtx12_mass", "Vtx34_mass", "Vtx12_mass_err", "Vtx34_mass_err", "Vtx12_Chi2", "Vtx34_Chi2", "Vtx12_nDOF", "Vtx34_nDOF" #Add refitted 2obj 
 ]
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     Files = {
         "B2mu2K2022": [pos+"Analyzed_Data_B2mu2K_2022.root", pos+"Analyzed_MC_B2mu2K_2022.root"],
         "B2mu2K2023": [pos+"Analyzed_Data_B2mu2K_2023.root", pos+"Analyzed_MC_B2mu2K_2023.root"],
-        "B2mu2K2024": [pos_24+"Analyzed_Data_B2mu2K_2024.root", pos_24+"Analyzed_MC_B2mu2K_2024.root"],
+        "B2mu2K2024": [pos+"Analyzed_Data_B2mu2K_2024.root", pos+"Analyzed_MC_B2mu2K_2024.root"],
         "B2muKpi2022": [pos+"Analyzed_Data_B2muKpi_2022.root"],
         "B2muKpi2023": [pos+"Analyzed_Data_B2muKpi_2023.root"],
         "B2muKpi2024": [pos_24+"Analyzed_Data_B2muKpi_2024.root"]
@@ -197,7 +197,8 @@ if __name__ == "__main__":
 
     # Bs LifeTime reweithg: taken from Rebecca: https://gitlab.cern.ch/regartner/b4mu-analysis/-/blob/master/data_MC_correction/bs_lifetime_reweighting.py
     ctau_actual = 4.4129450e-2  # from EvtGen  # in cm -> tau = 1.47e-12
-    ctau_pdg = 1.527e-12 * speed_of_light * 100.0  # in cm
+    #ctau_pdg = 1.527e-12 * speed_of_light * 100.0  # in cm
+    ctau_pdg = 1.512e-12 * speed_of_light * 100.0  # in cm  # Replaced with Bs->JPsi phi result in BPH-23-004
 
     #df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "Gen_ct_signal", "Gen_ct_control"])
     df = df.Define("ctau_weight_central", add_new_ctau(ctau_actual, ctau_pdg), ["ID", "new_ct", "new_ct"])
