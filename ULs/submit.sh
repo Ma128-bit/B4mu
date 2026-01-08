@@ -26,7 +26,7 @@ mkdir Out_${ind}/Plots
 mkdir Out_${ind}/RootFiles
 mkdir Out_${ind}/Datacards
 
-python3 CreateDatacards.py --config Out_${ind}/config_scan_${ind}.json --Bs "5.0e-10" --Bd "1.3e-10" --submit c --index $ind --inputfile_loc "/lustre/cms/store/user/mbuonsan/ScanFile/Dataset_${ind}.root"
+python3 CreateDatacards.py --config Out_${ind}/config_scan_${ind}.json --Bs "5.0e-10" --Bd "1.3e-10" --submit --index $ind --inputfile_loc "/lustre/cms/store/user/mbuonsan/ScanFile/Dataset_${ind}.root"
 
 cd /lustrehome/mbuonsante/B_4mu/Combine/CMSSW_14_1_0_pre4/src/B4muLimits
 
