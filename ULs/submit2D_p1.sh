@@ -29,7 +29,7 @@ mkdir Out_${ind}/Plots
 mkdir Out_${ind}/RootFiles
 mkdir Out_${ind}/Datacards
 
-python3 CreateDatacards.py --config configs/config_20_01_25_10%.json --Bs $BsBR --Bd $BdBR --best_cut true --index $ind --inputfile_loc "/lustre/cms/store/user/mbuonsan/ScanFile/Dataset_${ind}.root" --multipdf true
+python3 CreateDatacards.py --config configs/config_20_01_25_v0.json --Bs $BsBR --Bd $BdBR --submit --index $ind --inputfile_loc "/lustre/cms/store/user/mbuonsan/ScanFile/Dataset_${ind}.root" --multipdf
 
 cd Out_${ind}/Datacards
 

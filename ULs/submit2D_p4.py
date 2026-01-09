@@ -42,7 +42,7 @@ def read_expected_limit(filename):
         return -1, -1
     
 BsBRs = ["9e-11", "1e-10", "3e-10", "4e-10", "5e-10", "6e-10", "7e-10", "1e-9"]
-BdBRs = ["4e-13", "9e-13", "4e-12", "1e-11", "1.5e-11", "2e-11", "5e-11", "8e-11"]
+BdBRs = ["4e-13", "9e-13", "4e-12", "1e-11", "1.5e-11", "2e-11", "5e-11", "8e-11" "1e-10", "3e-10", "7e-10", "1e-9"]
 
 current_directory = os.getcwd()
 outdir = "2D_out_v10/"

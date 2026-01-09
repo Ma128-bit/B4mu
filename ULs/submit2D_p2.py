@@ -64,7 +64,7 @@ def get_condor_jobs(user="mbuonsante"):
 #BdBRs = ["4e-13", "9e-13", "4e-12", "1e-11", "1.5e-11", "2e-11", "5e-11", "8e-11"]
 
 BsBRs = ["9e-11", "1e-10", "3e-10", "4e-10", "5e-10", "6e-10", "7e-10", "1e-9"]
-BdBRs = ["1e-10", "3e-10", "7e-10", "1e-9"]
+BdBRs = ["4e-13", "9e-13", "4e-12", "1e-11", "1.5e-11", "2e-11", "5e-11", "8e-11", "1e-10", "3e-10", "7e-10", "1e-9"]
 
 min_value = 0.9
 max_value = 1.8
@@ -78,8 +78,9 @@ for a in BsBRs:
         BsBRs_mix.append(a)
         BdBRs_mix.append(b)
 
-
-for index in range(19,len(BsBRs_mix)):
+# 19->53
+max_jobs = 4500
+for index in range(54,len(BsBRs_mix)):
     if not os.path.exists(f"Out_{index}/Datacards/toys"):
         os.makedirs(f"Out_{index}/Datacards/toys")
     else:
@@ -107,11 +108,15 @@ for index in range(19,len(BsBRs_mix)):
         
         command = f"combineTool.py -M HybridNew -d ../combined.root --generateNuisances=1 --generateExternalMeasurements=0 --fitNuisances=1 --testStat LHC --clsAcc=0 --singlePoint {min_value}:{max_value}:{step} -T {n_toys} -s -1 --saveToys --saveHybridResult --X-rtd MINIMIZER_freezeDisassociatedParams --cminDefaultMinimizerStrategy 0 --job-mode condor --task-name toys_{index}_{q.replace(' ', '_')}"
 
-        while ((get_condor_jobs() is None) or (get_condor_jobs()["jobs"] > 5000 - (Nround + 1))):
+        stopped = False
+        while ((get_condor_jobs() is None) or (get_condor_jobs()["jobs"] > max_jobs - (N_max + 5))):
+            stopped = True
             if get_condor_jobs() is None:
                 print("Problem condor")
-            time.sleep(5)
+            time.sleep(20)
             print("Aspettando condor jobs")
+        if stopped == True:
+            time.sleep(120)
         os.system(f"cd Out_{index}/Datacards/toys; "+command+f"; cd {current_directory}")
             
 
@@ -123,12 +128,16 @@ for index in range(19,len(BsBRs_mix)):
         
         command = f"combineTool.py -M HybridNew -d ../combined.root --generateNuisances=1 --generateExternalMeasurements=0 --fitNuisances=1 --testStat LHC --clsAcc=0 --singlePoint {min_value}:{max_value}:{step} -T {n_toys} -s -1 --saveToys --saveHybridResult --X-rtd MINIMIZER_freezeDisassociatedParams --cminDefaultMinimizerStrategy 0 --job-mode condor --task-name toys_{index}_{q.replace(' ', '_')}_p2"
 
-        while ((get_condor_jobs() is None) or (get_condor_jobs()["jobs"] > 5000 - (Nround + 1))):
+        stopped = False
+        while ((get_condor_jobs() is None) or (get_condor_jobs()["jobs"] > max_jobs - (N_max + 5))):
+            stopped = True
             if get_condor_jobs() is None:
                 print("Problem condor")
-            time.sleep(5)
+            time.sleep(20)
             print("Aspettando condor jobs")
-            
+        if stopped == True:
+            time.sleep(120)
+ 
         os.system(f"cd Out_{index}/Datacards/toys; "+command+f"; cd {current_directory}")
         
         #aggiorna_periodic_release(f"Out_{index}/Datacards/toys/condor_toys_{index}.sub")

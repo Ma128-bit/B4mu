@@ -168,16 +168,11 @@ def plot(modelB, modelS, datasetB, datasetS, name="test.png", te=""):
     # -----------------------------
     # DATA + MODELS (con Name!)
     # -----------------------------
-    datasetB.plotOn(plot, binning,
-        RooFit.Name("h_datasetB"),
-        RooFit.MarkerColor(1),
-        RooFit.LineColor(1)
-    )
 
     datasetS.plotOn(plot, binning, RooFit.Range("sig"), RooFit.MarkerColor(0), RooFit.LineColor(0) )
     modelS.plotOn(plot, RooFit.Range("sig"), RooFit.Name("modelS"),RooFit.LineColor(2) )
 
-    datasetB.plotOn(plot, binning, RooFit.MarkerColor(0), RooFit.LineColor(0) )
+    datasetB.plotOn(plot, binning, RooFit.Name("h_datasetB"),  RooFit.MarkerColor(0), RooFit.LineColor(0) )
     data_hist = plot.getHist("h_datasetB")
 
 
@@ -211,7 +206,7 @@ def plot(modelB, modelS, datasetB, datasetS, name="test.png", te=""):
     # -----------------------------
     # Canvas CMS
     # -----------------------------
-    can = CMS.cmsCanvas("", plot.GetXaxis().GetXmin(), plot.GetXaxis().GetXmax(), 0, 0.5 + maxony, "m(4#mu) (GeV)", "Events / 40 MeV", square=False, iPos=0, extraSpace=0.05, yTitOffset=1.0)
+    can = CMS.cmsCanvas("", plot.GetXaxis().GetXmin(), plot.GetXaxis().GetXmax(), 0, 1.5 * maxony, "m(4#mu) (GeV)", "Events / 40 MeV", square=False, iPos=0, extraSpace=0.05, yTitOffset=1.0)
     can.SetCanvasSize(1200, 900)
 
     plot.Draw("same")
