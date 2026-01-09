@@ -92,9 +92,9 @@ def plotMC(model, dataset, range="sig", name="test.png"):
     can.SetCanvasSize(1000,800)
     plot = mass.frame(5.090 , 5.529, 50)
     plot.SetTitle("Plot of "+name)
-    dataset.plotOn(plot, RooFit.Range(range))
+    dataset.plotOn(plot)
     model.paramOn(plot, RooFit.Layout(0.5, 0.9, 0.9))
-    model.plotOn(plot, RooFit.Range(range), RooFit.LineColor(2) )
+    model.plotOn(plot, RooFit.NormRange(range), RooFit.LineColor(2) )
     plot.Draw()
     can.Update()
     can.SaveAs(name)
@@ -237,7 +237,8 @@ def plot(modelB, modelS, datasetB, datasetS, name="test.png", te=""):
     latex.SetNDC(True)
     latex.SetTextSize(0.035)
     latex.SetTextFont(42)
-    latex.DrawLatex(0.6, 0.55, te)
+    latex.SetTextAlign(13)   # 1 = left, 3 = top
+    latex.DrawLatex(0.6, 0.64, te)
 
     latex_cat_r = TLatex()
     latex_cat_r.SetNDC(True)

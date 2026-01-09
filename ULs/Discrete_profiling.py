@@ -15,7 +15,7 @@ def getGoodnessOfFit(mass, mpdf, data, name, nBinsForFit=40, i=0):
     pdf = RooExtendPdf("ext", "ext", mpdf, norm)
 
     plot_chi2 = mass.frame()
-    data.plotOn(plot_chi2, RooFit.Binning(nBinsForFit), RooFit.Name("data"))
+    data.plotOn(plot_chi2, RooFit.Binning(nBinsForFit), RooFit.Name("data"), RooFit.CutRange(fit_range), RooFit.Range(fit_range))
     pdf.plotOn(plot_chi2, RooFit.Name("pdf"))
 
     npara = pdf.getParameters(data).getSize()
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     for var in real_vars:
         variables.add(var)
 
-    binning = RooFit.Binning(60, 4.5, 6.5)
+    binning = RooFit.Binning(50, 4.5, 6.5)
     mass.setRange("loSB", 4.5, 5.090 )
     mass.setRange("hiSB", 5.529, 6.5 )
     mass.setRange("sig", 5.090 , 5.529 )
@@ -171,10 +171,7 @@ if __name__ == "__main__":
         fit_range = "loSBA,hiSBA" if cat_val==0 else "loSBB,hiSBB" if cat_val==1 else "loSBC,hiSBC" if cat_val==2 else "loSB,hiSB"
         # Load DataSets
         data = RooDataSet('data', 'data', tree, variables, "isMC==0 && "+categories[cat])
-        if isUnblind== False:
-            data = data.reduce(RooArgSet(mass),mass_name+">5.566 || "+mass_name+"<5.079" )
-        else:
-            data = data.reduce(RooArgSet(mass))
+        data = data.reduce(RooArgSet(mass))
 
         hist = data.binnedClone('histo_'+cat)
         max_order = 4
@@ -212,7 +209,7 @@ if __name__ == "__main__":
 
         frame = mass.frame()
         frame.SetTitle(cat)
-        data.plotOn(frame, binning)
+        data.plotOn(frame, binning, RooFit.CutRange(fit_range), RooFit.Range(fit_range))
         
         envelope = RooArgList("envelope")
         
@@ -241,10 +238,10 @@ if __name__ == "__main__":
                 norm = RooRealVar("multipdf_nbkg_{}".format(cat), "", 10.0, 0.0, 5000.0)
                 ext_pdf = RooAddPdf(pdf.GetName()+"_ext", "", RooArgList(pdf), RooArgList(norm))
 
-                if (isUnblind):
-                    results = ext_pdf.fitTo(data,  RooFit.Save(True), RooFit.Extended(True))
-                else:
-                    results = ext_pdf.fitTo(data,  RooFit.Save(True), RooFit.Range(fit_range), RooFit.Extended(True))
+                #if (isUnblind):
+                #    results = ext_pdf.fitTo(data,  RooFit.Save(True), RooFit.Extended(True))
+                #else:
+                results = ext_pdf.fitTo(data,  RooFit.Save(True), RooFit.Range(fit_range), RooFit.Extended(True))
                 chi2 = RooChi2Var("chi2"+pdf.GetName(), "", ext_pdf, hist, RooFit.DataError(RooAbsData.Expected))
                 mnll = results.minNll()+0.5*(i)
 
@@ -274,8 +271,8 @@ if __name__ == "__main__":
                     print(">>>", pdf.GetName(), " added to envelope")
                     print("gof_prob:", gof_prob, " fis_prob:", fis_prob, " mnll: ",mnll)
                     ext_pdf.plotOn(frame, RooFit.LineColor(envelope.getSize()), RooFit.Name(pdf.GetName()),
-                                RooFit.NormRange('full' if isUnblind else 'loSB,hiSB'),
-                                RooFit.Range('full' if isUnblind else 'loSB,hiSB'))
+                                RooFit.NormRange(fit_range if isUnblind else fit_range), # Verifica nel caso di unblind
+                                RooFit.Range('full' if isUnblind else fit_range))
                 #elif fis_prob >= 0.1:
                 #    break
                 del chi2 
