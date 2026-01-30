@@ -40,6 +40,15 @@ declare -a H_2024=("Run2024H-PromptReco-v1" "Run2024H-PromptReco-v1" "Run2024H-P
 declare -a I_v1_2024=("Run2024I-PromptReco-v1" "Run2024I-PromptReco-v1" "Run2024I-PromptReco-v1" "Run2024I-PromptReco-v1" "Run2024I-PromptReco-v1" "Run2024I-PromptReco-v1" "Run2024I-PromptReco-v1" "Run2024I-PromptReco-v1")
 declare -a I_v2_2024=("Run2024I-PromptReco-v2" "Run2024I-PromptReco-v2" "Run2024I-PromptReco-v2" "Run2024I-PromptReco-v2" "Run2024I-PromptReco-v2" "Run2024I-PromptReco-v2" "Run2024I-PromptReco-v2" "Run2024I-PromptReco-v2")
 
+declare -a B_2025=("Run2025B-PromptReco-v1" "Run2025B-PromptReco-v1" "Run2025B-PromptReco-v1" "Run2025B-PromptReco-v1" "Run2025B-PromptReco-v1" "Run2025B-PromptReco-v1" "Run2025B-PromptReco-v1" "Run2025B-PromptReco-v1")
+declare -a C_v1_2025=("Run2025C-PromptReco-v1" "Run2025C-PromptReco-v1" "Run2025C-PromptReco-v1" "Run2025C-PromptReco-v1" "Run2025C-PromptReco-v1" "Run2025C-PromptReco-v1" "Run2025C-PromptReco-v1" "Run2025C-PromptReco-v1")
+declare -a C_v2_2025=("Run2025C-PromptReco-v2" "Run2025C-PromptReco-v2" "Run2025C-PromptReco-v2" "Run2025C-PromptReco-v2" "Run2025C-PromptReco-v2" "Run2025C-PromptReco-v2" "Run2025C-PromptReco-v2" "Run2025C-PromptReco-v2")
+declare -a D_2025=("Run2025D-PromptReco-v1" "Run2025D-PromptReco-v1" "Run2025D-PromptReco-v1" "Run2025D-PromptReco-v1" "Run2025D-PromptReco-v1" "Run2025D-PromptReco-v1" "Run2025D-PromptReco-v1" "Run2025D-PromptReco-v1")
+declare -a E_2025=("Run2025E-PromptReco-v1" "Run2025E-PromptReco-v1" "Run2025E-PromptReco-v1" "Run2025E-PromptReco-v1" "Run2025E-PromptReco-v1" "Run2025E-PromptReco-v1" "Run2025E-PromptReco-v1" "Run2025E-PromptReco-v1")
+declare -a F_v1_2025=("Run2025F-PromptReco-v1" "Run2025F-PromptReco-v1" "Run2025F-PromptReco-v1" "Run2025F-PromptReco-v1" "Run2025F-PromptReco-v1" "Run2025F-PromptReco-v1" "Run2025F-PromptReco-v1" "Run2025F-PromptReco-v1")
+declare -a F_v2_2025=("Run2025F-PromptReco-v2" "Run2025F-PromptReco-v2" "Run2025F-PromptReco-v2" "Run2025F-PromptReco-v2" "Run2025F-PromptReco-v2" "Run2025F-PromptReco-v2" "Run2025F-PromptReco-v2" "Run2025F-PromptReco-v2")
+declare -a G_2025=("Run2025G-PromptReco-v1" "Run2025G-PromptReco-v1" "Run2025G-PromptReco-v1" "Run2025G-PromptReco-v1" "Run2025G-PromptReco-v1" "Run2025G-PromptReco-v1" "Run2025G-PromptReco-v1" "Run2025G-PromptReco-v1")
+
 declare -a MC22_B4mu_pre=("/BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM" "/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v3/MINIAODSIM" "/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer22MiniAODv4-130X_mcRun3_2022_realistic_v5-v2/MINIAODSIM")
 declare -a MC22_B4mu_post=("/BdTo4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v3/MINIAODSIM" "/Bs0To4Mu_FourMuonFilter_TuneCP5_13p6TeV_pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v3/MINIAODSIM" "/BsToJpsiPhi_JMM_PhiMM_MuFilter_SoftQCDnonD_TuneCP5_13p6TeV-pythia8-evtgen/Run3Summer22EEMiniAODv4-130X_mcRun3_2022_realistic_postEE_v6-v2/MINIAODSIM")
 
@@ -204,6 +213,59 @@ elif [ "${year}" == "2024" ]; then
         Data_ID=("${I_v2_2024[@]}")
         globaltag="140X_dataRun3_Prompt_v4"
         golden_json="Collisions24/2024I_Golden.json"
+        ;;
+      MC)
+        globaltag="150X_mcRun3_2024_realistic_v2"
+        datasets=("${MC24_B4mu[@]}")
+        label=("${B4mu_MC_label[@]}")
+        input_type="global"
+        ;;
+      *)
+        echo "Error: The era is incorrect."
+        return
+        ;;
+    esac
+elif [ "${year}" == "2025" ]; then
+    case "$era" in
+      B)
+        Data_ID=("${B_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
+        ;;
+      C-v1)
+        Data_ID=("${C_v1_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
+        ;;
+      C-v2)
+        Data_ID=("${C_v2_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
+        ;;
+      D)
+        Data_ID=("${D_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
+        ;;
+      E)
+        Data_ID=("${E_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
+        ;;
+      F-v1)
+        Data_ID=("${F_v1_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
+        ;;
+      F-v2)
+        Data_ID=("${F_v2_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
+        ;;
+      G)
+        Data_ID=("${G_2025[@]}")
+        globaltag="150X_dataRun3_Prompt_v1"
+        golden_json="Collisions25/Cert_Collisions2025_391658_398903_Golden.json"
         ;;
       MC)
         globaltag="150X_mcRun3_2024_realistic_v2"
