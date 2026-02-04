@@ -20,4 +20,3 @@ config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/
 config.Data.outputDatasetTag = 'SkimB2Mu2K_YEAReraERANAME_streamNUMBER_Mini'
 config.JobType.allowUndistributedCMSSW = True 
 config.Site.storageSite = 'T2_IT_Bari'
-config.Site.ignoreGlobalBlacklist  = True
