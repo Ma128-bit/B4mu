@@ -20,4 +20,3 @@ config.Data.unitsPerJob = 300
 config.Data.outputDatasetTag = 'SkimB4Mu_YEAR_ERANAME_B_TYPE_Mini'
 config.JobType.allowUndistributedCMSSW = True 
 config.Site.storageSite = 'T2_IT_Bari'
-config.Site.ignoreGlobalBlacklist  = True
