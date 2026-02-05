@@ -81,15 +81,16 @@ double DeltaZmax(vector<int> index, ROOT::VecOps::RVec<double> Muon_vz){
 
 int HLT_opposite_charge(ROOT::VecOps::RVec<double> MuonPt_HLT, ROOT::VecOps::RVec<double> MuonEta_HLT, ROOT::VecOps::RVec<double> MuonPhi_HLT, ROOT::VecOps::RVec<float> MuonPt, ROOT::VecOps::RVec<float> MuonEta, ROOT::VecOps::RVec<float> MuonPhi, ROOT::VecOps::RVec<double> MuonCharge){
     int charge=0;
-    for(int k=0; k<2; k++){
-        for(int w=0; w<MuonPt.size(); w++){
-            if (deltaR(MuonEta_HLT.at(k), MuonEta.at(w), MuonPhi_HLT.at(k), MuonPhi.at(w))<0.1){
-                charge = charge + MuonCharge.at(w);
-                break;
+    if (MuonPt_HLT.size()>1){
+        for(int k=0; k<2; k++){
+            for(int w=0; w<MuonPt.size(); w++){
+                if (deltaR(MuonEta_HLT.at(k), MuonEta.at(w), MuonPhi_HLT.at(k), MuonPhi.at(w))<0.1){
+                    charge = charge + MuonCharge.at(w);
+                    break;
+                }
             }
         }
     }
-    
     return charge;
 }
 
@@ -273,11 +274,14 @@ int GenMatching_4mu_signal(vector<int> index, ROOT::VecOps::RVec<float> MuonPt, 
     for(int j=0; j<GenParticle_Pt.size(); j++){ 
         if (fabs(GenParticle_PdgId.at(j)) == 13 &&  (fabs(GenParticle_MotherPdgId.at(j)) == 511 || fabs(GenParticle_MotherPdgId.at(j)) == 531) ) {
         //if (fabs(GenParticle_PdgId.at(j)) == 13){
+            //if (GenParticle_Pt.at(j) >= 2.){
             Genpt.push_back(GenParticle_Pt.at(j));
             Geneta.push_back(GenParticle_Eta.at(j));
             Genphi.push_back(GenParticle_Phi.at(j));
+            //}
         }
     }
+    if (Genpt.size() < 4) return 99;
     //if(Genpt.size() != 4) cout<<"Genpt.size() == "<<Genpt.size()<<endl;
     int Gen_matching = 0;
     for(int p=0; p<pt.size();p++){
@@ -344,7 +348,7 @@ vector<int> B4mu_QuadSel(int isMC, uint64_t evt, ROOT::VecOps::RVec<float> MuonP
         bool acceptanceCUT = true;
         for(int c : index) {
             //if(abs(MuonEta[c]) > 2.4 || (abs(MuonEta[c]) < 1.2 && MuonPt[c] < 3.5) || (abs(MuonEta[c]) > 1.2 && MuonPt[c] < 2)) {
-            if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 2) {
+            if(abs(MuonEta[c]) > 2.4 || MuonPt[c] < 2) {
                 acceptanceCUT = false;
                 break;
             }
@@ -503,7 +507,7 @@ vector<int> B2muX_QuadSel(vector<int> indexPreSel, int isMC, int evt, ROOT::VecO
             //if ( abs(MuonEta.at(index.at(c))) < 1.2 && MuonPt.at(index.at(c))<3.5 ) acceptanceCUT=false;
             //if ( abs(MuonEta.at(index.at(c))) > 1.2 && MuonPt.at(index.at(c))<2 ) acceptanceCUT=false;
             //if ( abs(MuonEta.at(index.at(c))) > 2.4) acceptanceCUT=false;
-            if(abs(MuonEta[c]) > 2.5 || MuonPt[c] < 2) {
+            if(abs(MuonEta[c]) > 2.4 || MuonPt[c] < 2) {
                 acceptanceCUT = false;
                 break;
             }

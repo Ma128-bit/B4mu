@@ -277,9 +277,7 @@ if __name__ == "__main__":
 
     #rdf = rdf.Define("N_muons", "get_sizedoub(Muon_isGlobal, Muon_isMedium)")
     #branches.append("N_muons")
-    #rdf.Snapshot("FinalTree", output_dir + "Analyzed_Data_index_"+str(index)+".root", branches)
-    #exit()
-
+    
     rdf = Flat_MuVar(rdf, branches) #Flat muon pt eta phi
     if(analysis_type=="B4mu"):
         rdf = rdf.Define("mu_index", "get_4index(MuonPt, Mu1_Pt, Mu2_Pt, Mu3_Pt, Mu4_Pt)")
